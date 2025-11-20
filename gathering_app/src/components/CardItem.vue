@@ -1,8 +1,13 @@
 <template>
-  <q-card class="card-item q-pa-md column items-center justify-center" clickable @click="emitClick">
-    <q-icon :name="icon" size="40px" class="q-mb-sm" />
-    <div class="text-subtitle1 text-bold text-center">{{ title }}</div>
-    <div class="text-caption text-grey text-center">{{ subtitle }}</div>
+  <q-card class="card-item" flat bordered>
+    <div class="column items-center q-pa-md">
+      <div class="icon-box flex flex-center" :style="{ backgroundColor: color }">
+        <q-icon :name="icon" size="28px" color="white" />
+      </div>
+
+      <div class="text-subtitle1 text-bold text-center q-mt-sm">{{ title }}</div>
+      <div class="text-caption text-grey text-center">{{ subtitle }}</div>
+    </div>
   </q-card>
 </template>
 
@@ -11,23 +16,26 @@
   const props = defineProps({
     icon: String,
     title: String,
-    subtitle: String
+    subtitle: String,
+    color: String
   })
-
-  const emit = defineEmits(['click'])
-
-  function emitClick() {
-    emit('click')
-  }
 </script>
 
 <style scoped>
   .card-item {
-    border-radius: 16px;
-    transition: 0.2s;
+    border-radius: 18px;
     background: white;
+    transition: 0.2s ease;
   }
+
   .card-item:hover {
-    transform: scale(1.03);
+    box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.12);
+    transform: scale(1.02);
+  }
+
+  .icon-box {
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
   }
 </style>
