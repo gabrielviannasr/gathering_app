@@ -1,54 +1,44 @@
 <template>
   <q-page class="page-bg">
-    <!-- HEADER -->
-    <div class="header-row">
-      <q-btn flat round dense icon="arrow_back" class="text-primary" @click="$router.back()" />
+    <!-- FILTROS -->
+    <div class="q-pa-md">
+      <q-input filled dense label="Nome" v-model="filters.name" debounce="300">
+        <template #prepend><q-icon name="search" /></template>
+      </q-input>
 
-      <div class="column">
-        <div class="text-h6 text-bold">Jogadores</div>
-        <div class="text-caption text-grey-7">2025 — DIRETORIA</div>
+      <div class="q-mt-sm">
+        <q-btn class="add-btn full-width" no-caps rounded unelevated @click="onAdd">
+          <q-icon name="add" class="q-mr-sm" />
+          Adicionar jogador
+        </q-btn>
       </div>
     </div>
 
-    <!-- FILTROS -->
-    <div class="filters q-pa-md q-gutter-sm">
-      <q-input filled dense label="Nome" v-model="filters.name" debounce="300">
-        <template #prepend>
-          <q-icon name="search" />
-        </template>
-      </q-input>
-    </div>
-
     <!-- LISTA -->
-    <q-list class="q-pa-md q-gutter-md">
+    <div class="q-pa-md q-gutter-md">
       <q-card
         v-for="player in filteredPlayers"
         :key="player"
-        class="player-card"
-        bordered
+        class="player-card row items-center q-pa-sm"
         clickable
+        @click="openPlayer(player)"
       >
-        <q-item>
-          <q-item-section avatar>
-            <q-icon name="person_outline" size="30px" />
-          </q-item-section>
+        <div class="avatar-circle flex flex-center q-mr-md">
+          <div class="avatar-text">{{ initials(player) }}</div>
+        </div>
 
-          <q-item-section>
-            <q-item-label class="text-bold">
-              {{ player }}
-            </q-item-label>
-          </q-item-section>
+        <div class="col">
+          <div class="text-subtitle2 text-bold">{{ player }}</div>
+        </div>
 
-          <q-item-section side>
-            <q-icon name="chevron_right" />
-          </q-item-section>
-        </q-item>
+        <div class="q-ml-auto">
+          <q-icon name="chevron_right" />
+        </div>
       </q-card>
-    </q-list>
 
-    <!-- BOTÃO -->
-    <div class="q-pa-md">
-      <q-btn color="primary" class="full-width" rounded unelevated> Adicionar Jogador </q-btn>
+      <div class="q-mt-md">
+        <q-pagination v-model="page" :max="maxPages" max-pages="5" />
+      </div>
     </div>
   </q-page>
 </template>
@@ -56,12 +46,8 @@
 <script setup>
   import { ref, computed } from 'vue'
 
-  /* FILTRO */
-  const filters = ref({
-    name: ''
-  })
+  const filters = ref({ name: '' })
 
-  /* LISTA MOCKADA */
   const players = [
     'Anderson Dias',
     'Arthur Leal',
@@ -73,9 +59,30 @@
     'Valmir Vicente'
   ]
 
-  const filteredPlayers = computed(() => {
-    return players.filter(p => p.toLowerCase().includes(filters.value.name.toLowerCase()))
-  })
+  const page = ref(1)
+  const maxPages = 2
+
+  const filteredPlayers = computed(() =>
+    players.filter(p => p.toLowerCase().includes(filters.value.name.toLowerCase()))
+  )
+
+  function onAdd() {
+    console.log('Adicionar jogador')
+  }
+
+  function openPlayer(player) {
+    console.log('Abrir jogador', player)
+  }
+
+  function initials(name) {
+    if (!name) return ''
+    return name
+      .split(' ')
+      .map(s => s[0])
+      .slice(0, 2)
+      .join('')
+      .toUpperCase()
+  }
 </script>
 
 <style scoped>
@@ -84,24 +91,39 @@
     min-height: 100vh;
   }
 
-  /* HEADER */
-  .header-row {
-    display: flex;
-    align-items: center;
-    padding: 16px;
-    padding-top: 26px;
-    gap: 12px;
+  /* add button gradient */
+  .add-btn {
+    background: linear-gradient(135deg, #7f00ff, #3c6ef3);
+    color: white;
+    font-weight: 600;
+    padding: 10px 14px;
   }
 
-  /* CARD */
+  /* player card */
   .player-card {
-    border-radius: 14px;
-    transition: 0.2s;
-    background: white;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 2px 8px rgba(13, 38, 76, 0.04);
+    transition: 0.18s;
+    align-items: center;
   }
 
   .player-card:hover {
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.12);
-    transform: translateY(-1px);
+    transform: translateY(-4px);
+    box-shadow: 0 6px 18px rgba(13, 38, 76, 0.12);
+  }
+
+  /* avatar circle */
+  .avatar-circle {
+    width: 44px;
+    height: 44px;
+    border-radius: 22px;
+    background: linear-gradient(135deg, #7f00ff, #3c6ef3);
+    color: white;
+  }
+
+  .avatar-text {
+    font-weight: 700;
+    color: white;
   }
 </style>
