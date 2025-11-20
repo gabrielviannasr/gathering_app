@@ -20,21 +20,23 @@
       <q-card
         v-for="item in filteredFormats"
         :key="item.name"
-        class="list-card row items-center q-pa-sm"
+        class="list-card q-pa-sm"
         clickable
         @click="openFormat(item)"
       >
-        <div class="icon-circle flex flex-center q-mr-md">
-          <q-icon :name="item.icon" color="white" />
-        </div>
+        <div class="row items-center no-wrap">
+          <div class="icon-circle q-mr-md">
+            <q-icon :name="item.icon" color="white" size="24px" />
+          </div>
 
-        <div class="col">
-          <div class="text-subtitle2 text-bold">{{ item.name }}</div>
-          <div class="text-caption text-grey">{{ item.hp }} pontos de vida</div>
-        </div>
+          <div class="col">
+            <div class="text-subtitle2 text-bold">{{ item.name }}</div>
+            <div class="text-caption text-grey">{{ item.hp }} pontos de vida</div>
+          </div>
 
-        <div class="q-ml-auto">
-          <q-icon name="chevron_right" />
+          <div>
+            <q-icon name="chevron_right" />
+          </div>
         </div>
       </q-card>
 
@@ -111,11 +113,14 @@
 
   /* icon circle (uses header gradient A) */
   .icon-circle {
-    width: 44px;
-    height: 44px;
-    border-radius: 22px;
+    width: 48px;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
     background: linear-gradient(135deg, #7f00ff, #3c6ef3);
-    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
   }
 
   /* text tweaks */

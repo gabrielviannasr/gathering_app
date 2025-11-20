@@ -19,20 +19,23 @@
       <q-card
         v-for="player in filteredPlayers"
         :key="player"
-        class="player-card row items-center q-pa-sm"
+        class="player-card q-pa-sm"
         clickable
         @click="openPlayer(player)"
       >
-        <div class="avatar-circle flex flex-center q-mr-md">
-          <div class="avatar-text">{{ initials(player) }}</div>
-        </div>
+        <!-- WRAPPER PARA GARANTIR O CÍRCULO -->
+        <div class="row items-center no-wrap">
+          <div class="avatar-circle q-mr-md">
+            <div class="avatar-text">{{ initials(player) }}</div>
+          </div>
 
-        <div class="col">
-          <div class="text-subtitle2 text-bold">{{ player }}</div>
-        </div>
+          <div class="col">
+            <div class="text-subtitle2 text-bold">{{ player }}</div>
+          </div>
 
-        <div class="q-ml-auto">
-          <q-icon name="chevron_right" />
+          <div class="q-ml-auto">
+            <q-icon name="chevron_right" />
+          </div>
         </div>
       </q-card>
 
@@ -91,7 +94,7 @@
     min-height: 100vh;
   }
 
-  /* add button gradient */
+  /* Botão usar gradiente do header */
   .add-btn {
     background: linear-gradient(135deg, #7f00ff, #3c6ef3);
     color: white;
@@ -99,13 +102,12 @@
     padding: 10px 14px;
   }
 
-  /* player card */
+  /* Card do jogador */
   .player-card {
     border-radius: 12px;
     background: #ffffff;
     box-shadow: 0 2px 8px rgba(13, 38, 76, 0.04);
     transition: 0.18s;
-    align-items: center;
   }
 
   .player-card:hover {
@@ -113,17 +115,23 @@
     box-shadow: 0 6px 18px rgba(13, 38, 76, 0.12);
   }
 
-  /* avatar circle */
+  /* Círculo perfeitinho */
   .avatar-circle {
-    width: 44px;
-    height: 44px;
-    border-radius: 22px;
+    width: 48px;
+    aspect-ratio: 1/1; /* Sempre quadrado */
+    border-radius: 50%; /* círculo perfeito */
     background: linear-gradient(135deg, #7f00ff, #3c6ef3);
     color: white;
+
+    display: flex; /* centraliza o conteúdo */
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0; /* impede deformação */
   }
 
   .avatar-text {
+    font-size: 16px;
     font-weight: 700;
-    color: white;
   }
 </style>
