@@ -6,7 +6,14 @@
 
     <!-- Bottom Navigation -->
     <q-footer class="bg-white shadow-2" bordered>
-      <q-tabs v-model="tab" align="justify" dense no-caps class="gathering-tabs">
+      <q-tabs
+        v-model="tab"
+        align="justify"
+        dense
+        no-caps
+        class="gathering-tabs"
+        @update:model-value="goToTab"
+      >
         <q-tab name="home" icon="home" label="Home" />
         <q-tab name="extrato" icon="swap_vert" label="Extrato" />
         <q-tab name="carteira" icon="account_balance_wallet" label="Carteira" />
@@ -29,7 +36,6 @@
     val => (tab.value = val)
   )
 
-  // eslint-disable-next-line no-unused-vars
   function goToTab(name) {
     router.push({ name })
   }
