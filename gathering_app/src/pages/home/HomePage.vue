@@ -12,16 +12,61 @@
 
     <!-- CARDS -->
     <div class="cards-grid q-pa-md">
-      <CardItem icon="groups" title="Confras" subtitle="Gerenciar" color="#A259FF" />
-      <CardItem icon="event" title="Eventos" subtitle="Gerenciar" color="#2979FF" />
+      <CardItem
+        icon="groups"
+        title="Confras"
+        subtitle="Gerenciar"
+        color="#A259FF"
+        @click="$router.push({ name: 'confras' })"
+      />
 
-      <CardItem icon="layers" title="Rodadas" subtitle="Gerenciar" color="#00BCD4" />
-      <CardItem icon="emoji_events" title="Rank" subtitle="Classificação" color="#FFC107" />
+      <CardItem
+        icon="event"
+        title="Eventos"
+        subtitle="Gerenciar"
+        color="#2979FF"
+        @click="$router.push({ name: 'eventos' })"
+      />
 
-      <CardItem icon="group" title="Jogadores" subtitle="Gerenciar" color="#4CAF50" />
-      <CardItem icon="style" title="Formatos" subtitle="Modos de Jogo" color="#FF5252" />
+      <CardItem
+        icon="layers"
+        title="Rodadas"
+        subtitle="Gerenciar"
+        color="#00BCD4"
+        @click="$router.push({ name: 'rodadas' })"
+      />
 
-      <CardItem icon="list" title="Regras" subtitle="Como Funciona" color="#A259FF" />
+      <CardItem
+        icon="emoji_events"
+        title="Rank"
+        subtitle="Classificação"
+        color="#FFC107"
+        @click="$router.push({ name: 'rank' })"
+      />
+
+      <CardItem
+        icon="group"
+        title="Jogadores"
+        subtitle="Gerenciar"
+        color="#4CAF50"
+        @click="$router.push({ name: 'jogadores' })"
+      />
+
+      <CardItem
+        icon="style"
+        title="Formatos"
+        subtitle="Modos de Jogo"
+        color="#FF5252"
+        @click="$router.push({ name: 'formatos' })"
+      />
+
+      <CardItem
+        icon="list"
+        title="Regras"
+        subtitle="Como Funciona"
+        color="#A259FF"
+        @click="console.log('Página de regras ainda não criada')"
+      />
     </div>
 
     <!-- POPUP -->

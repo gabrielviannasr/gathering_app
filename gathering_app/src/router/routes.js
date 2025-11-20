@@ -3,19 +3,58 @@ const routes = [
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', name: 'home', component: () => import('pages/HomePage.vue') },
-      { path: 'extrato', name: 'extrato', component: () => import('pages/ExtratoPage.vue') },
-      { path: 'carteira', name: 'carteira', component: () => import('pages/CarteiraPage.vue') },
+      // HOME PRINCIPAL
       {
-        path: 'relatorios',
-        name: 'relatorios',
-        component: () => import('pages/RelatoriosPage.vue')
+        path: '',
+        name: 'home',
+        component: () => import('pages/home/HomePage.vue')
+      },
+
+      // HOME → Confras
+      // {
+      //   path: 'confras',
+      //   name: 'confras',
+      //   component: () => import('pages/home/gatherings/GatheringListPage.vue')
+      // },
+
+      // HOME → Eventos
+      // {
+      //   path: 'eventos',
+      //   name: 'eventos',
+      //   component: () => import('pages/home/events/EventListPage.vue')
+      // },
+
+      // HOME → Jogadores
+      {
+        path: 'jogadores',
+        name: 'jogadores',
+        component: () => import('pages/home/players/PlayerListPage.vue')
+      },
+
+      // HOME → Formatos
+      {
+        path: 'formatos',
+        name: 'formatos',
+        component: () => import('pages/home/formats/FormatListPage.vue')
       }
+
+      // // HOME → Rodadas (redireciona para eventos)
+      // {
+      //   path: 'rodadas',
+      //   name: 'rodadas',
+      //   component: () => import('pages/home/events/EventListPage.vue')
+      // },
+
+      // // HOME → Rank (idem)
+      // {
+      //   path: 'rank',
+      //   name: 'rank',
+      //   component: () => import('pages/home/events/EventListPage.vue')
+      // }
     ]
   },
 
-  // Always leave this as last one,
-  // but you can also remove it
+  // 404
   {
     path: '/:catchAll(.*)*',
     component: () => import('pages/ErrorNotFound.vue')
