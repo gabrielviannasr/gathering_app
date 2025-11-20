@@ -55,14 +55,14 @@ const routes = [
       {
         path: 'rodadas',
         name: 'rodadas',
-        component: () => import('pages/home/events/EventListPage.vue'),
-        meta: { title: 'Eventos' }
+        component: () => import('pages/home/rounds/RoundEventListPage.vue'),
+        meta: { title: 'Eventos / Rodadas' }
       },
       {
         path: 'rank',
         name: 'rank',
-        component: () => import('pages/home/events/EventListPage.vue'),
-        meta: { title: 'Eventos' }
+        component: () => import('pages/home/rank/RankEventListPage.vue'),
+        meta: { title: 'Eventos / Rank' }
       }
     ]
   },
