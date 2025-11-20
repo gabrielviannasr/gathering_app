@@ -1,1 +1,69 @@
 // app global css in SCSS form
+/* ===========================================================
+   GERAL – Fundo padrão das páginas internas
+   =========================================================== */
+.page-bg {
+  background: #f4f7fa;
+  min-height: 100vh;
+}
+
+/* ===========================================================
+   BOTÕES – Botão de adicionar (+)
+   =========================================================== */
+.add-btn {
+  background: linear-gradient(135deg, #7f00ff, #3c6ef3);
+  color: white !important;
+  font-weight: 600;
+  padding: 10px 14px;
+  border-radius: 12px;
+}
+
+/* ===========================================================
+   CARDS – Estilo padrão para listas internas
+   =========================================================== */
+.list-card,
+.player-card {
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(13, 38, 76, 0.04);
+  transition: 0.18s;
+}
+
+.list-card:hover,
+.player-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 18px rgba(13, 38, 76, 0.12);
+}
+
+/* ===========================================================
+   CÍRCULOS (ícones ou iniciais)
+   =========================================================== */
+.circle-icon,
+.avatar-circle,
+.icon-circle {
+  width: 48px;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7f00ff, #3c6ef3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: white;
+}
+
+/* ===========================================================
+   TIPOGRAFIA
+   =========================================================== */
+.text-bold {
+  font-weight: 700;
+}
+
+.text-grey {
+  color: #6e7885;
+}
+
+.avatar-text {
+  font-size: 16px;
+  font-weight: 700;
+}
