@@ -25,7 +25,6 @@
         v-for="player in filteredPlayers"
         :key="player"
         class="player-card"
-        flat
         bordered
         clickable
       >

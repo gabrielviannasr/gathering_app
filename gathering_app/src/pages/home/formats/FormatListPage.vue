@@ -25,7 +25,6 @@
         v-for="item in filteredFormats"
         :key="item.name"
         class="format-card"
-        flat
         bordered
         clickable
       >
