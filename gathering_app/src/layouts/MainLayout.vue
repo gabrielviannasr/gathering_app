@@ -36,16 +36,21 @@
 </script>
 
 <style scoped>
-  /* Cor dos ícones/texto */
+  /* ================================
+   BOTTOM NAVIGATION COLORS
+   ================================ */
+
+  /* Cor dos itens inativos (ícone + texto) */
   .gathering-tabs .q-tab {
-    color: #d8dee6 !important; /* inativo */
+    color: #a0afc3 !important;
   }
 
+  /* Cor dos itens ativos (ícone + texto) */
   .gathering-tabs .q-tab--active {
-    color: #7f00ff !important; /* ativo */
+    color: #7f00ff !important;
   }
 
-  /* Hover → preto */
+  /* Hover dos itens inativos */
   .gathering-tabs .q-tab:not(.q-tab--active):hover {
     color: #000000 !important;
   }
