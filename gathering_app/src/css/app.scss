@@ -65,6 +65,21 @@
   font-size: 16px;
   flex-shrink: 0;
 }
+/* Círculo cinza para número de vitórias e rodadas */
+.round-number-circle-gray {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #f1f1f1;
+  color: #555;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
 /* Badge de formato (Eventos) */
 .event-badge {
   background: #f0e4ff;

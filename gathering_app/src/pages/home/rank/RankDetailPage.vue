@@ -42,7 +42,7 @@
           <div class="row item-row items-center justify-between">
             <div class="col-6 label">Vitórias</div>
             <!-- <div class="col-6 value">{{ rank.wins }}</div> -->
-            <div class="round-number-circle">
+            <div class="round-number-circle-gray">
               {{ rank.wins }}
             </div>
           </div>
@@ -51,7 +51,7 @@
           <div class="row item-row items-center justify-between">
             <div class="col-6 label">Rodadas</div>
             <!-- <div class="col-6 value">{{ rank.rounds }}</div> -->
-            <div class="round-number-circle">
+            <div class="round-number-circle-gray">
               {{ rank.rounds }}
             </div>
           </div>
