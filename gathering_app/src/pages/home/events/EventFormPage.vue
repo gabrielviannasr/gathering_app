@@ -49,22 +49,32 @@
       </q-card>
 
       <!-- LISTA DINÂMICA (cada config é um card separado) -->
+      <!-- LISTA DINÂMICA -->
       <div v-for="(cfg, index) in form.configs" :key="index" class="q-mt-md">
         <q-card class="q-pa-md form-card">
-          <div class="row q-col-gutter-md">
-            <div class="col-12">
-              <GlobalInput type="number" label="Jogadores" v-model="cfg.players" />
+          <!-- Linha dos labels -->
+          <div class="row q-col-gutter-md q-mb-xs items-center">
+            <div class="col-4 text-center config-label">Jogadores</div>
+            <div class="col-4 text-center config-label">Premiação</div>
+            <div class="col-4 text-center config-label">Pote dos Derrotados</div>
+          </div>
+
+          <!-- Linha dos inputs -->
+          <div class="row q-col-gutter-md items-center">
+            <div class="col-4">
+              <GlobalInput type="number" label="" v-model="cfg.players" />
             </div>
 
-            <div class="col-12">
-              <GlobalInput type="number" label="Premiação" v-model="cfg.prize" />
+            <div class="col-4">
+              <GlobalInput type="number" label="" v-model="cfg.prize" />
             </div>
 
-            <div class="col-12">
-              <GlobalInput type="number" label="Pote dos Derrotados" v-model="cfg.loserPot" />
+            <div class="col-4">
+              <GlobalInput type="number" label="" v-model="cfg.loserPot" />
             </div>
           </div>
 
+          <!-- Botão remover -->
           <div class="q-mt-sm row justify-center">
             <q-btn
               color="negative"
