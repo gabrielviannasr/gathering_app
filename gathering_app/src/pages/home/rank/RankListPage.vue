@@ -70,7 +70,8 @@
   import EventHeaderCard from 'src/components/events/EventHeaderCard.vue'
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
   import { ref, computed } from 'vue'
-  //   import { formatDateShort } from 'src/utils/date'
+  import { useRouter } from 'vue-router'
+  const router = useRouter()
 
   // EVENTO MOCK
   const event = {
@@ -127,5 +128,6 @@
 
   function openRankDetail(item) {
     console.log('Abrir rank detail:', item)
+    router.push({ name: 'rank-detail', params: { idEvent: item.id } })
   }
 </script>
