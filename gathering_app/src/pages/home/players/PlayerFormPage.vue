@@ -3,13 +3,7 @@
     <div class="q-pa-md">
       <q-card class="q-pa-md form-card">
         <!-- Nome -->
-        <q-input
-          filled
-          dense
-          label="Nome"
-          v-model="form.name"
-          placeholder="Digite o nome do jogador"
-        />
+        <GlobalInput label="Nome" v-model="form.name" placeholder="Digite o nome do jogador" />
       </q-card>
 
       <!-- Botões -->
@@ -31,6 +25,7 @@
 </template>
 
 <script setup>
+  import GlobalInput from 'src/components/ui/GlobalInput.vue'
   import { ref } from 'vue'
   import { useRouter } from 'vue-router'
 

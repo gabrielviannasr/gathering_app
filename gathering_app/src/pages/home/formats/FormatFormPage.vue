@@ -3,18 +3,10 @@
     <div class="q-pa-md">
       <q-card class="q-pa-md form-card">
         <!-- Nome -->
-        <q-input
-          filled
-          dense
-          label="Nome"
-          v-model="form.name"
-          placeholder="Digite o nome do formato"
-        />
+        <GlobalInput label="Nome" v-model="form.name" placeholder="Digite o nome do formato" />
 
-        <!-- Pontos de vida -->
-        <q-input
-          filled
-          dense
+        <!-- Pontos de Vida -->
+        <GlobalInput
           type="number"
           label="Pontos de Vida"
           v-model="form.hp"
@@ -23,13 +15,11 @@
         />
 
         <!-- Tipo -->
-        <q-select
-          filled
-          dense
+        <GlobalSelect
           label="Tipo do Jogo"
+          :options="typeOptions"
           v-model="form.type"
           placeholder="Selecione o tipo"
-          :options="typeOptions"
           emit-value
           map-options
           class="q-mt-md"
@@ -55,9 +45,10 @@
 </template>
 
 <script setup>
+  import GlobalInput from 'src/components/ui/GlobalInput.vue'
+  import GlobalSelect from 'src/components/ui/GlobalSelect.vue'
   import { ref } from 'vue'
   import { useRouter } from 'vue-router'
-
   const router = useRouter()
 
   const form = ref({
