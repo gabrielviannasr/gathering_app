@@ -143,6 +143,18 @@ const routes = [
             name: 'rodadas',
             component: () => import('pages/home/rounds/RoundListPage.vue'),
             meta: { title: 'Rodadas' }
+          },
+          {
+            path: ':idEvent/new',
+            name: 'eventos-rodadas-new',
+            component: () => import('pages/home/rounds/RoundFormPage.vue'),
+            meta: { title: 'Rodadas - Novo' }
+          },
+          {
+            path: ':idEvent/:id',
+            name: 'eventos-rodadas-edit',
+            component: () => import('pages/home/rounds/RoundFormPage.vue'),
+            meta: { title: 'Rodadas - Editar' }
           }
         ]
       },
