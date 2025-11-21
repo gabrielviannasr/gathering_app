@@ -5,28 +5,37 @@
         <!-- Title -->
         <div class="form-section-title">Formato</div>
 
-        <!-- Nome -->
-        <GlobalInput label="Nome" v-model="form.name" placeholder="Digite o nome do formato" />
+        <div class="q-col-gutter-md">
+          <!-- Nome -->
+          <GlobalInput label="Nome" v-model="form.name" placeholder="Digite o nome do formato" />
 
-        <!-- Pontos de Vida -->
-        <GlobalInput
+          <!-- Pontos de Vida -->
+          <!-- <GlobalInput
           type="number"
           label="Pontos de Vida"
           v-model="form.hp"
           placeholder="Digite os pontos de vida"
           class="q-mt-md"
-        />
+        /> -->
+          <GlobalNumberInput
+            v-model="form.hp"
+            label="Pontos de Vida"
+            placeholder="Digite os pontos de vida"
+            :min="1"
+            :step="5"
+          />
 
-        <!-- Tipo -->
-        <GlobalSelect
-          label="Tipo do Jogo"
-          :options="typeOptions"
-          v-model="form.type"
-          placeholder="Selecione o tipo"
-          emit-value
-          map-options
-          class="q-mt-md"
-        />
+          <!-- Tipo -->
+          <GlobalSelect
+            label="Tipo do Jogo"
+            :options="typeOptions"
+            v-model="form.type"
+            placeholder="Selecione o tipo"
+            emit-value
+            map-options
+            class="q-mt-md"
+          />
+        </div>
       </q-card>
 
       <!-- Botões -->
@@ -49,6 +58,7 @@
 
 <script setup>
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
+  import GlobalNumberInput from 'components/ui/GlobalNumberInput.vue'
   import GlobalSelect from 'src/components/ui/GlobalSelect.vue'
   import { ref } from 'vue'
   import { useRouter } from 'vue-router'
