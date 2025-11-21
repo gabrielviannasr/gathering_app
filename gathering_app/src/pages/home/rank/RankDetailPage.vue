@@ -25,7 +25,7 @@
               <!-- :name="rankMedal(rank.rank)" -->
               <q-icon
                 name="emoji_events"
-                size="20px"
+                size="32px"
                 class="q-mr-sm"
                 :style="`color: ${rankMedalColor(rank.rank)}`"
                 v-if="rank.rank <= 3"
