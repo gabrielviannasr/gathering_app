@@ -126,7 +126,7 @@
   // mock
   const events = [
     { id: 1, format: 'Commander', date: '2025-01-14', players: 12, rounds: 3 },
-    { id: 2, format: 'Conquest', date: '2025-01-21', players: 8, rounds: 4 },
+    { id: 2, format: 'Conquest', date: '2025-01-21', players: 8, rounds: 8 },
     { id: 3, format: 'Variados', date: '2025-02-04', players: 16, rounds: 4 },
     { id: 4, format: 'Tiny Leaders', date: '2025-02-11', players: 10, rounds: 3 },
     { id: 5, format: 'Commander', date: '2025-02-18', players: 8, rounds: 3 }

@@ -130,10 +130,21 @@ const routes = [
 
       // --- Eventos / Rodadas ---
       {
-        path: 'rodadas',
-        name: 'rodadas',
-        component: () => import('pages/home/rounds/RoundEventListPage.vue'),
-        meta: { title: 'Eventos / Rodadas' }
+        path: 'eventos-rodadas',
+        children: [
+          {
+            path: '',
+            name: 'eventos-rodadas',
+            component: () => import('pages/home/rounds/RoundEventListPage.vue'),
+            meta: { title: 'Eventos / Rodadas' }
+          },
+          {
+            path: ':idEvent',
+            name: 'rodadas',
+            component: () => import('pages/home/rounds/RoundListPage.vue'),
+            meta: { title: 'Rodadas' }
+          }
+        ]
       },
 
       // --- Eventos / Rank ---

@@ -45,11 +45,25 @@
   aspect-ratio: 1/1;
   border-radius: 50%;
   background: linear-gradient(135deg, #7f00ff, #3c6ef3);
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+}
+/* Círculo gradiente para número da rodada */
+.round-number-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7f00ff, #3c6ef3);
   color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+  flex-shrink: 0;
 }
 /* Badge de formato (Eventos) */
 .event-badge {

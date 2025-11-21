@@ -8,6 +8,6 @@
   const router = useRouter()
 
   function openRounds(item) {
-    router.push({ name: 'round-list', params: { idEvent: item.id } })
+    router.push({ name: 'rodadas', params: { idEvent: item.id } })
   }
 </script>
