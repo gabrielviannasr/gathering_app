@@ -18,7 +18,7 @@
 
           <!-- Data -->
           <div class="text-caption text-grey">
-            {{ formatDate(event.date) }}
+            {{ formatDateShort(event.date) }}
           </div>
 
           <!-- Jogadores e rodadas -->
@@ -95,6 +95,7 @@
 <script setup>
   import { ref } from 'vue'
   import { date } from 'quasar'
+  import { formatDateShort } from 'src/utils/date'
 
   // MOCK EVENT
   const event = ref({
@@ -133,6 +134,7 @@
   const page = ref(1)
   const maxPages = 2
 
+  // eslint-disable-next-line no-unused-vars
   function formatDate(d) {
     return date.formatDate(d, 'DD [de] MMM [de] YYYY', {
       monthsShort: [

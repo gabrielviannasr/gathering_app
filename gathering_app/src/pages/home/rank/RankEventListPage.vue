@@ -8,6 +8,6 @@
   const router = useRouter()
 
   function openRank(item) {
-    router.push({ name: 'rank-list', params: { idEvent: item.id } })
+    router.push({ name: 'rank', params: { idEvent: item.id } })
   }
 </script>
