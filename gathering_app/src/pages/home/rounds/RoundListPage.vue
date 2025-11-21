@@ -78,6 +78,11 @@
           </div>
         </div>
       </q-card>
+
+      <!-- Paginação -->
+      <div class="q-mt-md">
+        <q-pagination v-model="page" :max="maxPages" max-pages="5" />
+      </div>
     </div>
   </q-page>
 </template>
@@ -118,6 +123,9 @@
     { idPlayerWinner: 2, round: 7, players: 6, canceled: false },
     { idPlayerWinner: 6, round: 8, players: 6, canceled: false }
   ])
+
+  const page = ref(1)
+  const maxPages = 2
 
   function formatDate(d) {
     return date.formatDate(d, 'DD [de] MMM [de] YYYY', {
