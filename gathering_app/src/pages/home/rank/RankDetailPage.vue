@@ -97,9 +97,9 @@
 
   // MOCKUP (substituir depois pela chamada API/route params)
   const event = ref({
-    idFormat: 1,
-    format: { id: 1, name: 'Commander' },
-    date: '2025-01-14',
+    idFormat: 2,
+    format: { id: 1, name: 'Conquest' },
+    date: '2025-01-20',
     players: 8,
     rounds: 8
   })
