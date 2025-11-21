@@ -18,7 +18,7 @@
     <div class="q-pa-md q-gutter-md">
       <q-card
         v-for="player in filteredPlayers"
-        :key="player"
+        :key="player.name"
         class="player-card q-pa-sm"
         clickable
         @click="openPlayer(player)"
@@ -26,11 +26,11 @@
         <!-- WRAPPER PARA GARANTIR O CÍRCULO -->
         <div class="row items-center no-wrap">
           <div class="avatar-circle q-mr-md">
-            <div class="avatar-text">{{ initials(player) }}</div>
+            <div class="avatar-text">{{ initials(player.name) }}</div>
           </div>
 
           <div class="col">
-            <div class="text-subtitle2 text-bold">{{ player }}</div>
+            <div class="text-subtitle2 text-bold">{{ player.name }}</div>
           </div>
 
           <div class="q-ml-auto">
@@ -48,33 +48,37 @@
 
 <script setup>
   import { ref, computed } from 'vue'
+  import { useRouter } from 'vue-router'
+  const router = useRouter()
 
   const filters = ref({ name: '' })
 
   const players = [
-    'Anderson Dias',
-    'Arthur Leal',
-    'Cindomar Ferreira',
-    'Gabriel Vianna',
-    'Jean Benevides',
-    'Jhonny Dias',
-    'Tobias Souza',
-    'Valmir Vicente'
+    { id: 1, name: 'Anderson Dias' },
+    { id: 2, name: 'Arthur Leal' },
+    { id: 3, name: 'Cindomar Ferreira' },
+    { id: 4, name: 'Gabriel Vianna' },
+    { id: 5, name: 'Jean Benevides' },
+    { id: 6, name: 'Jhonny Dias' },
+    { id: 7, name: 'Tobias Souza' },
+    { id: 8, name: 'Valmir Vicente' }
   ]
 
   const page = ref(1)
   const maxPages = 2
 
   const filteredPlayers = computed(() =>
-    players.filter(p => p.toLowerCase().includes(filters.value.name.toLowerCase()))
+    players.filter(p => p.name.toLowerCase().includes(filters.value.name.toLowerCase()))
   )
 
   function onAdd() {
     console.log('Adicionar jogador')
+    router.push({ name: 'jogadores-new' })
   }
 
-  function openPlayer(player) {
-    console.log('Abrir jogador', player)
+  function openPlayer(item) {
+    console.log('Abrir jogador', item)
+    router.push({ name: 'jogadores-edit', params: { id: item.id } })
   }
 
   function initials(name) {

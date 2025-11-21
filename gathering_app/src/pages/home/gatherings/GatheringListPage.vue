@@ -77,6 +77,8 @@
 
 <script setup>
   import { ref, computed } from 'vue'
+  import { useRouter } from 'vue-router'
+  const router = useRouter()
 
   // filtros
   const filters = ref({
@@ -94,9 +96,9 @@
 
   // lista mockada
   const gatherings = [
-    { name: 'DIRETORIA', year: 2025, events: 25, players: 13 },
-    { name: 'DIRETORIA', year: 2024, events: 20, players: 12 },
-    { name: 'DIRETORIA', year: 2023, events: 20, players: 10 }
+    { id: 1, name: 'DIRETORIA', year: 2025, events: 25, players: 13 },
+    { id: 2, name: 'DIRETORIA', year: 2024, events: 20, players: 12 },
+    { id: 3, name: 'DIRETORIA', year: 2023, events: 20, players: 10 }
   ]
 
   // paginação mock
@@ -114,9 +116,11 @@
 
   function onAdd() {
     console.log('Adicionar confra')
+    router.push({ name: 'confras-new' })
   }
 
   function openGathering(item) {
     console.log('Abrir confra', item)
+    router.push({ name: 'confras-edit', params: { id: item.id } })
   }
 </script>

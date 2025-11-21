@@ -51,18 +51,20 @@
 <script setup>
   import { ref, computed } from 'vue'
   import { useConfraStore } from 'src/stores/confra'
+  import { useRouter } from 'vue-router'
+  const router = useRouter()
 
   // eslint-disable-next-line no-unused-vars
   const confra = useConfraStore()
   const filters = ref({ name: '' })
 
   const formats = [
-    { name: 'Commander', hp: 40, icon: 'style' },
-    { name: 'Conquest', hp: 30, icon: 'style' },
-    { name: 'Tiny Leader', hp: 30, icon: 'style' },
-    { name: 'Detetive', hp: 0, icon: 'casino' },
-    { name: 'Ludo', hp: 0, icon: 'casino' },
-    { name: 'Adedonha ou Stop', hp: 0, icon: 'assignment' }
+    { id: 1, name: 'Commander', hp: 40, icon: 'style' },
+    { id: 2, name: 'Conquest', hp: 30, icon: 'style' },
+    { id: 3, name: 'Tiny Leader', hp: 30, icon: 'style' },
+    { id: 4, name: 'Detetive', hp: 0, icon: 'casino' },
+    { id: 5, name: 'Ludo', hp: 0, icon: 'casino' },
+    { id: 6, name: 'Adedonha ou Stop', hp: 0, icon: 'assignment' }
   ]
 
   const page = ref(1)
@@ -75,9 +77,11 @@
   function onAdd() {
     // abrir modal / rota de criar formato
     console.log('Adicionar formato')
+    router.push({ name: 'formatos-new' })
   }
 
   function openFormat(item) {
     console.log('Abrir formato', item)
+    router.push({ name: 'formatos-edit', params: { id: item.id } })
   }
 </script>
