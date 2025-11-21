@@ -5,12 +5,10 @@
       <div class="row q-col-gutter-sm">
         <!-- Formato -->
         <div class="col">
-          <q-select
-            filled
-            dense
+          <GlobalSelect
             label="Formato"
-            v-model="filters.format"
             :options="formatOptions"
+            v-model="filters.format"
             emit-value
             map-options
           />
@@ -18,12 +16,10 @@
 
         <!-- Mês -->
         <div class="col">
-          <q-select
-            filled
-            dense
+          <GlobalSelect
             label="Mês"
-            v-model="filters.month"
             :options="monthOptions"
+            v-model="filters.month"
             emit-value
             map-options
           />
@@ -85,6 +81,7 @@
 </template>
 
 <script setup>
+  import GlobalSelect from 'src/components/ui/GlobalSelect.vue'
   import { ref, computed } from 'vue'
   import { formatDateShort } from 'src/utils/date'
 

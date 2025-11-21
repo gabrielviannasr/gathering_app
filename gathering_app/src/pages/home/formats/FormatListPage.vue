@@ -2,9 +2,11 @@
   <q-page class="page-bg">
     <!-- FILTROS -->
     <div class="q-pa-md">
-      <q-input filled dense label="Nome" v-model="filters.name" debounce="300">
-        <template #prepend><q-icon name="search" /></template>
-      </q-input>
+      <GlobalInput label="Nome" v-model="filters.name" debounce="300">
+        <template #prepend>
+          <q-icon name="search" />
+        </template>
+      </GlobalInput>
 
       <!-- Botão Adicionar logo abaixo dos filtros -->
       <div class="q-mt-sm">
@@ -49,6 +51,7 @@
 </template>
 
 <script setup>
+  import GlobalInput from 'src/components/ui/GlobalInput.vue'
   import { ref, computed } from 'vue'
   import { useConfraStore } from 'src/stores/confra'
   import { useRouter } from 'vue-router'

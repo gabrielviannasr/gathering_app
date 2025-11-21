@@ -5,19 +5,19 @@
       <div class="row q-col-gutter-sm">
         <!-- Nome -->
         <div class="col">
-          <q-input filled dense label="Nome" v-model="filters.name" debounce="300">
-            <template #prepend><q-icon name="search" /></template>
-          </q-input>
+          <GlobalInput label="Nome" v-model="filters.name" debounce="300">
+            <template #prepend>
+              <q-icon name="search" />
+            </template>
+          </GlobalInput>
         </div>
 
         <!-- Ano -->
         <div class="col-auto" style="width: 130px">
-          <q-select
-            filled
-            dense
+          <GlobalSelect
             label="Ano"
-            v-model="filters.year"
             :options="yearOptions"
+            v-model="filters.year"
             emit-value
             map-options
           />
@@ -76,6 +76,8 @@
 </template>
 
 <script setup>
+  import GlobalInput from 'src/components/ui/GlobalInput.vue'
+  import GlobalSelect from 'src/components/ui/GlobalSelect.vue'
   import { ref, computed } from 'vue'
   import { useRouter } from 'vue-router'
   const router = useRouter()
