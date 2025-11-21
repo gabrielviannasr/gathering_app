@@ -8,15 +8,20 @@
         </div>
 
         <div class="col">
-          <!-- <div class="text-caption text-grey">Formato</div> -->
-          <div class="text-subtitle1 text-bold">
+          <!-- Nome do formato ou fallback -->
+          <template v-if="event.idFormat && event.format">
             {{ event.format.name }}
-          </div>
+          </template>
+          <template v-else>
+            <span class="text-caption text-grey">Sem formato</span>
+          </template>
 
+          <!-- Data -->
           <div class="text-caption text-grey">
             {{ formatDate(event.date) }}
           </div>
 
+          <!-- Jogadores e rodadas -->
           <div class="text-caption q-mt-xs">
             {{ event.players }} jogadores • {{ event.rounds }} rodadas
           </div>
@@ -94,6 +99,7 @@
   // MOCK EVENT
   const event = ref({
     id: 2,
+    idFormat: null,
     format: { id: 2, name: 'Conquest', type: { id: 1, name: 'Cartas' } },
     date: '2025-01-21',
     players: 8,
@@ -114,14 +120,14 @@
 
   // ROUNDS
   const rounds = ref([
-    { idPlayerWinner: 5, round: 1, players: 6, canceled: false },
-    { idPlayerWinner: 7, round: 2, players: 6, canceled: false },
-    { idPlayerWinner: 8, round: 3, players: 6, canceled: false },
-    { idPlayerWinner: 1, round: 4, players: 6, canceled: false },
-    { idPlayerWinner: 7, round: 5, players: 6, canceled: false },
-    { idPlayerWinner: 6, round: 6, players: 6, canceled: false },
-    { idPlayerWinner: 2, round: 7, players: 6, canceled: false },
-    { idPlayerWinner: 6, round: 8, players: 6, canceled: false }
+    { idPlayerWinner: 5, idFormat: 2, round: 1, players: 6, canceled: false },
+    { idPlayerWinner: 7, idFormat: 2, round: 2, players: 6, canceled: false },
+    { idPlayerWinner: 8, idFormat: 2, round: 3, players: 6, canceled: false },
+    { idPlayerWinner: 1, idFormat: 2, round: 4, players: 6, canceled: false },
+    { idPlayerWinner: 7, idFormat: 2, round: 5, players: 6, canceled: false },
+    { idPlayerWinner: 6, idFormat: 2, round: 6, players: 6, canceled: false },
+    { idPlayerWinner: 2, idFormat: 2, round: 7, players: 6, canceled: false },
+    { idPlayerWinner: 6, idFormat: 2, round: 8, players: 6, canceled: false }
   ])
 
   const page = ref(1)
