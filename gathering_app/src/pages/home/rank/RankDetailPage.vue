@@ -19,7 +19,7 @@
           </div>
 
           <!-- Rank com ícone -->
-          <div class="row item-row highlight">
+          <div class="row item-row highlight items-center">
             <div class="col-6 label">Rank</div>
             <div class="col-6 value text-bold row items-center justify-end">
               <!-- :name="rankMedal(rank.rank)" -->
@@ -30,41 +30,57 @@
                 :style="`color: ${rankMedalColor(rank.rank)}`"
                 v-if="rank.rank <= 3"
               />
-              <span class="rank-large">{{ rank.rank }}</span>
+              <!-- <span class="rank-large">{{ rank.rank }}</span> -->
+              <!-- CÍRCULO COM NÚMERO DO RANK -->
+              <div class="round-number-circle">
+                {{ rank.rank }}
+              </div>
             </div>
           </div>
 
-          <div class="row item-row">
+          <!-- Vitórias  -->
+          <div class="row item-row items-center justify-between">
             <div class="col-6 label">Vitórias</div>
-            <div class="col-6 value">{{ rank.wins }}</div>
+            <!-- <div class="col-6 value">{{ rank.wins }}</div> -->
+            <div class="round-number-circle">
+              {{ rank.wins }}
+            </div>
           </div>
 
-          <div class="row item-row">
+          <!-- Rodadas -->
+          <div class="row item-row items-center justify-between">
             <div class="col-6 label">Rodadas</div>
-            <div class="col-6 value">{{ rank.rounds }}</div>
+            <!-- <div class="col-6 value">{{ rank.rounds }}</div> -->
+            <div class="round-number-circle">
+              {{ rank.rounds }}
+            </div>
           </div>
 
+          <!-- Positivo -->
           <div class="row item-row">
             <div class="col-6 label">Positivo</div>
             <div class="col-6 value text-positive">R$ {{ formatCurrency(rank.positive) }}</div>
           </div>
 
+          <!-- Negativo -->
           <div class="row item-row">
             <div class="col-6 label">Negativo</div>
             <div class="col-6 value text-negative">R$ {{ formatCurrency(rank.negative) }}</div>
           </div>
 
+          <!-- Saldo Rankeado -->
           <div class="row item-row">
             <div class="col-6 label">Saldo Rankeado</div>
             <div class="col-6 value">R$ {{ formatCurrency(rank.rankBalance) }}</div>
           </div>
 
+          <!-- Pote dos Derrotados -->
           <div class="row item-row">
             <div class="col-6 label">Pote dos Derrotados</div>
             <div class="col-6 value">R$ {{ formatCurrency(rank.loserPot) }}</div>
           </div>
 
-          <!-- SALDO FINAL (DESTAQUE) -->
+          <!-- Saldo Final (DESTAQUE) -->
           <div class="row item-row final-row">
             <div class="col-6 label">Saldo Final</div>
             <div class="col-6 value final-value">R$ {{ formatCurrency(rank.finalBalance) }}</div>
