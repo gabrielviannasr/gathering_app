@@ -16,21 +16,38 @@
         />
 
         <!-- Taxa da Confra -->
-        <GlobalInput
+        <!-- <GlobalInput
           class="q-mt-md"
           label="Taxa da Confra"
           type="number"
           v-model="form.confraFee"
           placeholder="Digite a taxa da confra"
+        /> -->
+
+        <GlobalNumberInput
+          class="q-mt-md"
+          label="Taxa da Confra"
+          placeholder="Digite a taxa da confra"
+          v-model="form.confraFee"
+          :min="0"
+          :step="5"
         />
 
         <!-- Taxa da Rodada -->
-        <GlobalInput
+        <!-- <GlobalInput
           class="q-mt-md"
           label="Taxa da Rodada"
           type="number"
           v-model="form.roundFee"
           placeholder="Digite a taxa da rodada"
+        /> -->
+        <GlobalNumberInput
+          class="q-mt-md"
+          label="Taxa da Rodada"
+          placeholder="Digite a taxa da confra"
+          v-model="form.roundFee"
+          :min="0"
+          :step="5"
         />
       </q-card>
     </div>
@@ -53,25 +70,54 @@
       <div v-for="(cfg, index) in form.configs" :key="index" class="q-mt-md">
         <q-card class="q-pa-md form-card">
           <!-- Linha dos labels -->
-          <div class="row q-col-gutter-md q-mb-xs items-center">
+          <!-- <div class="row q-col-gutter-md q-mb-xs items-center">
             <div class="col-4 text-center config-label">Jogadores</div>
             <div class="col-4 text-center config-label">Premiação</div>
             <div class="col-4 text-center config-label">Pote dos Derrotados</div>
-          </div>
+          </div> -->
 
           <!-- Linha dos inputs -->
-          <div class="row q-col-gutter-md items-center">
-            <div class="col-4">
+          <!-- <div class="row q-col-gutter-md items-center">
+            <div class="col-12">
               <GlobalInput type="number" label="" v-model="cfg.players" />
+              <GlobalNumberInput v-model="cfg.players" label="Jogadores" :min="1" :max="99" />
             </div>
 
             <div class="col-4">
               <GlobalInput type="number" label="" v-model="cfg.prize" />
+              <GlobalNumberInput v-model="cfg.prize" :min="0" :step="5" />
             </div>
 
             <div class="col-4">
               <GlobalInput type="number" label="" v-model="cfg.loserPot" />
+              <GlobalNumberInput v-model="cfg.loserPot" :min="0" :step="5" />
             </div>
+          </div> -->
+
+          <div class="row q-col-gutter-md items-center">
+            <GlobalNumberInput
+              v-model="cfg.players"
+              label="Jogadores"
+              placeholder="Digite o nº de jogadores"
+              :min="1"
+              :max="99"
+            />
+
+            <GlobalNumberInput
+              v-model="cfg.prize"
+              label="Premiação"
+              placeholder="Digite a taxa da premiação"
+              :min="1"
+              :step="5"
+            />
+
+            <GlobalNumberInput
+              v-model="cfg.loserPot"
+              label="Pote dos Derrotados"
+              placeholder="Digite a taxa dos derrotados"
+              :min="1"
+              :step="5"
+            />
           </div>
 
           <!-- Botão remover -->
@@ -110,7 +156,8 @@
   import { useRoute, useRouter } from 'vue-router'
 
   // COMPONENTES GLOBAIS
-  import GlobalInput from 'components/ui/GlobalInput.vue'
+  // import GlobalInput from 'components/ui/GlobalInput.vue'
+  import GlobalNumberInput from 'components/ui/GlobalNumberInput.vue'
   import GlobalSelect from 'components/ui/GlobalSelect.vue'
 
   const route = useRoute()
