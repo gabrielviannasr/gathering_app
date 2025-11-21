@@ -2,31 +2,7 @@
   <q-page class="page-bg">
     <!-- CARD DO EVENTO -->
     <div class="q-pa-md">
-      <q-card class="q-pa-md form-card row items-center">
-        <div class="icon-circle q-mr-md">
-          <q-icon name="style" color="white" size="28px" />
-        </div>
-
-        <div class="col">
-          <!-- Nome do formato ou fallback -->
-          <template v-if="event.idFormat && event.format">
-            {{ event.format.name }}
-          </template>
-          <template v-else>
-            <span class="text-caption text-grey">Sem formato</span>
-          </template>
-
-          <!-- Data -->
-          <div class="text-caption text-grey">
-            {{ formatDateShort(event.date) }}
-          </div>
-
-          <!-- Jogadores e rodadas -->
-          <div class="text-caption q-mt-xs">
-            {{ event.players }} jogadores • {{ event.rounds }} rodadas
-          </div>
-        </div>
-      </q-card>
+      <EventHeaderCard :event="event" class="q-pa-md" />
     </div>
 
     <!-- BOTÃO ADICIONAR -->
@@ -93,9 +69,9 @@
 </template>
 
 <script setup>
+  import EventHeaderCard from 'src/components/events/EventHeaderCard.vue'
   import { ref } from 'vue'
   import { date } from 'quasar'
-  import { formatDateShort } from 'src/utils/date'
 
   // MOCK EVENT
   const event = ref({

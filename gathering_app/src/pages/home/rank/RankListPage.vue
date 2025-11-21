@@ -2,31 +2,7 @@
   <q-page class="page-bg">
     <!-- CARD DO EVENTO -->
     <div class="q-pa-md">
-      <q-card class="q-pa-md form-card row items-center">
-        <div class="icon-circle q-mr-md">
-          <q-icon name="style" color="white" size="28px" />
-        </div>
-
-        <div class="col">
-          <!-- Nome do formato -->
-          <template v-if="event.idFormat && event.format">
-            <div class="text-subtitle1 text-bold">{{ event.format.name }}</div>
-          </template>
-          <template v-else>
-            <div class="text-caption text-grey">Sem formato</div>
-          </template>
-
-          <!-- Data -->
-          <div class="text-caption text-grey">
-            {{ formatDateShort(event.date) }}
-          </div>
-
-          <!-- Jogadores e rodadas -->
-          <div class="text-caption q-mt-xs">
-            {{ event.players }} jogadores • {{ event.rounds }} rodadas
-          </div>
-        </div>
-      </q-card>
+      <EventHeaderCard :event="event" class="q-pa-md" />
     </div>
 
     <!-- CARD DE FILTRO -->
@@ -91,9 +67,10 @@
 </template>
 
 <script setup>
+  import EventHeaderCard from 'src/components/events/EventHeaderCard.vue'
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
   import { ref, computed } from 'vue'
-  import { formatDateShort } from 'src/utils/date'
+  //   import { formatDateShort } from 'src/utils/date'
 
   // EVENTO MOCK
   const event = {
