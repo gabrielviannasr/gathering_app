@@ -8,10 +8,10 @@
   const router = useRouter()
 
   function openAddForm() {
-    router.push({ name: 'event-form' })
+    router.push({ name: 'eventos-new' })
   }
 
   function openEvent(item) {
-    router.push({ name: 'event-form', params: { id: item.id } })
+    router.push({ name: 'eventos-edit', params: { id: item.id } })
   }
 </script>

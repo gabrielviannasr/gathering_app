@@ -106,9 +106,26 @@ const routes = [
       // --- Eventos ---
       {
         path: 'eventos',
-        name: 'eventos',
-        component: () => import('pages/home/events/EventListPage.vue'),
-        meta: { title: 'Eventos' }
+        children: [
+          {
+            path: '',
+            name: 'eventos',
+            component: () => import('pages/home/events/EventListPage.vue'),
+            meta: { title: 'Eventos' }
+          },
+          {
+            path: 'new',
+            name: 'eventos-new',
+            component: () => import('pages/home/events/EventFormPage.vue'),
+            meta: { title: 'Eventos - Novo' }
+          },
+          {
+            path: ':id',
+            name: 'eventos-edit',
+            component: () => import('pages/home/events/EventFormPage.vue'),
+            meta: { title: 'Eventos - Editar' }
+          }
+        ]
       },
 
       // --- Eventos / Rodadas ---
