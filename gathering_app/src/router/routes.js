@@ -35,17 +35,20 @@ const routes = [
           {
             path: '',
             name: 'confras',
-            component: () => import('pages/home/gatherings/GatheringListPage.vue')
+            component: () => import('pages/home/gatherings/GatheringListPage.vue'),
+            meta: { title: 'Confras' }
           },
           {
             path: 'new',
             name: 'confras-new',
-            component: () => import('pages/home/gatherings/GatheringFormPage.vue')
+            component: () => import('pages/home/gatherings/GatheringFormPage.vue'),
+            meta: { title: 'Confras - Novo' }
           },
           {
             path: ':id',
             name: 'confras-edit',
-            component: () => import('pages/home/gatherings/GatheringFormPage.vue')
+            component: () => import('pages/home/gatherings/GatheringFormPage.vue'),
+            meta: { title: 'Confras - Editar' }
           }
         ]
       },
@@ -57,17 +60,20 @@ const routes = [
           {
             path: '',
             name: 'jogadores',
-            component: () => import('pages/home/players/PlayerListPage.vue')
+            component: () => import('pages/home/players/PlayerListPage.vue'),
+            meta: { title: 'Jogadores' }
           },
           {
             path: 'new',
             name: 'jogadores-new',
-            component: () => import('pages/home/players/PlayerFormPage.vue')
+            component: () => import('pages/home/players/PlayerFormPage.vue'),
+            meta: { title: 'Jogadores - Novo' }
           },
           {
             path: ':id',
             name: 'jogadores-edit',
-            component: () => import('pages/home/players/PlayerFormPage.vue')
+            component: () => import('pages/home/players/PlayerFormPage.vue'),
+            meta: { title: 'Jogadores - Editar' }
           }
         ]
       },
@@ -79,17 +85,20 @@ const routes = [
           {
             path: '',
             name: 'formatos',
-            component: () => import('pages/home/formats/FormatListPage.vue')
+            component: () => import('pages/home/formats/FormatListPage.vue'),
+            meta: { title: 'Formatos' }
           },
           {
             path: 'new',
             name: 'formatos-new',
-            component: () => import('pages/home/formats/FormatFormPage.vue')
+            component: () => import('pages/home/formats/FormatFormPage.vue'),
+            meta: { title: 'Formatos - Novo' }
           },
           {
             path: ':id',
             name: 'formatos-edit',
-            component: () => import('pages/home/formats/FormatFormPage.vue')
+            component: () => import('pages/home/formats/FormatFormPage.vue'),
+            meta: { title: 'Formatos - Editar' }
           }
         ]
       },
