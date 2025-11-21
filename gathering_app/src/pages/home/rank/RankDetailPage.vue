@@ -101,7 +101,7 @@
     format: { id: 1, name: 'Commander' },
     date: '2025-01-14',
     players: 8,
-    rounds: 4
+    rounds: 8
   })
 
   const player = ref({
