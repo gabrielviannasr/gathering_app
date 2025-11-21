@@ -3,20 +3,22 @@
     <!-- FORM DO EVENTO -->
     <div class="q-pa-md">
       <q-card class="q-pa-md form-card">
+        <!-- Title -->
         <div class="form-section-title">Evento</div>
 
-        <!-- Formato -->
-        <GlobalSelect
-          label="Formato"
-          :options="formatOptions"
-          v-model="form.formatId"
-          placeholder="Selecione o formato"
-          emit-value
-          map-options
-        />
+        <div class="q-col-gutter-md">
+          <!-- Formato -->
+          <GlobalSelect
+            label="Formato"
+            :options="formatOptions"
+            v-model="form.formatId"
+            placeholder="Selecione o formato"
+            emit-value
+            map-options
+          />
 
-        <!-- Taxa da Confra -->
-        <!-- <GlobalInput
+          <!-- Taxa da Confra -->
+          <!-- <GlobalInput
           class="q-mt-md"
           label="Taxa da Confra"
           type="number"
@@ -24,31 +26,30 @@
           placeholder="Digite a taxa da confra"
         /> -->
 
-        <GlobalNumberInput
-          class="q-mt-md"
-          label="Taxa da Confra"
-          placeholder="Digite a taxa da confra"
-          v-model="form.confraFee"
-          :min="0"
-          :step="5"
-        />
+          <GlobalNumberInput
+            label="Taxa da Confra"
+            placeholder="Digite a taxa da confra"
+            v-model="form.confraFee"
+            :min="0"
+            :step="5"
+          />
 
-        <!-- Taxa da Rodada -->
-        <!-- <GlobalInput
+          <!-- Taxa da Rodada -->
+          <!-- <GlobalInput
           class="q-mt-md"
           label="Taxa da Rodada"
           type="number"
           v-model="form.roundFee"
           placeholder="Digite a taxa da rodada"
         /> -->
-        <GlobalNumberInput
-          class="q-mt-md"
-          label="Taxa da Rodada"
-          placeholder="Digite a taxa da confra"
-          v-model="form.roundFee"
-          :min="0"
-          :step="5"
-        />
+          <GlobalNumberInput
+            label="Taxa da Rodada"
+            placeholder="Digite a taxa da confra"
+            v-model="form.roundFee"
+            :min="0"
+            :step="5"
+          />
+        </div>
       </q-card>
     </div>
 
@@ -94,7 +95,7 @@
             </div>
           </div> -->
 
-          <div class="row q-col-gutter-md items-center">
+          <div class="row q-col-gutter-md">
             <GlobalNumberInput
               v-model="cfg.players"
               label="Jogadores"
