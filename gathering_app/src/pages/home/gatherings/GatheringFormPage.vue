@@ -2,6 +2,9 @@
   <q-page class="page-bg">
     <div class="q-pa-md">
       <q-card class="q-pa-md form-card">
+        <!-- Title -->
+        <div class="form-section-title">Confra</div>
+
         <!-- Nome -->
         <GlobalInput label="Nome" v-model="form.name" placeholder="Digite o nome da confra" />
       </q-card>

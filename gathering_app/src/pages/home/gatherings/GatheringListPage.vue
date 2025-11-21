@@ -2,35 +2,40 @@
   <q-page class="page-bg">
     <!-- ===== FILTROS ===== -->
     <div class="q-pa-md">
-      <div class="row q-col-gutter-sm">
-        <!-- Nome -->
-        <div class="col">
-          <GlobalInput label="Nome" v-model="filters.name" debounce="300">
-            <template #prepend>
-              <q-icon name="search" />
-            </template>
-          </GlobalInput>
+      <q-card class="q-pa-md form-card">
+        <!-- Title -->
+        <div class="form-section-title">Filtros</div>
+
+        <div class="row q-col-gutter-sm q-mt-sm">
+          <!-- Nome -->
+          <div class="col">
+            <GlobalInput label="Nome" v-model="filters.name" debounce="300">
+              <template #prepend>
+                <q-icon name="search" />
+              </template>
+            </GlobalInput>
+          </div>
+
+          <!-- Ano -->
+          <div class="col-auto" style="width: 130px">
+            <GlobalSelect
+              label="Ano"
+              :options="yearOptions"
+              v-model="filters.year"
+              emit-value
+              map-options
+            />
+          </div>
         </div>
 
-        <!-- Ano -->
-        <div class="col-auto" style="width: 130px">
-          <GlobalSelect
-            label="Ano"
-            :options="yearOptions"
-            v-model="filters.year"
-            emit-value
-            map-options
-          />
+        <!-- Botão Adicionar -->
+        <div class="q-mt-sm">
+          <q-btn class="add-btn full-width" no-caps rounded unelevated @click="onAdd">
+            <q-icon name="add" class="q-mr-sm" />
+            Adicionar Confra
+          </q-btn>
         </div>
-      </div>
-
-      <!-- Botão Adicionar -->
-      <div class="q-mt-sm">
-        <q-btn class="add-btn full-width" no-caps rounded unelevated @click="onAdd">
-          <q-icon name="add" class="q-mr-sm" />
-          Adicionar Confra
-        </q-btn>
-      </div>
+      </q-card>
     </div>
 
     <!-- ===== LISTA ===== -->

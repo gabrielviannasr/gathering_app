@@ -2,37 +2,39 @@
   <q-page class="page-bg">
     <!-- ===== FILTROS ===== -->
     <div class="q-pa-md">
-      <div class="row q-col-gutter-sm">
-        <!-- Formato -->
-        <div class="col">
-          <GlobalSelect
-            label="Formato"
-            :options="formatOptions"
-            v-model="filters.format"
-            emit-value
-            map-options
-          />
+      <q-card class="q-pa-md form-card">
+        <div class="form-section-title">Filtros</div>
+
+        <div class="row q-col-gutter-sm q-mt-sm">
+          <div class="col">
+            <GlobalSelect
+              label="Formato"
+              :options="formatOptions"
+              v-model="filters.format"
+              emit-value
+              map-options
+            />
+          </div>
+
+          <div class="col">
+            <GlobalSelect
+              label="Mês"
+              :options="monthOptions"
+              v-model="filters.month"
+              emit-value
+              map-options
+            />
+          </div>
         </div>
 
-        <!-- Mês -->
-        <div class="col">
-          <GlobalSelect
-            label="Mês"
-            :options="monthOptions"
-            v-model="filters.month"
-            emit-value
-            map-options
-          />
+        <!-- Botão Adicionar (aparece só na página de eventos) -->
+        <div v-if="showAddButton" class="q-mt-sm">
+          <q-btn class="add-btn full-width" no-caps rounded unelevated @click="$emit('add')">
+            <q-icon name="add" class="q-mr-sm" />
+            Adicionar Evento
+          </q-btn>
         </div>
-      </div>
-
-      <!-- Botão Adicionar (aparece só na página de eventos) -->
-      <div v-if="showAddButton" class="q-mt-sm">
-        <q-btn class="add-btn full-width" no-caps rounded unelevated @click="$emit('add')">
-          <q-icon name="add" class="q-mr-sm" />
-          Adicionar Evento
-        </q-btn>
-      </div>
+      </q-card>
     </div>
 
     <!-- ===== LISTA ===== -->

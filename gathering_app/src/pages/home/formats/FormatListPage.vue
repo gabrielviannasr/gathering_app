@@ -2,19 +2,25 @@
   <q-page class="page-bg">
     <!-- FILTROS -->
     <div class="q-pa-md">
-      <GlobalInput label="Nome" v-model="filters.name" debounce="300">
-        <template #prepend>
-          <q-icon name="search" />
-        </template>
-      </GlobalInput>
+      <q-card class="q-pa-md form-card">
+        <!-- Titile -->
+        <div class="form-section-title">Filtros</div>
 
-      <!-- Botão Adicionar logo abaixo dos filtros -->
-      <div class="q-mt-sm">
-        <q-btn class="add-btn full-width" no-caps rounded unelevated @click="onAdd">
-          <q-icon name="add" class="q-mr-sm" />
-          Adicionar formato
-        </q-btn>
-      </div>
+        <!-- Nome -->
+        <GlobalInput label="Nome" v-model="filters.name" debounce="300">
+          <template #prepend>
+            <q-icon name="search" />
+          </template>
+        </GlobalInput>
+
+        <!-- Botão Adicionar -->
+        <div class="q-mt-sm">
+          <q-btn class="add-btn full-width" no-caps rounded unelevated @click="onAdd">
+            <q-icon name="add" class="q-mr-sm" />
+            Adicionar formato
+          </q-btn>
+        </div>
+      </q-card>
     </div>
 
     <!-- LISTA -->
