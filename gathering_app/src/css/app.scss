@@ -79,7 +79,6 @@
   font-size: 15px;
   flex-shrink: 0;
 }
-
 /* Badge de formato (Eventos) */
 .event-badge {
   background: #f0e4ff;
@@ -90,7 +89,14 @@
   display: inline-block;
   margin-bottom: 2px;
 }
-
+/* winner box */
+.winner-box {
+  background: #e6fbe6;
+  border: 1px solid #9be39b;
+  color: #267326;
+  border-radius: 8px;
+  font-weight: 600;
+}
 /* ===========================================================
    TIPOGRAFIA
    =========================================================== */
