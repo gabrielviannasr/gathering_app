@@ -28,7 +28,7 @@ const routes = [
         path: 'carteira',
         name: 'carteira',
         component: () => import('pages/carteira/CarteiraPage.vue'),
-        meta: { title: 'Carteira' }
+        meta: { title: 'Carteira', subtitle: 'Saldo do Jogador' }
       }
     ]
   },
@@ -46,19 +46,19 @@ const routes = [
             path: '',
             name: 'confras',
             component: () => import('pages/home/gatherings/GatheringListPage.vue'),
-            meta: { title: 'Confras' }
+            meta: { title: 'Confras', subtitle: 'Lista de Confras' }
           },
           {
             path: 'new',
             name: 'confras-new',
             component: () => import('pages/home/gatherings/GatheringFormPage.vue'),
-            meta: { title: 'Confras - Novo' }
+            meta: { title: 'Confras', subtitle: 'Nova Confra' }
           },
           {
             path: ':id',
             name: 'confras-edit',
             component: () => import('pages/home/gatherings/GatheringFormPage.vue'),
-            meta: { title: 'Confras - Editar' }
+            meta: { title: 'Confras', subtitle: 'Editar Confra' }
           }
         ]
       },
@@ -71,19 +71,19 @@ const routes = [
             path: '',
             name: 'jogadores',
             component: () => import('pages/home/players/PlayerListPage.vue'),
-            meta: { title: 'Jogadores' }
+            meta: { title: 'Jogadores', subtitle: 'Lista de Jogadores' }
           },
           {
             path: 'new',
             name: 'jogadores-new',
             component: () => import('pages/home/players/PlayerFormPage.vue'),
-            meta: { title: 'Jogadores - Novo' }
+            meta: { title: 'Jogadores', subtitle: 'Novo Jogador' }
           },
           {
             path: ':id',
             name: 'jogadores-edit',
             component: () => import('pages/home/players/PlayerFormPage.vue'),
-            meta: { title: 'Jogadores - Editar' }
+            meta: { title: 'Jogadores', subtitle: 'Editar Jogador' }
           }
         ]
       },
@@ -96,19 +96,19 @@ const routes = [
             path: '',
             name: 'formatos',
             component: () => import('pages/home/formats/FormatListPage.vue'),
-            meta: { title: 'Formatos' }
+            meta: { title: 'Formatos', subtitle: 'Lista e Formatos' }
           },
           {
             path: 'new',
             name: 'formatos-new',
             component: () => import('pages/home/formats/FormatFormPage.vue'),
-            meta: { title: 'Formatos - Novo' }
+            meta: { title: 'Formatos', subtitle: 'Novo Formato' }
           },
           {
             path: ':id',
             name: 'formatos-edit',
             component: () => import('pages/home/formats/FormatFormPage.vue'),
-            meta: { title: 'Formatos - Editar' }
+            meta: { title: 'Formatos', subtitle: 'Editar Formato' }
           }
         ]
       },
@@ -121,19 +121,19 @@ const routes = [
             path: '',
             name: 'eventos',
             component: () => import('pages/home/events/EventListPage.vue'),
-            meta: { title: 'Eventos' }
+            meta: { title: 'Eventos', subtitle: 'Lista de Eventos' }
           },
           {
             path: 'new',
             name: 'eventos-new',
             component: () => import('pages/home/events/EventFormPage.vue'),
-            meta: { title: 'Eventos - Novo' }
+            meta: { title: 'Eventos', subtitle: 'Novo Evento' }
           },
           {
             path: ':id',
             name: 'eventos-edit',
             component: () => import('pages/home/events/EventFormPage.vue'),
-            meta: { title: 'Eventos - Editar' }
+            meta: { title: 'Eventos', subtitle: 'Editar Evento' }
           }
         ]
       },
@@ -146,25 +146,25 @@ const routes = [
             path: '',
             name: 'rodadas-eventos',
             component: () => import('pages/home/rounds/RoundEventListPage.vue'),
-            meta: { title: 'Rodadas / Eventos' }
+            meta: { title: 'Rodadas', subtitle: 'Lista de Eventos' }
           },
           {
             path: ':idEvent',
             name: 'rodadas',
             component: () => import('pages/home/rounds/RoundListPage.vue'),
-            meta: { title: 'Rodadas do Evento' }
+            meta: { title: 'Rodadas', subtitle: 'Lista de Rodadas' }
           },
           {
             path: ':idEvent/rodada/new',
             name: 'rodadas-new',
             component: () => import('pages/home/rounds/RoundFormPage.vue'),
-            meta: { title: 'Rodadas - Nova' }
+            meta: { title: 'Rodadas', subtitle: 'Nova Rodada' }
           },
           {
             path: ':idEvent/rodada/:round',
             name: 'rodadas-edit',
             component: () => import('pages/home/rounds/RoundFormPage.vue'),
-            meta: { title: 'Rodadas - Editar' }
+            meta: { title: 'Rodadas', subtitle: 'Editar Rodada' }
           }
         ]
       },
@@ -177,19 +177,19 @@ const routes = [
             path: '',
             name: 'rank-eventos',
             component: () => import('pages/home/rank/RankEventListPage.vue'),
-            meta: { title: 'Rank / Eventos' }
+            meta: { title: 'Rank', subtitle: 'Lista de Eventos' }
           },
           {
             path: ':idEvent',
             name: 'rank',
             component: () => import('pages/home/rank/RankListPage.vue'),
-            meta: { title: 'Rank do Evento' }
+            meta: { title: 'Rank', subtitle: 'Lista de Ranks' }
           },
           {
             path: ':idEvent/player/:idPlayer',
             name: 'rank-player',
             component: () => import('pages/home/rank/RankPlayerPage.vue'),
-            meta: { title: 'Rank do Jogador' }
+            meta: { title: 'Rank', subtitle: 'Rank do Jogador' }
           }
         ]
       }
