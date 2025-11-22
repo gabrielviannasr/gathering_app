@@ -2,7 +2,7 @@
   <q-footer class="bg-white shadow-2" bordered>
     <PageWrapper>
       <q-tabs
-        v-model="tab"
+        v-model="activeTab"
         align="justify"
         dense
         no-caps
@@ -20,21 +20,18 @@
 
 <script setup>
   import PageWrapper from './PageWrapper.vue'
-  import { ref, watch } from 'vue'
-  import { useRouter, useRoute } from 'vue-router'
+  import { useRouter } from 'vue-router'
+  import { useTabStore } from 'src/stores/tabs'
+  import { storeToRefs } from 'pinia'
 
   const router = useRouter()
-  const route = useRoute()
-  const tab = ref('home')
 
-  // mantém selecionada a aba atual pelo nome da rota
-  watch(
-    () => route.name,
-    val => (tab.value = val)
-  )
+  const tabStore = useTabStore()
+  const { activeTab } = storeToRefs(tabStore)
 
-  function goToTab(val) {
-    router.push({ name: val })
+  function goToTab(tab) {
+    tabStore.setTab(tab)
+    router.push({ name: tab })
   }
 </script>
 
