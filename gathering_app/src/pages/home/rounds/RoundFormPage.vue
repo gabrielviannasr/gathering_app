@@ -32,6 +32,19 @@
           <!-- Sem vencedor -->
           <div v-else class="text-grey">Sem vencedor</div>
         </div>
+
+        <!-- STATUS -->
+        <div class="row items-center justify-between q-mt-md">
+          <div class="text-subtitle2 text-bold">Status</div>
+
+          <q-toggle
+            v-model="round.canceled"
+            size="md"
+            color="negative"
+            :label="round.canceled ? 'Cancelada' : 'Ativa'"
+            left-label
+          />
+        </div>
       </q-card>
     </div>
 
