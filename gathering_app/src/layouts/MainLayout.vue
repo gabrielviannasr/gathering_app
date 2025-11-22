@@ -5,62 +5,10 @@
     </q-page-container>
 
     <!-- Bottom Navigation -->
-    <q-footer class="bg-white shadow-2" bordered>
-      <PageWrapper>
-        <q-tabs
-          v-model="tab"
-          align="justify"
-          dense
-          no-caps
-          class="gathering-tabs"
-          @update:model-value="goToTab"
-        >
-          <q-tab name="home" icon="home" label="Home" />
-          <q-tab name="extrato" icon="swap_vert" label="Extrato" />
-          <q-tab name="carteira" icon="account_balance_wallet" label="Carteira" />
-          <q-tab name="relatorios" icon="bar_chart" label="Relatórios" />
-        </q-tabs>
-      </PageWrapper>
-    </q-footer>
+    <AppFooterTabs />
   </q-layout>
 </template>
 
 <script setup>
-  import PageWrapper from 'src/components/layout/PageWrapper.vue'
-  import { ref, watch } from 'vue'
-  import { useRouter, useRoute } from 'vue-router'
-
-  const router = useRouter()
-  const route = useRoute()
-  const tab = ref(route.name)
-
-  watch(
-    () => route.name,
-    val => (tab.value = val)
-  )
-
-  function goToTab(name) {
-    router.push({ name })
-  }
+  import AppFooterTabs from 'src/components/layout/AppFooterTabs.vue'
 </script>
-
-<style scoped>
-  /* ================================
-   BOTTOM NAVIGATION COLORS
-   ================================ */
-
-  /* Cor dos itens inativos (ícone + texto) */
-  .gathering-tabs .q-tab {
-    color: #a0afc3 !important;
-  }
-
-  /* Cor dos itens ativos (ícone + texto) */
-  .gathering-tabs .q-tab--active {
-    color: #7f00ff !important;
-  }
-
-  /* Hover dos itens inativos */
-  .gathering-tabs .q-tab:not(.q-tab--active):hover {
-    color: #000000 !important;
-  }
-</style>

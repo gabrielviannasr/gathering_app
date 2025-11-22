@@ -88,7 +88,6 @@
 
 <script setup>
   import PageWrapper from 'src/components/layout/PageWrapper.vue'
-  import { ref } from 'vue'
   import CardItem from 'src/components/CardItem.vue'
   import { useEventNavigator } from 'src/composables/navigation'
   import { useFormatNavigator } from 'src/composables/navigation'
@@ -96,6 +95,7 @@
   import { usePlayerNavigator } from 'src/composables/navigation'
   import { useRankNavigator } from 'src/composables/navigation'
   import { useRoundNavigator } from 'src/composables/navigation'
+  import { ref } from 'vue'
 
   const { goToEvents } = useEventNavigator()
   const { goToFormats } = useFormatNavigator()
