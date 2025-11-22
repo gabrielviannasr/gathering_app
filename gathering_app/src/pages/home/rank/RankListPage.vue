@@ -29,7 +29,7 @@
         :key="item.rank + '-' + item.idPlayer"
         class="list-card q-pa-sm"
         clickable
-        @click="openRankDetail(item)"
+        @click="openRankPlayer(item)"
       >
         <!-- WRAPPER -->
         <div class="row items-center no-wrap">
@@ -126,8 +126,8 @@
   const page = ref(1)
   const maxPages = 1
 
-  function openRankDetail(item) {
-    console.log('Abrir rank detail:', item)
-    router.push({ name: 'rank-detail', params: { idEvent: item.id } })
+  function openRankPlayer(item) {
+    console.log('Abrir rank player:', item)
+    router.push({ name: 'rank-player', params: { idEvent: item.idEvent, rank: item.rank } })
   }
 </script>

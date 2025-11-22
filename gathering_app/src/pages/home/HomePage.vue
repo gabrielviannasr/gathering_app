@@ -41,7 +41,7 @@
         title="Rank"
         subtitle="Classificação"
         color="#FFC107"
-        @click="$router.push({ name: 'eventos-rank' })"
+        @click="$router.push({ name: 'rank-eventos' })"
       />
 
       <CardItem

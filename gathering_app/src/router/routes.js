@@ -128,7 +128,7 @@ const routes = [
         ]
       },
 
-      // --- Eventos / Rodadas ---
+      // --- Rodadas / Eventos ---
       {
         path: 'rodadas/eventos',
         children: [
@@ -159,27 +159,27 @@ const routes = [
         ]
       },
 
-      // --- Eventos / Rank ---
+      // --- Rank / Eventos ---
       {
-        path: 'eventos-rank',
+        path: 'rank/eventos',
         children: [
           {
             path: '',
-            name: 'eventos-rank',
+            name: 'rank-eventos',
             component: () => import('pages/home/rank/RankEventListPage.vue'),
-            meta: { title: 'Eventos / Rank' }
+            meta: { title: 'Rank / Eventos' }
           },
           {
             path: ':idEvent',
             name: 'rank',
             component: () => import('pages/home/rank/RankListPage.vue'),
-            meta: { title: 'Rank' }
+            meta: { title: 'Rank do Evento' }
           },
           {
-            path: ':idEvent',
-            name: 'rank-detail',
-            component: () => import('pages/home/rank/RankDetailPage.vue'),
-            meta: { title: 'Rank - Detalhes' }
+            path: ':idEvent/rank/:rank',
+            name: 'rank-player',
+            component: () => import('pages/home/rank/RankPlayerPage.vue'),
+            meta: { title: 'Rank do Jogador' }
           }
         ]
       }
