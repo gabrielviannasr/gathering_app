@@ -21,12 +21,14 @@ const routes = [
       {
         path: 'extrato',
         name: 'extrato',
-        component: () => import('pages/extrato/ExtratoPage.vue')
+        component: () => import('pages/extrato/ExtratoPage.vue'),
+        meta: { title: 'Extrato' }
       },
       {
         path: 'carteira',
         name: 'carteira',
-        component: () => import('pages/carteira/CarteiraPage.vue')
+        component: () => import('pages/carteira/CarteiraPage.vue'),
+        meta: { title: 'Carteira' }
       }
     ]
   },
