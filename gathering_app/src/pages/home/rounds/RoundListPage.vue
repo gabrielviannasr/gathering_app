@@ -78,7 +78,7 @@
   import EventHeaderCard from 'src/components/events/EventHeaderCard.vue'
   import { ref } from 'vue'
   import { date } from 'quasar'
-  import { useRoundNavigator } from 'src/composables/navigation/useRoundNavigator'
+  import { useRoundNavigator } from 'src/composables/navigation'
 
   const { goToNewRound, goToEditRound } = useRoundNavigator()
 

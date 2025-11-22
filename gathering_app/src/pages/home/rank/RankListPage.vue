@@ -70,7 +70,7 @@
   import EventHeaderCard from 'src/components/events/EventHeaderCard.vue'
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
   import { ref, computed } from 'vue'
-  import { useRankNavigator } from 'src/composables/navigation/useRankNavigator'
+  import { useRankNavigator } from 'src/composables/navigation'
 
   const { goToRankPlayer } = useRankNavigator()
 

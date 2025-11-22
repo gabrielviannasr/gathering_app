@@ -60,7 +60,7 @@
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
   import { ref, computed } from 'vue'
   import { useConfraStore } from 'src/stores/confra'
-  import { useFormatNavigator } from 'src/composables/navigation/useFormatNavigator'
+  import { useFormatNavigator } from 'src/composables/navigation'
 
   const { goToNewFormat, goToEditFormat } = useFormatNavigator()
 

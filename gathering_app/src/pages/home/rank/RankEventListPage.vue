@@ -4,7 +4,7 @@
 
 <script setup>
   import EventListBase from 'src/components/events/EventListBase.vue'
-  import { useRankNavigator } from 'src/composables/navigation/useRankNavigator'
+  import { useRankNavigator } from 'src/composables/navigation'
 
   const { goToRankEvent } = useRankNavigator()
 

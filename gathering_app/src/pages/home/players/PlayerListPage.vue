@@ -59,7 +59,7 @@
 <script setup>
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
   import { ref, computed } from 'vue'
-  import { usePlayerNavigator } from 'src/composables/navigation/usePlayerNavigator'
+  import { usePlayerNavigator } from 'src/composables/navigation'
 
   const { goToNewPlayer, goToEditPlayer } = usePlayerNavigator()
 

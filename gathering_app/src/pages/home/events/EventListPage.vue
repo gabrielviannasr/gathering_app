@@ -4,7 +4,7 @@
 
 <script setup>
   import EventListBase from 'src/components/events/EventListBase.vue'
-  import { useEventNavigator } from 'src/composables/navigation/useEventNavigator'
+  import { useEventNavigator } from 'src/composables/navigation'
 
   const { goToNewEvent, goToEditEvent } = useEventNavigator()
 

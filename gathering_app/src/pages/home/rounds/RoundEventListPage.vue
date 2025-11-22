@@ -4,7 +4,7 @@
 
 <script setup>
   import EventListBase from 'src/components/events/EventListBase.vue'
-  import { useRoundNavigator } from 'src/composables/navigation/useRoundNavigator'
+  import { useRoundNavigator } from 'src/composables/navigation'
 
   const { goToRounds } = useRoundNavigator()
 
