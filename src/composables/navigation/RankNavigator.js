@@ -9,7 +9,7 @@ export function useRankNavigator() {
 
   const goToRankPlayer = (idEvent, idPlayer) =>
     router.push({
-      name: 'rank-player',
+      name: 'rank-jogador',
       params: { idEvent, idPlayer }
     })
 

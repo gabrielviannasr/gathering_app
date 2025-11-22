@@ -186,8 +186,8 @@ const routes = [
             meta: { title: 'Rank', subtitle: 'Lista de Ranks' }
           },
           {
-            path: ':idEvent/player/:idPlayer',
-            name: 'rank-player',
+            path: ':idEvent/jogador/:idPlayer',
+            name: 'rank-jogador',
             component: () => import('pages/home/rank/RankPlayerPage.vue'),
             meta: { title: 'Rank', subtitle: 'Rank do Jogador' }
           }
