@@ -41,7 +41,7 @@
         title="Rank"
         subtitle="Classificação"
         color="#FFC107"
-        @click="$router.push({ name: 'rank-eventos' })"
+        @click="goToRankEvents"
       />
 
       <CardItem
@@ -87,6 +87,9 @@
 <script setup>
   import { ref } from 'vue'
   import CardItem from 'src/components/CardItem.vue'
+  import { useRankNavigator } from 'src/composables/navigation/useRankNavigator'
+
+  const { goToRankEvents } = useRankNavigator()
 
   const confraPopup = ref(false)
   const confras = [2025, 2024, 2023]

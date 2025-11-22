@@ -70,8 +70,9 @@
   import EventHeaderCard from 'src/components/events/EventHeaderCard.vue'
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
   import { ref, computed } from 'vue'
-  import { useRouter } from 'vue-router'
-  const router = useRouter()
+  import { useRankNavigator } from 'src/composables/navigation/useRankNavigator'
+
+  const { goToRankPlayer } = useRankNavigator()
 
   // EVENTO MOCK
   const event = {
@@ -128,6 +129,6 @@
 
   function openRankPlayer(item) {
     console.log('Abrir rank player:', item)
-    router.push({ name: 'rank-player', params: { idEvent: item.idEvent, idPlayer: item.idPlayer } })
+    goToRankPlayer(item.idEvent, item.idPlayer)
   }
 </script>
