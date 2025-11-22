@@ -3,7 +3,9 @@
     <DefaultHeader />
 
     <q-page-container>
-      <router-view />
+      <PageWrapper>
+        <router-view />
+      </PageWrapper>
     </q-page-container>
 
     <AppFooterTabs />
@@ -13,4 +15,5 @@
 <script setup>
   import DefaultHeader from 'src/components/layout/DefaultHeader.vue'
   import AppFooterTabs from 'src/components/layout/AppFooterTabs.vue'
+  import PageWrapper from 'src/components/layout/PageWrapper.vue'
 </script>
