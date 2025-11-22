@@ -22,7 +22,7 @@ const routes = [
         path: 'extrato',
         name: 'extrato',
         component: () => import('pages/extrato/ExtratoPage.vue'),
-        meta: { title: 'Extrato' }
+        meta: { title: 'Extrato', subtitle: 'Histórico de Transações' }
       },
       {
         path: 'carteira',
