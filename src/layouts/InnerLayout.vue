@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh Lpr lFf" class="inner-layout">
+  <q-layout view="lHh Lpr lFf" class="layout">
     <DefaultHeader />
 
     <q-page-container>
@@ -11,6 +11,6 @@
 </template>
 
 <script setup>
-import DefaultHeader from 'src/components/layout/DefaultHeader.vue'
-import PageWrapper from 'src/components/layout/PageWrapper.vue'
+  import DefaultHeader from 'src/components/layout/DefaultHeader.vue'
+  import PageWrapper from 'src/components/layout/PageWrapper.vue'
 </script>

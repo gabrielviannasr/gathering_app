@@ -2,11 +2,14 @@
 /* ===========================================================
    GERAL – Fundo padrão das páginas internas
    =========================================================== */
-.page-bg {
+.layout {
   background: #f4f7fa;
   min-height: 100vh;
 }
-
+/* Páginas que quiser com fundo herdado */
+.page-bg {
+  background: transparent;
+}
 /* ===========================================================
    BOTÕES – Botão de adicionar (+)
    =========================================================== */
