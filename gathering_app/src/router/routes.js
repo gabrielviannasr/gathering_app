@@ -130,29 +130,29 @@ const routes = [
 
       // --- Eventos / Rodadas ---
       {
-        path: 'eventos-rodadas',
+        path: 'rodadas/eventos',
         children: [
           {
             path: '',
-            name: 'eventos-rodadas',
+            name: 'rodadas-eventos',
             component: () => import('pages/home/rounds/RoundEventListPage.vue'),
-            meta: { title: 'Eventos / Rodadas' }
+            meta: { title: 'Rodadas / Eventos' }
           },
           {
             path: ':idEvent',
             name: 'rodadas',
             component: () => import('pages/home/rounds/RoundListPage.vue'),
-            meta: { title: 'Rodadas' }
+            meta: { title: 'Rodadas do Evento' }
           },
           {
-            path: ':idEvent/new',
-            name: 'eventos-rodadas-new',
+            path: ':idEvent/rodada/new',
+            name: 'rodadas-new',
             component: () => import('pages/home/rounds/RoundFormPage.vue'),
-            meta: { title: 'Rodadas - Novo' }
+            meta: { title: 'Rodadas - Nova' }
           },
           {
-            path: ':idEvent/:round',
-            name: 'eventos-rodadas-edit',
+            path: ':idEvent/rodada/:round',
+            name: 'rodadas-edit',
             component: () => import('pages/home/rounds/RoundFormPage.vue'),
             meta: { title: 'Rodadas - Editar' }
           }

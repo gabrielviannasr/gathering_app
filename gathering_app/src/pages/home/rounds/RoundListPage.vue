@@ -143,12 +143,12 @@
   }
 
   function openAddForm() {
-    router.push({ name: 'eventos-rodadas-new', params: { idEvent: event.value.id } })
+    router.push({ name: 'rodadas-new', params: { idEvent: event.value.id } })
   }
 
   function open(item) {
     router.push({
-      name: 'eventos-rodadas-edit',
+      name: 'rodadas-edit',
       params: { idEvent: event.value.id, round: item.round }
     })
   }

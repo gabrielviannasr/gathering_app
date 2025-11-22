@@ -33,7 +33,7 @@
         title="Rodadas"
         subtitle="Gerenciar"
         color="#00BCD4"
-        @click="$router.push({ name: 'eventos-rodadas' })"
+        @click="$router.push({ name: 'rodadas-eventos' })"
       />
 
       <CardItem
