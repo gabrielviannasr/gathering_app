@@ -33,7 +33,7 @@
         title="Rodadas"
         subtitle="Gerenciar"
         color="#00BCD4"
-        @click="$router.push({ name: 'rodadas-eventos' })"
+        @click="goToRoundEvents"
       />
 
       <CardItem
@@ -91,11 +91,13 @@
   import { useFormatNavigator } from 'src/composables/navigation/useFormatNavigator'
   import { usePlayerNavigator } from 'src/composables/navigation/usePlayerNavigator'
   import { useRankNavigator } from 'src/composables/navigation/useRankNavigator'
+  import { useRoundNavigator } from 'src/composables/navigation/useRoundNavigator'
 
   const { goToEvents } = useEventNavigator()
   const { goToFormats } = useFormatNavigator()
   const { goToPlayers } = usePlayerNavigator()
   const { goToRankEvents } = useRankNavigator()
+  const { goToRoundEvents } = useRoundNavigator()
 
   const confraPopup = ref(false)
   const confras = [2025, 2024, 2023]

@@ -78,8 +78,9 @@
   import EventHeaderCard from 'src/components/events/EventHeaderCard.vue'
   import { ref } from 'vue'
   import { date } from 'quasar'
-  import { useRouter } from 'vue-router'
-  const router = useRouter()
+  import { useRoundNavigator } from 'src/composables/navigation/useRoundNavigator'
+
+  const { goToNewRound, goToEditRound } = useRoundNavigator()
 
   // MOCK EVENT
   const event = ref({
@@ -143,13 +144,12 @@
   }
 
   function openAddForm() {
-    router.push({ name: 'rodadas-new', params: { idEvent: event.value.id } })
+    console.log('Adicionar rodada')
+    goToNewRound(event.value.id)
   }
 
   function open(item) {
-    router.push({
-      name: 'rodadas-edit',
-      params: { idEvent: event.value.id, round: item.round }
-    })
+    console.log('Abrir rodada', item)
+    goToEditRound(event.value.id, item.round)
   }
 </script>

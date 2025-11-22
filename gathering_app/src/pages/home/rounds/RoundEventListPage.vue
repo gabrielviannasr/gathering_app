@@ -4,10 +4,11 @@
 
 <script setup>
   import EventListBase from 'src/components/events/EventListBase.vue'
-  import { useRouter } from 'vue-router'
-  const router = useRouter()
+  import { useRoundNavigator } from 'src/composables/navigation/useRoundNavigator'
+
+  const { goToRounds } = useRoundNavigator()
 
   function openRounds(item) {
-    router.push({ name: 'rodadas', params: { idEvent: item.id } })
+    goToRounds(item.id)
   }
 </script>
