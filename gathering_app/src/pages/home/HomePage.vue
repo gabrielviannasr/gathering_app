@@ -25,7 +25,7 @@
         title="Eventos"
         subtitle="Gerenciar"
         color="#2979FF"
-        @click="$router.push({ name: 'eventos' })"
+        @click="goToEvents"
       />
 
       <CardItem
@@ -87,13 +87,15 @@
 <script setup>
   import { ref } from 'vue'
   import CardItem from 'src/components/CardItem.vue'
+  import { useEventNavigator } from 'src/composables/navigation/useEventNavigator'
   import { useFormatNavigator } from 'src/composables/navigation/useFormatNavigator'
   import { usePlayerNavigator } from 'src/composables/navigation/usePlayerNavigator'
   import { useRankNavigator } from 'src/composables/navigation/useRankNavigator'
 
+  const { goToEvents } = useEventNavigator()
+  const { goToFormats } = useFormatNavigator()
   const { goToPlayers } = usePlayerNavigator()
   const { goToRankEvents } = useRankNavigator()
-  const { goToFormats } = useFormatNavigator()
 
   const confraPopup = ref(false)
   const confras = [2025, 2024, 2023]

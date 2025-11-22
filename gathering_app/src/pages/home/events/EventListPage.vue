@@ -4,14 +4,17 @@
 
 <script setup>
   import EventListBase from 'src/components/events/EventListBase.vue'
-  import { useRouter } from 'vue-router'
-  const router = useRouter()
+  import { useEventNavigator } from 'src/composables/navigation/useEventNavigator'
+
+  const { goToNewEvent, goToEditEvent } = useEventNavigator()
 
   function openAddForm() {
-    router.push({ name: 'eventos-new' })
+    console.log('Adicionar evento')
+    goToNewEvent()
   }
 
   function openEvent(item) {
-    router.push({ name: 'eventos-edit', params: { id: item.id } })
+    console.log('Abrir evento', item)
+    goToEditEvent(item.id)
   }
 </script>
