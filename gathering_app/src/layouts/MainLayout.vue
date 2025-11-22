@@ -6,24 +6,27 @@
 
     <!-- Bottom Navigation -->
     <q-footer class="bg-white shadow-2" bordered>
-      <q-tabs
-        v-model="tab"
-        align="justify"
-        dense
-        no-caps
-        class="gathering-tabs"
-        @update:model-value="goToTab"
-      >
-        <q-tab name="home" icon="home" label="Home" />
-        <q-tab name="extrato" icon="swap_vert" label="Extrato" />
-        <q-tab name="carteira" icon="account_balance_wallet" label="Carteira" />
-        <q-tab name="relatorios" icon="bar_chart" label="Relatórios" />
-      </q-tabs>
+      <PageWrapper>
+        <q-tabs
+          v-model="tab"
+          align="justify"
+          dense
+          no-caps
+          class="gathering-tabs"
+          @update:model-value="goToTab"
+        >
+          <q-tab name="home" icon="home" label="Home" />
+          <q-tab name="extrato" icon="swap_vert" label="Extrato" />
+          <q-tab name="carteira" icon="account_balance_wallet" label="Carteira" />
+          <q-tab name="relatorios" icon="bar_chart" label="Relatórios" />
+        </q-tabs>
+      </PageWrapper>
     </q-footer>
   </q-layout>
 </template>
 
 <script setup>
+  import PageWrapper from 'src/components/layout/PageWrapper.vue'
   import { ref, watch } from 'vue'
   import { useRouter, useRoute } from 'vue-router'
 

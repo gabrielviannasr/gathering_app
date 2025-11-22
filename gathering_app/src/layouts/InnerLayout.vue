@@ -13,12 +13,15 @@
     </div>
 
     <q-page-container>
-      <router-view />
+      <PageWrapper>
+        <router-view />
+      </PageWrapper>
     </q-page-container>
   </q-layout>
 </template>
 
 <script setup>
+  import PageWrapper from 'src/components/layout/PageWrapper.vue'
   import { useRoute, useRouter } from 'vue-router'
   import { computed } from 'vue'
   import { useConfraStore } from 'src/stores/confra'
