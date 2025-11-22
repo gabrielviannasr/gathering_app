@@ -10,7 +10,7 @@ export const useConfraStore = defineStore('confra', () => {
   ])
 
   // confra ativa
-  const selectedConfra = ref(confras.value[0])
+  const selectedConfra = ref({ id: null, name: null, year: null })
 
   function setConfra(confra) {
     console.log('setConfra', confra)

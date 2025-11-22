@@ -8,7 +8,7 @@
 
       <div class="inner-header-body q-pa-md">
         <div class="title">{{ pageTitle }}</div>
-        <div class="subtitle">{{ confraSubtitle }}</div>
+        <div class="subtitle">{{ selectedConfra.year }} - {{ selectedConfra.name }}</div>
       </div>
     </div>
 
@@ -25,13 +25,15 @@
   import { useRoute, useRouter } from 'vue-router'
   import { computed } from 'vue'
   import { useConfraStore } from 'src/stores/confra'
+  import { storeToRefs } from 'pinia'
 
   const route = useRoute()
   const router = useRouter()
-  const confra = useConfraStore()
+
+  const confraStore = useConfraStore()
+  const { selectedConfra } = storeToRefs(confraStore)
 
   const pageTitle = computed(() => route.meta?.title || '')
-  const confraSubtitle = computed(() => `${confra.year} - ${confra.name}`)
 
   function goBack() {
     router.back()
