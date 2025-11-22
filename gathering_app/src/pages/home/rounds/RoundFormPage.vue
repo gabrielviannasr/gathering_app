@@ -49,6 +49,7 @@
         <!-- Toggle continua (opcional) -->
         <div class="row justify-end q-mt-sm">
           <q-toggle
+            left-label
             v-model="round.canceled"
             size="md"
             color="negative"
