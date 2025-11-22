@@ -7,7 +7,7 @@
 
     <!-- BOTÃO ADICIONAR -->
     <div class="q-pa-md">
-      <q-btn class="add-btn full-width" rounded unelevated no-caps>
+      <q-btn class="add-btn full-width" rounded unelevated no-caps @click="openAddForm">
         <q-icon name="add" class="q-mr-sm" />
         Adicionar Rodada
       </q-btn>
@@ -15,7 +15,13 @@
 
     <!-- LISTA DE RODADAS -->
     <div class="q-pa-md q-gutter-md">
-      <q-card v-for="round in rounds" :key="round.round" class="list-card q-pa-md" clickable>
+      <q-card
+        v-for="round in rounds"
+        :key="round.round"
+        class="list-card q-pa-md"
+        clickable
+        @click="open(round)"
+      >
         <!-- WRAPPER PARA GARANTIR O CÍRCULO -->
         <div class="row items-center no-wrap">
           <!-- NÚMERO DA RODADA → círculo gradiente -->
@@ -72,10 +78,12 @@
   import EventHeaderCard from 'src/components/events/EventHeaderCard.vue'
   import { ref } from 'vue'
   import { date } from 'quasar'
+  import { useRouter } from 'vue-router'
+  const router = useRouter()
 
   // MOCK EVENT
   const event = ref({
-    id: 2,
+    id: 1,
     idFormat: null,
     format: { id: 2, name: 'Conquest', type: { id: 1, name: 'Cartas' } },
     date: '2025-01-21',
@@ -132,5 +140,16 @@
 
   function resolveWinner(id) {
     return players.find(p => p.id === id)?.name || 'Desconhecido'
+  }
+
+  function openAddForm() {
+    router.push({ name: 'eventos-rodadas-new', params: { idEvent: event.value.id } })
+  }
+
+  function open(item) {
+    router.push({
+      name: 'eventos-rodadas-edit',
+      params: { idEvent: event.value.id, round: item.round }
+    })
   }
 </script>

@@ -151,7 +151,7 @@ const routes = [
             meta: { title: 'Rodadas - Novo' }
           },
           {
-            path: ':idEvent/:id',
+            path: ':idEvent/:round',
             name: 'eventos-rodadas-edit',
             component: () => import('pages/home/rounds/RoundFormPage.vue'),
             meta: { title: 'Rodadas - Editar' }
