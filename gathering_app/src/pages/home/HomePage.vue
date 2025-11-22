@@ -17,7 +17,7 @@
         title="Confras"
         subtitle="Gerenciar"
         color="#A259FF"
-        @click="$router.push({ name: 'confras' })"
+        @click="goToGatherings"
       />
 
       <CardItem
@@ -89,12 +89,14 @@
   import CardItem from 'src/components/CardItem.vue'
   import { useEventNavigator } from 'src/composables/navigation/useEventNavigator'
   import { useFormatNavigator } from 'src/composables/navigation/useFormatNavigator'
+  import { useGatheringNavigator } from 'src/composables/navigation/useGatheringNavigator'
   import { usePlayerNavigator } from 'src/composables/navigation/usePlayerNavigator'
   import { useRankNavigator } from 'src/composables/navigation/useRankNavigator'
   import { useRoundNavigator } from 'src/composables/navigation/useRoundNavigator'
 
   const { goToEvents } = useEventNavigator()
   const { goToFormats } = useFormatNavigator()
+  const { goToGatherings } = useGatheringNavigator()
   const { goToPlayers } = usePlayerNavigator()
   const { goToRankEvents } = useRankNavigator()
   const { goToRoundEvents } = useRoundNavigator()

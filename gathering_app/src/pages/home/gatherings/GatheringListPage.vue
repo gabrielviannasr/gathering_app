@@ -84,8 +84,9 @@
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
   import GlobalSelect from 'src/components/ui/GlobalSelect.vue'
   import { ref, computed } from 'vue'
-  import { useRouter } from 'vue-router'
-  const router = useRouter()
+  import { useGatheringNavigator } from 'src/composables/useGatheringNavigator'
+
+  const { goToNewGathering, goToEditGathering } = useGatheringNavigator()
 
   // filtros
   const filters = ref({
@@ -123,11 +124,11 @@
 
   function onAdd() {
     console.log('Adicionar confra')
-    router.push({ name: 'confras-new' })
+    goToNewGathering()
   }
 
   function openGathering(item) {
     console.log('Abrir confra', item)
-    router.push({ name: 'confras-edit', params: { id: item.id } })
+    goToEditGathering(item.id)
   }
 </script>
