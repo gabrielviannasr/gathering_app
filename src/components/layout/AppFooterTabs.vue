@@ -11,7 +11,7 @@
       >
         <q-tab name="home" icon="home" label="Home" />
         <q-tab name="extrato" icon="swap_vert" label="Extrato" />
-        <q-tab name="carteira" icon="account_balance_wallet" label="Carteira" />
+        <q-tab name="carteira-jogadores" icon="account_balance_wallet" label="Carteira" />
         <q-tab name="relatorios" icon="bar_chart" label="Relatórios" />
       </q-tabs>
     </PageWrapper>

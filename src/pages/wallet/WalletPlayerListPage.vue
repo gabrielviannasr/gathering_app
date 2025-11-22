@@ -2,19 +2,17 @@
   <PlayerListBase
     :players="players"
     :filters="filters"
-    showAddButton
-    @add="onAdd"
-    @select="openPlayer"
+    :showAddButton="false"
+    @select="openWalletPlayer"
   />
 </template>
 
 <script setup>
   import PlayerListBase from 'src/components/players/PlayerListBase.vue'
-  // eslint-disable-next-line no-unused-vars
-  import { ref, computed } from 'vue'
-  import { usePlayerNavigator } from 'src/composables/navigation'
+  import { ref } from 'vue'
+  import { useRouter } from 'vue-router'
 
-  const { goToNewPlayer, goToEditPlayer } = usePlayerNavigator()
+  const router = useRouter()
 
   const filters = ref({ name: '' })
 
@@ -29,11 +27,7 @@
     { id: 8, name: 'Valmir Vicente' }
   ]
 
-  function onAdd() {
-    goToNewPlayer()
-  }
-
-  function openPlayer(player) {
-    goToEditPlayer(player.id)
+  function openWalletPlayer(player) {
+    router.push({ name: 'carteira-jogador', params: { idPlayer: player.id } })
   }
 </script>

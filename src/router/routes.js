@@ -25,17 +25,17 @@ const routes = [
         meta: { title: 'Extrato', subtitle: 'Histórico de Transações' }
       },
       {
-        path: 'carteira',
-        name: 'carteira',
-        component: () => import('pages/carteira/CarteiraPage.vue'),
-        meta: { title: 'Carteira', subtitle: 'Saldo do Jogador' }
+        path: 'carteira/jogadores',
+        name: 'carteira-jogadores',
+        component: () => import('pages/wallet/WalletPlayerListPage.vue'),
+        meta: { title: 'Carteira', subtitle: 'Lista de Jogadores' }
       }
     ]
   },
 
   // ===== INNER LAYOUT (sem bottom bar) =====
   {
-    path: '/app',
+    path: '/',
     component: () => import('layouts/InnerLayout.vue'),
     children: [
       // --- Confras ---
@@ -192,6 +192,14 @@ const routes = [
             meta: { title: 'Rank', subtitle: 'Rank do Jogador' }
           }
         ]
+      },
+
+      // --- Carteiras ---
+      {
+        path: 'carteira/jogadores/:idPlayer',
+        name: 'carteira-jogador',
+        component: () => import('pages/wallet/WalletPlayerPage.vue'),
+        meta: { title: 'Carteira', subtitle: 'Saldo do Jogador' }
       }
     ]
   },
