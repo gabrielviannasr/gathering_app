@@ -15,7 +15,7 @@
         <div class="rank-table">
           <div class="row item-row">
             <div class="col-6 label">Jogador</div>
-            <div class="col-6 value">{{ player.name }}</div>
+            <div class="col-6 value text-bold">{{ player.name }}</div>
           </div>
 
           <!-- Rank com ícone -->
