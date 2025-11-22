@@ -9,7 +9,7 @@
     <div class="q-pa-md">
       <q-card class="q-pa-md form-card">
         <!-- TÍTULO DA SESSÃO -->
-        <div class="form-section-title">Detalhes do Rank</div>
+        <div class="form-section-title">Rank do Jogador</div>
 
         <!-- TABELA DE DETALHES -->
         <div class="rank-table">
@@ -97,6 +97,7 @@
 
   // MOCKUP (substituir depois pela chamada API/route params)
   const event = ref({
+    id: 2,
     idFormat: 2,
     format: { id: 1, name: 'Conquest' },
     date: '2025-01-20',
@@ -110,7 +111,7 @@
   })
 
   const rank = ref({
-    idEvent: 1,
+    idEvent: 2,
     idPlayer: 7,
     rank: 1,
     wins: 2,

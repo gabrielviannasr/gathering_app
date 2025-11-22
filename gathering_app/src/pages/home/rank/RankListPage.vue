@@ -85,14 +85,14 @@
 
   // RANK RESULT MOCK
   const rank = ref([
-    { idEvent: 1, idPlayer: 7, rank: 1, wins: 2, rounds: 4 },
-    { idEvent: 1, idPlayer: 6, rank: 2, wins: 2, rounds: 6 },
-    { idEvent: 1, idPlayer: 2, rank: 3, wins: 1, rounds: 5 },
-    { idEvent: 1, idPlayer: 8, rank: 4, wins: 1, rounds: 6 },
-    { idEvent: 1, idPlayer: 1, rank: 5, wins: 1, rounds: 7 },
-    { idEvent: 1, idPlayer: 5, rank: 6, wins: 1, rounds: 8 },
-    { idEvent: 1, idPlayer: 3, rank: 7, wins: 0, rounds: 6 },
-    { idEvent: 1, idPlayer: 4, rank: 7, wins: 0, rounds: 6 }
+    { idEvent: 2, idPlayer: 7, rank: 1, wins: 2, rounds: 4 },
+    { idEvent: 2, idPlayer: 6, rank: 2, wins: 2, rounds: 6 },
+    { idEvent: 2, idPlayer: 2, rank: 3, wins: 1, rounds: 5 },
+    { idEvent: 2, idPlayer: 8, rank: 4, wins: 1, rounds: 6 },
+    { idEvent: 2, idPlayer: 1, rank: 5, wins: 1, rounds: 7 },
+    { idEvent: 2, idPlayer: 5, rank: 6, wins: 1, rounds: 8 },
+    { idEvent: 2, idPlayer: 3, rank: 7, wins: 0, rounds: 6 },
+    { idEvent: 2, idPlayer: 4, rank: 7, wins: 0, rounds: 6 }
   ])
 
   // PLAYERS MOCK
@@ -128,6 +128,6 @@
 
   function openRankPlayer(item) {
     console.log('Abrir rank player:', item)
-    router.push({ name: 'rank-player', params: { idEvent: item.idEvent, rank: item.rank } })
+    router.push({ name: 'rank-player', params: { idEvent: item.idEvent, idPlayer: item.idPlayer } })
   }
 </script>
