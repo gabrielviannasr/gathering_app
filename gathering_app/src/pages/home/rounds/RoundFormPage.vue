@@ -37,12 +37,23 @@
         <div class="row items-center justify-between q-mt-md">
           <div class="text-subtitle2 text-bold">Status</div>
 
+          <q-badge
+            :color="round.canceled ? 'negative' : 'positive'"
+            class="q-px-md q-py-xs text-bold"
+            rounded
+          >
+            {{ round.canceled ? 'Cancelada' : 'Ativa' }}
+          </q-badge>
+        </div>
+
+        <!-- Toggle continua (opcional) -->
+        <div class="row justify-end q-mt-sm">
           <q-toggle
             v-model="round.canceled"
             size="md"
             color="negative"
-            :label="round.canceled ? 'Cancelada' : 'Ativa'"
-            left-label
+            :label="round.canceled ? 'Ativar rodada' : 'Cancelar rodada'"
+            class="text-bold"
           />
         </div>
       </q-card>
