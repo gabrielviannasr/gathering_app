@@ -39,29 +39,27 @@
     <!-- CARD DA CONFIGURAÇÃO DA TAXA -->
     <!-- ========================== -->
     <div class="q-pa-md">
-      <q-card class="q-pa-md form-card">
-        <div class="form-section-title">Configuração das Taxas</div>
+      <q-card class="q-pa-md form-card q-mt-md">
+        <div class="form-section-title">Configuração da Rodada</div>
 
-        <!-- Jogadores -->
-        <div class="row item-row">
-          <div class="col-6 label">Jogadores</div>
-          <div class="col-6 row justify-end">
-            <div class="round-number-circle-grey">
-              {{ config.players }}
-            </div>
+        <div class="q-mt-sm">
+          <!-- Jogadores -->
+          <div class="row items-center justify-between q-mb-sm">
+            <div class="label">Jogadores</div>
+            <div class="round-number-circle-gray">{{ activeConfig?.players }}</div>
           </div>
-        </div>
 
-        <!-- Premiação -->
-        <div class="row item-row">
-          <div class="col-6 label">Premiação</div>
-          <div class="col-6 value text-right">R$ {{ formatCurrency(config.prize) }}</div>
-        </div>
+          <!-- Premiação -->
+          <div class="row items-center justify-between q-mb-sm">
+            <div class="label">Premiação</div>
+            <div class="value text-right">R$ {{ formatCurrency(activeConfig?.prize) }}</div>
+          </div>
 
-        <!-- Pote dos derrotados -->
-        <div class="row item-row">
-          <div class="col-6 label">Pote dos Derrotados</div>
-          <div class="col-6 value text-right">R$ {{ formatCurrency(config.loserPot) }}</div>
+          <!-- Pote dos derrotados -->
+          <div class="row items-center justify-between q-mt-md">
+            <div class="label">Pote dos Derrotados</div>
+            <div class="value text-right">R$ {{ formatCurrency(activeConfig?.loserPot) }}</div>
+          </div>
         </div>
       </q-card>
     </div>
@@ -166,12 +164,12 @@
       <div class="row q-col-gutter-sm">
         <!-- Cancelar -->
         <div class="col">
-          <q-btn outline rounded no-caps class="full-width" label="Cancelar" />
+          <q-btn outline rounded no-caps class="full-width" label="Cancelar" @click="onCancel" />
         </div>
 
         <!-- Salvar -->
         <div class="col">
-          <q-btn rounded no-caps class="add-btn full-width" label="Salvar" />
+          <q-btn rounded no-caps class="add-btn full-width" label="Salvar" @click="onSave" />
         </div>
       </div>
 
@@ -191,44 +189,68 @@
 
 <script setup>
   /* -------------------------------------------
-   IMPORTS
-------------------------------------------- */
-  import { ref, computed } from 'vue'
+     IMPORTS
+  ------------------------------------------- */
+  import { ref, computed, onMounted } from 'vue'
   import EventHeaderCard from 'src/components/events/EventHeaderCard.vue'
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
+  import { useRouter } from 'vue-router'
+
+  const router = useRouter()
 
   /* -------------------------------------------
-   MOCKUP DO EVENTO
-------------------------------------------- */
+     MOCKUP DO EVENTO
+  ------------------------------------------- */
   const event = ref({
     idFormat: 2,
     format: { id: 2, name: 'Conquest' },
     date: '2025-01-20',
     players: 8,
-    rounds: 8
+    rounds: 8,
+    confraFee: 20.0,
+    roundFee: 10.0
   })
 
   /* -------------------------------------------
-   MOCKUP DA RODADA
-------------------------------------------- */
+     MOCKUP DA RODADA
+  ------------------------------------------- */
   const round = ref({
     id: 1,
     round: 1,
-    idPlayerWinner: 5
+    idPlayerWinner: 5,
+    canceled: false
   })
 
   /* -------------------------------------------
-   MOCKUP DA CONFIGURAÇÃO DA TAXA
-------------------------------------------- */
-  const config = ref({
-    players: 6,
-    prize: 45.0,
-    loserPot: 15.0
-  })
+     MOCKUP DA CONFIGURAÇÃO DA TAXA
+  ------------------------------------------- */
+  // const config = ref({
+  //   players: 6,
+  //   prize: 45.0,
+  //   loserPot: 15.0
+  // })
+
+  const players = ref(6) // jogadores da rodada atual
+
+  const allConfigs = ref([
+    {
+      players: 5,
+      prize: 40.0,
+      loserPot: 10.0
+    },
+    {
+      players: 6,
+      prize: 45.0,
+      loserPot: 15.0
+    }
+  ])
+
+  // Configuração ativa que será exibida
+  const activeConfig = ref(null)
 
   /* -------------------------------------------
-   MOCKUP LISTA DE TODOS OS JOGADORES
-------------------------------------------- */
+     MOCKUP LISTA DE TODOS OS JOGADORES
+  ------------------------------------------- */
   const allPlayers = ref([
     { id: 1, name: 'Anderson Dias' },
     { id: 2, name: 'Arthur Leal' },
@@ -241,8 +263,8 @@
   ])
 
   /* -------------------------------------------
-   JOGADORES DA RODADA
-------------------------------------------- */
+     JOGADORES DA RODADA
+  ------------------------------------------- */
   const roundPlayers = ref([
     // Apenas mock para edição
     { id: 1, name: 'Anderson Dias' },
@@ -254,13 +276,40 @@
   ])
 
   /* -------------------------------------------
-   BUSCA
-------------------------------------------- */
+     FUNÇÃO PARA ATUALIZAR A CONFIGURAÇÃO ATIVA
+  ------------------------------------------- */
+  function updateActiveConfig() {
+    const count = players.value
+
+    // Procurar config existente
+    const found = allConfigs.value.find(c => c.players === count)
+
+    if (found) {
+      activeConfig.value = { ...found }
+      return
+    }
+
+    // Criar nova config se não existir
+    const newConfig = {
+      players: count,
+      prize: event.value.roundFee * count,
+      loserPot: 0
+    }
+
+    // adiciona ao conjunto geral
+    allConfigs.value.push(newConfig)
+
+    activeConfig.value = { ...newConfig }
+  }
+
+  /* -------------------------------------------
+     BUSCA
+  ------------------------------------------- */
   const search = ref('')
 
   /* -------------------------------------------
-   PLAYERS DISPONÍVEIS PARA ADICIONAR
-------------------------------------------- */
+     PLAYERS DISPONÍVEIS PARA ADICIONAR
+  ------------------------------------------- */
   const availablePlayers = computed(() => {
     if (!search.value) return []
 
@@ -272,8 +321,8 @@
   })
 
   /* -------------------------------------------
-   SELEÇÃO DO JOGADOR
-------------------------------------------- */
+     SELEÇÃO DO JOGADOR
+  ------------------------------------------- */
   const selectedPlayer = ref(null)
 
   function onSelectPlayer(player) {
@@ -281,47 +330,45 @@
   }
 
   /* -------------------------------------------
-   ADICIONAR JOGADOR NA RODADA
-------------------------------------------- */
+     ADICIONAR JOGADOR NA RODADA
+  ------------------------------------------- */
   function addPlayer(player) {
-    if (!roundPlayers.value.some(p => p.id === player.id)) {
-      roundPlayers.value.push(player)
-    }
-    search.value = ''
+    if (roundPlayers.value.some(p => p.id === player.id)) return
+
+    roundPlayers.value.push(player)
+    players.value = roundPlayers.value.length
+
+    updateActiveConfig()
   }
 
   /* -------------------------------------------
-   REMOVER JOGADOR
-------------------------------------------- */
+     REMOVER JOGADOR
+  ------------------------------------------- */
   function removePlayer(player) {
     roundPlayers.value = roundPlayers.value.filter(p => p.id !== player.id)
-
-    if (selectedPlayer.value?.id === player.id) {
-      selectedPlayer.value = null
-    }
-
-    if (round.value.idPlayerWinner === player.id) {
-      round.value.idPlayerWinner = null
-    }
+    players.value = roundPlayers.value.length
+    updateActiveConfig()
   }
 
   /* -------------------------------------------
-   DEFINIR VENCEDOR
-------------------------------------------- */
+     DEFINIR VENCEDOR
+  ------------------------------------------- */
   function defineWinner() {
     if (!selectedPlayer.value) return
     round.value.idPlayerWinner = selectedPlayer.value.id
   }
 
   /* -------------------------------------------
-   HELPERS
-------------------------------------------- */
+     HELPERS
+  ------------------------------------------- */
   function findPlayer(id) {
     return allPlayers.value.find(p => p.id === id) || { name: 'Desconhecido' }
   }
 
   function formatCurrency(v) {
-    return v.toFixed(2).replace('.', ',')
+    const n = Number(v)
+    if (isNaN(n)) return '0,00'
+    return n.toFixed(2).replace('.', ',')
   }
 
   function initials(name) {
@@ -331,6 +378,29 @@
       .join('')
       .toUpperCase()
   }
+
+  // cancelar / salvar (placeholders)
+  function onCancel() {
+    router.back()
+  }
+
+  function onSave() {
+    // montagem do payload
+    // const payload = {
+    //   ...round.value,
+    //   players: config.value.players,
+    //   prize: config.value.prize,
+    //   loserPot: config.value.loserPot
+    // }
+    console.log('Salvar round payload')
+    // futuramente: chamada HTTP
+    router.back()
+  }
+
+  onMounted(() => {
+    players.value = roundPlayers.value.length
+    updateActiveConfig()
+  })
 </script>
 
 <style scoped>
