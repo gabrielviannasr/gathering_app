@@ -84,7 +84,7 @@
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
   import GlobalSelect from 'src/components/ui/GlobalSelect.vue'
   import { ref, computed } from 'vue'
-  import { useGatheringNavigator } from 'src/composables/useGatheringNavigator'
+  import { useGatheringNavigator } from 'src/composables/navigation/useGatheringNavigator'
 
   const { goToNewGathering, goToEditGathering } = useGatheringNavigator()
 
