@@ -60,8 +60,9 @@
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
   import { ref, computed } from 'vue'
   import { useConfraStore } from 'src/stores/confra'
-  import { useRouter } from 'vue-router'
-  const router = useRouter()
+  import { useFormatNavigator } from 'src/composables/navigation/useFormatNavigator'
+
+  const { goToNewFormat, goToEditFormat } = useFormatNavigator()
 
   // eslint-disable-next-line no-unused-vars
   const confra = useConfraStore()
@@ -86,11 +87,11 @@
   function onAdd() {
     // abrir modal / rota de criar formato
     console.log('Adicionar formato')
-    router.push({ name: 'formatos-new' })
+    goToNewFormat()
   }
 
   function openFormat(item) {
     console.log('Abrir formato', item)
-    router.push({ name: 'formatos-edit', params: { id: item.id } })
+    goToEditFormat(item.id)
   }
 </script>
