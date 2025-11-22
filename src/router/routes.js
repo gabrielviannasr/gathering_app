@@ -1,10 +1,23 @@
 const routes = [
+  // ===== HOME LAYOUT (com bottom bar) =====
+  {
+    path: '/',
+    component: () => import('layouts/HomeLayout.vue'),
+    children: [
+      { path: '', name: 'home', component: () => import('pages/home/HomePage.vue') },
+      {
+        path: 'relatorios',
+        name: 'relatorios',
+        component: () => import('pages/relatorios/RelatoriosPage.vue')
+      }
+    ]
+  },
+
   // ===== MAIN LAYOUT (com bottom bar) =====
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', name: 'home', component: () => import('pages/home/HomePage.vue') },
       {
         path: 'extrato',
         name: 'extrato',
@@ -14,11 +27,6 @@ const routes = [
         path: 'carteira',
         name: 'carteira',
         component: () => import('pages/carteira/CarteiraPage.vue')
-      },
-      {
-        path: 'relatorios',
-        name: 'relatorios',
-        component: () => import('pages/relatorios/RelatoriosPage.vue')
       }
     ]
   },

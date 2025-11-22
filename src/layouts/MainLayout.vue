@@ -4,7 +4,6 @@
       <router-view />
     </q-page-container>
 
-    <!-- Bottom Navigation -->
     <AppFooterTabs />
   </q-layout>
 </template>
