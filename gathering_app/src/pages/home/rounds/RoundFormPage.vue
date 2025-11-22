@@ -141,6 +141,19 @@
         </div>
 
         <div v-else class="text-grey q-mt-sm">Nenhum jogador na rodada.</div>
+
+        <!-- BOTÃO DEFINIR VENCEDOR — LOGO APÓS A LISTA -->
+        <div class="q-mt-md">
+          <q-btn
+            rounded
+            no-caps
+            class="add-btn full-width"
+            icon="emoji_events"
+            label="Definir Vencedor"
+            :disable="!selectedPlayer"
+            @click="defineWinner"
+          />
+        </div>
       </q-card>
     </div>
 
@@ -196,17 +209,6 @@
           <q-btn rounded no-caps class="add-btn full-width" label="Salvar" @click="onSave" />
         </div>
       </div>
-
-      <!-- Definir vencedor -->
-      <q-btn
-        rounded
-        no-caps
-        class="add-btn q-mt-md full-width"
-        icon="emoji_events"
-        label="Definir Vencedor"
-        :disable="!selectedPlayer"
-        @click="defineWinner"
-      />
     </div>
   </q-page>
 </template>
