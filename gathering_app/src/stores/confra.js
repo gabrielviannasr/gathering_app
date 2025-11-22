@@ -1,20 +1,25 @@
-// src/stores/confra.js
-import { defineStore, acceptHMRUpdate } from 'pinia'
+// src/stores/useConfraStore.ts
+import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 export const useConfraStore = defineStore('confra', () => {
-  // estado inicial mock
-  const name = ref('DIRETORIA')
-  const year = ref(2025)
+  const confras = ref([
+    { id: 1, name: 'L.I.M.P.A.', year: 2023 },
+    { id: 2, name: 'DIRETORIA', year: 2024 },
+    { id: 3, name: 'DIRETORIA 2.0', year: 2025 }
+  ])
 
-  function setConfra(newName, newYear) {
-    name.value = newName
-    year.value = newYear
+  // confra ativa
+  const selectedConfra = ref(confras.value[0])
+
+  function setConfra(confra) {
+    console.log('setConfra', confra)
+    selectedConfra.value = confra
   }
 
-  return { name, year, setConfra }
+  return {
+    confras,
+    selectedConfra,
+    setConfra
+  }
 })
-
-if (import.meta.hot) {
-  import.meta.hot.accept(acceptHMRUpdate(useConfraStore, import.meta.hot))
-}

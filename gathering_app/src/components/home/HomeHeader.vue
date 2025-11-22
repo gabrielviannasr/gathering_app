@@ -28,19 +28,17 @@
 </template>
 
 <script setup>
+  import { useConfraStore } from 'src/stores/confra'
+  import { storeToRefs } from 'pinia'
   import { ref } from 'vue'
 
-  const confras = [
-    { id: 1, name: 'L.I.M.P.A.', year: 2023 },
-    { id: 2, name: 'DIRETORIA 2.0', year: 2024 },
-    { id: 3, name: 'DIRETORIA', year: 2025 }
-  ]
+  const confraStore = useConfraStore()
+  const { confras, selectedConfra } = storeToRefs(confraStore)
 
   const confraPopup = ref(false)
-  const selectedConfra = ref(confras[0])
 
   function selectConfra(confra) {
-    selectedConfra.value = confra
+    confraStore.setConfra(confra)
     confraPopup.value = false
   }
 </script>
