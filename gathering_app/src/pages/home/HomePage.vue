@@ -49,7 +49,7 @@
         title="Jogadores"
         subtitle="Gerenciar"
         color="#4CAF50"
-        @click="$router.push({ name: 'jogadores' })"
+        @click="goToPlayers"
       />
 
       <CardItem
@@ -87,8 +87,10 @@
 <script setup>
   import { ref } from 'vue'
   import CardItem from 'src/components/CardItem.vue'
+  import { usePlayerNavigator } from 'src/composables/navigation/usePlayerNavigator'
   import { useRankNavigator } from 'src/composables/navigation/useRankNavigator'
 
+  const { goToPlayers } = usePlayerNavigator()
   const { goToRankEvents } = useRankNavigator()
 
   const confraPopup = ref(false)

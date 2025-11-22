@@ -59,8 +59,9 @@
 <script setup>
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
   import { ref, computed } from 'vue'
-  import { useRouter } from 'vue-router'
-  const router = useRouter()
+  import { usePlayerNavigator } from 'src/composables/navigation/usePlayerNavigator'
+
+  const { goToNewPlayer, goToEditPlayer } = usePlayerNavigator()
 
   const filters = ref({ name: '' })
 
@@ -84,12 +85,12 @@
 
   function onAdd() {
     console.log('Adicionar jogador')
-    router.push({ name: 'jogadores-new' })
+    goToNewPlayer()
   }
 
   function openPlayer(item) {
     console.log('Abrir jogador', item)
-    router.push({ name: 'jogadores-edit', params: { id: item.id } })
+    goToEditPlayer(item.id)
   }
 
   function initials(name) {
