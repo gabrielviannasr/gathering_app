@@ -1,0 +1,20 @@
+import { defineStore } from 'pinia'
+import { ref } from 'vue'
+
+export const useTransactionTypeStore = defineStore('transactionType', () => {
+  const types = ref([
+    { id: 1, name: 'Inscrição', icon: 'ticket' },
+    { id: 2, name: 'Resultado', icon: 'trophy' },
+    { id: 3, name: 'Depósito', icon: 'arrow_upward' },
+    { id: 4, name: 'Saque', icon: 'arrow_downward' }
+  ])
+
+  function getType(id) {
+    return types.value.find(t => t.id === id)
+  }
+
+  return {
+    types,
+    getType
+  }
+})
