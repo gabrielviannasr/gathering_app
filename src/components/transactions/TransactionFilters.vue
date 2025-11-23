@@ -2,7 +2,7 @@
   <q-card class="q-pa-md form-card">
     <div class="form-section-title">Filtros</div>
 
-    <div class="row q-col-gutter-md q-mt-sm">
+    <div class="row q-col-gutter-md">
       <!-- Jogador -->
       <div class="col-12">
         <GlobalSelect
