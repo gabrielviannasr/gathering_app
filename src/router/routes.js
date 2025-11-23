@@ -21,7 +21,7 @@ const routes = [
       {
         path: 'extrato',
         name: 'extrato',
-        component: () => import('pages/extrato/ExtratoPage.vue'),
+        component: () => import('pages/transactions/TransactionListPage.vue'),
         meta: { title: 'Extrato', subtitle: 'Histórico de Transações' }
       },
       {
