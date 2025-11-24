@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Gathering App</string>
+    <string name="title_activity_main">Gathering App</string>
+    <string name="package_name">br.com.gathering.app</string>
+    <string name="custom_url_scheme">br.com.gathering.app</string>
+</resources>
