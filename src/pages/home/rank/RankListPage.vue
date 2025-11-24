@@ -58,7 +58,7 @@
         </div>
       </q-card>
 
-      <!-- Paginação -->
+      <!-- PAGINAÇÃO -->
       <div class="q-mt-md">
         <q-pagination v-model="page" :max="maxPages" max-pages="5" />
       </div>

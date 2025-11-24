@@ -66,9 +66,24 @@
         </div>
       </q-card>
 
-      <!-- Paginação -->
+      <!-- PAGINAÇÃO -->
       <div class="q-mt-md">
         <q-pagination v-model="page" :max="maxPages" max-pages="5" />
+      </div>
+
+      <!-- BOTÃO FINALIZAR EVENTO -->
+      <div class="q-pa-md">
+        <q-btn
+          class="add-btn full-width"
+          rounded
+          unelevated
+          no-caps
+          color="primary"
+          @click="finalizarEvento"
+        >
+          <q-icon name="calculate" class="q-mr-sm" />
+          Finalizar Evento
+        </q-btn>
       </div>
     </div>
   </q-page>
