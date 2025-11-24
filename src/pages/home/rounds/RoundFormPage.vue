@@ -90,6 +90,43 @@
     </div>
 
     <!-- ========================== -->
+    <!-- CARD DE FILTROS (Adicionar jogador) -->
+    <!-- ========================== -->
+    <div class="q-pa-md">
+      <q-card class="q-pa-md form-card">
+        <div class="form-section-title">Adicionar Jogador</div>
+
+        <!-- Campo de busca -->
+        <div class="q-mt-sm">
+          <GlobalInput v-model="search" placeholder="Buscar jogador" label="Nome" debounce="300">
+            <template #prepend>
+              <q-icon name="search" />
+            </template>
+          </GlobalInput>
+        </div>
+
+        <!-- Lista de resultados -->
+        <div v-if="search.length > 0" class="q-mt-md q-gutter-sm">
+          <q-card v-for="player in availablePlayers" :key="player.id" class="list-card q-pa-sm">
+            <div class="row items-center no-wrap">
+              <div class="col">
+                {{ player.name }}
+              </div>
+
+              <q-btn dense rounded unelevated no-caps color="primary" @click="addPlayer(player)">
+                Adicionar
+              </q-btn>
+            </div>
+          </q-card>
+
+          <div v-if="availablePlayers.length === 0" class="text-grey">
+            Nenhum jogador encontrado.
+          </div>
+        </div>
+      </q-card>
+    </div>
+
+    <!-- ========================== -->
     <!-- LISTA DE JOGADORES DA RODADA -->
     <!-- ========================== -->
     <div class="q-pa-md">
@@ -154,43 +191,6 @@
             :disable="!selectedPlayer"
             @click="defineWinner"
           />
-        </div>
-      </q-card>
-    </div>
-
-    <!-- ========================== -->
-    <!-- CARD DE FILTROS (Adicionar jogador) -->
-    <!-- ========================== -->
-    <div class="q-pa-md">
-      <q-card class="q-pa-md form-card">
-        <div class="form-section-title">Adicionar Jogador</div>
-
-        <!-- Campo de busca -->
-        <div class="q-mt-sm">
-          <GlobalInput v-model="search" placeholder="Buscar jogador" label="Nome" debounce="300">
-            <template #prepend>
-              <q-icon name="search" />
-            </template>
-          </GlobalInput>
-        </div>
-
-        <!-- Lista de resultados -->
-        <div v-if="search.length > 0" class="q-mt-md q-gutter-sm">
-          <q-card v-for="player in availablePlayers" :key="player.id" class="list-card q-pa-sm">
-            <div class="row items-center no-wrap">
-              <div class="col">
-                {{ player.name }}
-              </div>
-
-              <q-btn dense rounded unelevated no-caps color="primary" @click="addPlayer(player)">
-                Adicionar
-              </q-btn>
-            </div>
-          </q-card>
-
-          <div v-if="availablePlayers.length === 0" class="text-grey">
-            Nenhum jogador encontrado.
-          </div>
         </div>
       </q-card>
     </div>
