@@ -12,7 +12,11 @@
     "test": "echo \"No test specified\" && exit 0",
     "dev": "quasar dev",
     "build": "quasar build",
-    "postinstall": "quasar prepare"
+    "postinstall": "quasar prepare",
+    "apk:debug": "quasar build -m capacitor -T android --debug",
+    "apk:release": "quasar build -m capacitor -T android",
+    "apk:install:debug": "adb install -r src-capacitor/android/app/build/outputs/apk/debug/app-debug.apk",
+    "apk:install:release": "adb install -r src-capacitor/android/app/build/outputs/apk/release/app-release.apk"
   },
   "dependencies": {
     "@quasar/extras": "^1.16.4",
