@@ -1,5 +1,5 @@
 <template>
-  <div class="default-header">
+  <q-header class="default-header">
     <!-- Linha com botão voltar -->
     <div class="header-top q-pa-sm">
       <q-btn flat round dense icon="arrow_back" class="btn-back" @click="goBack" />
@@ -11,7 +11,7 @@
       <div class="subtitle" v-if="pageSubtitle">{{ pageSubtitle }}</div>
       <div class="subtitle">{{ selectedConfra.year }} - {{ selectedConfra.name }}</div>
     </div>
-  </div>
+  </q-header>
 </template>
 
 <script setup>

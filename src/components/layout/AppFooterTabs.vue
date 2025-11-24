@@ -1,5 +1,5 @@
 <template>
-  <q-footer class="bg-white shadow-2" bordered>
+  <q-footer class="shadow-2" bordered>
     <PageWrapper>
       <q-tabs
         v-model="activeTab"
@@ -53,10 +53,5 @@
   /* Hover dos itens inativos */
   .gathering-tabs .q-tab:not(.q-tab--active):hover {
     color: #000000 !important;
-  }
-
-  /* Safe Area do Android */
-  .q-footer {
-    padding-bottom: env(safe-area-inset-bottom);
   }
 </style>

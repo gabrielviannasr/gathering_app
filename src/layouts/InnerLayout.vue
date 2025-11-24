@@ -7,6 +7,8 @@
         <router-view />
       </PageWrapper>
     </q-page-container>
+
+    <q-footer />
   </q-layout>
 </template>
 

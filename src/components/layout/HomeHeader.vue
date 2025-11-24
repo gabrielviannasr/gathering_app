@@ -1,5 +1,5 @@
 <template>
-  <div class="home-header q-pa-lg column items-center text-white">
+  <q-header class="home-header q-pa-lg column items-center text-white">
     <div class="text-h4 text-bold">{{ selectedConfra.name }}</div>
     <div class="text-subtitle1 q-mt-xs">{{ selectedConfra.year }}</div>
 
@@ -24,7 +24,7 @@
         </q-list>
       </q-card>
     </q-dialog>
-  </div>
+  </q-header>
 </template>
 
 <script setup>
