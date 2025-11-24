@@ -54,4 +54,9 @@
   .gathering-tabs .q-tab:not(.q-tab--active):hover {
     color: #000000 !important;
   }
+
+  /* Safe Area do Android */
+  .q-footer {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
 </style>
