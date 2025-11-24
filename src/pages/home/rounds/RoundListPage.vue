@@ -70,21 +70,14 @@
       <div class="q-mt-md">
         <q-pagination v-model="page" :max="maxPages" max-pages="5" />
       </div>
+    </div>
 
-      <!-- BOTÃO FINALIZAR EVENTO -->
-      <div class="q-pa-md">
-        <q-btn
-          class="add-btn full-width"
-          rounded
-          unelevated
-          no-caps
-          color="primary"
-          @click="finalizarEvento"
-        >
-          <q-icon name="calculate" class="q-mr-sm" />
-          Finalizar Evento
-        </q-btn>
-      </div>
+    <!-- BOTÃO FINALIZAR EVENTO -->
+    <div class="q-pa-md">
+      <q-btn class="add-btn full-width" rounded unelevated no-caps @click="finalizarEvento">
+        <q-icon name="emoji_events" class="q-mr-sm" />
+        Finalizar Evento
+      </q-btn>
     </div>
   </q-page>
 </template>
@@ -166,5 +159,9 @@
   function open(item) {
     console.log('Abrir rodada', item)
     goToEditRound(event.value.id, item.round)
+  }
+
+  function finalizarEvento() {
+    console.log('Finalizar evento clicado → calcular distribuição de potes e saldo final')
   }
 </script>
