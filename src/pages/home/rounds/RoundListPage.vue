@@ -73,12 +73,35 @@
     </div>
 
     <!-- BOTÃO FINALIZAR EVENTO -->
-    <div class="q-pa-md">
-      <q-btn class="add-btn full-width" rounded unelevated no-caps @click="finalizarEvento">
+    <div class="q-pa-md q-mt-lg">
+      <q-btn class="add-btn full-width" rounded unelevated no-caps @click="finalizeDialog = true">
         <q-icon name="emoji_events" class="q-mr-sm" />
         Finalizar Evento
       </q-btn>
     </div>
+
+    <!-- DIALOG DE CONFIRMAÇÃO -->
+    <q-dialog v-model="finalizeDialog">
+      <q-card class="q-pa-md" style="min-width: 300px">
+        <div class="text-h6 text-center text-primary q-mb-sm">Finalizar Evento</div>
+
+        <div class="text-body2 text-justify q-mb-md">
+          Ao finalizar, o sistema vai calcular:
+          <ul class="q-mt-sm q-ml-md">
+            <li>Pote dos derrotados</li>
+            <li>Total arrecadado</li>
+            <li>Saldo final por jogador</li>
+          </ul>
+
+          Você ainda poderá editar rodadas e recalcular depois.
+        </div>
+
+        <div class="row justify-end q-gutter-sm q-mt-md">
+          <q-btn flat label="Cancelar" color="grey" v-close-popup />
+          <q-btn flat label="Finalizar" color="primary" @click="confirmFinalizeEvent" />
+        </div>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
@@ -161,7 +184,15 @@
     goToEditRound(event.value.id, item.round)
   }
 
+  // eslint-disable-next-line no-unused-vars
   function finalizarEvento() {
     console.log('Finalizar evento clicado → calcular distribuição de potes e saldo final')
+  }
+
+  const finalizeDialog = ref(false)
+
+  function confirmFinalizeEvent() {
+    console.log('Finalizar Evento → (calcular potes, total e saldos)')
+    finalizeDialog.value = false
   }
 </script>
