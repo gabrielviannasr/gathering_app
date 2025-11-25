@@ -20,10 +20,12 @@
 
 <script setup>
   import PageWrapper from './PageWrapper.vue'
-  import { useRouter } from 'vue-router'
+  import { useRoute, useRouter } from 'vue-router'
   import { useTabStore } from 'src/stores/tabs'
   import { storeToRefs } from 'pinia'
+  import { watch } from 'vue'
 
+  const route = useRoute()
   const router = useRouter()
 
   const tabStore = useTabStore()
@@ -33,6 +35,22 @@
     tabStore.setTab(tab)
     router.push({ name: tab })
   }
+
+  // Observa mudanças da rota e ajusta a tab ativa
+  watch(
+    () => route.name,
+    newName => {
+      if (!newName) return
+
+      // Se a rota atual existe entre as tabs, sincroniza
+      const validTabs = ['home', 'extrato', 'carteira-jogadores', 'relatorios']
+
+      if (validTabs.includes(newName)) {
+        tabStore.setTab(newName)
+      }
+    },
+    { immediate: true }
+  )
 </script>
 
 <style scoped>
