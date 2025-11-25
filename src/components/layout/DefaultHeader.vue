@@ -47,12 +47,12 @@
 
   /* parte de cima */
   .header-top {
-    padding-top: 12px;
+    /* padding-top: 12px; */
   }
 
   /* corpo do header */
   .header-body {
-    padding-bottom: 16px;
+    /* padding-bottom: 16px; */
   }
 
   .title {

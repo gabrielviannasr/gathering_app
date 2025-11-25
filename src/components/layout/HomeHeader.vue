@@ -1,5 +1,5 @@
 <template>
-  <q-header class="home-header q-pa-lg column items-center text-white">
+  <q-header class="home-header column items-center text-white">
     <div class="text-h4 text-bold">{{ selectedConfra.name }}</div>
     <div class="text-subtitle1 q-mt-xs">{{ selectedConfra.year }}</div>
 
@@ -46,7 +46,7 @@
 <style scoped>
   .home-header {
     align-items: center;
-    padding: 16px;
+    /* padding-top: 25px; */
   }
 
   .confra-btn {

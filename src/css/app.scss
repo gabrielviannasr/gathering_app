@@ -13,7 +13,8 @@
 .q-header {
   background: linear-gradient(135deg, #7f00ff, #3c6ef3);
   padding-top: env(safe-area-inset-top); /* SAFE AREA TOP */
-  min-height: 176px;
+  min-height: 180px;
+  max-height: 180px;
   border-radius: 0 0 24px 24px;
   overflow: hidden;
   display: flex;
