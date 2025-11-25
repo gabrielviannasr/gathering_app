@@ -24,27 +24,12 @@
 
     <!-- LISTA -->
     <div class="q-pa-md q-gutter-md">
-      <q-card
+      <PlayerCard
         v-for="player in filteredPlayers"
         :key="player.id"
-        class="player-card q-pa-sm"
-        clickable
+        :player="player"
         @click="$emit('select', player)"
-      >
-        <div class="row items-center no-wrap">
-          <div class="avatar-circle q-mr-md">
-            <div class="avatar-text">{{ initials(player.name) }}</div>
-          </div>
-
-          <div class="col">
-            <div class="text-subtitle2 text-bold">{{ player.name }}</div>
-          </div>
-
-          <div class="q-ml-auto">
-            <q-icon name="chevron_right" size="22px" />
-          </div>
-        </div>
-      </q-card>
+      />
 
       <div v-if="paginate">
         <div class="q-mt-md">
@@ -57,6 +42,7 @@
 
 <script setup>
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
+  import PlayerCard from 'src/components/players/PlayerCard.vue'
   import { ref, computed, watch } from 'vue'
 
   const props = defineProps({
@@ -81,13 +67,4 @@
   const filteredPlayers = computed(() =>
     props.players.filter(p => p.name.toLowerCase().includes(localFilter.value.name.toLowerCase()))
   )
-
-  function initials(name) {
-    return name
-      .split(' ')
-      .map(s => s[0])
-      .slice(0, 2)
-      .join('')
-      .toUpperCase()
-  }
 </script>
