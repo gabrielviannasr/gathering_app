@@ -1,5 +1,56 @@
 <template>
-  <q-page padding>
-    <div class="text-h6">Carteira</div>
+  <q-page class="page-bg">
+    <!-- CARD DO PLAYER -->
+    <div class="q-pa-md">
+      <PlayerCard :player="player" />
+    </div>
+
+    <!-- ADICIONAR TRANSAÇÃO -->
+    <div class="q-pa-md">
+      <q-btn class="add-btn full-width" no-caps rounded unelevated @click="newTransaction">
+        <q-icon name="add" class="q-mr-sm" />
+        Nova transação
+      </q-btn>
+    </div>
+
+    <!-- LISTA DE TRANSAÇÕES DO JOGADOR -->
+    <div class="q-pa-md q-gutter-md">
+      <TransactionCard
+        v-for="t in playerTransactions"
+        :key="t.id"
+        :item="t"
+        @click="editTransaction(t)"
+      />
+    </div>
   </q-page>
 </template>
+
+<script setup>
+  import { computed } from 'vue'
+  import { useRoute } from 'vue-router'
+  import PlayerCard from 'src/components/players/PlayerCard.vue'
+  import TransactionCard from 'src/components/transactions/TransactionCard.vue'
+  import { usePlayerStore } from 'src/stores/player'
+  import { useTransactionStore } from 'src/stores/transaction'
+  import { useWalletNavigator } from 'src/composables/navigation'
+
+  const route = useRoute()
+  const playerStore = usePlayerStore()
+  const transactionStore = useTransactionStore()
+  const { goToTransactionForm } = useWalletNavigator()
+
+  const playerId = Number(route.params.idPlayer)
+  const player = computed(() => playerStore.players.find(p => p.id === playerId))
+
+  const playerTransactions = computed(() =>
+    transactionStore.transactions.filter(t => t.idPlayer === playerId)
+  )
+
+  function newTransaction() {
+    goToTransactionForm(playerId)
+  }
+
+  function editTransaction(t) {
+    goToTransactionForm(playerId, t.id)
+  }
+</script>
