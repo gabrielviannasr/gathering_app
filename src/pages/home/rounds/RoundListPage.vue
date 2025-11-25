@@ -2,7 +2,7 @@
   <q-page class="page-bg">
     <!-- CARD DO EVENTO -->
     <div class="q-pa-md">
-      <EventHeaderCard :event="event" class="q-pa-md" />
+      <EventHeaderCard :event="event" />
     </div>
 
     <!-- BOTÃO ADICIONAR -->

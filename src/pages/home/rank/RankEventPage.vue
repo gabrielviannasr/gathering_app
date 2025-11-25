@@ -2,7 +2,12 @@
   <q-page class="page-bg">
     <!-- CARD DO EVENTO -->
     <div class="q-pa-md">
-      <EventHeaderCard :event="event" class="q-pa-md" />
+      <EventHeaderCard :event="event" />
+    </div>
+
+    <!-- CARD DE INSCRIÇÃO -->
+    <div class="q-pa-md">
+      <EventBodyCard :event="event" />
     </div>
 
     <!-- CARD DE FILTRO -->
@@ -68,6 +73,7 @@
 
 <script setup>
   import EventHeaderCard from 'src/components/events/EventHeaderCard.vue'
+  import EventBodyCard from 'src/components/events/EventBodyCard.vue'
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
   import { ref, computed } from 'vue'
   import { useRankNavigator } from 'src/composables/navigation'
@@ -81,7 +87,9 @@
     format: { id: 2, name: 'Conquest' },
     date: '2025-01-21',
     players: 8,
-    rounds: 8
+    rounds: 8,
+    confraFee: 20.0,
+    roundFee: 10.0
   }
 
   // RANK RESULT MOCK
