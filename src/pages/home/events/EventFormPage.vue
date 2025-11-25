@@ -17,34 +17,17 @@
             map-options
           />
 
-          <!-- Taxa da Confra -->
-          <!-- <GlobalInput
-          class="q-mt-md"
-          label="Taxa da Confra"
-          type="number"
-          v-model="form.confraFee"
-          placeholder="Digite a taxa da confra"
-        /> -->
-
           <GlobalNumberInput
-            label="Taxa da Confra"
-            placeholder="Digite a taxa da confra"
+            label="Inscrição do evento"
+            placeholder="Digite a inscrição do evento"
             v-model="form.confraFee"
             :min="0"
             :step="5"
           />
 
-          <!-- Taxa da Rodada -->
-          <!-- <GlobalInput
-          class="q-mt-md"
-          label="Taxa da Rodada"
-          type="number"
-          v-model="form.roundFee"
-          placeholder="Digite a taxa da rodada"
-        /> -->
           <GlobalNumberInput
-            label="Taxa da Rodada"
-            placeholder="Digite a taxa da confra"
+            label="Inscrição por Rodada"
+            placeholder="Digite a inscrição por rodada"
             v-model="form.roundFee"
             :min="0"
             :step="5"
