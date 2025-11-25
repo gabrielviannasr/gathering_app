@@ -47,6 +47,19 @@
   .home-header {
     background: linear-gradient(135deg, #7f00ff, #3c6ef3);
     border-radius: 0 0 24px 24px;
+
+    /* ALTURA FIXA */
+    height: 160px;
+    min-height: 160px;
+    max-height: 160px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    overflow: hidden;
+    padding: 16px;
   }
 
   .confra-btn {
