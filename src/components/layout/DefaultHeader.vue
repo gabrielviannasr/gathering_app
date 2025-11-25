@@ -42,11 +42,7 @@
 
 <style scoped>
   .default-header {
-    background: linear-gradient(135deg, #7f00ff, #3c6ef3);
-    color: white;
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
-    padding-bottom: 8px;
+    /* align-items: left; */ /* Já é left por padrão */
   }
 
   /* parte de cima */
@@ -56,7 +52,7 @@
 
   /* corpo do header */
   .header-body {
-    padding-bottom: 18px;
+    padding-bottom: 16px;
   }
 
   .title {

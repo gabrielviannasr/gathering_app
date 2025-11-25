@@ -11,7 +11,14 @@
   background: transparent;
 }
 .q-header {
+  background: linear-gradient(135deg, #7f00ff, #3c6ef3);
   padding-top: env(safe-area-inset-top); /* SAFE AREA TOP */
+  min-height: 176px;
+  border-radius: 0 0 24px 24px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 .q-footer {
   background: white;
