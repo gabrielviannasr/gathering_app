@@ -29,7 +29,7 @@
   import { useTransactionStore } from 'src/stores/transaction'
   import { useRankNavigator } from 'src/composables/navigation'
 
-  const { goToRankPlayer } = useRankNavigator()
+  const { goToRankEvent, goToRankPlayer } = useRankNavigator()
 
   const store = useTransactionStore()
 
@@ -69,7 +69,7 @@
     switch (t) {
       case 1: // INSCRIÇÃO
         console.log('Abrir tela do evento da inscrição:', item)
-        // goToEvent(item.idEvent)  ← criamos depois
+        goToRankEvent(item.idEvent)
         break
 
       case 2: // RESULTADO

@@ -6,7 +6,7 @@ export const useTransactionStore = defineStore('transaction', () => {
     {
       id: 163,
       idGathering: 1,
-      idEvent: 1,
+      idEvent: 2,
       idPlayer: 7,
       idTransactionType: 1,
       createdAt: '2025-11-09T03:38:30.377Z',
@@ -16,7 +16,7 @@ export const useTransactionStore = defineStore('transaction', () => {
     {
       id: 164,
       idGathering: 1,
-      idEvent: 1,
+      idEvent: 2,
       idPlayer: 7,
       idTransactionType: 2,
       createdAt: '2025-11-09T03:38:30.377Z',
@@ -26,7 +26,7 @@ export const useTransactionStore = defineStore('transaction', () => {
     {
       id: 165,
       idGathering: 1,
-      idEvent: 1,
+      idEvent: 2,
       idPlayer: 6,
       idTransactionType: 1,
       createdAt: '2025-11-09T03:38:30.377Z',
@@ -36,7 +36,7 @@ export const useTransactionStore = defineStore('transaction', () => {
     {
       id: 166,
       idGathering: 1,
-      idEvent: 1,
+      idEvent: 2,
       idPlayer: 6,
       idTransactionType: 2,
       createdAt: '2025-11-09T03:38:30.377Z',
@@ -46,7 +46,7 @@ export const useTransactionStore = defineStore('transaction', () => {
     {
       id: 167,
       idGathering: 1,
-      idEvent: 1,
+      idEvent: 2,
       idPlayer: 2,
       idTransactionType: 1,
       createdAt: '2025-11-09T03:38:30.377Z',
@@ -56,7 +56,7 @@ export const useTransactionStore = defineStore('transaction', () => {
     {
       id: 168,
       idGathering: 1,
-      idEvent: 1,
+      idEvent: 2,
       idPlayer: 2,
       idTransactionType: 2,
       createdAt: '2025-11-09T03:38:30.377Z',
@@ -66,7 +66,7 @@ export const useTransactionStore = defineStore('transaction', () => {
     {
       id: 169,
       idGathering: 1,
-      idEvent: 1,
+      idEvent: 2,
       idPlayer: 8,
       idTransactionType: 1,
       createdAt: '2025-11-09T03:38:30.377Z',
@@ -76,7 +76,7 @@ export const useTransactionStore = defineStore('transaction', () => {
     {
       id: 170,
       idGathering: 1,
-      idEvent: 1,
+      idEvent: 2,
       idPlayer: 8,
       idTransactionType: 2,
       createdAt: '2025-11-09T03:38:30.377Z',
@@ -86,7 +86,7 @@ export const useTransactionStore = defineStore('transaction', () => {
     {
       id: 171,
       idGathering: 1,
-      idEvent: 1,
+      idEvent: 2,
       idPlayer: 1,
       idTransactionType: 1,
       createdAt: '2025-11-09T03:38:30.377Z',
@@ -96,7 +96,7 @@ export const useTransactionStore = defineStore('transaction', () => {
     {
       id: 172,
       idGathering: 1,
-      idEvent: 1,
+      idEvent: 2,
       idPlayer: 1,
       idTransactionType: 2,
       createdAt: '2025-11-09T03:38:30.377Z',
@@ -106,7 +106,7 @@ export const useTransactionStore = defineStore('transaction', () => {
     {
       id: 173,
       idGathering: 1,
-      idEvent: 1,
+      idEvent: 2,
       idPlayer: 5,
       idTransactionType: 1,
       createdAt: '2025-11-09T03:38:30.377Z',
@@ -116,7 +116,7 @@ export const useTransactionStore = defineStore('transaction', () => {
     {
       id: 174,
       idGathering: 1,
-      idEvent: 1,
+      idEvent: 2,
       idPlayer: 5,
       idTransactionType: 2,
       createdAt: '2025-11-09T03:38:30.377Z',
@@ -126,7 +126,7 @@ export const useTransactionStore = defineStore('transaction', () => {
     {
       id: 175,
       idGathering: 1,
-      idEvent: 1,
+      idEvent: 2,
       idPlayer: 3,
       idTransactionType: 1,
       createdAt: '2025-11-09T03:38:30.377Z',
@@ -136,7 +136,7 @@ export const useTransactionStore = defineStore('transaction', () => {
     {
       id: 176,
       idGathering: 1,
-      idEvent: 1,
+      idEvent: 2,
       idPlayer: 3,
       idTransactionType: 2,
       createdAt: '2025-11-09T03:38:30.377Z',
@@ -146,7 +146,7 @@ export const useTransactionStore = defineStore('transaction', () => {
     {
       id: 177,
       idGathering: 1,
-      idEvent: 1,
+      idEvent: 2,
       idPlayer: 4,
       idTransactionType: 1,
       createdAt: '2025-11-09T03:38:30.377Z',
@@ -156,7 +156,7 @@ export const useTransactionStore = defineStore('transaction', () => {
     {
       id: 178,
       idGathering: 1,
-      idEvent: 1,
+      idEvent: 2,
       idPlayer: 4,
       idTransactionType: 2,
       createdAt: '2025-11-09T03:38:30.377Z',
