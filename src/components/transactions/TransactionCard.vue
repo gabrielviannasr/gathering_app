@@ -44,10 +44,10 @@
   const playerStore = usePlayerStore()
   const typeStore = useTransactionTypeStore()
 
-  const type = computed(() => typeStore.getType(props.item.id_transaction_type))
+  const type = computed(() => typeStore.getType(props.item.idTransactionType))
 
   const playerName = computed(() => {
-    const p = playerStore.players.find(x => x.id === props.item.id_player)
+    const p = playerStore.players.find(x => x.id === props.item.idPlayer)
     return p?.name || 'Desconhecido'
   })
 
@@ -65,7 +65,7 @@
   const amountColorCss = computed(() => (props.item.amount >= 0 ? '#2ecc71' : '#e74c3c'))
 
   const formattedDate = computed(() => {
-    const d = new Date(props.item.created_at)
+    const d = new Date(props.item.createdAt)
     return d.toLocaleDateString('pt-BR')
   })
 </script>
