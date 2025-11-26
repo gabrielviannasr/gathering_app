@@ -3,6 +3,7 @@
     :players="players"
     :filters="filters"
     showAddButton
+    :showWalletInfo="false"
     @add="onAdd"
     @select="openPlayer"
   />

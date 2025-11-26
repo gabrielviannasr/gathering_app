@@ -2,7 +2,8 @@
   <PlayerListBase
     :players="players"
     :filters="filters"
-    :showAddButton="false"
+    :wallets="walletStore.walletsByPlayer"
+    :showWalletInfo="true"
     @select="openWalletPlayer"
   />
 </template>
@@ -11,6 +12,9 @@
   import PlayerListBase from 'src/components/players/PlayerListBase.vue'
   import { ref } from 'vue'
   import { useRouter } from 'vue-router'
+  import { useWalletStore } from 'src/stores/wallet'
+
+  const walletStore = useWalletStore()
 
   const router = useRouter()
 

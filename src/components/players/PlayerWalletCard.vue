@@ -1,5 +1,5 @@
 <template>
-  <q-card class="q-pa-md wallet-card">
+  <q-card class="q-pa-md form-card wallet-card">
     <div class="row items-center justify-between">
       <!-- TÍTULO -->
       <div class="text-subtitle1 text-bold">Saldo da Carteira</div>

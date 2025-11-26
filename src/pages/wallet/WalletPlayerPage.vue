@@ -2,7 +2,15 @@
   <q-page class="page-bg">
     <!-- CARD DO PLAYER -->
     <div class="q-pa-md">
-      <PlayerCard :player="player" />
+      <PlayerCard
+        :wallet="{
+          playerName: player.name,
+          wallet: walletAmount,
+          events: 1
+        }"
+        :showWalletInfo="true"
+        :showArrow="false"
+      />
     </div>
 
     <!-- SALDO DA CARTEIRA -->

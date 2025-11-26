@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 export const useWalletStore = defineStore('wallet', () => {
   const wallets = ref([
@@ -40,32 +40,32 @@ export const useWalletStore = defineStore('wallet', () => {
       gatheringName: 'DIRETORIA',
       idPlayer: 5,
       playerName: 'Jean Benevides',
-      events: 1,
-      wallet: -55.0
+      wallet: -55.0,
+      events: 1
     },
     {
       idGathering: 1,
       gatheringName: 'DIRETORIA',
       idPlayer: 6,
       playerName: 'Jhonny Dias',
-      events: 1,
-      wallet: 10.0
+      wallet: 10.0,
+      events: 1
     },
     {
       idGathering: 1,
       gatheringName: 'DIRETORIA',
       idPlayer: 7,
       playerName: 'Tobias Souza',
-      events: 1,
-      wallet: 30.0
+      wallet: 30.0,
+      events: 1
     },
     {
       idGathering: 1,
       gatheringName: 'DIRETORIA',
       idPlayer: 8,
       playerName: 'Valmir Vicente',
-      events: 1,
-      wallet: -35.0
+      wallet: -35.0,
+      events: 1
     }
   ])
 
@@ -73,8 +73,17 @@ export const useWalletStore = defineStore('wallet', () => {
     return wallets.value.find(w => w.idPlayer === idPlayer)
   }
 
+  const walletsByPlayer = computed(() => {
+    const map = {}
+    wallets.value.forEach(w => {
+      map[w.idPlayer] = w
+    })
+    return map
+  })
+
   return {
     wallets,
-    getWallet
+    getWallet,
+    walletsByPlayer
   }
 })
