@@ -6,16 +6,18 @@
         <div class="form-section-title">Filtros</div>
 
         <div class="row q-col-gutter-sm q-mt-sm">
+          <!-- Formato -->
           <div class="col">
             <GlobalSelect
               label="Formato"
-              :options="formatOptions"
+              :options="formatFilterOptions"
               v-model="filters.format"
               emit-value
               map-options
             />
           </div>
 
+          <!-- Mês -->
           <div class="col">
             <GlobalSelect
               label="Mês"
@@ -27,7 +29,7 @@
           </div>
         </div>
 
-        <!-- Botão Adicionar (aparece só na página de eventos) -->
+        <!-- Botão Adicionar -->
         <div v-if="showAddButton" class="q-mt-sm">
           <q-btn class="add-btn full-width" no-caps rounded unelevated @click="$emit('add')">
             <q-icon name="add" class="q-mr-sm" />
@@ -47,34 +49,29 @@
         @click="$emit('open', item)"
       >
         <div class="row items-center no-wrap">
-          <!-- Ícone formato -->
+          <!-- Ícone do tipo do formato -->
           <div class="circle-icon q-mr-md">
-            <q-icon name="style" color="white" size="24px" />
+            <q-icon :name="getIcon(item)" color="white" size="24px" />
           </div>
 
           <!-- Conteúdo -->
           <div class="col">
-            <!-- Formato -->
-            <div class="event-badge text-bold">{{ item.format }}</div>
+            <div class="event-badge text-bold">{{ item.format?.name ?? 'Sem Formato' }}</div>
 
-            <!-- Data -->
             <div class="text-caption text-grey">
-              {{ formatDateShort(item.date) }}
+              {{ formatDateShort(item.createdAt) }}
             </div>
 
-            <!-- Jogadores + rodadas -->
             <div class="text-caption text-grey">
               {{ item.players }} jogadores &nbsp;&nbsp; {{ item.rounds }} rodadas
             </div>
           </div>
 
-          <div>
-            <q-icon name="chevron_right" />
-          </div>
+          <q-icon name="chevron_right" />
         </div>
       </q-card>
 
-      <!-- PAGINAÇÃO -->
+      <!-- Paginação -->
       <div class="q-mt-md q-pb-xl">
         <q-pagination v-model="page" :max="maxPages" max-pages="5" />
       </div>
@@ -83,30 +80,53 @@
 </template>
 
 <script setup>
+  /* ===============================
+   IMPORTS
+================================ */
   import GlobalSelect from 'src/components/ui/GlobalSelect.vue'
   import { ref, computed } from 'vue'
+  import { useEventStore } from 'src/stores/event'
+  import { useFormatStore } from 'src/stores/format'
   import { formatDateShort } from 'src/utils/date'
 
+  /* ===============================
+   PROPS
+================================ */
   // eslint-disable-next-line no-unused-vars
   const props = defineProps({
     showAddButton: { type: Boolean, default: false }
   })
 
+  /* ===============================
+   STORES
+================================ */
+  const eventStore = useEventStore()
+  const formatStore = useFormatStore()
+
+  /* ===============================
+   FILTROS
+================================ */
   const filters = ref({
     format: null,
     month: null
   })
 
-  // opções de formato
-  const formatOptions = [
-    { label: 'Todos', value: null },
-    { label: 'Commander', value: 'Commander' },
-    { label: 'Conquest', value: 'Conquest' },
-    { label: 'Tiny Leader', value: 'Tiny Leader' },
-    { label: 'Sem Formato', value: 'Sem Formato' }
-  ]
+  /* ===============================
+   FORMATOS (dinâmicos)
+================================ */
+  const formatFilterOptions = computed(() => {
+    return [
+      { label: 'Todos', value: null },
+      ...formatStore.formats.map(f => ({
+        label: f.name,
+        value: f.id
+      }))
+    ]
+  })
 
-  // meses em extenso
+  /* ===============================
+   MESES
+================================ */
   const monthOptions = [
     { label: 'Todos', value: null },
     { label: 'Janeiro', value: 0 },
@@ -123,23 +143,36 @@
     { label: 'Dezembro', value: 11 }
   ]
 
-  // mock
-  const events = [
-    { id: 1, format: 'Commander', date: '2025-01-14', players: 12, rounds: 3 },
-    { id: 2, format: 'Conquest', date: '2025-01-21', players: 8, rounds: 8 },
-    { id: 3, format: 'Variados', date: '2025-02-04', players: 16, rounds: 4 },
-    { id: 4, format: 'Tiny Leaders', date: '2025-02-11', players: 10, rounds: 3 },
-    { id: 5, format: 'Commander', date: '2025-02-18', players: 8, rounds: 3 }
-  ]
-
+  /* ===============================
+   PAGINAÇÃO
+================================ */
   const page = ref(1)
-  const maxPages = 2
+  const maxPages = 2 // placeholder
 
+  /* ===============================
+   FUNÇÃO PARA OBTER ÍCONE DO FORMATO
+================================ */
+  function getIcon(event) {
+    const type = event.format?.type
+    if (!type) return 'help'
+
+    return type.icon || 'help'
+  }
+
+  /* ===============================
+   EVENTOS FILTRADOS DO PINIA
+================================ */
   const filteredEvents = computed(() => {
-    return events.filter(ev => {
-      const matchFormat = filters.value.format ? ev.format === filters.value.format : true
+    return eventStore.events.filter(ev => {
+      // Filtro de formato
+      const matchFormat = filters.value.format ? ev.idFormat === filters.value.format : true
+
+      // Filtro de mês
       const matchMonth =
-        filters.value.month !== null ? new Date(ev.date).getMonth() === filters.value.month : true
+        filters.value.month !== null
+          ? new Date(ev.createdAt).getMonth() === filters.value.month
+          : true
+
       return matchFormat && matchMonth
     })
   })

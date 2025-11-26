@@ -9,7 +9,13 @@ export const useEventStore = defineStore('event', () => {
       idFormat: 2,
       format: {
         id: 2,
-        name: 'Conquest'
+        name: 'Conquest',
+        idFormatType: 1,
+        type: {
+          id: 1,
+          label: 'Cartas',
+          icon: 'style'
+        }
       },
       createdAt: '2025-11-09T03:38:30.377Z',
       players: 8,
