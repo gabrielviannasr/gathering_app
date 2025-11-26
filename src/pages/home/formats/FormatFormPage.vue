@@ -2,43 +2,24 @@
   <q-page class="page-bg">
     <div class="q-pa-md">
       <q-card class="q-pa-md form-card">
-        <!-- Title -->
         <div class="form-section-title">Formato</div>
 
         <div class="q-col-gutter-md">
-          <!-- Nome -->
-          <GlobalInput label="Nome" v-model="form.name" placeholder="Digite o nome do formato" />
+          <GlobalInput label="Nome" v-model="form.name" />
 
-          <!-- Pontos de Vida -->
-          <!-- <GlobalInput
-          type="number"
-          label="Pontos de Vida"
-          v-model="form.hp"
-          placeholder="Digite os pontos de vida"
-          class="q-mt-md"
-        /> -->
-          <GlobalNumberInput
-            v-model="form.hp"
-            label="Pontos de Vida"
-            placeholder="Digite os pontos de vida"
-            :min="1"
-            :step="5"
-          />
+          <GlobalNumberInput v-model="form.lifeCount" label="Pontos de Vida" :min="1" :step="5" />
 
-          <!-- Tipo -->
           <GlobalSelect
             label="Tipo do Jogo"
             :options="typeOptions"
-            v-model="form.type"
+            v-model="form.idFormatType"
             placeholder="Selecione o tipo"
             emit-value
             map-options
-            class="q-mt-md"
           />
         </div>
       </q-card>
 
-      <!-- Botões -->
       <div class="row q-col-gutter-md q-mt-md">
         <div class="col">
           <q-btn outline color="grey-8" no-caps rounded class="full-width" @click="cancel">
@@ -60,23 +41,39 @@
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
   import GlobalNumberInput from 'components/ui/GlobalNumberInput.vue'
   import GlobalSelect from 'src/components/ui/GlobalSelect.vue'
-  import { ref } from 'vue'
-  import { useRouter } from 'vue-router'
+
+  import { ref, computed } from 'vue'
+  import { useRoute, useRouter } from 'vue-router'
+  import { useFormatStore } from 'src/stores/format'
+  import { useFormatTypeStore } from 'src/stores/formatType'
+
+  const route = useRoute()
   const router = useRouter()
+
+  const formatStore = useFormatStore()
+  const typeStore = useFormatTypeStore()
+
+  const isEdit = computed(() => !!route.params.id)
+  const formatId = computed(() => Number(route.params.id))
 
   const form = ref({
     name: '',
-    hp: '',
-    type: null
+    lifeCount: null,
+    idFormatType: null
   })
 
-  const typeOptions = [
-    { label: 'Cartas', value: 'cartas' },
-    { label: 'Eletrônicos', value: 'eletronicos' },
-    { label: 'Imaginação', value: 'imaginacao' },
-    { label: 'Papel e Caneta', value: 'papel' },
-    { label: 'Tabuleiro', value: 'tabuleiro' }
-  ]
+  if (isEdit.value) {
+    const f = formatStore.getFormat(formatId.value)
+    if (f) Object.assign(form.value, f)
+  }
+
+  const typeOptions = computed(() =>
+    typeStore.types.map(t => ({
+      label: t.label,
+      value: t.id,
+      icon: t.icon
+    }))
+  )
 
   function cancel() {
     router.back()
