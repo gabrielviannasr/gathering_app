@@ -16,6 +16,23 @@
           </div>
         </div>
 
+        <!-- FORMATO DA RODADA -->
+        <div class="q-mt-md">
+          <GlobalSelect
+            label="Formato da Rodada"
+            :options="formatOptions"
+            v-model="round.idFormat"
+            emit-value
+            map-options
+            placeholder="Selecione um formato"
+          >
+            <!-- Ícone opcional -->
+            <template #prepend>
+              <q-icon name="style" />
+            </template>
+          </GlobalSelect>
+        </div>
+
         <!-- VENCEDOR -->
         <div class="row items-center justify-between q-mt-md">
           <div class="text-subtitle2 text-bold">Vencedor</div>
@@ -195,18 +212,21 @@
 
   import EventHeaderCard from 'src/components/events/EventHeaderCard.vue'
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
+  import GlobalSelect from 'src/components/ui/GlobalSelect.vue'
 
   import { useEventStore } from 'src/stores/event'
-  import { useRoundStore } from 'src/stores/round'
+  import { useFormatStore } from 'src/stores/format'
   import { usePlayerStore } from 'src/stores/player'
+  import { useRoundStore } from 'src/stores/round'
 
   /* ------------- ROTAS / STORES ---------------- */
   const route = useRoute()
   const router = useRouter()
 
   const eventStore = useEventStore()
-  const roundStore = useRoundStore()
+  const formatStore = useFormatStore()
   const playerStore = usePlayerStore()
+  const roundStore = useRoundStore()
 
   /* ------------- PARAMS ---------------- */
   const idEvent = Number(route.params.idEvent)
@@ -215,6 +235,13 @@
   /* ----------------- DATA ---------------- */
   const event = ref(null)
   const round = ref(null)
+
+  const formatOptions = computed(() =>
+    formatStore.formats.map(f => ({
+      label: f.name,
+      value: f.id
+    }))
+  )
 
   const allPlayers = computed(() => playerStore.players)
 
@@ -236,10 +263,13 @@
   onMounted(() => {
     event.value = eventStore.getEvent(idEvent)
     round.value = roundStore.getRound(idEvent, roundNumber)
-    roundPlayers.value = playerStore.players.slice(
-      0,
-      roundStore.getRound(idEvent, roundNumber).players
-    )
+    // roundPlayers.value = playerStore.players.slice(0, roundStore.getRound(idEvent, roundNumber).players)
+    // jogadores iniciais
+    const initialPlayers = roundStore.getRound(idEvent, roundNumber).players
+    roundPlayers.value = playerStore.players.slice(0, initialPlayers)
+
+    // formato inicial da rodada (se houver)
+    round.value.idFormat = event.value?.idFormat ?? null
   })
 
   /* ----------------- FUNÇÕES ---------------- */
