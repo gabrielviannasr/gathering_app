@@ -82,16 +82,17 @@
 <script setup>
   /* ===============================
    IMPORTS
-================================ */
+  ================================ */
   import GlobalSelect from 'src/components/ui/GlobalSelect.vue'
   import { ref, computed } from 'vue'
   import { useEventStore } from 'src/stores/event'
   import { useFormatStore } from 'src/stores/format'
   import { formatDateShort } from 'src/utils/date'
+  import { monthOptions } from 'src/constants/months'
 
   /* ===============================
    PROPS
-================================ */
+  ================================ */
   // eslint-disable-next-line no-unused-vars
   const props = defineProps({
     showAddButton: { type: Boolean, default: false }
@@ -99,13 +100,13 @@
 
   /* ===============================
    STORES
-================================ */
+  ================================ */
   const eventStore = useEventStore()
   const formatStore = useFormatStore()
 
   /* ===============================
    FILTROS
-================================ */
+  ================================ */
   const filters = ref({
     format: null,
     month: null
@@ -113,7 +114,7 @@
 
   /* ===============================
    FORMATOS (dinâmicos)
-================================ */
+  ================================ */
   const formatFilterOptions = computed(() => {
     return [
       { label: 'Todos', value: null },
@@ -125,33 +126,14 @@
   })
 
   /* ===============================
-   MESES
-================================ */
-  const monthOptions = [
-    { label: 'Todos', value: null },
-    { label: 'Janeiro', value: 0 },
-    { label: 'Fevereiro', value: 1 },
-    { label: 'Março', value: 2 },
-    { label: 'Abril', value: 3 },
-    { label: 'Maio', value: 4 },
-    { label: 'Junho', value: 5 },
-    { label: 'Julho', value: 6 },
-    { label: 'Agosto', value: 7 },
-    { label: 'Setembro', value: 8 },
-    { label: 'Outubro', value: 9 },
-    { label: 'Novembro', value: 10 },
-    { label: 'Dezembro', value: 11 }
-  ]
-
-  /* ===============================
    PAGINAÇÃO
-================================ */
+  ================================ */
   const page = ref(1)
   const maxPages = 2 // placeholder
 
   /* ===============================
    FUNÇÃO PARA OBTER ÍCONE DO FORMATO
-================================ */
+  ================================ */
   function getIcon(event) {
     const type = event.format?.type
     if (!type) return 'help'
@@ -161,7 +143,7 @@
 
   /* ===============================
    EVENTOS FILTRADOS DO PINIA
-================================ */
+  ================================ */
   const filteredEvents = computed(() => {
     return eventStore.events.filter(ev => {
       // Filtro de formato
