@@ -7,6 +7,10 @@ export const useEventStore = defineStore('event', () => {
       id: 1,
       idGathering: 1,
       idFormat: 2,
+      format: {
+        id: 2,
+        name: 'Conquest'
+      },
       createdAt: '2025-11-09T03:38:30.377Z',
       players: 8,
       rounds: 8,

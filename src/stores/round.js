@@ -7,6 +7,10 @@ export const useRoundStore = defineStore('round', () => {
       id: 1,
       idEvent: 1,
       idFormat: 1,
+      format: {
+        id: 1,
+        name: 'Commander'
+      },
       idPlayerWinner: 5,
       createdAt: '2025-11-09T03:38:30.377Z',
       round: 1,
@@ -19,6 +23,10 @@ export const useRoundStore = defineStore('round', () => {
       id: 2,
       idEvent: 1,
       idFormat: 1,
+      format: {
+        id: 1,
+        name: 'Commander'
+      },
       idPlayerWinner: 7,
       createdAt: '2025-11-09T03:38:30.377Z',
       round: 2,
@@ -31,6 +39,10 @@ export const useRoundStore = defineStore('round', () => {
       id: 3,
       idEvent: 1,
       idFormat: 1,
+      format: {
+        id: 1,
+        name: 'Commander'
+      },
       idPlayerWinner: 8,
       createdAt: '2025-11-09T03:38:30.377Z',
       round: 3,
@@ -43,6 +55,10 @@ export const useRoundStore = defineStore('round', () => {
       id: 4,
       idEvent: 1,
       idFormat: 2,
+      format: {
+        id: 2,
+        name: 'Conquest'
+      },
       idPlayerWinner: 1,
       createdAt: '2025-11-09T03:38:30.377Z',
       round: 4,
@@ -55,6 +71,10 @@ export const useRoundStore = defineStore('round', () => {
       id: 5,
       idEvent: 1,
       idFormat: 2,
+      format: {
+        id: 2,
+        name: 'Conquest'
+      },
       idPlayerWinner: 7,
       createdAt: '2025-11-09T03:38:30.377Z',
       round: 5,
@@ -67,6 +87,10 @@ export const useRoundStore = defineStore('round', () => {
       id: 6,
       idEvent: 1,
       idFormat: 2,
+      format: {
+        id: 2,
+        name: 'Conquest'
+      },
       idPlayerWinner: 6,
       createdAt: '2025-11-09T03:38:30.377Z',
       round: 6,
@@ -79,6 +103,10 @@ export const useRoundStore = defineStore('round', () => {
       id: 7,
       idEvent: 1,
       idFormat: 3,
+      format: {
+        id: 3,
+        name: 'Tiny Leaders'
+      },
       idPlayerWinner: 2,
       createdAt: '2025-11-09T03:38:30.377Z',
       round: 7,
@@ -91,6 +119,10 @@ export const useRoundStore = defineStore('round', () => {
       id: 8,
       idEvent: 1,
       idFormat: 3,
+      format: {
+        id: 3,
+        name: 'Tiny Leaders'
+      },
       idPlayerWinner: 6,
       createdAt: '2025-11-09T03:38:30.377Z',
       round: 8,

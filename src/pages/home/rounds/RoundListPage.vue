@@ -16,40 +16,36 @@
     <!-- LISTA DE RODADAS -->
     <div class="q-pa-md q-gutter-md">
       <q-card
-        v-for="round in rounds"
-        :key="round.round"
+        v-for="round in paginatedRounds"
+        :key="round.id"
         class="list-card q-pa-md"
         clickable
         @click="open(round)"
       >
-        <!-- WRAPPER PARA GARANTIR O CÍRCULO -->
         <div class="row items-center no-wrap">
-          <!-- NÚMERO DA RODADA → círculo gradiente -->
+          <!-- NÚMERO DA RODADA -->
           <div class="round-number-circle q-mr-md">
             {{ round.round }}
           </div>
 
           <!-- INFO -->
           <div class="col">
-            <!-- Formato • Jogadores -->
             <div class="text-caption q-mt-xs">
-              Formato: {{ event.format.name }} • {{ round.players }} jogadores
+              Formato: {{ round.format?.name || '—' }} • {{ round.players }} jogadores
             </div>
 
-            <!-- Vencedor -->
             <div class="text-subtitle2 q-mt-xs">
               <template v-if="round.idPlayerWinner">
                 Vencedor:
-                <span class="text-bold text-primary">
-                  {{ resolveWinner(round.idPlayerWinner) }}
-                </span>
+                <span class="text-bold text-primary">{{
+                  resolveWinner(round.idPlayerWinner)
+                }}</span>
               </template>
               <template v-else>
                 <span class="text-caption">Sem vencedor</span>
               </template>
             </div>
 
-            <!-- STATUS -->
             <q-badge
               class="q-mt-sm"
               :color="round.canceled ? 'negative' : 'positive'"
@@ -59,7 +55,6 @@
             </q-badge>
           </div>
 
-          <!-- SETA -->
           <div class="q-ml-auto">
             <q-icon name="chevron_right" size="22px" />
           </div>
@@ -80,20 +75,18 @@
       </q-btn>
     </div>
 
-    <!-- DIALOG DE CONFIRMAÇÃO -->
+    <!-- CONFIRMAÇÃO -->
     <q-dialog v-model="finalizeDialog">
       <q-card class="q-pa-md" style="min-width: 300px">
         <div class="text-h6 text-center text-primary q-mb-sm">Finalizar Evento</div>
 
         <div class="text-body2 text-justify q-mb-md">
-          Ao finalizar, o sistema vai calcular:
-          <ul class="q-mt-sm q-ml-md">
+          Ao finalizar, serão calculados:
+          <ul class="q-ml-md q-mt-sm">
             <li>Pote dos derrotados</li>
             <li>Total arrecadado</li>
-            <li>Saldo final por jogador</li>
+            <li>Saldo por jogador</li>
           </ul>
-
-          Você ainda poderá editar rodadas e recalcular depois.
         </div>
 
         <div class="row justify-end q-gutter-sm q-mt-md">
@@ -106,93 +99,65 @@
 </template>
 
 <script setup>
+  /* COMPONENTS */
   import EventHeaderCard from 'src/components/events/EventHeaderCard.vue'
-  import { ref } from 'vue'
-  import { date } from 'quasar'
+
+  /* VUE + PINIA */
+  import { computed, ref } from 'vue'
+  import { useRoute } from 'vue-router'
+
+  import { useEventStore } from 'src/stores/event'
+  import { useRoundStore } from 'src/stores/round'
+  import { usePlayerStore } from 'src/stores/player'
   import { useRoundNavigator } from 'src/composables/navigation'
 
+  const route = useRoute()
+  const idEvent = Number(route.params.idEvent)
+
+  /* STORES */
+  const eventStore = useEventStore()
+  const roundStore = useRoundStore()
+  const playerStore = usePlayerStore()
+
+  /* NAVIGATION */
   const { goToNewRound, goToEditRound } = useRoundNavigator()
 
-  // MOCK EVENT
-  const event = ref({
-    id: 1,
-    idFormat: null,
-    format: { id: 2, name: 'Conquest', type: { id: 1, name: 'Cartas' } },
-    date: '2025-01-21',
-    players: 8,
-    rounds: 8
+  /* EVENT */
+  const event = computed(() => eventStore.getEvent(idEvent))
+
+  /* ROUNDS DO EVENTO */
+  const rounds = computed(() => roundStore.getRoundsByEvent(idEvent))
+
+  /* PAGINATION */
+  const page = ref(1)
+  const perPage = 10
+
+  const maxPages = computed(() => Math.ceil(rounds.value.length / perPage))
+
+  const paginatedRounds = computed(() => {
+    const start = (page.value - 1) * perPage
+    return rounds.value.slice(start, start + perPage)
   })
 
-  // PLAYERS
-  const players = [
-    { id: 1, name: 'Anderson Dias' },
-    { id: 2, name: 'Arthur Leal' },
-    { id: 3, name: 'Cindomar Ferreira' },
-    { id: 4, name: 'Gabriel Vianna' },
-    { id: 5, name: 'Jean Benevides' },
-    { id: 6, name: 'Jhonny Dias' },
-    { id: 7, name: 'Tobias Souza' },
-    { id: 8, name: 'Valmir Vicente' }
-  ]
-
-  // ROUNDS
-  const rounds = ref([
-    { idPlayerWinner: 5, idFormat: 2, round: 1, players: 6, canceled: false },
-    { idPlayerWinner: 7, idFormat: 2, round: 2, players: 6, canceled: false },
-    { idPlayerWinner: 8, idFormat: 2, round: 3, players: 6, canceled: false },
-    { idPlayerWinner: 1, idFormat: 2, round: 4, players: 6, canceled: false },
-    { idPlayerWinner: 7, idFormat: 2, round: 5, players: 6, canceled: false },
-    { idPlayerWinner: 6, idFormat: 2, round: 6, players: 6, canceled: false },
-    { idPlayerWinner: 2, idFormat: 2, round: 7, players: 6, canceled: false },
-    { idPlayerWinner: 6, idFormat: 2, round: 8, players: 6, canceled: false }
-  ])
-
-  const page = ref(1)
-  const maxPages = 2
-
-  // eslint-disable-next-line no-unused-vars
-  function formatDate(d) {
-    return date.formatDate(d, 'DD [de] MMM [de] YYYY', {
-      monthsShort: [
-        'jan',
-        'fev',
-        'mar',
-        'abr',
-        'mai',
-        'jun',
-        'jul',
-        'ago',
-        'set',
-        'out',
-        'nov',
-        'dez'
-      ]
-    })
-  }
-
+  /* HELPERS */
   function resolveWinner(id) {
-    return players.find(p => p.id === id)?.name || 'Desconhecido'
+    return playerStore.players.find(p => p.id === id)?.name || 'Desconhecido'
   }
 
+  /* OPEN ROUND FORM */
   function openAddForm() {
-    console.log('Adicionar rodada')
-    goToNewRound(event.value.id)
+    goToNewRound(idEvent)
   }
 
-  function open(item) {
-    console.log('Abrir rodada', item)
-    goToEditRound(event.value.id, item.round)
+  function open(round) {
+    goToEditRound(idEvent, round.round)
   }
 
-  // eslint-disable-next-line no-unused-vars
-  function finalizarEvento() {
-    console.log('Finalizar evento clicado → calcular distribuição de potes e saldo final')
-  }
-
+  /* FINALIZAR EVENTO */
   const finalizeDialog = ref(false)
 
   function confirmFinalizeEvent() {
-    console.log('Finalizar Evento → (calcular potes, total e saldos)')
+    console.log('Finalizar evento → calcular potes e saldos...')
     finalizeDialog.value = false
   }
 </script>

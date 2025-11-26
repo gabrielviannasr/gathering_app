@@ -16,7 +16,7 @@
 
       <!-- Data -->
       <div class="text-caption text-grey">
-        {{ formatDateShort(event.date) }}
+        {{ formatDateShort(event.createdAt) }}
       </div>
 
       <!-- Jogadores e rodadas -->
