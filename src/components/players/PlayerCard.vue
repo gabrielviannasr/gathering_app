@@ -1,5 +1,5 @@
 <template>
-  <q-card class="q-pa-md player-card" clickable>
+  <q-card class="q-pa-md" clickable>
     <div class="row items-center no-wrap">
       <div class="avatar-circle q-mr-md">
         <div class="avatar-text">{{ initials }}</div>

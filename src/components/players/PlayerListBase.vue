@@ -29,6 +29,7 @@
         :wallet="wallets[player.id]"
         :showWalletInfo="showWalletInfo"
         @click="$emit('select', player)"
+        class="list-card"
       />
     </div>
   </div>
