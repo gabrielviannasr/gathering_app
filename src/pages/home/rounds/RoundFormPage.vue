@@ -303,3 +303,33 @@
     )
   })
 </script>
+
+<style scoped>
+  /* Espaçamento dos rows do card da taxa */
+  .item-row {
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+  }
+  .item-row:last-child {
+    border-bottom: none;
+  }
+
+  .label {
+    color: #555;
+    font-size: 14px;
+  }
+
+  .value {
+    font-size: 14px;
+  }
+
+  .trophy-icon {
+    color: #fe9a00 !important;
+  }
+
+  /* Jogador selecionado */
+  .round-player-selected {
+    border: 2px solid #7f00ff;
+    background: #f6ebff;
+  }
+</style>
