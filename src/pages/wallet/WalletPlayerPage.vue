@@ -5,6 +5,11 @@
       <PlayerCard :player="player" />
     </div>
 
+    <!-- SALDO DA CARTEIRA -->
+    <div class="q-pa-md">
+      <PlayerWalletCard :wallet="walletAmount" />
+    </div>
+
     <!-- ADICIONAR TRANSAÇÃO -->
     <div class="q-pa-md">
       <q-btn class="add-btn full-width" no-caps rounded unelevated @click="newTransaction">
@@ -28,8 +33,11 @@
 <script setup>
   import { computed } from 'vue'
   import { useRoute } from 'vue-router'
+
   import PlayerCard from 'src/components/players/PlayerCard.vue'
+  import PlayerWalletCard from 'src/components/players/PlayerWalletCard.vue'
   import TransactionCard from 'src/components/transactions/TransactionCard.vue'
+
   import { usePlayerStore } from 'src/stores/player'
   import { useTransactionStore } from 'src/stores/transaction'
   import { useWalletNavigator } from 'src/composables/navigation'
@@ -40,7 +48,15 @@
   const { goToTransactionForm } = useWalletNavigator()
 
   const playerId = Number(route.params.idPlayer)
+
   const player = computed(() => playerStore.players.find(p => p.id === playerId))
+
+  // MOCK TEMPORÁRIO (depois vem do backend)
+  const walletAmount = computed(() => {
+    return transactionStore.transactions
+      .filter(t => t.idPlayer === playerId)
+      .reduce((acc, t) => acc + t.amount, 0)
+  })
 
   const playerTransactions = computed(() =>
     transactionStore.transactions.filter(t => t.idPlayer === playerId)
