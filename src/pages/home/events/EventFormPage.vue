@@ -49,35 +49,9 @@
         </div>
       </q-card>
 
-      <!-- LISTA DINÂMICA (cada config é um card separado) -->
       <!-- LISTA DINÂMICA -->
       <div v-for="(cfg, index) in form.configs" :key="index" class="q-mt-md">
         <q-card class="q-pa-md form-card">
-          <!-- Linha dos labels -->
-          <!-- <div class="row q-col-gutter-md q-mb-xs items-center">
-            <div class="col-4 text-center config-label">Jogadores</div>
-            <div class="col-4 text-center config-label">Premiação</div>
-            <div class="col-4 text-center config-label">Pote dos Derrotados</div>
-          </div> -->
-
-          <!-- Linha dos inputs -->
-          <!-- <div class="row q-col-gutter-md items-center">
-            <div class="col-12">
-              <GlobalInput type="number" label="" v-model="cfg.players" />
-              <GlobalNumberInput v-model="cfg.players" label="Jogadores" :min="1" :max="99" />
-            </div>
-
-            <div class="col-4">
-              <GlobalInput type="number" label="" v-model="cfg.prize" />
-              <GlobalNumberInput v-model="cfg.prize" :min="0" :step="5" />
-            </div>
-
-            <div class="col-4">
-              <GlobalInput type="number" label="" v-model="cfg.loserPot" />
-              <GlobalNumberInput v-model="cfg.loserPot" :min="0" :step="5" />
-            </div>
-          </div> -->
-
           <div class="row q-col-gutter-md">
             <GlobalNumberInput
               v-model="cfg.players"
@@ -136,78 +110,77 @@
 </template>
 
 <script setup>
-  import { ref, onMounted } from 'vue'
+  import { ref, onMounted, computed } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
 
-  // COMPONENTES GLOBAIS
-  // import GlobalInput from 'components/ui/GlobalInput.vue'
   import GlobalNumberInput from 'components/ui/GlobalNumberInput.vue'
   import GlobalSelect from 'components/ui/GlobalSelect.vue'
+
+  // STORES
+  import { useEventStore } from 'src/stores/event'
+  import { useFormatStore } from 'src/stores/format'
 
   const route = useRoute()
   const router = useRouter()
 
-  const eventId = route.params.id ?? null
+  const eventStore = useEventStore()
+  const formatStore = useFormatStore()
+
+  const eventId = route.params.id ? Number(route.params.id) : null
 
   // ---------------------------------------------
-  // MOCK: lista de formatos
-  // (irá vir da API futuramente)
+  // FORMAT OPTIONS (do Pinia)
   // ---------------------------------------------
-  const formatOptions = [
-    { label: 'Commander', value: 1 },
-    { label: 'Conquest', value: 2 },
-    { label: 'Tiny Leaders', value: 3 }
-  ]
+  const formatOptions = computed(() =>
+    formatStore.formats.map(f => ({
+      label: f.name,
+      value: f.id
+    }))
+  )
 
   // ---------------------------------------------
-  // FORM DEFAULT (novo)
+  // FORM DEFAULT (NOVO EVENTO)
   // ---------------------------------------------
   const form = ref({
     id: null,
     formatId: null,
-    confraFee: '',
-    roundFee: '',
+    confraFee: null,
+    roundFee: null,
     configs: []
   })
 
   // ---------------------------------------------
-  // MOCK DE EVENTO (edição)
-  // ---------------------------------------------
-  const mockEvent = {
-    id: 1,
-    formatId: 1,
-    confraFee: 20.0,
-    roundFee: 10.0,
-    configs: [
-      { id: 1, players: 5, prize: 40.0, loserPot: 10.0 },
-      { id: 2, players: 6, prize: 45.0, loserPot: 15.0 }
-    ]
-  }
-
-  // ---------------------------------------------
-  // AO ENTRAR NA ROTA
+  // CARREGAR EVENTO (EDIÇÃO)
   // ---------------------------------------------
   onMounted(() => {
     if (eventId) {
-      loadEvent(eventId)
+      const ev = eventStore.getEvent(eventId)
+      if (ev) {
+        form.value = {
+          id: ev.id,
+          formatId: ev.idFormat,
+          confraFee: ev.confraFee,
+          roundFee: ev.roundFee,
+          configs: ev.fees.map(f => ({
+            id: f.id,
+            players: f.players,
+            prize: f.prizeFee,
+            loserPot: f.loserFee
+          }))
+        }
+      }
     }
   })
 
-  // Carrega evento mock
-  // eslint-disable-next-line no-unused-vars
-  function loadEvent(id) {
-    form.value = JSON.parse(JSON.stringify(mockEvent))
-  }
-
   // ---------------------------------------------
-  // CONFIGURAÇÕES (ADD/REMOVE)
+  // CONFIGURAÇÕES DE TAXAS (ADD/REMOVE)
   // ---------------------------------------------
   function addConfig() {
     form.value.configs.push({
       id: null,
-      players: '',
-      prize: '',
-      loserPot: ''
+      players: null,
+      prize: null,
+      loserPot: null
     })
   }
 
@@ -225,8 +198,12 @@
   function save() {
     console.log('Salvar evento:', form.value)
 
-    // futuramente: chamada no backend
+    if (eventId) {
+      // atualizar futuramente
+    } else {
+      // criar futuramente
+    }
 
-    router.push('/app/eventos')
+    router.push({ name: 'eventos' })
   }
 </script>
