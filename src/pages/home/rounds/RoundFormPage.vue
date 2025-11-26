@@ -1,18 +1,14 @@
 <template>
   <q-page class="page-bg">
-    <!-- ========================== -->
-    <!-- CARD DO EVENTO (component) -->
-    <!-- ========================== -->
+    <!-- CARD DO EVENTO -->
     <div class="q-pa-md">
-      <EventHeaderCard :event="event" />
+      <EventHeaderCard v-if="event" :event="event" />
+      <q-skeleton v-else height="120px" class="q-ma-md" />
     </div>
 
-    <!-- ========================== -->
-    <!-- CARD DO ROUND (Número + Vencedor) -->
-    <!-- ========================== -->
+    <!-- CARD DO ROUND -->
     <div class="q-pa-md">
-      <q-card class="q-pa-md form-card">
-        <!-- Título + Número da rodada -->
+      <q-card v-if="round" class="q-pa-md form-card">
         <div class="row items-center justify-between">
           <div class="form-section-title">Rodada</div>
           <div class="round-number-circle">
@@ -20,16 +16,14 @@
           </div>
         </div>
 
-        <!-- Linha do vencedor -->
+        <!-- VENCEDOR -->
         <div class="row items-center justify-between q-mt-md">
           <div class="text-subtitle2 text-bold">Vencedor</div>
 
-          <!-- Com vencedor -->
           <div v-if="round.idPlayerWinner" class="winner-box q-pa-sm">
-            {{ findPlayer(round.idPlayerWinner).name }}
+            {{ resolvePlayer(round.idPlayerWinner).name }}
           </div>
 
-          <!-- Sem vencedor -->
           <div v-else class="text-grey">Sem vencedor</div>
         </div>
 
@@ -46,7 +40,6 @@
           </q-badge>
         </div>
 
-        <!-- Toggle continua (opcional) -->
         <div class="row justify-end q-mt-sm">
           <q-toggle
             left-label
@@ -58,65 +51,64 @@
           />
         </div>
       </q-card>
+
+      <q-skeleton v-else height="180px" class="q-pa-md" />
     </div>
 
-    <!-- ========================== -->
-    <!-- CARD DA CONFIGURAÇÃO DA TAXA -->
-    <!-- ========================== -->
+    <!-- CONFIGURAÇÃO ATIVA -->
     <div class="q-pa-md">
-      <q-card class="q-pa-md form-card q-mt-md">
+      <q-card class="q-pa-md form-card">
         <div class="form-section-title">Configuração da Rodada</div>
 
         <div class="q-mt-sm">
-          <!-- Jogadores -->
           <div class="row items-center justify-between q-mb-sm">
             <div class="label">Jogadores</div>
             <div class="round-number-circle-gray">{{ activeConfig?.players }}</div>
           </div>
 
-          <!-- Premiação -->
           <div class="row items-center justify-between q-mb-sm">
             <div class="label">Premiação</div>
-            <div class="value text-right">R$ {{ formatCurrency(activeConfig?.prize) }}</div>
+            <div class="value text-right">R$ {{ format(activeConfig?.prize) }}</div>
           </div>
 
-          <!-- Pote dos derrotados -->
           <div class="row items-center justify-between q-mt-md">
             <div class="label">Pote dos Derrotados</div>
-            <div class="value text-right">R$ {{ formatCurrency(activeConfig?.loserPot) }}</div>
+            <div class="value text-right">R$ {{ format(activeConfig?.loserPot) }}</div>
           </div>
         </div>
       </q-card>
     </div>
 
-    <!-- ========================== -->
-    <!-- CARD DE FILTROS (Adicionar jogador) -->
-    <!-- ========================== -->
+    <!-- ADICIONAR JOGADOR -->
     <div class="q-pa-md">
       <q-card class="q-pa-md form-card">
         <div class="form-section-title">Adicionar Jogador</div>
 
-        <!-- Campo de busca -->
-        <div class="q-mt-sm">
-          <GlobalInput v-model="search" placeholder="Buscar jogador" label="Nome" debounce="300">
-            <template #prepend>
-              <q-icon name="search" />
-            </template>
-          </GlobalInput>
-        </div>
+        <GlobalInput
+          v-model="search"
+          placeholder="Buscar jogador"
+          label="Nome"
+          debounce="300"
+          class="q-mt-sm"
+        >
+          <template #prepend>
+            <q-icon name="search" />
+          </template>
+        </GlobalInput>
 
-        <!-- Lista de resultados -->
         <div v-if="search.length > 0" class="q-mt-md q-gutter-sm">
-          <q-card v-for="player in availablePlayers" :key="player.id" class="list-card q-pa-sm">
-            <div class="row items-center no-wrap">
-              <div class="col">
-                {{ player.name }}
-              </div>
-
-              <q-btn dense rounded unelevated no-caps color="primary" @click="addPlayer(player)">
-                Adicionar
-              </q-btn>
+          <q-card
+            v-for="player in availablePlayers"
+            :key="player.id"
+            class="list-card q-pa-sm row items-center no-wrap"
+          >
+            <div class="col">
+              {{ player.name }}
             </div>
+
+            <q-btn dense rounded unelevated no-caps color="primary" @click="addPlayer(player)">
+              Adicionar
+            </q-btn>
           </q-card>
 
           <div v-if="availablePlayers.length === 0" class="text-grey">
@@ -126,38 +118,29 @@
       </q-card>
     </div>
 
-    <!-- ========================== -->
     <!-- LISTA DE JOGADORES DA RODADA -->
-    <!-- ========================== -->
     <div class="q-pa-md">
       <q-card class="q-pa-md form-card">
         <div class="form-section-title">Jogadores da Rodada</div>
 
-        <!-- Lista -->
         <div v-if="roundPlayers.length > 0" class="q-mt-sm q-gutter-sm">
           <q-card
             v-for="player in roundPlayers"
             :key="player.id"
             class="list-card q-pa-sm"
-            :class="{
-              'round-player-selected': selectedPlayer?.id === player.id
-            }"
+            :class="{ 'round-player-selected': selectedPlayer?.id === player.id }"
             clickable
-            @click="onSelectPlayer(player)"
+            @click="selectPlayer(player)"
           >
             <div class="row items-center no-wrap">
-              <!-- Avatar círculo -->
               <div class="avatar-circle q-mr-md">
                 <div class="avatar-text">{{ initials(player.name) }}</div>
               </div>
 
               <div class="col">
-                <div class="text-subtitle2 text-bold">
-                  {{ player.name }}
-                </div>
+                <div class="text-subtitle2 text-bold">{{ player.name }}</div>
               </div>
 
-              <!-- Ícone do vencedor -->
               <q-icon
                 v-if="round.idPlayerWinner === player.id"
                 name="emoji_events"
@@ -165,7 +148,6 @@
                 size="26px"
               />
 
-              <!-- Botão remover -->
               <q-btn
                 round
                 dense
@@ -180,34 +162,27 @@
 
         <div v-else class="text-grey q-mt-sm">Nenhum jogador na rodada.</div>
 
-        <!-- BOTÃO DEFINIR VENCEDOR — LOGO APÓS A LISTA -->
-        <div class="q-mt-md">
-          <q-btn
-            rounded
-            no-caps
-            class="add-btn full-width"
-            icon="emoji_events"
-            label="Definir Vencedor"
-            :disable="!selectedPlayer"
-            @click="defineWinner"
-          />
-        </div>
+        <q-btn
+          rounded
+          no-caps
+          class="add-btn full-width q-mt-md"
+          icon="emoji_events"
+          label="Definir Vencedor"
+          :disable="!selectedPlayer"
+          @click="defineWinner"
+        />
       </q-card>
     </div>
 
-    <!-- ========================== -->
     <!-- BOTÕES FINAIS -->
-    <!-- ========================== -->
     <div class="q-pa-md">
       <div class="row q-col-gutter-sm">
-        <!-- Cancelar -->
         <div class="col">
-          <q-btn outline rounded no-caps class="full-width" label="Cancelar" @click="onCancel" />
+          <q-btn outline rounded no-caps class="full-width" label="Cancelar" @click="cancel" />
         </div>
 
-        <!-- Salvar -->
         <div class="col">
-          <q-btn rounded no-caps class="add-btn full-width" label="Salvar" @click="onSave" />
+          <q-btn rounded no-caps class="add-btn full-width" label="Salvar" @click="save" />
         </div>
       </div>
     </div>
@@ -215,187 +190,81 @@
 </template>
 
 <script setup>
-  /* -------------------------------------------
-     IMPORTS
-  ------------------------------------------- */
   import { ref, computed, onMounted } from 'vue'
+  import { useRoute, useRouter } from 'vue-router'
+
   import EventHeaderCard from 'src/components/events/EventHeaderCard.vue'
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
-  import { useRouter } from 'vue-router'
 
+  import { useEventStore } from 'src/stores/event'
+  import { useRoundStore } from 'src/stores/round'
+  import { usePlayerStore } from 'src/stores/player'
+
+  /* ------------- ROTAS / STORES ---------------- */
+  const route = useRoute()
   const router = useRouter()
 
-  /* -------------------------------------------
-     MOCKUP DO EVENTO
-  ------------------------------------------- */
-  const event = ref({
-    idFormat: 2,
-    format: { id: 2, name: 'Conquest' },
-    date: '2025-01-20',
-    players: 8,
-    rounds: 8,
-    confraFee: 20.0,
-    roundFee: 10.0
-  })
+  const eventStore = useEventStore()
+  const roundStore = useRoundStore()
+  const playerStore = usePlayerStore()
 
-  /* -------------------------------------------
-     MOCKUP DA RODADA
-  ------------------------------------------- */
-  const round = ref({
-    id: 1,
-    round: 1,
-    idPlayerWinner: 5,
-    canceled: false
-  })
+  /* ------------- PARAMS ---------------- */
+  const idEvent = Number(route.params.idEvent)
+  const roundNumber = Number(route.params.round)
 
-  /* -------------------------------------------
-     MOCKUP DA CONFIGURAÇÃO DA TAXA
-  ------------------------------------------- */
-  // const config = ref({
-  //   players: 6,
-  //   prize: 45.0,
-  //   loserPot: 15.0
-  // })
+  /* ----------------- DATA ---------------- */
+  const event = ref(null)
+  const round = ref(null)
 
-  const players = ref(6) // jogadores da rodada atual
+  const allPlayers = computed(() => playerStore.players)
 
-  const allConfigs = ref([
-    {
-      players: 5,
-      prize: 40.0,
-      loserPot: 10.0
-    },
-    {
-      players: 6,
-      prize: 45.0,
-      loserPot: 15.0
-    }
-  ])
+  /* lista de jogadores dessa rodada */
+  const roundPlayers = ref([])
 
-  // Configuração ativa que será exibida
-  const activeConfig = ref(null)
+  /* configs do evento (fees) */
+  const eventConfigs = computed(() => event.value?.fees ?? [])
 
-  /* -------------------------------------------
-     MOCKUP LISTA DE TODOS OS JOGADORES
-  ------------------------------------------- */
-  const allPlayers = ref([
-    { id: 1, name: 'Anderson Dias' },
-    { id: 2, name: 'Arthur Leal' },
-    { id: 3, name: 'Cindomar Ferreira' },
-    { id: 4, name: 'Gabriel Vianna' },
-    { id: 5, name: 'Jean Benevides' },
-    { id: 6, name: 'Jhonny Dias' },
-    { id: 7, name: 'Tobias Souza' },
-    { id: 8, name: 'Valmir Vicente' }
-  ])
+  /* config ativa conforme qtd jogadores */
+  const activeConfig = computed(
+    () => eventConfigs.value.find(c => c.players === roundPlayers.value.length) || null
+  )
 
-  /* -------------------------------------------
-     JOGADORES DA RODADA
-  ------------------------------------------- */
-  const roundPlayers = ref([
-    // Apenas mock para edição
-    { id: 1, name: 'Anderson Dias' },
-    { id: 2, name: 'Arthur Leal' },
-    { id: 3, name: 'Cindomar Ferreira' },
-    { id: 4, name: 'Gabriel Vianna' },
-    { id: 5, name: 'Jean Benevides' },
-    { id: 6, name: 'Jhonny Dias' }
-  ])
+  /* selecionado para definir vencedor */
+  const selectedPlayer = ref(null)
 
-  /* -------------------------------------------
-     FUNÇÃO PARA ATUALIZAR A CONFIGURAÇÃO ATIVA
-  ------------------------------------------- */
-  function updateActiveConfig() {
-    const count = players.value
-
-    // Procurar config existente
-    const found = allConfigs.value.find(c => c.players === count)
-
-    if (found) {
-      activeConfig.value = { ...found }
-      return
-    }
-
-    // Criar nova config se não existir
-    const newConfig = {
-      players: count,
-      prize: event.value.roundFee * count,
-      loserPot: 0
-    }
-
-    // adiciona ao conjunto geral
-    allConfigs.value.push(newConfig)
-
-    activeConfig.value = { ...newConfig }
-  }
-
-  /* -------------------------------------------
-     BUSCA
-  ------------------------------------------- */
-  const search = ref('')
-
-  /* -------------------------------------------
-     PLAYERS DISPONÍVEIS PARA ADICIONAR
-  ------------------------------------------- */
-  const availablePlayers = computed(() => {
-    if (!search.value) return []
-
-    const q = search.value.toLowerCase()
-
-    return allPlayers.value.filter(
-      p => p.name.toLowerCase().includes(q) && !roundPlayers.value.some(rp => rp.id === p.id)
+  /* ----------------- LOAD ---------------- */
+  onMounted(() => {
+    event.value = eventStore.getEvent(idEvent)
+    round.value = roundStore.getRound(idEvent, roundNumber)
+    roundPlayers.value = playerStore.players.slice(
+      0,
+      roundStore.getRound(idEvent, roundNumber).players
     )
   })
 
-  /* -------------------------------------------
-     SELEÇÃO DO JOGADOR
-  ------------------------------------------- */
-  const selectedPlayer = ref(null)
+  /* ----------------- FUNÇÕES ---------------- */
 
-  function onSelectPlayer(player) {
-    selectedPlayer.value = player
-  }
-
-  /* -------------------------------------------
-     ADICIONAR JOGADOR NA RODADA
-  ------------------------------------------- */
-  function addPlayer(player) {
-    if (roundPlayers.value.some(p => p.id === player.id)) return
-
-    roundPlayers.value.push(player)
-    players.value = roundPlayers.value.length
-
-    updateActiveConfig()
-  }
-
-  /* -------------------------------------------
-     REMOVER JOGADOR
-  ------------------------------------------- */
-  function removePlayer(player) {
-    roundPlayers.value = roundPlayers.value.filter(p => p.id !== player.id)
-    players.value = roundPlayers.value.length
-    updateActiveConfig()
-  }
-
-  /* -------------------------------------------
-     DEFINIR VENCEDOR
-  ------------------------------------------- */
-  function defineWinner() {
-    if (!selectedPlayer.value) return
-    round.value.idPlayerWinner = selectedPlayer.value.id
-  }
-
-  /* -------------------------------------------
-     HELPERS
-  ------------------------------------------- */
-  function findPlayer(id) {
+  function resolvePlayer(id) {
     return allPlayers.value.find(p => p.id === id) || { name: 'Desconhecido' }
   }
 
-  function formatCurrency(v) {
-    const n = Number(v)
-    if (isNaN(n)) return '0,00'
-    return n.toFixed(2).replace('.', ',')
+  function selectPlayer(player) {
+    selectedPlayer.value = player
+  }
+
+  function addPlayer(player) {
+    if (!roundPlayers.value.some(p => p.id === player.id)) {
+      roundPlayers.value.push(player)
+    }
+  }
+
+  function removePlayer(player) {
+    roundPlayers.value = roundPlayers.value.filter(p => p.id !== player.id)
+  }
+
+  function defineWinner() {
+    if (!selectedPlayer.value) return
+    round.value.idPlayerWinner = selectedPlayer.value.id
   }
 
   function initials(name) {
@@ -406,56 +275,31 @@
       .toUpperCase()
   }
 
-  // cancelar / salvar (placeholders)
-  function onCancel() {
+  function format(v) {
+    if (!v) return '0,00'
+    return Number(v).toLocaleString('pt-BR', { minimumFractionDigits: 2 })
+  }
+
+  function cancel() {
     router.back()
   }
 
-  function onSave() {
-    // montagem do payload
-    // const payload = {
-    //   ...round.value,
-    //   players: config.value.players,
-    //   prize: config.value.prize,
-    //   loserPot: config.value.loserPot
-    // }
-    console.log('Salvar round payload')
-    // futuramente: chamada HTTP
+  function save() {
+    console.log('Salvar round:', {
+      ...round.value,
+      players: roundPlayers.value.map(p => p.id)
+    })
     router.back()
   }
 
-  onMounted(() => {
-    players.value = roundPlayers.value.length
-    updateActiveConfig()
+  /* Busca players para adicionar */
+  const search = ref('')
+  const availablePlayers = computed(() => {
+    if (!search.value) return []
+    return allPlayers.value.filter(
+      p =>
+        p.name.toLowerCase().includes(search.value.toLowerCase()) &&
+        !roundPlayers.value.some(rp => rp.id === p.id)
+    )
   })
 </script>
-
-<style scoped>
-  /* Espaçamento dos rows do card da taxa */
-  .item-row {
-    padding: 10px 0;
-    border-bottom: 1px solid #eee;
-  }
-  .item-row:last-child {
-    border-bottom: none;
-  }
-
-  .label {
-    color: #555;
-    font-size: 14px;
-  }
-
-  .value {
-    font-size: 14px;
-  }
-
-  .trophy-icon {
-    color: #fe9a00 !important;
-  }
-
-  /* Jogador selecionado */
-  .round-player-selected {
-    border: 2px solid #7f00ff;
-    background: #f6ebff;
-  }
-</style>
