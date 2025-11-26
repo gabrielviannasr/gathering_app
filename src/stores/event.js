@@ -14,7 +14,23 @@ export const useEventStore = defineStore('event', () => {
       roundFee: 10.0,
       loserPot: 120.0,
       confraPot: 160.0,
-      prize: 360.0
+      prize: 360.0,
+      fees: [
+        {
+          id: 1,
+          idEvent: 1,
+          players: 5,
+          prizeFee: 40,
+          loserFee: 10
+        },
+        {
+          id: 2,
+          idEvent: 1,
+          players: 6,
+          prizeFee: 45,
+          loserFee: 15
+        }
+      ]
     }
   ])
 
