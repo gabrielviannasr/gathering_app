@@ -126,13 +126,10 @@
   import { usePlayerStore } from 'src/stores/player'
   import { useTransactionStore } from 'src/stores/transaction'
   import { useTransactionTypeStore } from 'src/stores/transactionType'
-  import { useWalletNavigator } from 'src/composables/navigation'
 
   /* -------------------- ROUTE -------------------- */
   const route = useRoute()
-  // eslint-disable-next-line no-unused-vars
   const router = useRouter()
-  const { goToWalletPlayer } = useWalletNavigator()
 
   const playerId = Number(route.params.idPlayer)
   const idTransaction = route.params.idTransaction
@@ -213,7 +210,7 @@
     }
 
     confirmSave.value = false
-    goToWalletPlayer(playerId)
+    router.back()
   }
 
   /* -------------------- DELETE -------------------- */
@@ -221,12 +218,12 @@
   async function deleteTransaction() {
     transactionStore.remove(form.value.id)
     confirmDelete.value = false
-    goToWalletPlayer(playerId)
+    router.back()
   }
 
   /* -------------------- CANCEL -------------------- */
   function cancel() {
-    goToWalletPlayer(playerId)
+    router.back()
   }
 </script>
 
