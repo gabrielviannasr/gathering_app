@@ -80,17 +80,17 @@
         <div class="q-mt-sm">
           <div class="row items-center justify-between q-mb-sm">
             <div class="label">Jogadores</div>
-            <div class="round-number-circle-gray">{{ activeConfig?.players }}</div>
+            <div class="round-number-circle-gray">{{ activeConfig?.players ?? 0 }}</div>
           </div>
 
           <div class="row items-center justify-between q-mb-sm">
             <div class="label">Premiação</div>
-            <div class="value text-right">R$ {{ format(activeConfig?.prize) }}</div>
+            <div class="value text-right">R$ {{ format(activeConfig?.prize ?? 0) }}</div>
           </div>
 
           <div class="row items-center justify-between q-mt-md">
             <div class="label">Pote dos Derrotados</div>
-            <div class="value text-right">R$ {{ format(activeConfig?.loserPot) }}</div>
+            <div class="value text-right">R$ {{ format(activeConfig?.loserPot ?? 0) }}</div>
           </div>
         </div>
       </q-card>
@@ -230,7 +230,9 @@
 
   /* ------------- PARAMS ---------------- */
   const idEvent = Number(route.params.idEvent)
-  const roundNumber = Number(route.params.round)
+  const roundParam = route.params.round
+  const isNewRound = roundParam === undefined
+  const roundNumber = isNewRound ? null : Number(roundParam)
 
   /* ----------------- DATA ---------------- */
   const event = ref(null)
@@ -259,17 +261,46 @@
   /* selecionado para definir vencedor */
   const selectedPlayer = ref(null)
 
-  /* ----------------- LOAD ---------------- */
+  /* ---------------- LOAD ---------------- */
   onMounted(() => {
     event.value = eventStore.getEvent(idEvent)
-    round.value = roundStore.getRound(idEvent, roundNumber)
-    // roundPlayers.value = playerStore.players.slice(0, roundStore.getRound(idEvent, roundNumber).players)
-    // jogadores iniciais
-    const initialPlayers = roundStore.getRound(idEvent, roundNumber).players
-    roundPlayers.value = playerStore.players.slice(0, initialPlayers)
 
-    // formato inicial da rodada (se houver)
-    round.value.idFormat = event.value?.idFormat ?? null
+    if (!event.value) {
+      console.warn('EVENT NOT FOUND:', idEvent)
+      router.back()
+      return
+    }
+
+    if (isNewRound) {
+      // --------- CRIA OBJETO PADRÃO PARA NOVA RODADA ---------
+      round.value = {
+        id: null,
+        round: (event.value.rounds ?? 0) + 1, // próximo número
+        idFormat: event.value.idFormat ?? null,
+        idPlayerWinner: null,
+        canceled: false,
+        players: 0,
+        createdAt: new Date().toISOString()
+      }
+
+      // jogadores iniciais (nenhum)
+      roundPlayers.value = []
+    } else {
+      // --------- EDIÇÃO ---------
+      const stored = roundStore.getRoundByNumber(idEvent, roundNumber)
+
+      if (!stored) {
+        console.warn('ROUND NOT FOUND:', idEvent, roundNumber)
+        router.back()
+        return
+      }
+
+      round.value = JSON.parse(JSON.stringify(stored))
+
+      // monta jogadores pela quantidade
+      const qty = stored.players ?? 0
+      roundPlayers.value = playerStore.players.slice(0, qty)
+    }
   })
 
   /* ----------------- FUNÇÕES ---------------- */
