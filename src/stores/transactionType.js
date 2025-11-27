@@ -13,8 +13,13 @@ export const useTransactionTypeStore = defineStore('transactionType', () => {
     return types.value.find(t => t.id === id)
   }
 
+  function getWalletTypes() {
+    return types.value.filter(t => t.id === 3 || t.id === 4)
+  }
+
   return {
     types,
-    getType
+    getType,
+    getWalletTypes
   }
 })
