@@ -72,71 +72,56 @@
 </template>
 
 <script setup>
+  import { ref, computed, onMounted } from 'vue'
+  import { useRoute } from 'vue-router'
+
   import EventHeaderCard from 'src/components/events/EventHeaderCard.vue'
   import EventBodyCard from 'src/components/events/EventBodyCard.vue'
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
-  import { ref, computed } from 'vue'
+
   import { useRankNavigator } from 'src/composables/navigation'
+  import { useEventStore } from 'src/stores/event'
+  import { usePlayerStore } from 'src/stores/player'
+  import { useRankStore } from 'src/stores/rank'
 
+  /* ROUTES */
+  const route = useRoute()
+  const idEvent = Number(route.params.idEvent)
+
+  /* STORES */
   const { goToRankPlayer } = useRankNavigator()
+  const eventStore = useEventStore()
+  const playerStore = usePlayerStore()
+  const rankStore = useRankStore()
 
-  // EVENTO MOCK
-  const event = {
-    id: 2,
-    idFormat: 2,
-    format: { id: 2, name: 'Conquest' },
-    date: '2025-01-21',
-    players: 8,
-    rounds: 8,
-    confraFee: 20.0,
-    roundFee: 10.0
-  }
+  /* EVENT */
+  const event = computed(() => eventStore.getEvent(idEvent))
 
-  // RANK RESULT MOCK
-  const rank = ref([
-    { idEvent: 2, idPlayer: 7, rank: 1, wins: 2, rounds: 4 },
-    { idEvent: 2, idPlayer: 6, rank: 2, wins: 2, rounds: 6 },
-    { idEvent: 2, idPlayer: 2, rank: 3, wins: 1, rounds: 5 },
-    { idEvent: 2, idPlayer: 8, rank: 4, wins: 1, rounds: 6 },
-    { idEvent: 2, idPlayer: 1, rank: 5, wins: 1, rounds: 7 },
-    { idEvent: 2, idPlayer: 5, rank: 6, wins: 1, rounds: 8 },
-    { idEvent: 2, idPlayer: 3, rank: 7, wins: 0, rounds: 6 },
-    { idEvent: 2, idPlayer: 4, rank: 7, wins: 0, rounds: 6 }
-  ])
+  /* RANK */
+  const rank = computed(() => rankStore.getRankByEvent(idEvent))
 
-  // PLAYERS MOCK
-  const players = [
-    { id: 1, name: 'Anderson Dias' },
-    { id: 2, name: 'Arthur Leal' },
-    { id: 3, name: 'Cindomar Ferreira' },
-    { id: 4, name: 'Gabriel Vianna' },
-    { id: 5, name: 'Jean Benevides' },
-    { id: 6, name: 'Jhonny Dias' },
-    { id: 7, name: 'Tobias Souza' },
-    { id: 8, name: 'Valmir Vicente' }
-  ]
+  /* LOAD */
+  onMounted(() => {})
 
+  /* resolve nome do jogador */
   function resolvePlayer(id) {
-    return players.find(p => p.id === id)?.name || '—'
+    return playerStore.players.find(p => p.id === id)?.name || '—'
   }
 
-  // FILTROS
-  const filters = ref({
-    search: ''
-  })
+  /* FILTRO */
+  const filters = ref({ search: '' })
 
   const filteredRank = computed(() => {
-    return rank.value.filter(item =>
-      resolvePlayer(item.idPlayer).toLowerCase().includes(filters.value.search.toLowerCase())
-    )
+    const query = filters.value.search.toLowerCase()
+
+    return rank.value.filter(item => resolvePlayer(item.idPlayer).toLowerCase().includes(query))
   })
 
-  // PAGINAÇÃO MOCK
+  /* página única */
   const page = ref(1)
   const maxPages = 1
 
   function openRankPlayer(item) {
-    console.log('Abrir rank player:', item)
     goToRankPlayer(item.idEvent, item.idPlayer)
   }
 </script>
