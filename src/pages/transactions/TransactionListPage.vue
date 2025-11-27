@@ -28,8 +28,10 @@
   import TransactionCard from 'src/components/transactions/TransactionCard.vue'
   import { useTransactionStore } from 'src/stores/transaction'
   import { useRankNavigator } from 'src/composables/navigation'
+  import { useWalletNavigator } from 'src/composables/navigation'
 
   const { goToRankEvent, goToRankPlayer } = useRankNavigator()
+  const { goToEditTransaction } = useWalletNavigator()
 
   const store = useTransactionStore()
 
@@ -68,19 +70,16 @@
 
     switch (t) {
       case 1: // INSCRIÇÃO
-        console.log('Abrir tela do evento da inscrição:', item)
         goToRankEvent(item.idEvent)
         break
 
       case 2: // RESULTADO
-        console.log('Abrir tela do rank do jogador')
         goToRankPlayer(item.idEvent, item.idPlayer)
         break
 
       case 3: // DEPÓSITO
       case 4: // SAQUE
-        console.log('Abrir carteira do jogador')
-        // goToWalletPlayer(item.idPlayer) ← criaremos depois
+        goToEditTransaction(item.idPlayer, item.id)
         break
     }
   }
