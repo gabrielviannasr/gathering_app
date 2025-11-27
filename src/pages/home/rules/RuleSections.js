@@ -151,13 +151,28 @@ export const ruleSections = [
         <strong>Saldo Rankeado</strong>:
       </p>
 
-      <div class="formula">
-        <span>Saldo Rankeado</span>
-        <span>=</span>
-        <span>Total de Premiações</span>
-        <span>-</span>
-        <span>Total de Inscrições</span>
+      <!-- Formula (tabela visual) -->
+      <div class="rule-formula-wrapper row justify-center text-center text-bold q-pa-md">
+        <table class="rule-formula justify-center" role="table" aria-label="Saldo Rankeado formula">
+            <tbody>
+            <tr>
+                <td class="col-saldo">Saldo</td>
+                <td class="col-eq q-px-md">=</td>
+                <td class="col-main">Total de</td>
+                <td class="col-op q-px-md">-</td>
+                <td class="col-main">Total de</td>
+            </tr>
+            <tr>
+                <td class="col-saldo">Rankeado</td>
+                <td class="col-eq"></td>
+                <td class="col-desc">Premiações</td>
+                <td class="col-op"></td>
+                <td class="col-desc">Inscrições</td>
+            </tr>
+            </tbody>
+        </table>
       </div>
+
 
 
       <p>
