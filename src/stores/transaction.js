@@ -175,7 +175,25 @@ export const useTransactionStore = defineStore('transaction', () => {
     }
   ])
 
+  const getByPlayer = idPlayer => transactions.value.filter(t => t.idPlayer === idPlayer)
+
+  const getById = id => transactions.value.find(t => t.id === Number(id))
+
+  function add(transaction) {
+    transaction.id = Date.now()
+    transactions.value.push(transaction)
+  }
+
+  function update(transaction) {
+    const index = transactions.value.findIndex(t => t.id === transaction.id)
+    if (index >= 0) transactions.value[index] = transaction
+  }
+
   return {
-    transactions
+    transactions,
+    getByPlayer,
+    getById,
+    add,
+    update
   }
 })
