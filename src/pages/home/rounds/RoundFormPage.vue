@@ -254,9 +254,21 @@
   const eventConfigs = computed(() => event.value?.fees ?? [])
 
   /* config ativa conforme qtd jogadores */
-  const activeConfig = computed(
-    () => eventConfigs.value.find(c => c.players === roundPlayers.value.length) || null
-  )
+  const activeConfig = computed(() => {
+    const qty = roundPlayers.value.length
+
+    // 1. Buscar config definida no evento
+    const config = eventConfigs.value.find(c => c.players === qty)
+
+    if (config) return config
+
+    // 2. Fallback dinâmico
+    return {
+      players: qty,
+      prize: qty * (event.value?.roundFee ?? 0),
+      loserPot: 0
+    }
+  })
 
   /* selecionado para definir vencedor */
   const selectedPlayer = ref(null)

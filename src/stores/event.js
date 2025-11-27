@@ -30,15 +30,15 @@ export const useEventStore = defineStore('event', () => {
           id: 1,
           idEvent: 1,
           players: 5,
-          prizeFee: 40,
-          loserFee: 10
+          prize: 40,
+          loserPot: 10
         },
         {
           id: 2,
           idEvent: 1,
           players: 6,
-          prizeFee: 45,
-          loserFee: 15
+          prize: 45,
+          loserPot: 15
         }
       ]
     }
