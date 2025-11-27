@@ -62,8 +62,8 @@
               {{ formatDateShort(item.createdAt) }}
             </div>
 
-            <div class="text-caption text-grey">
-              {{ item.players }} jogadores &nbsp;&nbsp; {{ item.rounds }} rodadas
+            <div class="text-caption q-mt-xs">
+              {{ item.players }} jogadores • {{ item.rounds }} rodadas
             </div>
           </div>
 
