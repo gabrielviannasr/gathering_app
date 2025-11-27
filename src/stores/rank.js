@@ -99,8 +99,13 @@ export const useRankStore = defineStore('rank', () => {
     return rank.value.filter(r => r.idEvent === idEvent)
   }
 
+  function getRankByPlayer(idEvent, idPlayer) {
+    return rank.value.find(r => r.idEvent === idEvent && r.idPlayer === idPlayer) || null
+  }
+
   return {
     rank,
-    getRankByEvent
+    getRankByEvent,
+    getRankByPlayer
   }
 })
