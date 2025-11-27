@@ -67,9 +67,4 @@
   .gathering-tabs .q-tab--active {
     color: #7f00ff !important;
   }
-
-  /* Hover dos itens inativos */
-  .gathering-tabs .q-tab:not(.q-tab--active):hover {
-    color: #000000 !important;
-  }
 </style>
