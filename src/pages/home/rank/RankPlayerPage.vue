@@ -77,13 +77,15 @@
           <!-- Pote dos Derrotados -->
           <div class="row item-row">
             <div class="col-6 label">Pote dos Derrotados</div>
-            <div class="col-6 value">R$ {{ formatCurrency(rank.loserPot) }}</div>
+            <div class="col-6 value">R$ {{ formatCurrency(result?.loserPot ?? 0) }}</div>
           </div>
 
           <!-- Saldo Final (DESTAQUE) -->
           <div class="row item-row final-row">
             <div class="col-6 label">Saldo Final</div>
-            <div class="col-6 value final-value">R$ {{ formatCurrency(rank.finalBalance) }}</div>
+            <div class="col-6 value final-value">
+              R$ {{ formatCurrency(result?.finalBalance ?? rank.rankBalance) }}
+            </div>
           </div>
         </div>
       </q-card>
@@ -92,59 +94,59 @@
 </template>
 
 <script setup>
+  import { computed, onMounted } from 'vue'
+  import { useRoute } from 'vue-router'
+
   import EventHeaderCard from 'src/components/events/EventHeaderCard.vue'
-  import { ref } from 'vue'
 
-  // MOCKUP (substituir depois pela chamada API/route params)
-  const event = ref({
-    id: 2,
-    idFormat: 2,
-    format: { id: 1, name: 'Conquest' },
-    date: '2025-01-20',
-    players: 8,
-    rounds: 8
-  })
+  import { useEventStore } from 'src/stores/event'
+  import { usePlayerStore } from 'src/stores/player'
+  import { useRankStore } from 'src/stores/rank'
+  import { useResultStore } from 'src/stores/result'
 
-  const player = ref({
-    id: 7,
-    name: 'Tobias Souza'
-  })
+  /* ROUTE PARAMS */
+  const route = useRoute()
+  const idEvent = Number(route.params.idEvent)
+  const idPlayer = Number(route.params.idPlayer)
+  console.log('idEvent', idEvent)
+  console.log('idPlayer', idPlayer)
 
-  const rank = ref({
-    idEvent: 2,
-    idPlayer: 7,
-    rank: 1,
-    wins: 2,
-    rounds: 4,
-    positive: 90.0,
-    negative: 40.0,
-    rankBalance: 50.0,
-    loserPot: 0.0,
-    finalBalance: 50.0
-  })
+  /* STORES */
+  const eventStore = useEventStore()
+  const playerStore = usePlayerStore()
+  const rankStore = useRankStore()
+  const resultStore = useResultStore()
 
+  /* EVENT */
+  const event = computed(() => eventStore.getEvent(idEvent))
+
+  /* PLAYER */
+  const player = computed(() => playerStore.getPlayer(idPlayer))
+
+  /* RANK */
+  const rank = computed(() => rankStore.getRankByPlayer(idEvent, idPlayer))
+  console.log('rank', rank.value)
+
+  /* RESULT */
+  const result = computed(() => resultStore.getResultByPlayer(idEvent, idPlayer))
+  console.log('result', result.value)
+
+  /* LOAD */
+  onMounted(() => {})
+
+  /* HELPERS */
   function formatCurrency(v) {
-    return v.toFixed(2).replace('.', ',')
-  }
-
-  // ícones de medalhas
-  // eslint-disable-next-line no-unused-vars
-  function rankMedal(position) {
-    return (
-      {
-        1: 'emoji_events',
-        2: 'military_award', // fallback
-        3: 'military_tech'
-      }[position] || ''
-    )
+    const n = Number(v)
+    if (isNaN(n)) return '0,00'
+    return n.toFixed(2).replace('.', ',')
   }
 
   function rankMedalColor(position) {
     return (
       {
-        1: '#FFD700', // ouro
-        2: '#C0C0C0', // prata
-        3: '#CD7F32' // bronze
+        1: '#FFD700',
+        2: '#C0C0C0',
+        3: '#CD7F32'
       }[position] || '#000000'
     )
   }
