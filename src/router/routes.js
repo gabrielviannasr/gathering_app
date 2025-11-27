@@ -194,6 +194,15 @@ const routes = [
         ]
       },
 
+      // --- Rules ---
+
+      {
+        path: '',
+        name: 'rules',
+        component: () => import('pages/home/rules/RulePage.vue'),
+        meta: { title: 'Regras', subtitle: 'Como Funciona' }
+      },
+
       // --- Carteiras ---
       {
         path: 'carteira-jogador/:idPlayer',

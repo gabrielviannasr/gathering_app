@@ -55,7 +55,7 @@
         title="Regras"
         subtitle="Como Funciona"
         color="#A259FF"
-        @click="console.log('Página de regras ainda não criada')"
+        @click="goToRules"
       />
     </div>
   </q-page>
@@ -69,6 +69,7 @@
   import { usePlayerNavigator } from 'src/composables/navigation'
   import { useRankNavigator } from 'src/composables/navigation'
   import { useRoundNavigator } from 'src/composables/navigation'
+  import { useRuleNavigator } from 'src/composables/navigation'
 
   const { goToEvents } = useEventNavigator()
   const { goToFormats } = useFormatNavigator()
@@ -76,6 +77,7 @@
   const { goToPlayers } = usePlayerNavigator()
   const { goToRankEvents } = useRankNavigator()
   const { goToRoundEvents } = useRoundNavigator()
+  const { goToRules } = useRuleNavigator()
 </script>
 
 <style scoped>
