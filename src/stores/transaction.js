@@ -189,11 +189,19 @@ export const useTransactionStore = defineStore('transaction', () => {
     if (index >= 0) transactions.value[index] = transaction
   }
 
+  function remove(id) {
+    const index = transactions.value.findIndex(t => t.id === id)
+    if (index !== -1) {
+      transactions.value.splice(index, 1)
+    }
+  }
+
   return {
     transactions,
     getByPlayer,
     getById,
     add,
-    update
+    update,
+    remove
   }
 })
