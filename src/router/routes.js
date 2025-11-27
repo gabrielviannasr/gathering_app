@@ -196,10 +196,27 @@ const routes = [
 
       // --- Carteiras ---
       {
-        path: 'carteira/jogadores/:idPlayer',
-        name: 'carteira-jogador',
-        component: () => import('pages/wallet/WalletPlayerPage.vue'),
-        meta: { title: 'Carteira', subtitle: 'Saldo do Jogador' }
+        path: 'carteira-jogador/:idPlayer',
+        children: [
+          {
+            path: '',
+            name: 'carteira-jogador',
+            component: () => import('pages/wallet/WalletPlayerPage.vue'),
+            meta: { title: 'Carteira', subtitle: 'Saldo do Jogador' }
+          },
+          {
+            path: 'transacao/new',
+            name: 'carteira-jogador-transacao-new',
+            component: () => import('pages/wallet/WalletTransactionForm.vue'),
+            meta: { title: 'Carteira', subtitle: 'Nova Transação' }
+          },
+          {
+            path: 'transacao/:idTransaction',
+            name: 'carteira-jogador-transacao-edit',
+            component: () => import('pages/wallet/WalletTransactionForm.vue'),
+            meta: { title: 'Carteira', subtitle: 'Editar Transação' }
+          }
+        ]
       }
     ]
   },

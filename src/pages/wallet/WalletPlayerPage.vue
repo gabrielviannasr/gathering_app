@@ -20,7 +20,7 @@
 
     <!-- ADICIONAR TRANSAÇÃO -->
     <div class="q-pa-md">
-      <q-btn class="add-btn full-width" no-caps rounded unelevated @click="newTransaction">
+      <q-btn class="add-btn full-width" no-caps rounded unelevated @click="onAdd">
         <q-icon name="add" class="q-mr-sm" />
         Nova transação
       </q-btn>
@@ -56,11 +56,11 @@
   const route = useRoute()
   const playerStore = usePlayerStore()
   const transactionStore = useTransactionStore()
-  const { goToTransactionForm } = useWalletNavigator()
+  const { goToNewTransaction, goToEditTransaction } = useWalletNavigator()
 
   const playerId = Number(route.params.idPlayer)
 
-  const player = computed(() => playerStore.players.find(p => p.id === playerId))
+  const player = computed(() => playerStore.getPlayer(playerId))
 
   // MOCK TEMPORÁRIO (depois vem do backend)
   const walletAmount = computed(() => {
@@ -73,12 +73,8 @@
     transactionStore.transactions.filter(t => t.idPlayer === playerId)
   )
 
-  function newTransaction() {
-    goToTransactionForm(playerId)
-  }
-
-  function editTransaction(t) {
-    goToTransactionForm(playerId, t.id)
+  function onAdd() {
+    goToNewTransaction(playerId)
   }
 
   function handleClick(item) {
@@ -86,19 +82,16 @@
 
     switch (t) {
       case 1: // INSCRIÇÃO
-        console.log('Abrir tela do evento da inscrição:', item)
         goToRankEvent(item.idEvent)
         break
 
       case 2: // RESULTADO
-        console.log('Abrir tela do rank do jogador')
         goToRankPlayer(item.idEvent, item.idPlayer)
         break
 
       case 3: // DEPÓSITO
       case 4: // SAQUE
-        console.log('Abrir carteira do jogador')
-        editTransaction(item)
+        goToEditTransaction(item.idPlayer, item.id)
         break
     }
   }
