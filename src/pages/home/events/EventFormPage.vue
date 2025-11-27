@@ -97,7 +97,7 @@
     <!-- BOTÕES FINAIS -->
     <div class="row q-col-gutter-md q-pa-md">
       <div class="col">
-        <q-btn outline color="grey-8" no-caps rounded class="full-width" @click="goBack">
+        <q-btn outline color="grey-8" no-caps rounded class="full-width" @click="cancel">
           Cancelar
         </q-btn>
       </div>
@@ -191,7 +191,7 @@
   // ---------------------------------------------
   // AÇÕES
   // ---------------------------------------------
-  function goBack() {
+  function cancel() {
     router.back()
   }
 
@@ -204,6 +204,6 @@
       // criar futuramente
     }
 
-    router.push({ name: 'eventos' })
+    router.back()
   }
 </script>
