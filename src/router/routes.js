@@ -207,13 +207,13 @@ const routes = [
           {
             path: 'transacao/new',
             name: 'carteira-jogador-transacao-new',
-            component: () => import('pages/wallet/WalletTransactionForm.vue'),
+            component: () => import('src/pages/wallet/WalletTransactionFormPage.vue'),
             meta: { title: 'Carteira', subtitle: 'Nova Transação' }
           },
           {
             path: 'transacao/:idTransaction',
             name: 'carteira-jogador-transacao-edit',
-            component: () => import('pages/wallet/WalletTransactionForm.vue'),
+            component: () => import('src/pages/wallet/WalletTransactionFormPage.vue'),
             meta: { title: 'Carteira', subtitle: 'Editar Transação' }
           }
         ]
