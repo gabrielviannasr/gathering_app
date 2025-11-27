@@ -29,10 +29,10 @@
     <!-- LISTA DE TRANSAÇÕES DO JOGADOR -->
     <div class="q-pa-md q-gutter-md">
       <TransactionCard
-        v-for="t in playerTransactions"
-        :key="t.id"
-        :item="t"
-        @click="editTransaction(t)"
+        v-for="item in playerTransactions"
+        :key="item.id"
+        :item="item"
+        @click="handleClick(item)"
       />
     </div>
   </q-page>
@@ -48,7 +48,10 @@
 
   import { usePlayerStore } from 'src/stores/player'
   import { useTransactionStore } from 'src/stores/transaction'
+  import { useRankNavigator } from 'src/composables/navigation'
   import { useWalletNavigator } from 'src/composables/navigation'
+
+  const { goToRankEvent, goToRankPlayer } = useRankNavigator()
 
   const route = useRoute()
   const playerStore = usePlayerStore()
@@ -76,5 +79,27 @@
 
   function editTransaction(t) {
     goToTransactionForm(playerId, t.id)
+  }
+
+  function handleClick(item) {
+    const t = item.idTransactionType
+
+    switch (t) {
+      case 1: // INSCRIÇÃO
+        console.log('Abrir tela do evento da inscrição:', item)
+        goToRankEvent(item.idEvent)
+        break
+
+      case 2: // RESULTADO
+        console.log('Abrir tela do rank do jogador')
+        goToRankPlayer(item.idEvent, item.idPlayer)
+        break
+
+      case 3: // DEPÓSITO
+      case 4: // SAQUE
+        console.log('Abrir carteira do jogador')
+        editTransaction(item)
+        break
+    }
   }
 </script>
