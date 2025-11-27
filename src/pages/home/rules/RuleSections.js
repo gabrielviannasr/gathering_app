@@ -152,8 +152,8 @@ export const ruleSections = [
       </p>
 
       <!-- Formula (tabela visual) -->
-      <div class="rule-formula-wrapper row justify-center text-center text-bold q-pa-md">
-        <table class="rule-formula justify-center" role="table" aria-label="Saldo Rankeado formula">
+      <div class="row justify-center text-center text-bold q-pa-md">
+        <table class="justify-center" role="table" aria-label="Saldo Rankeado formula">
             <tbody>
             <tr>
                 <td class="col-saldo">Saldo</td>
@@ -172,8 +172,6 @@ export const ruleSections = [
             </tbody>
         </table>
       </div>
-
-
 
       <p>
         Critérios de desempate:
