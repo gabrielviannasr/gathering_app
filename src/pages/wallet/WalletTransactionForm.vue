@@ -13,6 +13,11 @@
       />
     </div>
 
+    <!-- SALDO DA CARTEIRA -->
+    <div class="q-pa-md">
+      <PlayerWalletCard :wallet="walletAmount" />
+    </div>
+
     <!-- CARD DA TRANSAÇÃO -->
     <div class="q-pa-md">
       <q-card class="q-pa-md form-card">
@@ -120,6 +125,7 @@
   import { useRoute, useRouter } from 'vue-router'
 
   import PlayerCard from 'src/components/players/PlayerCard.vue'
+  import PlayerWalletCard from 'src/components/players/PlayerWalletCard.vue'
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
   import GlobalSelect from 'src/components/ui/GlobalSelect.vue'
 
