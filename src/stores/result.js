@@ -115,8 +115,12 @@ export const useResultStore = defineStore('result', () => {
     return result.value.filter(r => r.idEvent === idEvent)
   }
 
+  function getResultByPlayer(idEvent, idPlayer) {
+    return result.value.find(r => r.idEvent === idEvent && r.idPlayer === idPlayer) || null
+  }
   return {
     result,
-    getResultByEvent
+    getResultByEvent,
+    getResultByPlayer
   }
 })
