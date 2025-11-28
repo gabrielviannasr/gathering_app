@@ -29,7 +29,7 @@
       <CardItem
         icon="emoji_events"
         title="Rank"
-        subtitle="Classificação"
+        subtitle="Classificação do Evento"
         color="#FFC107"
         @click="goToRankEvents"
       />
