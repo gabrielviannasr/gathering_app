@@ -79,24 +79,3 @@
   const { goToRoundEvents } = useRoundNavigator()
   const { goToRules } = useRuleNavigator()
 </script>
-
-<style scoped>
-  .home-page {
-    background: #f4f7fa;
-    min-height: 100vh;
-  }
-
-  /* GRID - 2 colunas */
-  .cards-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 14px;
-  }
-
-  /* Ajuste para telas pequenas (iPhones menores) */
-  @media (max-width: 370px) {
-    .cards-grid {
-      gap: 10px;
-    }
-  }
-</style>
