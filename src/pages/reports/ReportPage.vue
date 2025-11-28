@@ -6,8 +6,17 @@
         icon="savings"
         title="Potes"
         subtitle="Resumo"
-        color="#7F00FF"
+        color="#A259FF"
         @click="goToPotsReport"
+      />
+
+      <!-- CARD: VITÓRIAS WINRATE -->
+      <CardItem
+        icon="military_tech"
+        title="Vitórias"
+        subtitle="Winrate"
+        color="#2979FF"
+        @click="goToWinsReport"
       />
 
       <!-- CARD: FORMATOS MAIS JOGADOS -->
@@ -38,5 +47,10 @@
   function goToFormatsReport() {
     console.log('Ir para relatório de formatos')
     // router.push({ name: 'report-formatos' })
+  }
+
+  function goToWinsReport() {
+    console.log('Ir para relatório de vitórias')
+    // router.push({ name: 'report-vitorias' })
   }
 </script>
