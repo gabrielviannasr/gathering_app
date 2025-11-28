@@ -197,7 +197,7 @@ const routes = [
       // --- Rules ---
 
       {
-        path: '',
+        path: 'rules',
         name: 'rules',
         component: () => import('pages/home/rules/RulePage.vue'),
         meta: { title: 'Regras', subtitle: 'Como Funciona' }
