@@ -27,6 +27,14 @@
         color="#00BCD4"
         @click="goToFormatsReport"
       />
+
+      <CardItem
+        icon="emoji_events"
+        title="Rank"
+        subtitle="Classificação da Confra"
+        color="#FFC107"
+        @click="goToRankReport"
+      />
     </div>
   </q-page>
 </template>
@@ -52,5 +60,10 @@
   function goToWinsReport() {
     console.log('Ir para relatório de vitórias')
     // router.push({ name: 'report-vitorias' })
+  }
+
+  function goToRankReport() {
+    console.log('Ira para o rank da confra')
+    // router.push({ name: 'report-rank' })
   }
 </script>
