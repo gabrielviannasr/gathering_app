@@ -31,7 +31,7 @@
       <CardItem
         icon="emoji_events"
         title="Rank"
-        subtitle="Classificação da Confra"
+        subtitle="Confra"
         color="#FFC107"
         @click="goToRankReport"
       />
