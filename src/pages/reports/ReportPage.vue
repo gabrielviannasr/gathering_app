@@ -1,7 +1,6 @@
 <template>
   <q-page class="home-page">
     <div class="cards-grid q-pa-md">
-      <!-- CARD: POTES -->
       <CardItem
         icon="savings"
         title="Potes"
@@ -10,7 +9,6 @@
         @click="goToPotsReport"
       />
 
-      <!-- CARD: VITÓRIAS WINRATE -->
       <CardItem
         icon="military_tech"
         title="Vitórias"
@@ -19,7 +17,6 @@
         @click="goToWinsReport"
       />
 
-      <!-- CARD: FORMATOS MAIS JOGADOS -->
       <CardItem
         icon="style"
         title="Formatos"
