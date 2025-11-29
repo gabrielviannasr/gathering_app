@@ -41,7 +41,7 @@
   import { useRouter } from 'vue-router'
 
   // No futuro pode virar navegação própria
-  // eslint-disable-next-line no-unused-vars
+
   const router = useRouter()
 
   function goToPotsReport() {
@@ -61,6 +61,6 @@
 
   function goToRankReport() {
     console.log('Ira para o rank da confra')
-    // router.push({ name: 'report-rank' })
+    router.push({ name: 'confras-rank' })
   }
 </script>

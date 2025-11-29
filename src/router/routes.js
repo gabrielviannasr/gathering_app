@@ -45,20 +45,26 @@ const routes = [
           {
             path: '',
             name: 'confras',
-            component: () => import('pages/home/gatherings/GatheringListPage.vue'),
+            component: () => import('pages/home/confras/ConfraListPage.vue'),
             meta: { title: 'Confras', subtitle: 'Lista de Confras' }
           },
           {
             path: 'new',
             name: 'confras-new',
-            component: () => import('pages/home/gatherings/GatheringFormPage.vue'),
+            component: () => import('pages/home/confras/ConfraFormPage.vue'),
             meta: { title: 'Confras', subtitle: 'Nova Confra' }
           },
           {
             path: ':id',
             name: 'confras-edit',
-            component: () => import('pages/home/gatherings/GatheringFormPage.vue'),
+            component: () => import('pages/home/confras/ConfraFormPage.vue'),
             meta: { title: 'Confras', subtitle: 'Editar Confra' }
+          },
+          {
+            path: ':id/rank',
+            name: 'confras-rank',
+            component: () => import('src/pages/reports/rank/RankConfraPage.vue'),
+            meta: { title: 'Confras', subtitle: 'Rank da Confra' }
           }
         ]
       },
