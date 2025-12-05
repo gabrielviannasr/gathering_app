@@ -40,8 +40,14 @@
   import CardItem from 'src/components/CardItem.vue'
   import { useRouter } from 'vue-router'
 
-  // No futuro pode virar navegação própria
+  import { useConfraStore } from 'src/stores/confra'
+  import { useConfraNavigator } from 'src/composables/navigation'
 
+  const confraStore = useConfraStore()
+  const { goToConfraRank } = useConfraNavigator()
+
+  // No futuro pode virar navegação própria
+  // eslint-disable-next-line no-unused-vars
   const router = useRouter()
 
   function goToPotsReport() {
@@ -60,7 +66,11 @@
   }
 
   function goToRankReport() {
-    console.log('Ira para o rank da confra')
-    router.push({ name: 'confras-rank' })
+    const id = confraStore.selectedConfra?.id
+    if (!id) {
+      console.warn('Nenhuma confra selecionada.')
+      return
+    }
+    goToConfraRank(id)
   }
 </script>
