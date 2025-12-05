@@ -43,7 +43,7 @@ export const useConfraStore = defineStore('confra', () => {
      - Se existir no confraSummary → retorna
      - Se não existir → gera fallback com zeros
   ------------------------------------------ */
-  function getConfraCard(idGathering) {
+  function getConfraSummary(idGathering) {
     // tenta encontrar na view de resumo
     const summary = confraSummary.value.find(s => s.idGathering === idGathering)
 
@@ -84,6 +84,6 @@ export const useConfraStore = defineStore('confra', () => {
     selectedConfra,
     setConfra,
     getConfraById,
-    getConfraCard
+    getConfraSummary
   }
 })

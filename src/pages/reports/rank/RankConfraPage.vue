@@ -2,7 +2,7 @@
   <q-page class="page-bg">
     <!-- CARD DA CONFRA -->
     <div class="q-pa-md">
-      <ConfraHeaderCard :confra="confra" />
+      <ConfraHeaderCard :confraSummary="confraSummary" />
     </div>
 
     <!-- CARD FILTRO -->
@@ -64,7 +64,7 @@
   const { goToRankPlayer } = useRankNavigator()
 
   /* CONFRA CARD */
-  const confra = computed(() => confraStore.getConfraCard(id))
+  const confraSummary = computed(() => confraStore.getConfraSummary(id))
 
   /* RANK CONFRA */
   const rank = computed(() => rankConfraStore.getRankByGathering(id))
