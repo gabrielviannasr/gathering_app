@@ -14,6 +14,7 @@ export const useConfraStore = defineStore('confra', () => {
     {
       idGathering: 1,
       gatheringName: 'DIRETORIA',
+      year: 2024,
       events: 1,
       players: 8,
       rounds: 8,
