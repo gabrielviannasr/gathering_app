@@ -5,6 +5,11 @@
       <ConfraHeaderCard :confraSummary="confraSummary" />
     </div>
 
+    <!-- CARD DOS POTES -->
+    <div class="q-pa-md">
+      <ConfraBodyCard :confraSummary="confraSummary" />
+    </div>
+
     <!-- CARD FILTRO -->
     <div class="q-pa-md">
       <q-card class="q-pa-md form-card">
@@ -45,6 +50,7 @@
 
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
   import RankListItem from 'src/components/rank/RankListItem.vue'
+  import ConfraBodyCard from 'src/components/confras/ConfraBodyCard.vue'
   import ConfraHeaderCard from 'src/components/confras/ConfraHeaderCard.vue'
 
   import { useConfraStore } from 'src/stores/confra'
