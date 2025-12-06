@@ -44,7 +44,7 @@
   const route = useRoute()
 
   const mode = computed(() => {
-    return route.name === 'confras-rank-player' ? 'confra' : 'event'
+    return route.name === 'rank-confra-jogador' ? 'confra' : 'event'
   })
 
   /* ============================
@@ -55,7 +55,7 @@
   /* ============================
    CONFRA
 ============================ */
-  const idGathering = Number(route.params.id)
+  const idGathering = Number(route.params.idGathering)
   const idPlayer = Number(route.params.idPlayer)
 
   /* STORES */

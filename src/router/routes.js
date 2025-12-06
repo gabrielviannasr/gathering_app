@@ -59,18 +59,6 @@ const routes = [
             name: 'confras-edit',
             component: () => import('pages/home/confras/ConfraFormPage.vue'),
             meta: { title: 'Confras', subtitle: 'Editar Confra' }
-          },
-          {
-            path: ':id/rank',
-            name: 'confras-rank',
-            component: () => import('src/pages/reports/rank/RankConfraPage.vue'),
-            meta: { title: 'Confras', subtitle: 'Rank da Confra' }
-          },
-          {
-            path: ':id/rank/:idPlayer',
-            name: 'confras-rank-player',
-            component: () => import('src/pages/home/rank/RankPlayerPage.vue'),
-            meta: { title: 'Rank', subtitle: 'Rank do Jogador' }
           }
         ]
       },
@@ -193,13 +181,32 @@ const routes = [
           },
           {
             path: ':idEvent',
-            name: 'rank',
+            name: 'rank-evento',
             component: () => import('src/pages/home/rank/RankEventPage.vue'),
             meta: { title: 'Rank', subtitle: 'Rank do Evento' }
           },
           {
             path: ':idEvent/jogador/:idPlayer',
-            name: 'rank-jogador',
+            name: 'rank-evento-jogador',
+            component: () => import('pages/home/rank/RankPlayerPage.vue'),
+            meta: { title: 'Rank', subtitle: 'Rank do Jogador' }
+          }
+        ]
+      },
+
+      // --- Rank / Confras ---
+      {
+        path: 'rank/confras',
+        children: [
+          {
+            path: ':idGathering',
+            name: 'rank-confra',
+            component: () => import('src/pages/reports/rank/RankConfraPage.vue'),
+            meta: { title: 'Rank', subtitle: 'Rank da Confra' }
+          },
+          {
+            path: ':idGathering/jogador/:idPlayer',
+            name: 'rank-confra-jogador',
             component: () => import('pages/home/rank/RankPlayerPage.vue'),
             meta: { title: 'Rank', subtitle: 'Rank do Jogador' }
           }

@@ -8,27 +8,27 @@ export function useRankNavigator() {
 
   const goToRankEvent = idEvent =>
     router.push({
-      name: 'rank',
+      name: 'rank-evento',
       params: { idEvent }
     })
 
   const goToRankPlayerEvent = (idEvent, idPlayer) =>
     router.push({
-      name: 'rank-jogador',
+      name: 'rank-evento-jogador',
       params: { idEvent, idPlayer }
     })
 
   // --- CONFRAS ---
   const goToRankConfra = idGathering =>
     router.push({
-      name: 'confras-rank',
-      params: { id: idGathering }
+      name: 'rank-confra',
+      params: { idGathering }
     })
 
   const goToRankPlayerConfra = (idGathering, idPlayer) =>
     router.push({
-      name: 'confras-rank-player',
-      params: { id: idGathering, idPlayer }
+      name: 'rank-confra-jogador',
+      params: { idGathering, idPlayer }
     })
 
   return {

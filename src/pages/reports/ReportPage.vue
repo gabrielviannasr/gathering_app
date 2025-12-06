@@ -41,10 +41,10 @@
   import { useRouter } from 'vue-router'
 
   import { useConfraStore } from 'src/stores/confra'
-  import { useConfraNavigator } from 'src/composables/navigation'
+  import { useRankNavigator } from 'src/composables/navigation'
 
   const confraStore = useConfraStore()
-  const { goToConfraRank } = useConfraNavigator()
+  const { goToRankConfra } = useRankNavigator()
 
   // No futuro pode virar navegação própria
   // eslint-disable-next-line no-unused-vars
@@ -71,6 +71,6 @@
       console.warn('Nenhuma confra selecionada.')
       return
     }
-    goToConfraRank(id)
+    goToRankConfra(id)
   }
 </script>

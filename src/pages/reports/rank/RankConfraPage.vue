@@ -60,7 +60,7 @@
 
   /* ROUTES */
   const route = useRoute()
-  const id = Number(route.params.id)
+  const idGathering = Number(route.params.idGathering)
 
   /* STORES */
   const confraStore = useConfraStore()
@@ -70,10 +70,10 @@
   const { goToRankPlayerConfra } = useRankNavigator()
 
   /* CONFRA CARD */
-  const confraSummary = computed(() => confraStore.getConfraSummary(id))
+  const confraSummary = computed(() => confraStore.getConfraSummary(idGathering))
 
   /* RANK CONFRA */
-  const rank = computed(() => rankConfraStore.getRankByGathering(id))
+  const rank = computed(() => rankConfraStore.getRankByGathering(idGathering))
 
   /* FILTRO */
   const filters = ref({ search: '' })
@@ -89,6 +89,6 @@
 
   /* NAVEGAÇÃO */
   function openRankPlayer(item) {
-    goToRankPlayerConfra(id, item.idPlayer)
+    goToRankPlayerConfra(idGathering, item.idPlayer)
   }
 </script>
