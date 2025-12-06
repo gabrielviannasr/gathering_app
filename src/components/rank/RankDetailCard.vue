@@ -4,10 +4,10 @@
 
     <div class="rank-table q-mt-md">
       <!-- Jogador -->
-      <!-- <div class="row item-row">
+      <div class="row item-row">
         <div class="col-6 label">Jogador</div>
         <div class="col-6 value text-bold">{{ data.playerName }}</div>
-      </div> -->
+      </div>
 
       <!-- Rank -->
       <div class="row item-row highlight items-center">

@@ -8,7 +8,7 @@
     </div>
 
     <!-- PLAYER -->
-    <div class="q-pa-md">
+    <!-- <div class="q-pa-md">
       <PlayerCard
         :wallet="{
           playerName: player?.name || player?.playerName,
@@ -17,7 +17,7 @@
         }"
         :showArrow="false"
       />
-    </div>
+    </div> -->
 
     <!-- RANK DETAIL -->
     <div class="q-pa-md">
@@ -32,10 +32,10 @@
 
   import EventHeaderCard from 'src/components/events/EventHeaderCard.vue'
   import ConfraHeaderCard from 'src/components/confras/ConfraHeaderCard.vue'
-  import PlayerCard from 'src/components/players/PlayerCard.vue'
+  // import PlayerCard from 'src/components/players/PlayerCard.vue'
   import RankDetailCard from 'src/components/rank/RankDetailCard.vue'
 
-  import { usePlayerStore } from 'src/stores/player'
+  // import { usePlayerStore } from 'src/stores/player'
   import { useEventStore } from 'src/stores/event'
   import { useResultStore } from 'src/stores/result'
   import { useConfraStore } from 'src/stores/confra'
@@ -59,14 +59,14 @@
   const idPlayer = Number(route.params.idPlayer)
 
   /* STORES */
-  const playerStore = usePlayerStore()
+  // const playerStore = usePlayerStore()
   const eventStore = useEventStore()
   const resultStore = useResultStore()
   const confraStore = useConfraStore()
   const rankConfraStore = useRankConfraStore()
 
   /* PLAYER */
-  const player = computed(() => playerStore.getPlayer(idPlayer))
+  // const player = computed(() => playerStore.getPlayer(idPlayer))
 
   /* HEADER DATA (evento ou confra) */
   const headerData = computed(() => {
