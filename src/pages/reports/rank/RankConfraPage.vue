@@ -67,7 +67,7 @@
   // eslint-disable-next-line no-unused-vars
   const playerStore = usePlayerStore()
   const rankConfraStore = useRankConfraStore()
-  const { goToRankPlayer } = useRankNavigator()
+  const { goToRankPlayerConfra } = useRankNavigator()
 
   /* CONFRA CARD */
   const confraSummary = computed(() => confraStore.getConfraSummary(id))
@@ -89,6 +89,6 @@
 
   /* NAVEGAÇÃO */
   function openRankPlayer(item) {
-    goToRankPlayer(item.idEvent ?? 1, item.idPlayer)
+    goToRankPlayerConfra(id, item.idPlayer)
   }
 </script>

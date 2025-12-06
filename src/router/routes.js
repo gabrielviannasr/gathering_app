@@ -65,6 +65,12 @@ const routes = [
             name: 'confras-rank',
             component: () => import('src/pages/reports/rank/RankConfraPage.vue'),
             meta: { title: 'Confras', subtitle: 'Rank da Confra' }
+          },
+          {
+            path: ':id/rank/:idPlayer',
+            name: 'confras-rank-player',
+            component: () => import('src/pages/home/rank/RankPlayerPage.vue'),
+            meta: { title: 'Rank', subtitle: 'Rank do Jogador' }
           }
         ]
       },

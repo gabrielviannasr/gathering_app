@@ -18,8 +18,7 @@ export const useRankConfraStore = defineStore('rankConfra', () => {
       negative: 40.0,
       rankBalance: 50.0,
       loserPot: 0.0,
-      confraPot: -20.0,
-      finalBalance: 30.0
+      finalBalance: 50.0
     },
     {
       idGathering: 1,
@@ -34,8 +33,7 @@ export const useRankConfraStore = defineStore('rankConfra', () => {
       negative: 60.0,
       rankBalance: 30.0,
       loserPot: 0.0,
-      confraPot: -20.0,
-      finalBalance: 10.0
+      finalBalance: 30.0
     },
     {
       idGathering: 1,
@@ -50,8 +48,7 @@ export const useRankConfraStore = defineStore('rankConfra', () => {
       negative: 50.0,
       rankBalance: -5.0,
       loserPot: 0.0,
-      confraPot: -20.0,
-      finalBalance: -25.0
+      finalBalance: -5.0
     },
     {
       idGathering: 1,
@@ -66,8 +63,7 @@ export const useRankConfraStore = defineStore('rankConfra', () => {
       negative: 60.0,
       rankBalance: -15.0,
       loserPot: 0.0,
-      confraPot: -20.0,
-      finalBalance: -35.0
+      finalBalance: -15.0
     },
     {
       idGathering: 1,
@@ -82,8 +78,7 @@ export const useRankConfraStore = defineStore('rankConfra', () => {
       negative: 70.0,
       rankBalance: -25.0,
       loserPot: 0.0,
-      confraPot: -20.0,
-      finalBalance: -45.0
+      finalBalance: -25.0
     },
     {
       idGathering: 1,
@@ -98,8 +93,7 @@ export const useRankConfraStore = defineStore('rankConfra', () => {
       negative: 80.0,
       rankBalance: -35.0,
       loserPot: 0.0,
-      confraPot: -20.0,
-      finalBalance: -55.0
+      finalBalance: -35.0
     },
     {
       idGathering: 1,
@@ -114,8 +108,7 @@ export const useRankConfraStore = defineStore('rankConfra', () => {
       negative: 60.0,
       rankBalance: -60.0,
       loserPot: 60.0,
-      confraPot: -20.0,
-      finalBalance: -20.0
+      finalBalance: 0.0
     },
     {
       idGathering: 1,
@@ -130,8 +123,7 @@ export const useRankConfraStore = defineStore('rankConfra', () => {
       negative: 60.0,
       rankBalance: -60.0,
       loserPot: 60.0,
-      confraPot: -20.0,
-      finalBalance: -20.0
+      finalBalance: 0.0
     }
   ])
 
@@ -139,8 +131,15 @@ export const useRankConfraStore = defineStore('rankConfra', () => {
     return rankConfra.value.filter(r => r.idGathering === idGathering)
   }
 
+  function getRankByPlayer(idGathering, idPlayer) {
+    return (
+      rankConfra.value.find(r => r.idGathering === idGathering && r.idPlayer === idPlayer) || null
+    )
+  }
+
   return {
     rankConfra,
-    getRankByGathering
+    getRankByGathering,
+    getRankByPlayer
   }
 })
