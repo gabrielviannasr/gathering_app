@@ -41,9 +41,11 @@
   import { useRouter } from 'vue-router'
 
   import { useConfraStore } from 'src/stores/confra'
+  import { useConfraNavigator } from 'src/composables/navigation'
   import { useRankNavigator } from 'src/composables/navigation'
 
   const confraStore = useConfraStore()
+  const { goToConfraPots } = useConfraNavigator()
   const { goToRankConfra } = useRankNavigator()
 
   // No futuro pode virar navegação própria
@@ -51,8 +53,12 @@
   const router = useRouter()
 
   function goToPotsReport() {
-    console.log('Ir para relatório de potes')
-    // router.push({ name: 'report-potes' })
+    const id = confraStore.selectedConfra?.id
+    if (!id) {
+      console.warn('Nenhuma confra selecionada.')
+      return
+    }
+    goToConfraPots(id)
   }
 
   function goToFormatsReport() {
