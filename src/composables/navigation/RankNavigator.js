@@ -31,6 +31,9 @@ export function useRankNavigator() {
       params: { idGathering, idPlayer }
     })
 
+  const goToConfraWinrate = idGathering =>
+    router.push({ name: 'rank-confra-winrate', params: { idGathering } })
+
   return {
     // eventos
     goToRankEvents,
@@ -39,6 +42,7 @@ export function useRankNavigator() {
 
     // confras
     goToRankConfra,
-    goToRankPlayerConfra
+    goToRankPlayerConfra,
+    goToConfraWinrate
   }
 }

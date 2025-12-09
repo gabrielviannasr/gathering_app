@@ -223,6 +223,12 @@ const routes = [
             name: 'rank-confra-jogador',
             component: () => import('pages/home/rank/RankPlayerPage.vue'),
             meta: { title: 'Rank', subtitle: 'Rank do Jogador' }
+          },
+          {
+            path: ':idGathering/winrate',
+            name: 'rank-confra-winrate',
+            component: () => import('src/pages/reports/winrate/ConfraWinratePage.vue'),
+            meta: { title: 'Rank', subtitle: 'Winrate da Confra' }
           }
         ]
       },

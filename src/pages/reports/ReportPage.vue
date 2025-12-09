@@ -46,7 +46,7 @@
 
   const confraStore = useConfraStore()
   const { goToConfraPots, goToConfraFormats } = useConfraNavigator()
-  const { goToRankConfra } = useRankNavigator()
+  const { goToRankConfra, goToConfraWinrate } = useRankNavigator()
 
   // No futuro pode virar navegação própria
   // eslint-disable-next-line no-unused-vars
@@ -71,8 +71,12 @@
   }
 
   function goToWinsReport() {
-    console.log('Ir para relatório de vitórias')
-    // router.push({ name: 'report-vitorias' })
+    const id = confraStore.selectedConfra?.id
+    if (!id) {
+      console.warn('Nenhuma confra selecionada.')
+      return
+    }
+    goToConfraWinrate(id)
   }
 
   function goToRankReport() {
