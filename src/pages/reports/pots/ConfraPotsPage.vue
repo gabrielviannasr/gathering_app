@@ -12,52 +12,13 @@
 
     <!-- LISTA DE EVENTOS -->
     <div class="q-pa-md q-gutter-md">
-      <q-card
+      <EventCard
         v-for="event in eventList"
         :key="event.id"
-        class="list-card q-pa-sm"
-        clickable
-        @click="openEvent(event.id)"
-      >
-        <div class="row items-center no-wrap">
-          <!-- Ícone do evento -->
-          <div class="round-number-circle q-mr-md">
-            <q-icon name="event" size="20px" />
-          </div>
-
-          <!-- INFO -->
-          <div class="col">
-            <div class="text-subtitle2 text-bold">Evento #{{ event.id }}</div>
-
-            <div class="text-caption q-mt-xs">
-              {{ event.players }} jogadores • {{ event.rounds }} rodadas
-            </div>
-
-            <!-- Potes -->
-            <div class="text-caption q-mt-xs row justify-between text-center">
-              <div class="col">
-                <span class="text-positive text-bold">R$ {{ event.confraPot }}</span>
-                <div class="text-caption">Confra</div>
-              </div>
-
-              <div class="col">
-                <span class="text-negative text-bold">R$ {{ event.loserPot }}</span>
-                <div class="text-caption">Derrotados</div>
-              </div>
-
-              <div class="col">
-                <span class="text-bold">R$ {{ event.prize }}</span>
-                <div class="text-caption">Premiação</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- SETA -->
-          <div class="q-ml-auto">
-            <q-icon name="chevron_right" size="22px" />
-          </div>
-        </div>
-      </q-card>
+        :event="event"
+        showPots
+        @open="openEvent(event)"
+      />
     </div>
   </q-page>
 </template>
@@ -68,6 +29,7 @@
 
   import ConfraBodyCard from 'src/components/confras/ConfraBodyCard.vue'
   import ConfraHeaderCard from 'src/components/confras/ConfraHeaderCard.vue'
+  import EventCard from 'src/components/events/EventCard.vue'
 
   import { useConfraStore } from 'src/stores/confra'
   import { useEventStore } from 'src/stores/event'
@@ -89,7 +51,7 @@
   const eventList = computed(() => eventStore.getEventsByGathering(idGathering))
 
   /* NAVEGAÇÃO */
-  function openEvent(idEvent) {
-    goToRounds(idEvent)
+  function openEvent(event) {
+    goToRounds(event.id)
   }
 </script>
