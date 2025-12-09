@@ -30,7 +30,7 @@
   import { useRankNavigator } from 'src/composables/navigation'
   import { useWalletNavigator } from 'src/composables/navigation'
 
-  const { goToRankEvent, goToRankPlayer } = useRankNavigator()
+  const { goToRankEvent, goToRankPlayerEvent } = useRankNavigator()
   const { goToEditTransaction } = useWalletNavigator()
 
   const store = useTransactionStore()
@@ -74,7 +74,7 @@
         break
 
       case 2: // RESULTADO
-        goToRankPlayer(item.idEvent, item.idPlayer)
+        goToRankPlayerEvent(item.idEvent, item.idPlayer)
         break
 
       case 3: // DEPÓSITO
