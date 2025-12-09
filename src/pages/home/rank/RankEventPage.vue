@@ -2,7 +2,8 @@
   <q-page class="page-bg">
     <!-- CARD DO EVENTO -->
     <div class="q-pa-md">
-      <EventHeaderCard :event="event" />
+      <!-- <EventHeaderCard :event="event" /> -->
+      <EventCard :event="event" asHeader />
     </div>
 
     <!-- CARD DE INSCRIÇÃO -->
@@ -75,7 +76,8 @@
   import { ref, computed, onMounted } from 'vue'
   import { useRoute } from 'vue-router'
 
-  import EventHeaderCard from 'src/components/events/EventHeaderCard.vue'
+  // import EventHeaderCard from 'src/components/events/EventHeaderCard.vue'
+  import EventCard from 'src/components/events/EventCard.vue'
   import EventBodyCard from 'src/components/events/EventBodyCard.vue'
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
 
