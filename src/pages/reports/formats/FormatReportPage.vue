@@ -9,11 +9,6 @@
     <div class="q-pa-md">
       <FormatChartCard :data="formatList" />
     </div>
-
-    <!-- LISTA -->
-    <div class="q-pa-md">
-      <FormatListCard :formats="formatList" />
-    </div>
   </q-page>
 </template>
 
@@ -23,7 +18,6 @@
 
   import ConfraHeaderCard from 'src/components/confras/ConfraHeaderCard.vue'
   import FormatChartCard from 'src/components/formats/FormatChartCard.vue'
-  import FormatListCard from 'src/components/formats/FormatListCard.vue'
 
   import { useConfraStore } from 'src/stores/confra'
   import { useFormatReportStore } from 'src/stores/formatReport'
