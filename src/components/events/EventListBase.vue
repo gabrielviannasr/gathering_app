@@ -41,35 +41,12 @@
 
     <!-- ===== LISTA ===== -->
     <div class="q-pa-md q-gutter-md">
-      <q-card
+      <EventCard
         v-for="item in filteredEvents"
         :key="item.id"
-        class="list-card q-pa-sm"
-        clickable
-        @click="$emit('open', item)"
-      >
-        <div class="row items-center no-wrap">
-          <!-- Ícone do tipo do formato -->
-          <div class="circle-icon q-mr-md">
-            <q-icon :name="getIcon(item)" color="white" size="24px" />
-          </div>
-
-          <!-- Conteúdo -->
-          <div class="col">
-            <div class="event-badge text-bold">{{ item.format?.name ?? 'Sem Formato' }}</div>
-
-            <div class="text-caption text-grey">
-              {{ formatDateShort(item.createdAt) }}
-            </div>
-
-            <div class="text-caption q-mt-xs">
-              {{ item.players }} jogadores • {{ item.rounds }} rodadas
-            </div>
-          </div>
-
-          <q-icon name="chevron_right" />
-        </div>
-      </q-card>
+        :event="item"
+        @open="$emit('open', item)"
+      />
 
       <!-- Paginação -->
       <div class="q-mt-md q-pb-xl">
@@ -83,11 +60,11 @@
   /* ===============================
    IMPORTS
   ================================ */
+  import EventCard from 'src/components/events/EventCard.vue'
   import GlobalSelect from 'src/components/ui/GlobalSelect.vue'
   import { ref, computed } from 'vue'
   import { useEventStore } from 'src/stores/event'
   import { useFormatStore } from 'src/stores/format'
-  import { formatDateShort } from 'src/utils/date'
   import { monthOptions } from 'src/constants/months'
 
   /* ===============================
@@ -130,16 +107,6 @@
   ================================ */
   const page = ref(1)
   const maxPages = 2 // placeholder
-
-  /* ===============================
-   FUNÇÃO PARA OBTER ÍCONE DO FORMATO
-  ================================ */
-  function getIcon(event) {
-    const type = event.format?.type
-    if (!type) return 'help'
-
-    return type.icon || 'help'
-  }
 
   /* ===============================
    EVENTOS FILTRADOS DO PINIA
