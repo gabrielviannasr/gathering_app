@@ -48,8 +48,13 @@ export const useEventStore = defineStore('event', () => {
     return events.value.find(e => e.id === id) || null
   }
 
+  function getEventsByGathering(idGathering) {
+    return events.value.filter(e => e.idGathering === idGathering)
+  }
+
   return {
     events,
-    getEvent
+    getEvent,
+    getEventsByGathering
   }
 })
