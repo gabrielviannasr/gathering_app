@@ -13,10 +13,13 @@ export function useConfraNavigator() {
       params: { id }
     })
 
+  const goToConfraFormats = id => router.push({ name: 'confras-formats', params: { id } })
+
   return {
     goToConfras,
     goToNewConfra,
     goToEditConfra,
-    goToConfraPots
+    goToConfraPots,
+    goToConfraFormats
   }
 }

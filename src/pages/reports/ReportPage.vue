@@ -45,7 +45,7 @@
   import { useRankNavigator } from 'src/composables/navigation'
 
   const confraStore = useConfraStore()
-  const { goToConfraPots } = useConfraNavigator()
+  const { goToConfraPots, goToConfraFormats } = useConfraNavigator()
   const { goToRankConfra } = useRankNavigator()
 
   // No futuro pode virar navegação própria
@@ -62,8 +62,12 @@
   }
 
   function goToFormatsReport() {
-    console.log('Ir para relatório de formatos')
-    // router.push({ name: 'report-formatos' })
+    const id = confraStore.selectedConfra?.id
+    if (!id) {
+      console.warn('Nenhuma confra selecionada.')
+      return
+    }
+    goToConfraFormats(id)
   }
 
   function goToWinsReport() {

@@ -66,6 +66,13 @@ const routes = [
             name: 'confras-pots',
             component: () => import('src/pages/reports/pots/ConfraPotsPage.vue'),
             meta: { title: 'Confras', subtitle: 'Potes da Confra' }
+          },
+          // --- Formats ---
+          {
+            path: ':id/formats',
+            name: 'confras-formats',
+            component: () => import('src/pages/reports/formats/FormatReportPage.vue'),
+            meta: { title: 'Confras', subtitle: 'Potes da Confra' }
           }
         ]
       },
