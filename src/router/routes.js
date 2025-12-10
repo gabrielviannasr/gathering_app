@@ -66,7 +66,7 @@ const routes = [
           {
             path: ':id/formats',
             name: ROUTES.CONFRAS_FORMATS,
-            component: () => import('pages/reports/formats/FormatReportPage.vue'),
+            component: () => import('src/pages/reports/formats/ConfraFormatPage.vue'),
             meta: { title: 'Confras', subtitle: 'Potes da Confra' }
           },
           {
