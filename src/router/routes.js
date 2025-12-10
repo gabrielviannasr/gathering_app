@@ -60,6 +60,14 @@ const routes = [
             component: () => import('pages/home/confras/ConfraFormPage.vue'),
             meta: { title: 'Confras', subtitle: 'Editar Confra' }
           },
+
+          // --- Formats ---
+          {
+            path: ':id/formats',
+            name: 'confras-formats',
+            component: () => import('src/pages/reports/formats/FormatReportPage.vue'),
+            meta: { title: 'Confras', subtitle: 'Potes da Confra' }
+          },
           // --- Pots ---
           {
             path: ':id/pots',
@@ -67,12 +75,12 @@ const routes = [
             component: () => import('src/pages/reports/pots/ConfraPotsPage.vue'),
             meta: { title: 'Confras', subtitle: 'Potes da Confra' }
           },
-          // --- Formats ---
+          // --- Winrate ---
           {
-            path: ':id/formats',
-            name: 'confras-formats',
-            component: () => import('src/pages/reports/formats/FormatReportPage.vue'),
-            meta: { title: 'Confras', subtitle: 'Potes da Confra' }
+            path: ':id/winrate',
+            name: 'confras-winrate',
+            component: () => import('src/pages/reports/winrate/ConfraWinratePage.vue'),
+            meta: { title: 'Confras', subtitle: 'Winrate da Confra' }
           }
         ]
       },
@@ -223,12 +231,6 @@ const routes = [
             name: 'rank-confra-jogador',
             component: () => import('pages/home/rank/RankPlayerPage.vue'),
             meta: { title: 'Rank', subtitle: 'Rank do Jogador' }
-          },
-          {
-            path: ':idGathering/winrate',
-            name: 'rank-confra-winrate',
-            component: () => import('src/pages/reports/winrate/ConfraWinratePage.vue'),
-            meta: { title: 'Rank', subtitle: 'Winrate da Confra' }
           }
         ]
       },

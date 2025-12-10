@@ -25,7 +25,7 @@
 
   /* ROUTE */
   const route = useRoute()
-  const idGathering = Number(route.params.idGathering)
+  const idGathering = Number(route.params.id)
 
   /* STORES */
   const confraStore = useConfraStore()

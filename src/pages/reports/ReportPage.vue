@@ -45,8 +45,8 @@
   import { useRankNavigator } from 'src/composables/navigation'
 
   const confraStore = useConfraStore()
-  const { goToConfraPots, goToConfraFormats } = useConfraNavigator()
-  const { goToRankConfra, goToConfraWinrate } = useRankNavigator()
+  const { goToConfraFormats, goToConfraPots, goToConfraWinrate } = useConfraNavigator()
+  const { goToRankConfra } = useRankNavigator()
 
   // No futuro pode virar navegação própria
   // eslint-disable-next-line no-unused-vars
