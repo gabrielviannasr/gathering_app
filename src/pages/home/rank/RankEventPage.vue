@@ -91,7 +91,7 @@
   const idEvent = Number(route.params.idEvent)
 
   /* STORES */
-  const { goToRankPlayerEvent } = useRankNavigator()
+  const { goToRankEventPlayer } = useRankNavigator()
   const eventStore = useEventStore()
   const playerStore = usePlayerStore()
   const rankStore = useRankStore()
@@ -124,6 +124,6 @@
   const maxPages = 1
 
   function openRankPlayer(item) {
-    goToRankPlayerEvent(item.idEvent, item.idPlayer)
+    goToRankEventPlayer(item.idEvent, item.idPlayer)
   }
 </script>

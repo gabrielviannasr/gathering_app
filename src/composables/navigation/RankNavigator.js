@@ -12,7 +12,7 @@ export function useRankNavigator() {
       params: { idEvent }
     })
 
-  const goToRankPlayerEvent = (idEvent, idPlayer) =>
+  const goToRankEventPlayer = (idEvent, idPlayer) =>
     router.push({
       name: 'rank-evento-jogador',
       params: { idEvent, idPlayer }
@@ -25,7 +25,7 @@ export function useRankNavigator() {
       params: { idGathering }
     })
 
-  const goToRankPlayerConfra = (idGathering, idPlayer) =>
+  const goToRankConfraPlayer = (idGathering, idPlayer) =>
     router.push({
       name: 'rank-confra-jogador',
       params: { idGathering, idPlayer }
@@ -38,11 +38,11 @@ export function useRankNavigator() {
     // eventos
     goToRankEvents,
     goToRankEvent,
-    goToRankPlayerEvent,
+    goToRankEventPlayer,
 
     // confras
     goToRankConfra,
-    goToRankPlayerConfra,
+    goToRankConfraPlayer,
     goToConfraWinrate
   }
 }
