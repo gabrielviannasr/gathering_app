@@ -6,11 +6,11 @@
   import EventListBase from 'src/components/events/EventListBase.vue'
   import { useEventNavigator } from 'src/composables/navigation'
 
-  const { goToNewEvent, goToEditEvent } = useEventNavigator()
+  const { goToEventNew, goToEditEvent } = useEventNavigator()
 
   function openAddForm() {
     console.log('Adicionar evento')
-    goToNewEvent()
+    goToEventNew()
   }
 
   function openEvent(item) {
