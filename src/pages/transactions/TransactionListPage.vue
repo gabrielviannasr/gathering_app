@@ -33,7 +33,7 @@
   const { goToRankEvent, goToRankEventPlayer } = useRankNavigator()
   const { goToEditTransaction } = useWalletNavigator()
 
-  const store = useTransactionStore()
+  const transactionStore = useTransactionStore()
 
   const filters = ref({
     player: null,
@@ -45,14 +45,15 @@
   const perPage = 10
 
   const filtered = computed(() => {
-    return store.transactions.filter(t => {
-      const matchPlayer = filters.value.player ? t.id_player === filters.value.player : true
+    return transactionStore.transactions.filter(t => {
+      const matchPlayer = filters.value.player ? t.idPlayer === filters.value.player : true
 
-      const matchType = filters.value.type ? t.id_transaction_type === filters.value.type : true
+      const matchType = filters.value.type ? t.idTransactionType === filters.value.type : true
 
-      const matchMonth = filters.value.month
-        ? new Date(t.created_at).getMonth() + 1 === filters.value.month
-        : true
+      const matchMonth =
+        filters.value.month !== null
+          ? new Date(t.createdAt).getMonth() === filters.value.month // <-- 0–11, igual ao monthOptions
+          : true
 
       return matchPlayer && matchType && matchMonth
     })
