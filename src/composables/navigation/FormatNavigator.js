@@ -1,15 +1,12 @@
 import { useRouter } from 'vue-router'
+import { ROUTES } from 'src/router/routes.enum'
 
 export function useFormatNavigator() {
   const router = useRouter()
 
-  const goToFormats = () => router.push({ name: 'formatos' })
-  const goToNewFormat = () => router.push({ name: 'formatos-new' })
-  const goToEditFormat = id => router.push({ name: 'formatos-edit', params: { id } })
-
   return {
-    goToFormats,
-    goToNewFormat,
-    goToEditFormat
+    goToFormats: () => router.push({ name: ROUTES.FORMATOS }),
+    goToNewFormat: () => router.push({ name: ROUTES.FORMATOS_NEW }),
+    goToEditFormat: id => router.push({ name: ROUTES.FORMATOS_EDIT, params: { id } })
   }
 }

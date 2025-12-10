@@ -1,15 +1,12 @@
 import { useRouter } from 'vue-router'
+import { ROUTES } from 'src/router/routes.enum'
 
 export function useEventNavigator() {
   const router = useRouter()
 
-  const goToEvents = () => router.push({ name: 'eventos' })
-  const goToEventNew = () => router.push({ name: 'eventos-new' })
-  const goToEditEvent = id => router.push({ name: 'eventos-edit', params: { id } })
-
   return {
-    goToEvents,
-    goToEventNew,
-    goToEditEvent
+    goToEvents: () => router.push({ name: ROUTES.EVENTOS }),
+    goToEventNew: () => router.push({ name: ROUTES.EVENTOS_NEW }),
+    goToEditEvent: id => router.push({ name: ROUTES.EVENTOS_EDIT, params: { id } })
   }
 }

@@ -1,44 +1,20 @@
 import { useRouter } from 'vue-router'
+import { ROUTES } from 'src/router/routes.enum'
 
 export function useRankNavigator() {
   const router = useRouter()
 
-  // --- EVENTOS ---
-  const goToRankEvents = () => router.push({ name: 'rank-eventos' })
-
-  const goToRankEvent = idEvent =>
-    router.push({
-      name: 'rank-evento',
-      params: { idEvent }
-    })
-
-  const goToRankEventPlayer = (idEvent, idPlayer) =>
-    router.push({
-      name: 'rank-evento-jogador',
-      params: { idEvent, idPlayer }
-    })
-
-  // --- CONFRAS ---
-  const goToRankConfra = idGathering =>
-    router.push({
-      name: 'rank-confra',
-      params: { idGathering }
-    })
-
-  const goToRankConfraPlayer = (idGathering, idPlayer) =>
-    router.push({
-      name: 'rank-confra-jogador',
-      params: { idGathering, idPlayer }
-    })
-
   return {
-    // eventos
-    goToRankEvents,
-    goToRankEvent,
-    goToRankEventPlayer,
+    // Eventos
+    goToRankEvents: () => router.push({ name: ROUTES.RANK_EVENTOS }),
+    goToRankEvent: idEvent => router.push({ name: ROUTES.RANK_EVENTO, params: { idEvent } }),
+    goToRankEventPlayer: (idEvent, idPlayer) =>
+      router.push({ name: ROUTES.RANK_EVENTO_JOGADOR, params: { idEvent, idPlayer } }),
 
-    // confras
-    goToRankConfra,
-    goToRankConfraPlayer
+    // Confras
+    goToRankConfra: idGathering =>
+      router.push({ name: ROUTES.RANK_CONFRA, params: { idGathering } }),
+    goToRankConfraPlayer: (idGathering, idPlayer) =>
+      router.push({ name: ROUTES.RANK_CONFRA_JOGADOR, params: { idGathering, idPlayer } })
   }
 }

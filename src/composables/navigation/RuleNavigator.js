@@ -1,11 +1,10 @@
 import { useRouter } from 'vue-router'
+import { ROUTES } from 'src/router/routes.enum'
 
 export function useRuleNavigator() {
   const router = useRouter()
 
-  const goToRules = () => router.push({ name: 'rules' })
-
   return {
-    goToRules
+    goToRules: () => router.push({ name: ROUTES.RULES })
   }
 }

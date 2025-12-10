@@ -1,15 +1,12 @@
 import { useRouter } from 'vue-router'
+import { ROUTES } from 'src/router/routes.enum'
 
 export function usePlayerNavigator() {
   const router = useRouter()
 
-  const goToPlayers = () => router.push({ name: 'jogadores' })
-  const goToPlayerNew = () => router.push({ name: 'jogadores-new' })
-  const goToPlayerEdit = id => router.push({ name: 'jogadores-edit', params: { id } })
-
   return {
-    goToPlayers,
-    goToPlayerNew,
-    goToPlayerEdit
+    goToPlayers: () => router.push({ name: ROUTES.JOGADORES }),
+    goToPlayerNew: () => router.push({ name: ROUTES.JOGADORES_NEW }),
+    goToPlayerEdit: id => router.push({ name: ROUTES.JOGADORES_EDIT, params: { id } })
   }
 }

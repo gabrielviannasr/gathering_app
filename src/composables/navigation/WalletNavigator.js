@@ -1,22 +1,23 @@
 import { useRouter } from 'vue-router'
+import { ROUTES } from 'src/router/routes.enum'
 
 export function useWalletNavigator() {
   const router = useRouter()
 
-  const goToWalletPlayer = idPlayer =>
-    router.push({ name: 'carteira-jogador', params: { idPlayer } })
+  return {
+    goToWalletPlayer: idPlayer =>
+      router.push({ name: ROUTES.CARTEIRA_JOGADOR, params: { idPlayer } }),
 
-  const goToNewTransaction = idPlayer =>
-    router.push({
-      name: 'carteira-jogador-transacao-new',
-      params: { idPlayer }
-    })
+    goToNewTransaction: idPlayer =>
+      router.push({
+        name: ROUTES.CARTEIRA_JOGADOR_TRANSACAO_NEW,
+        params: { idPlayer }
+      }),
 
-  const goToEditTransaction = (idPlayer, idTransaction) =>
-    router.push({
-      name: 'carteira-jogador-transacao-edit',
-      params: { idPlayer, idTransaction }
-    })
-
-  return { goToWalletPlayer, goToNewTransaction, goToEditTransaction }
+    goToEditTransaction: (idPlayer, idTransaction) =>
+      router.push({
+        name: ROUTES.CARTEIRA_JOGADOR_TRANSACAO_EDIT,
+        params: { idPlayer, idTransaction }
+      })
+  }
 }

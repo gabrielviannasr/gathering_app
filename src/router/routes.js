@@ -1,269 +1,267 @@
+import { ROUTES } from './routes.enum.js'
+
 const routes = [
-  // ===== HOME LAYOUT (com bottom bar) =====
+  // ===== HOME LAYOUT =====
   {
     path: '/',
     component: () => import('layouts/HomeLayout.vue'),
     children: [
-      { path: '', name: 'home', component: () => import('pages/home/HomePage.vue') },
+      { path: '', name: ROUTES.HOME, component: () => import('pages/home/HomePage.vue') },
       {
         path: 'reports',
-        name: 'relatorios',
+        name: ROUTES.RELATORIOS,
         component: () => import('pages/reports/ReportPage.vue')
       }
     ]
   },
 
-  // ===== MAIN LAYOUT (com bottom bar) =====
+  // ===== MAIN LAYOUT =====
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
       {
         path: 'extrato',
-        name: 'extrato',
+        name: ROUTES.EXTRATO,
         component: () => import('pages/transactions/TransactionListPage.vue'),
         meta: { title: 'Extrato', subtitle: 'Histórico de Transações' }
       },
       {
         path: 'carteira/jogadores',
-        name: 'carteira-jogadores',
+        name: ROUTES.CARTEIRA_JOGADORES,
         component: () => import('pages/wallet/WalletPlayerListPage.vue'),
         meta: { title: 'Carteira', subtitle: 'Lista de Jogadores' }
       }
     ]
   },
 
-  // ===== INNER LAYOUT (sem bottom bar) =====
+  // ===== INNER LAYOUT =====
   {
     path: '/',
     component: () => import('layouts/InnerLayout.vue'),
     children: [
-      // --- Confras ---
+      // --- CONFRAS ---
       {
         path: 'confras',
         children: [
           {
             path: '',
-            name: 'confras',
+            name: ROUTES.CONFRAS,
             component: () => import('pages/home/confras/ConfraListPage.vue'),
             meta: { title: 'Confras', subtitle: 'Lista de Confras' }
           },
           {
             path: 'new',
-            name: 'confras-new',
+            name: ROUTES.CONFRAS_NEW,
             component: () => import('pages/home/confras/ConfraFormPage.vue'),
             meta: { title: 'Confras', subtitle: 'Nova Confra' }
           },
           {
             path: ':id',
-            name: 'confras-edit',
+            name: ROUTES.CONFRAS_EDIT,
             component: () => import('pages/home/confras/ConfraFormPage.vue'),
             meta: { title: 'Confras', subtitle: 'Editar Confra' }
           },
 
-          // --- Formats ---
           {
             path: ':id/formats',
-            name: 'confras-formats',
-            component: () => import('src/pages/reports/formats/FormatReportPage.vue'),
+            name: ROUTES.CONFRAS_FORMATS,
+            component: () => import('pages/reports/formats/FormatReportPage.vue'),
             meta: { title: 'Confras', subtitle: 'Potes da Confra' }
           },
-          // --- Pots ---
           {
             path: ':id/pots',
-            name: 'confras-pots',
-            component: () => import('src/pages/reports/pots/ConfraPotsPage.vue'),
+            name: ROUTES.CONFRAS_POTS,
+            component: () => import('pages/reports/pots/ConfraPotsPage.vue'),
             meta: { title: 'Confras', subtitle: 'Potes da Confra' }
           },
-          // --- Winrate ---
           {
             path: ':id/winrate',
-            name: 'confras-winrate',
-            component: () => import('src/pages/reports/winrate/ConfraWinratePage.vue'),
+            name: ROUTES.CONFRAS_WINRATE,
+            component: () => import('pages/reports/winrate/ConfraWinratePage.vue'),
             meta: { title: 'Confras', subtitle: 'Winrate da Confra' }
           }
         ]
       },
 
-      // --- Jogadores ---
+      // --- JOGADORES ---
       {
         path: 'jogadores',
         children: [
           {
             path: '',
-            name: 'jogadores',
+            name: ROUTES.JOGADORES,
             component: () => import('pages/home/players/PlayerListPage.vue'),
             meta: { title: 'Jogadores', subtitle: 'Lista de Jogadores' }
           },
           {
             path: 'new',
-            name: 'jogadores-new',
+            name: ROUTES.JOGADORES_NEW,
             component: () => import('pages/home/players/PlayerFormPage.vue'),
             meta: { title: 'Jogadores', subtitle: 'Novo Jogador' }
           },
           {
             path: ':id',
-            name: 'jogadores-edit',
+            name: ROUTES.JOGADORES_EDIT,
             component: () => import('pages/home/players/PlayerFormPage.vue'),
             meta: { title: 'Jogadores', subtitle: 'Editar Jogador' }
           }
         ]
       },
 
-      // --- Formatos ---
+      // --- FORMATOS ---
       {
         path: 'formatos',
         children: [
           {
             path: '',
-            name: 'formatos',
+            name: ROUTES.FORMATOS,
             component: () => import('pages/home/formats/FormatListPage.vue'),
             meta: { title: 'Formatos', subtitle: 'Lista e Formatos' }
           },
           {
             path: 'new',
-            name: 'formatos-new',
+            name: ROUTES.FORMATOS_NEW,
             component: () => import('pages/home/formats/FormatFormPage.vue'),
             meta: { title: 'Formatos', subtitle: 'Novo Formato' }
           },
           {
             path: ':id',
-            name: 'formatos-edit',
+            name: ROUTES.FORMATOS_EDIT,
             component: () => import('pages/home/formats/FormatFormPage.vue'),
             meta: { title: 'Formatos', subtitle: 'Editar Formato' }
           }
         ]
       },
 
-      // --- Eventos ---
+      // --- EVENTOS ---
       {
         path: 'eventos',
         children: [
           {
             path: '',
-            name: 'eventos',
+            name: ROUTES.EVENTOS,
             component: () => import('pages/home/events/EventListPage.vue'),
             meta: { title: 'Eventos', subtitle: 'Lista de Eventos' }
           },
           {
             path: 'new',
-            name: 'eventos-new',
+            name: ROUTES.EVENTOS_NEW,
             component: () => import('pages/home/events/EventFormPage.vue'),
             meta: { title: 'Eventos', subtitle: 'Novo Evento' }
           },
           {
             path: ':id',
-            name: 'eventos-edit',
+            name: ROUTES.EVENTOS_EDIT,
             component: () => import('pages/home/events/EventFormPage.vue'),
             meta: { title: 'Eventos', subtitle: 'Editar Evento' }
           }
         ]
       },
 
-      // --- Rodadas / Eventos ---
+      // --- RODADAS ---
       {
         path: 'rodadas/eventos',
         children: [
           {
             path: '',
-            name: 'rodadas-eventos',
+            name: ROUTES.RODADAS_EVENTOS,
             component: () => import('pages/home/rounds/RoundEventListPage.vue'),
             meta: { title: 'Rodadas', subtitle: 'Lista de Eventos' }
           },
           {
             path: ':idEvent',
-            name: 'rodadas',
+            name: ROUTES.RODADAS,
             component: () => import('pages/home/rounds/RoundListPage.vue'),
             meta: { title: 'Rodadas', subtitle: 'Lista de Rodadas' }
           },
           {
             path: ':idEvent/rodada/new',
-            name: 'rodadas-new',
+            name: ROUTES.RODADAS_NEW,
             component: () => import('pages/home/rounds/RoundFormPage.vue'),
             meta: { title: 'Rodadas', subtitle: 'Nova Rodada' }
           },
           {
             path: ':idEvent/rodada/:round',
-            name: 'rodadas-edit',
+            name: ROUTES.RODADAS_EDIT,
             component: () => import('pages/home/rounds/RoundFormPage.vue'),
             meta: { title: 'Rodadas', subtitle: 'Editar Rodada' }
           }
         ]
       },
 
-      // --- Rank / Eventos ---
+      // --- RANK: EVENTOS ---
       {
         path: 'rank/eventos',
         children: [
           {
             path: '',
-            name: 'rank-eventos',
+            name: ROUTES.RANK_EVENTOS,
             component: () => import('pages/home/rank/RankEventListPage.vue'),
             meta: { title: 'Rank', subtitle: 'Lista de Eventos' }
           },
           {
             path: ':idEvent',
-            name: 'rank-evento',
-            component: () => import('src/pages/home/rank/RankEventPage.vue'),
+            name: ROUTES.RANK_EVENTO,
+            component: () => import('pages/home/rank/RankEventPage.vue'),
             meta: { title: 'Rank', subtitle: 'Rank do Evento' }
           },
           {
             path: ':idEvent/jogador/:idPlayer',
-            name: 'rank-evento-jogador',
+            name: ROUTES.RANK_EVENTO_JOGADOR,
             component: () => import('pages/home/rank/RankPlayerPage.vue'),
             meta: { title: 'Rank', subtitle: 'Rank do Jogador' }
           }
         ]
       },
 
-      // --- Rank / Confras ---
+      // --- RANK: CONFRAS ---
       {
         path: 'rank/confras',
         children: [
           {
             path: ':idGathering',
-            name: 'rank-confra',
-            component: () => import('src/pages/reports/rank/RankConfraPage.vue'),
+            name: ROUTES.RANK_CONFRA,
+            component: () => import('pages/reports/rank/RankConfraPage.vue'),
             meta: { title: 'Rank', subtitle: 'Rank da Confra' }
           },
           {
             path: ':idGathering/jogador/:idPlayer',
-            name: 'rank-confra-jogador',
+            name: ROUTES.RANK_CONFRA_JOGADOR,
             component: () => import('pages/home/rank/RankPlayerPage.vue'),
             meta: { title: 'Rank', subtitle: 'Rank do Jogador' }
           }
         ]
       },
 
-      // --- Rules ---
-
+      // --- REGRAS ---
       {
         path: 'rules',
-        name: 'rules',
+        name: ROUTES.RULES,
         component: () => import('pages/home/rules/RulePage.vue'),
         meta: { title: 'Regras', subtitle: 'Como Funciona' }
       },
 
-      // --- Carteiras ---
+      // --- CARTEIRA INDIVIDUAL ---
       {
         path: 'carteira-jogador/:idPlayer',
         children: [
           {
             path: '',
-            name: 'carteira-jogador',
+            name: ROUTES.CARTEIRA_JOGADOR,
             component: () => import('pages/wallet/WalletPlayerPage.vue'),
             meta: { title: 'Carteira', subtitle: 'Saldo do Jogador' }
           },
           {
             path: 'transacao/new',
-            name: 'carteira-jogador-transacao-new',
-            component: () => import('src/pages/wallet/WalletTransactionFormPage.vue'),
+            name: ROUTES.CARTEIRA_JOGADOR_TRANSACAO_NEW,
+            component: () => import('pages/wallet/WalletTransactionFormPage.vue'),
             meta: { title: 'Carteira', subtitle: 'Nova Transação' }
           },
           {
             path: 'transacao/:idTransaction',
-            name: 'carteira-jogador-transacao-edit',
-            component: () => import('src/pages/wallet/WalletTransactionFormPage.vue'),
+            name: ROUTES.CARTEIRA_JOGADOR_TRANSACAO_EDIT,
+            component: () => import('pages/wallet/WalletTransactionFormPage.vue'),
             meta: { title: 'Carteira', subtitle: 'Editar Transação' }
           }
         ]
@@ -272,10 +270,7 @@ const routes = [
   },
 
   // 404
-  {
-    path: '/:catchAll(.*)*',
-    component: () => import('pages/ErrorNotFound.vue')
-  }
+  { path: '/:catchAll(.*)*', component: () => import('pages/ErrorNotFound.vue') }
 ]
 
 export default routes

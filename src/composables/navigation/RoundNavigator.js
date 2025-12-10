@@ -1,28 +1,14 @@
 import { useRouter } from 'vue-router'
+import { ROUTES } from 'src/router/routes.enum'
 
 export function useRoundNavigator() {
   const router = useRouter()
 
-  // lista de eventos com rodadas
-  const goToRoundEvents = () => router.push({ name: 'rodadas-eventos' })
-
-  // lista de rodadas de um evento
-  const goToRounds = idEvent => router.push({ name: 'rodadas', params: { idEvent } })
-
-  // criar nova rodada
-  const goToRoundNew = idEvent => router.push({ name: 'rodadas-new', params: { idEvent } })
-
-  // editar rodada existente
-  const goToRoundEdit = (idEvent, round) =>
-    router.push({
-      name: 'rodadas-edit',
-      params: { idEvent, round }
-    })
-
   return {
-    goToRoundEvents,
-    goToRounds,
-    goToRoundNew,
-    goToRoundEdit
+    goToRoundEvents: () => router.push({ name: ROUTES.RODADAS_EVENTOS }),
+    goToRounds: idEvent => router.push({ name: ROUTES.RODADAS, params: { idEvent } }),
+    goToRoundNew: idEvent => router.push({ name: ROUTES.RODADAS_NEW, params: { idEvent } }),
+    goToRoundEdit: (idEvent, round) =>
+      router.push({ name: ROUTES.RODADAS_EDIT, params: { idEvent, round } })
   }
 }
