@@ -15,7 +15,7 @@
   import { ref, computed } from 'vue'
   import { usePlayerNavigator } from 'src/composables/navigation'
 
-  const { goToNewPlayer, goToEditPlayer } = usePlayerNavigator()
+  const { goToPlayerNew, goToPlayerEdit } = usePlayerNavigator()
 
   const filters = ref({ name: '' })
 
@@ -31,10 +31,10 @@
   ]
 
   function onAdd() {
-    goToNewPlayer()
+    goToPlayerNew()
   }
 
   function openPlayer(player) {
-    goToEditPlayer(player.id)
+    goToPlayerEdit(player.id)
   }
 </script>

@@ -4,12 +4,12 @@ export function usePlayerNavigator() {
   const router = useRouter()
 
   const goToPlayers = () => router.push({ name: 'jogadores' })
-  const goToNewPlayer = () => router.push({ name: 'jogadores-new' })
-  const goToEditPlayer = id => router.push({ name: 'jogadores-edit', params: { id } })
+  const goToPlayerNew = () => router.push({ name: 'jogadores-new' })
+  const goToPlayerEdit = id => router.push({ name: 'jogadores-edit', params: { id } })
 
   return {
     goToPlayers,
-    goToNewPlayer,
-    goToEditPlayer
+    goToPlayerNew,
+    goToPlayerEdit
   }
 }
