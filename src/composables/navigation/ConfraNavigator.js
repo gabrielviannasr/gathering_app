@@ -4,8 +4,8 @@ export function useConfraNavigator() {
   const router = useRouter()
 
   const goToConfras = () => router.push({ name: 'confras' })
-  const goToNewConfra = () => router.push({ name: 'confras-new' })
-  const goToEditConfra = id => router.push({ name: 'confras-edit', params: { id } })
+  const goToConfraNew = () => router.push({ name: 'confras-new' })
+  const goToConfraEdit = id => router.push({ name: 'confras-edit', params: { id } })
 
   const goToConfraPots = id =>
     router.push({
@@ -17,8 +17,8 @@ export function useConfraNavigator() {
 
   return {
     goToConfras,
-    goToNewConfra,
-    goToEditConfra,
+    goToConfraNew,
+    goToConfraEdit,
     goToConfraPots,
     goToConfraFormats
   }

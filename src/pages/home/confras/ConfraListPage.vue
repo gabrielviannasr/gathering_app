@@ -86,7 +86,7 @@
   import { ref, computed } from 'vue'
   import { useConfraNavigator } from 'src/composables/navigation'
 
-  const { goToNewConfra, goToEditConfra } = useConfraNavigator()
+  const { goToConfraNew, goToConfraEdit } = useConfraNavigator()
 
   // filtros
   const filters = ref({
@@ -124,11 +124,11 @@
 
   function onAdd() {
     console.log('Adicionar confra')
-    goToNewConfra()
+    goToConfraNew()
   }
 
   function openGathering(item) {
     console.log('Abrir confra', item)
-    goToEditConfra(item.id)
+    goToConfraEdit(item.id)
   }
 </script>
