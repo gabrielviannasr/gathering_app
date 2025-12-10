@@ -120,7 +120,7 @@
   const playerStore = usePlayerStore()
 
   /* NAVIGATION */
-  const { goToNewRound, goToEditRound } = useRoundNavigator()
+  const { goToRoundNew, goToRoundEdit } = useRoundNavigator()
 
   /* EVENT */
   const event = computed(() => eventStore.getEvent(idEvent))
@@ -146,11 +146,11 @@
 
   /* OPEN ROUND FORM */
   function openAddForm() {
-    goToNewRound(idEvent)
+    goToRoundNew(idEvent)
   }
 
   function open(round) {
-    goToEditRound(idEvent, round.round)
+    goToRoundEdit(idEvent, round.round)
   }
 
   /* FINALIZAR EVENTO */

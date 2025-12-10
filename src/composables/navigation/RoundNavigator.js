@@ -10,10 +10,10 @@ export function useRoundNavigator() {
   const goToRounds = idEvent => router.push({ name: 'rodadas', params: { idEvent } })
 
   // criar nova rodada
-  const goToNewRound = idEvent => router.push({ name: 'rodadas-new', params: { idEvent } })
+  const goToRoundNew = idEvent => router.push({ name: 'rodadas-new', params: { idEvent } })
 
   // editar rodada existente
-  const goToEditRound = (idEvent, round) =>
+  const goToRoundEdit = (idEvent, round) =>
     router.push({
       name: 'rodadas-edit',
       params: { idEvent, round }
@@ -22,7 +22,7 @@ export function useRoundNavigator() {
   return {
     goToRoundEvents,
     goToRounds,
-    goToNewRound,
-    goToEditRound
+    goToRoundNew,
+    goToRoundEdit
   }
 }
