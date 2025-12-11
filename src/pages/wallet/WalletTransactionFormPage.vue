@@ -52,6 +52,30 @@
             </template>
           </GlobalInput>
         </div>
+
+        <!-- DESCRIÇÃO / TIPO DE DESCRIÇÃO -->
+        <div class="q-mt-md">
+          <GlobalSelect
+            label="Descrição"
+            v-model="form.descriptionType"
+            :options="descriptionOptions"
+            emit-value
+            map-options
+          />
+        </div>
+
+        <!-- CAMPO DE DESCRIÇÃO MANUAL -->
+        <div v-if="form.descriptionType === 'other'" class="q-mt-md">
+          <GlobalInput
+            v-model="form.description"
+            label="Descrição personalizada"
+            type="textarea"
+            maxlength="25"
+            counter
+            autogrow
+            placeholder="Digite a descrição..."
+          />
+        </div>
       </q-card>
     </div>
 
@@ -137,7 +161,7 @@
   const route = useRoute()
   const router = useRouter()
 
-  const playerId = Number(route.params.idPlayer)
+  const idPlayer = Number(route.params.idPlayer)
   const idTransaction = route.params.idTransaction
   const isNew = idTransaction === undefined
 
@@ -147,11 +171,11 @@
   const typeStore = useTransactionTypeStore()
 
   /* -------------------- PLAYER -------------------- */
-  const player = computed(() => playerStore.getPlayer(playerId))
+  const player = computed(() => playerStore.getPlayer(idPlayer))
 
   const walletAmount = computed(() =>
     transactionStore.transactions
-      .filter(t => t.idPlayer === playerId)
+      .filter(t => t.idPlayer === idPlayer)
       .reduce((acc, t) => acc + t.amount, 0)
   )
 
@@ -166,13 +190,26 @@
   const getType = id => typeStore.getType(id)
   const typeName = computed(() => getType(form.value.idTransactionType)?.name || '')
 
+  /* -------------------- DESCRIPTION OPTIONS ------------- */
+  const descriptionOptions = [
+    { label: 'Transferência Bancária', value: 'transfer' },
+    { label: 'Isenção de Inscrição', value: 'waiver' },
+    { label: 'Outro', value: 'other' }
+  ]
+
+  function getDescriptionLabel(value) {
+    return descriptionOptions.find(d => d.value === value)?.label || null
+  }
+
   /* -------------------- FORM -------------------- */
   const form = ref({
     id: null,
-    idPlayer: playerId,
+    idPlayer: idPlayer,
     idTransactionType: null,
     amount: 0,
     amountMasked: '',
+    descriptionType: 'transfer',
+    description: null,
     createdAt: new Date().toISOString()
   })
 
@@ -208,6 +245,12 @@
 
     // depósito = positivo | saque = negativo
     form.value.amount = type === 3 ? amount : -amount
+
+    if (form.value.descriptionType === 'other') {
+      form.value.description = form.value.description.trim()
+    } else {
+      form.value.description = getDescriptionLabel(form.value.descriptionType)
+    }
 
     if (isNew) {
       transactionStore.add(form.value)
