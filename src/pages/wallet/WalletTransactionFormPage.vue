@@ -18,100 +18,103 @@
       <PlayerWalletCard :wallet="walletAmount" />
     </div>
 
-    <!-- CARD DA TRANSAÇÃO -->
-    <div class="q-pa-md">
-      <q-card class="q-pa-md form-card">
-        <div class="form-section-title">Transação</div>
+    <q-form greedy @submit="onSubmit">
+      <!-- CARD DA TRANSAÇÃO -->
+      <div class="q-pa-md">
+        <q-card class="q-pa-md form-card">
+          <div class="form-section-title">Transação</div>
 
-        <!-- Tipo -->
-        <div class="q-mt-md">
-          <GlobalSelect
-            label="Tipo"
-            :options="walletTypeOptions"
-            v-model="form.idTransactionType"
-            emit-value
-            map-options
-            placeholder="Selecione o tipo"
-          >
-            <template #prepend>
-              <q-icon :name="getType(form.idTransactionType)?.icon || 'payments'" />
-            </template>
-          </GlobalSelect>
-        </div>
+          <!-- Tipo -->
+          <div class="q-mt-md">
+            <GlobalSelect
+              label="Tipo"
+              :options="walletTypeOptions"
+              v-model="form.idTransactionType"
+              emit-value
+              map-options
+              placeholder="Selecione o tipo"
+              :rules="[val => !!val || 'Campo obrigatório!']"
+            >
+              <template #prepend>
+                <q-icon :name="getType(form.idTransactionType)?.icon || 'payments'" />
+              </template>
+            </GlobalSelect>
+          </div>
 
-        <!-- Valor -->
-        <div class="q-mt-md">
-          <GlobalInput
-            v-model="form.amountMasked"
-            label="Valor"
-            placeholder="0,00"
-            @input="handleAmountMasked"
-          >
-            <template #prepend>
-              <q-icon name="attach_money" />
-            </template>
-          </GlobalInput>
-        </div>
+          <!-- Valor -->
+          <div class="q-mt-md">
+            <GlobalInput
+              v-model="form.amountMasked"
+              label="Valor"
+              placeholder="0,00"
+              @input="handleAmountMasked"
+              :rules="[
+                val => !!val || 'Campo obrigatório!',
+                () => numericAmount > 0 || 'O valor deve ser maior que zero!'
+              ]"
+            >
+              <template #prepend>
+                <q-icon name="attach_money" />
+              </template>
+            </GlobalInput>
+          </div>
 
-        <!-- DESCRIÇÃO / TIPO DE DESCRIÇÃO -->
-        <div class="q-mt-md">
-          <GlobalSelect
-            label="Descrição"
-            v-model="form.descriptionType"
-            :options="descriptionOptions"
-            emit-value
-            map-options
-          />
-        </div>
+          <!-- DESCRIÇÃO / TIPO DE DESCRIÇÃO -->
+          <div class="q-mt-md">
+            <GlobalSelect
+              label="Descrição"
+              v-model="form.descriptionType"
+              :options="descriptionOptions"
+              emit-value
+              map-options
+              :rules="[val => !!val || 'Campo obrigatório!']"
+            />
+          </div>
 
-        <!-- CAMPO DE DESCRIÇÃO MANUAL -->
-        <div v-if="form.descriptionType === 'other'" class="q-mt-md">
-          <GlobalInput
-            v-model="form.description"
-            label="Descrição personalizada"
-            type="textarea"
-            maxlength="25"
-            counter
-            autogrow
-            placeholder="Digite a descrição..."
-          />
-        </div>
-      </q-card>
-    </div>
+          <!-- CAMPO DE DESCRIÇÃO MANUAL -->
+          <div v-if="form.descriptionType === 'other'" class="q-mt-md">
+            <GlobalInput
+              v-model="form.description"
+              label="Descrição personalizada"
+              type="textarea"
+              maxlength="25"
+              counter
+              autogrow
+              placeholder="Digite a descrição..."
+              :rules="[val => !!val || 'Campo obrigatório!']"
+            />
+          </div>
+        </q-card>
+      </div>
 
-    <!-- BOTÕES FINAIS -->
-    <div class="q-pa-md">
-      <div class="row q-col-gutter-sm">
-        <!-- Excluir (somente edit) -->
-        <div class="col" v-if="!isNew">
-          <q-btn
-            outline
-            color="negative"
-            rounded
-            no-caps
-            class="full-width"
-            label="Excluir"
-            @click="confirmDelete = true"
-          />
-        </div>
+      <!-- BOTÕES FINAIS -->
+      <div class="q-pa-md">
+        <div class="row q-col-gutter-sm">
+          <!-- Excluir (somente edit) -->
+          <div class="col" v-if="!isNew">
+            <q-btn
+              outline
+              color="negative"
+              rounded
+              no-caps
+              class="full-width"
+              label="Excluir"
+              @click="confirmDelete = true"
+            />
+          </div>
 
-        <!-- Cancelar -->
-        <div class="col">
-          <q-btn outline rounded no-caps class="full-width" label="Cancelar" @click="cancel" />
-        </div>
+          <!-- Cancelar -->
+          <div class="col">
+            <q-btn outline rounded no-caps class="full-width" label="Cancelar" @click="cancel" />
+          </div>
 
-        <!-- Salvar -->
-        <div class="col">
-          <q-btn
-            rounded
-            no-caps
-            class="add-btn full-width"
-            label="Salvar"
-            @click="confirmSave = true"
-          />
+          <!-- Salvar -->
+          <div class="col">
+            <q-btn type="submit" rounded no-caps class="add-btn full-width" label="Salvar" />
+          </div>
         </div>
       </div>
-    </div>
+    </q-form>
 
     <!-- DIALOG CONFIRMAR SALVAR -->
     <q-dialog v-model="confirmSave">
@@ -239,6 +242,11 @@
 
   /* -------------------- SAVE -------------------- */
   const confirmSave = ref(false)
+
+  async function onSubmit() {
+    confirmSave.value = true
+  }
+
   async function save() {
     const type = form.value.idTransactionType
     const amount = numericAmount.value
