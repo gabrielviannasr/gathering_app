@@ -26,9 +26,9 @@
     </template>
 
     <!-- COUNTER -->
-    <template #counter>
+    <!-- <template #counter>
       <slot name="counter" />
-    </template>
+    </template> -->
   </q-input>
 </template>
 
