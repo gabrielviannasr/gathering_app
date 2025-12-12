@@ -42,8 +42,8 @@
           </div>
 
           <!-- Valor -->
-          <div class="q-mt-md">
-            <GlobalInput
+          <div class="">
+            <!-- <GlobalInput
               v-model="form.amountMasked"
               label="Valor"
               placeholder="0,00"
@@ -56,7 +56,18 @@
               <template #prepend>
                 <q-icon name="attach_money" />
               </template>
-            </GlobalInput>
+            </GlobalInput> -->
+            <GlobalNumberInput
+              v-model="form.amount"
+              label="Valor"
+              placeholder="0,00"
+              :min="1"
+              :step="5"
+              :rules="[
+                val => !!val || 'Campo obrigatório!',
+                val => val > 0 || 'O valor deve ser maior que zero!'
+              ]"
+            />
           </div>
 
           <!-- DESCRIÇÃO / TIPO DE DESCRIÇÃO -->
@@ -121,7 +132,7 @@
       <q-card class="q-pa-md">
         <div class="text-h6 q-mb-sm">Confirmar Transação</div>
         <div class="q-mb-md">
-          {{ typeName }} de R$ {{ numericAmount.toFixed(2).replace('.', ',') }}?
+          {{ typeName }} de R$ {{ form.amount.toFixed(2).replace('.', ',') }}?
         </div>
 
         <div class="row q-gutter-sm justify-end">
@@ -154,6 +165,7 @@
   import PlayerCard from 'src/components/players/PlayerCard.vue'
   import PlayerWalletCard from 'src/components/players/PlayerWalletCard.vue'
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
+  import GlobalNumberInput from 'components/ui/GlobalNumberInput.vue'
   import GlobalSelect from 'src/components/ui/GlobalSelect.vue'
 
   import { usePlayerStore } from 'src/stores/player'
@@ -228,6 +240,7 @@
   }
 
   /* -------------------- MASK LOGIC -------------------- */
+  // eslint-disable-next-line no-unused-vars
   function handleAmountMasked(v) {
     const clean = v.replace(/[^\d]/g, '')
     const num = Number(clean) / 100
@@ -235,10 +248,10 @@
   }
 
   /* Amount numérico */
-  const numericAmount = computed(() => {
-    const n = Number(form.value.amountMasked.replace(',', '.'))
-    return isNaN(n) ? 0 : n
-  })
+  // const numericAmount = computed(() => {
+  //   const n = Number(form.value.amountMasked.replace(',', '.'))
+  //   return isNaN(n) ? 0 : n
+  // })
 
   /* -------------------- SAVE -------------------- */
   const confirmSave = ref(false)
@@ -249,7 +262,7 @@
 
   async function save() {
     const type = form.value.idTransactionType
-    const amount = numericAmount.value
+    const amount = form.value.amount
 
     // depósito = positivo | saque = negativo
     form.value.amount = type === 3 ? amount : -amount

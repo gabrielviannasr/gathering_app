@@ -4,12 +4,16 @@
     <label v-if="label" class="gn-label text-center">{{ label }}</label>
 
     <div class="gn-wrapper row items-center no-wrap">
+      <!-- Botão - -->
       <q-btn round dense flat class="gn-btn" @click="decrement">
         <q-icon name="remove" />
       </q-btn>
 
+      <!-- INPUT PRINCIPAL -->
       <q-input
-        v-model.number="internalValue"
+        v-bind="$attrs"
+        :model-value="internalValue"
+        @update:model-value="emitValue"
         type="number"
         dense
         rounded
@@ -17,9 +21,9 @@
         class="gn-input"
         input-class="text-center"
         :placeholder="placeholder"
-        @update:model-value="emitValue"
       />
 
+      <!-- Botão + -->
       <q-btn round dense flat class="gn-btn" @click="increment">
         <q-icon name="add" />
       </q-btn>
@@ -43,12 +47,13 @@
 
   const internalValue = ref(props.modelValue)
 
-  // Atualiza interno quando v-model muda
+  /* Mantém o internalValue sincronizado com v-model externo */
   watch(
     () => props.modelValue,
     v => (internalValue.value = v)
   )
 
+  /* Normaliza e emite o valor */
   function emitValue(v) {
     let n = Number(v)
 
@@ -56,6 +61,7 @@
     if (props.min !== null && n < props.min) n = props.min
     if (props.max !== null && n > props.max) n = props.max
 
+    internalValue.value = n
     emit('update:model-value', n)
   }
 
@@ -83,7 +89,7 @@
   }
 
   .gn-input {
-    flex: 1; /* ocupa todo o espaço restante */
+    flex: 1;
     text-align: center;
   }
 
