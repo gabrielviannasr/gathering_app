@@ -60,7 +60,7 @@
             <GlobalNumberInput
               v-model="form.amount"
               label="Valor"
-              placeholder="0,00"
+              placeholder="0"
               :min="0"
               :step="5"
               :rules="[
