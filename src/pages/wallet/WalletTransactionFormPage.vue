@@ -61,7 +61,7 @@
               v-model="form.amount"
               label="Valor"
               placeholder="0,00"
-              :min="1"
+              :min="0"
               :step="5"
               :rules="[
                 val => !!val || 'Campo obrigatório!',
