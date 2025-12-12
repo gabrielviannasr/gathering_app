@@ -1,29 +1,24 @@
 <template>
   <div class="full-width">
-    <!-- Label opcional -->
     <label v-if="label" class="gn-label text-center">{{ label }}</label>
 
-    <div class="gn-wrapper row items-center no-wrap">
-      <!-- Botão - -->
+    <div class="gn-wrapper">
       <q-btn round dense flat class="gn-btn" @click="decrement">
         <q-icon name="remove" />
       </q-btn>
 
-      <!-- INPUT PRINCIPAL -->
       <q-input
-        v-bind="$attrs"
-        :model-value="internalValue"
+        :model-value="displayValue"
         @update:model-value="emitValue"
         type="number"
         dense
-        rounded
         outlined
+        rounded
         class="gn-input"
         input-class="text-center"
         :placeholder="placeholder"
       />
 
-      <!-- Botão + -->
       <q-btn round dense flat class="gn-btn" @click="increment">
         <q-icon name="add" />
       </q-btn>
@@ -32,14 +27,14 @@
 </template>
 
 <script setup>
-  import { ref, watch } from 'vue'
+  import { computed, ref, watch } from 'vue'
 
   const props = defineProps({
-    modelValue: { type: Number, default: 0 },
-    label: { type: String, default: '' },
-    placeholder: { type: String, default: '' },
-    min: { type: Number, default: 0 },
-    max: { type: Number, default: null },
+    modelValue: Number,
+    label: String,
+    placeholder: String,
+    min: Number,
+    max: Number,
     step: { type: Number, default: 1 }
   })
 
@@ -47,55 +42,54 @@
 
   const internalValue = ref(props.modelValue)
 
-  /* Mantém o internalValue sincronizado com v-model externo */
   watch(
     () => props.modelValue,
     v => (internalValue.value = v)
   )
 
-  /* Normaliza e emite o valor */
+  // placeholder funciona quando valor é null ou ""
+  const displayValue = computed(() =>
+    internalValue.value === 0 || internalValue.value === null ? '' : internalValue.value
+  )
+
   function emitValue(v) {
     let n = Number(v)
+    if (isNaN(n)) n = null
 
-    if (isNaN(n)) n = props.min
     if (props.min !== null && n < props.min) n = props.min
     if (props.max !== null && n > props.max) n = props.max
 
-    internalValue.value = n
     emit('update:model-value', n)
   }
 
   function increment() {
-    emitValue(internalValue.value + props.step)
+    emitValue((internalValue.value || 0) + props.step)
   }
 
   function decrement() {
-    emitValue(internalValue.value - props.step)
+    emitValue((internalValue.value || 0) - props.step)
   }
 </script>
 
 <style scoped>
   .gn-label {
-    font-size: 14px;
     font-weight: 700;
-    color: #0d1a26;
-    margin-bottom: 6px;
+    margin-bottom: 5px;
     display: block;
   }
 
   .gn-wrapper {
     display: flex;
+    align-items: center; /* <-- FIX REAL DO ALINHAMENTO */
     gap: 10px;
   }
 
   .gn-input {
     flex: 1;
-    text-align: center;
   }
 
   .gn-btn {
     background: #f0f3f8;
-    color: #333;
     border: 1px solid #dfe4ea;
   }
 
