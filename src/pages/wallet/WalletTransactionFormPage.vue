@@ -172,6 +172,7 @@
   import { usePlayerStore } from 'src/stores/player'
   import { useTransactionStore } from 'src/stores/transaction'
   import { useTransactionTypeStore } from 'src/stores/transactionType'
+  // import { store } from 'quasar/wrappers'
 
   /* -------------------- ROUTE -------------------- */
   const route = useRoute()
@@ -223,7 +224,7 @@
     idPlayer: idPlayer,
     idTransactionType: null,
     amount: 0,
-    amountMasked: '',
+    // amountMasked: '',
     descriptionType: 'transfer',
     description: null,
     createdAt: new Date().toISOString()
@@ -235,18 +236,19 @@
     if (stored) {
       form.value = {
         ...stored,
-        amountMasked: stored.amount.toFixed(2).replace('.', ',')
+        amount: Math.abs(stored.amount),
+        descriptionType: 'other',
+        description: stored.description
       }
     }
   }
 
   /* -------------------- MASK LOGIC -------------------- */
-  // eslint-disable-next-line no-unused-vars
-  function handleAmountMasked(v) {
-    const clean = v.replace(/[^\d]/g, '')
-    const num = Number(clean) / 100
-    form.value.amountMasked = num.toFixed(2).replace('.', ',')
-  }
+  // function handleAmountMasked(v) {
+  //   const clean = v.replace(/[^\d]/g, '')
+  //   const num = Number(clean) / 100
+  //   form.value.amountMasked = num.toFixed(2).replace('.', ',')
+  // }
 
   /* Amount numérico */
   // const numericAmount = computed(() => {
