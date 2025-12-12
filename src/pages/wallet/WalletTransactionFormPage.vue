@@ -91,6 +91,7 @@
               maxlength="25"
               counter
               autogrow
+              clearable
               placeholder="Digite a descrição..."
               :rules="[val => !!val || 'Campo obrigatório!']"
             />
