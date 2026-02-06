@@ -1,39 +1,41 @@
 <template>
   <q-page class="page-bg">
-    <div class="q-pa-md">
-      <q-card class="q-pa-md form-card">
-        <div class="form-section-title">Formato</div>
+    <q-form @submit.prevent="save">
+      <div class="q-pa-md">
+        <q-card class="q-pa-md form-card">
+          <div class="form-section-title">Formato</div>
 
-        <div class="q-col-gutter-md">
-          <GlobalInput label="Nome" v-model="form.name" />
+          <div class="q-col-gutter-md">
+            <GlobalInput label="Nome" v-model="form.name" />
 
-          <GlobalNumberInput v-model="form.lifeCount" label="Pontos de Vida" :min="1" :step="5" />
+            <GlobalNumberInput v-model="form.lifeCount" label="Pontos de Vida" :min="1" :step="5" />
 
-          <GlobalSelect
-            label="Tipo do Jogo"
-            :options="typeOptions"
-            v-model="form.idFormatType"
-            placeholder="Selecione o tipo"
-            emit-value
-            map-options
-          />
-        </div>
-      </q-card>
+            <GlobalSelect
+              label="Tipo do Jogo"
+              :options="typeOptions"
+              v-model="form.idFormatType"
+              placeholder="Selecione o tipo"
+              emit-value
+              map-options
+            />
+          </div>
+        </q-card>
 
-      <div class="row q-col-gutter-md q-mt-md">
-        <div class="col">
-          <q-btn outline color="grey-8" no-caps rounded class="full-width" @click="cancel">
-            Cancelar
-          </q-btn>
-        </div>
+        <div class="row q-col-gutter-md q-mt-md">
+          <div class="col">
+            <q-btn outline color="grey-8" no-caps rounded class="full-width" @click="cancel">
+              Cancelar
+            </q-btn>
+          </div>
 
-        <div class="col">
-          <q-btn class="add-btn full-width" no-caps rounded unelevated @click="save">
-            Salvar
-          </q-btn>
+          <div class="col">
+            <q-btn type="submit" class="add-btn full-width" no-caps rounded unelevated>
+              Salvar
+            </q-btn>
+          </div>
         </div>
       </div>
-    </div>
+    </q-form>
   </q-page>
 </template>
 
@@ -42,7 +44,7 @@
   import GlobalNumberInput from 'components/ui/GlobalNumberInput.vue'
   import GlobalSelect from 'src/components/ui/GlobalSelect.vue'
 
-  import { ref, computed } from 'vue'
+  import { computed, onMounted, ref } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
   import { useFormatStore } from 'src/stores/format'
   import { useFormatTypeStore } from 'src/stores/formatType'
@@ -53,19 +55,14 @@
   const formatStore = useFormatStore()
   const typeStore = useFormatTypeStore()
 
-  const isEdit = computed(() => !!route.params.id)
-  const formatId = computed(() => Number(route.params.id))
+  const id = route.params.id
+  const isEdit = !!id
 
   const form = ref({
     name: '',
     lifeCount: null,
     idFormatType: null
   })
-
-  if (isEdit.value) {
-    const f = formatStore.getFormat(formatId.value)
-    if (f) Object.assign(form.value, f)
-  }
 
   const typeOptions = computed(() =>
     typeStore.types.map(t => ({
@@ -75,12 +72,33 @@
     }))
   )
 
+  async function save() {
+    try {
+      if (isEdit) {
+        await formatStore.updateFormat(id, form.value)
+      } else {
+        await formatStore.createFormat(form.value)
+      }
+
+      router.back()
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   function cancel() {
     router.back()
   }
 
-  function save() {
-    console.log('Salvar formato:', form.value)
-    router.back()
-  }
+  onMounted(async () => {
+    if (isEdit) {
+      const format = await formatStore.getFormat(id)
+
+      form.value = {
+        name: format.name,
+        lifeCount: format.lifeCount,
+        idFormatType: format.idFormatType
+      }
+    }
+  })
 </script>

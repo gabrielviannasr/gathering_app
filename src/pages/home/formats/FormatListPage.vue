@@ -51,7 +51,7 @@
 
 <script setup>
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
-  import { ref, computed } from 'vue'
+  import { computed, onMounted, ref, watch } from 'vue'
   import { useFormatNavigator } from 'src/composables/navigation'
   import { useFormatStore } from 'src/stores/format'
   import { useFormatTypeStore } from 'src/stores/formatType'
@@ -65,6 +65,16 @@
 
   const page = ref(1)
   const maxPages = 3
+
+  // carregar ao abrir
+  onMounted(load)
+
+  // recarregar ao mudar filtro
+  watch(filters, load, { deep: true })
+
+  async function load() {
+    await formatStore.getFormats(filters.value)
+  }
 
   const filteredFormats = computed(() =>
     formatStore.formats.filter(f => f.name.toLowerCase().includes(filters.value.name.toLowerCase()))
