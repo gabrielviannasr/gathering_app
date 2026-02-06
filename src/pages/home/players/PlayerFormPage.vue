@@ -61,6 +61,10 @@
     }
   }
 
+  function cancel() {
+    router.back()
+  }
+
   onMounted(async () => {
     if (isEdit) {
       const player = await playerStore.getPlayer(id)
@@ -70,13 +74,4 @@
       }
     }
   })
-
-  function cancel() {
-    router.back()
-  }
-
-  // function save() {
-  //   console.log('Salvar jogador:', form.value)
-  //   router.back()
-  // }
 </script>
