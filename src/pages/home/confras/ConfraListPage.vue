@@ -83,16 +83,16 @@
 <script setup>
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
   import GlobalSelect from 'src/components/ui/GlobalSelect.vue'
-  import { ref, computed } from 'vue'
+  import { computed, onMounted, ref, watch } from 'vue'
   import { useConfraNavigator } from 'src/composables/navigation'
+  import { useConfraStore } from 'src/stores/confra'
 
   const { goToConfraNew, goToConfraEdit } = useConfraNavigator()
+  const confraStore = useConfraStore()
 
-  // filtros
-  const filters = ref({
-    name: '',
-    year: null
-  })
+  // paginação mock
+  const page = ref(1)
+  const maxPages = 2
 
   // anos disponíveis
   const yearOptions = [
@@ -102,20 +102,32 @@
     { label: '2023', value: 2023 }
   ]
 
-  // lista mockada
-  const gatherings = [
-    { id: 1, name: 'DIRETORIA', year: 2025, events: 25, players: 13 },
-    { id: 2, name: 'DIRETORIA', year: 2024, events: 20, players: 12 },
-    { id: 3, name: 'DIRETORIA', year: 2023, events: 20, players: 10 }
-  ]
+  // filtros
+  const filters = ref({
+    name: '',
+    year: null
+  })
 
-  // paginação mock
-  const page = ref(1)
-  const maxPages = 2
+  // carregar ao abrir
+  onMounted(load)
+
+  // recarregar ao mudar filtro
+  watch(filters, load, { deep: true })
+
+  async function load() {
+    await confraStore.getConfras(filters.value)
+  }
+
+  // lista mockada
+  // const gatherings = [
+  //   { id: 1, name: 'DIRETORIA', year: 2025, events: 25, players: 13 },
+  //   { id: 2, name: 'DIRETORIA', year: 2024, events: 20, players: 12 },
+  //   { id: 3, name: 'DIRETORIA', year: 2023, events: 20, players: 10 }
+  // ]
 
   // filtro dinâmico
   const filteredGatherings = computed(() => {
-    return gatherings.filter(g => {
+    return confraStore.confras.filter(g => {
       const matchName = g.name.toLowerCase().includes(filters.value.name.toLowerCase())
       const matchYear = filters.value.year ? g.year === filters.value.year : true
       return matchName && matchYear

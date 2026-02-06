@@ -29,21 +29,51 @@
 
 <script setup>
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
-  import { ref } from 'vue'
-  import { useRouter } from 'vue-router'
+  import { onMounted, ref } from 'vue'
+  import { useRoute, useRouter } from 'vue-router'
+  import { useConfraStore } from 'src/stores/confra'
 
+  const confraStore = useConfraStore()
+
+  const route = useRoute()
   const router = useRouter()
 
+  const id = route.params.id
+  const isEdit = !!id
+
   const form = ref({
-    name: ''
+    name: '',
+    year: null,
+    idPlayer: null
   })
 
   function cancel() {
     router.back()
   }
 
-  function save() {
-    console.log('Salvar confra:', form.value)
-    router.back()
+  async function save() {
+    try {
+      if (isEdit) {
+        await confraStore.updateConfra(id, form.value)
+      } else {
+        await confraStore.createConfra(form.value)
+      }
+
+      router.back()
+    } catch (err) {
+      console.error(err)
+    }
   }
+
+  onMounted(async () => {
+    if (isEdit) {
+      const confra = await confraStore.getConfra(id)
+
+      form.value = {
+        name: confra.name,
+        year: confra.year,
+        idPlayer: confra.idPlayer
+      }
+    }
+  })
 </script>

@@ -1,12 +1,14 @@
 // src/stores/useConfraStore.ts
 import { defineStore } from 'pinia'
+import { api } from 'boot/axios'
 import { ref } from 'vue'
 
 export const useConfraStore = defineStore('confra', () => {
-  // Lista de confras cadastradas
+  const selectedConfra = ref({ id: null, name: null, year: null })
+  const confra = ref(null)
   const confras = ref([
-    { id: 1, name: 'DIRETORIA', year: 2024 },
-    { id: 2, name: 'DIRETORIA 2.0', year: 2025 }
+    // { id: 1, name: 'DIRETORIA', year: 2024 },
+    // { id: 2, name: 'DIRETORIA 2.0', year: 2025 }
   ])
 
   // Resumo (mock da view vw_gathering_summary)
@@ -24,9 +26,6 @@ export const useConfraStore = defineStore('confra', () => {
     }
   ])
 
-  // Confra ativa (selecionada)
-  const selectedConfra = ref({ id: null, name: null, year: null })
-
   function setConfra(confra) {
     selectedConfra.value = confra
   }
@@ -34,9 +33,9 @@ export const useConfraStore = defineStore('confra', () => {
   /* ------------------------------------------
      Retorna uma confra da lista base
   ------------------------------------------ */
-  function getConfraById(id) {
-    return confras.value.find(c => c.id === id) || null
-  }
+  // function getConfraById(id) {
+  //   return confras.value.find(c => c.id === id) || null
+  // }
 
   /* ------------------------------------------
      Retorna o resumo da confra:
@@ -50,7 +49,7 @@ export const useConfraStore = defineStore('confra', () => {
     if (summary) return summary
 
     // fallback: busca apenas nome/ano
-    const base = getConfraById(idGathering)
+    const base = getConfra(idGathering)
 
     // se nem a confra existir, retorna algo neutro
     if (!base) {
@@ -79,11 +78,47 @@ export const useConfraStore = defineStore('confra', () => {
     }
   }
 
+  async function getConfras(params) {
+    try {
+      const res = await api.get(`/gathering`, { params })
+      this.confras = res.data
+      return this.confras
+    } catch (err) {
+      return err
+    }
+  }
+
+  async function getConfra(id) {
+    // return confras.value.find(p => p.id === id)
+    try {
+      const res = await api.get(`/gathering/${id}`)
+      this.confra = res.data
+      return this.confra
+    } catch (err) {
+      return err
+    }
+  }
+
+  async function createConfra(data) {
+    const res = await api.post('/gathering', data)
+    return res.data
+  }
+
+  async function updateConfra(id, data) {
+    const res = await api.put(`/gathering/${id}`, data)
+    return res.data
+  }
+
   return {
+    confra,
     confras,
     selectedConfra,
     setConfra,
-    getConfraById,
+    // getConfraById,
+    getConfra,
+    getConfras,
+    createConfra,
+    updateConfra,
     getConfraSummary
   }
 })
