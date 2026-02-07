@@ -151,6 +151,8 @@
   // CARREGAR EVENTO (EDIÇÃO)
   // ---------------------------------------------
   onMounted(async () => {
+    await formatStore.getFormats()
+
     if (isEdit) {
       const event = await eventStore.getEvent(id)
 
