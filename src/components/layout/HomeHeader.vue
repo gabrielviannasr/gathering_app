@@ -30,7 +30,7 @@
 <script setup>
   import { useConfraStore } from 'src/stores/confra'
   import { storeToRefs } from 'pinia'
-  import { ref } from 'vue'
+  import { onMounted, ref } from 'vue'
 
   const confraStore = useConfraStore()
   const { confras, selectedConfra } = storeToRefs(confraStore)
@@ -40,6 +40,12 @@
   function selectConfra(confra) {
     confraStore.setConfra(confra)
     confraPopup.value = false
+  }
+
+  onMounted(load)
+
+  async function load() {
+    await confraStore.getConfras()
   }
 </script>
 
