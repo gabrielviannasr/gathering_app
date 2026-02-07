@@ -11,7 +11,7 @@
           <GlobalSelect
             label="Formato"
             :options="formatOptions"
-            v-model="form.formatId"
+            v-model="form.idFormat"
             placeholder="Selecione o formato"
             emit-value
             map-options
@@ -50,7 +50,7 @@
       </q-card>
 
       <!-- LISTA DINÂMICA -->
-      <div v-for="(cfg, index) in form.configs" :key="index" class="q-mt-md">
+      <div v-for="(cfg, index) in form.fees" :key="index" class="q-mt-md">
         <q-card class="q-pa-md form-card">
           <div class="row q-col-gutter-md">
             <GlobalNumberInput
@@ -62,7 +62,7 @@
             />
 
             <GlobalNumberInput
-              v-model="cfg.prize"
+              v-model="cfg.prizeFee"
               label="Premiação"
               placeholder="Digite a taxa da premiação"
               :min="1"
@@ -70,7 +70,7 @@
             />
 
             <GlobalNumberInput
-              v-model="cfg.loserPot"
+              v-model="cfg.loserFee"
               label="Pote dos Derrotados"
               placeholder="Digite a taxa dos derrotados"
               :min="1"
@@ -110,23 +110,21 @@
 </template>
 
 <script setup>
-  import { ref, onMounted, computed } from 'vue'
-  import { useRoute, useRouter } from 'vue-router'
-
   import GlobalNumberInput from 'components/ui/GlobalNumberInput.vue'
   import GlobalSelect from 'components/ui/GlobalSelect.vue'
-
-  // STORES
+  import { ref, onMounted, computed } from 'vue'
+  import { useRoute, useRouter } from 'vue-router'
   import { useEventStore } from 'src/stores/event'
   import { useFormatStore } from 'src/stores/format'
-
-  const route = useRoute()
-  const router = useRouter()
 
   const eventStore = useEventStore()
   const formatStore = useFormatStore()
 
-  const eventId = route.params.id ? Number(route.params.id) : null
+  const route = useRoute()
+  const router = useRouter()
+
+  const id = route.params.id
+  const isEdit = !!id
 
   // ---------------------------------------------
   // FORMAT OPTIONS (do Pinia)
@@ -143,31 +141,32 @@
   // ---------------------------------------------
   const form = ref({
     id: null,
-    formatId: null,
+    idFormat: null,
     confraFee: null,
     roundFee: null,
-    configs: []
+    fees: []
   })
 
   // ---------------------------------------------
   // CARREGAR EVENTO (EDIÇÃO)
   // ---------------------------------------------
-  onMounted(() => {
-    if (eventId) {
-      const ev = eventStore.getEvent(eventId)
-      if (ev) {
-        form.value = {
-          id: ev.id,
-          formatId: ev.idFormat,
-          confraFee: ev.confraFee,
-          roundFee: ev.roundFee,
-          configs: ev.fees.map(f => ({
-            id: f.id,
-            players: f.players,
-            prize: f.prizeFee,
-            loserPot: f.loserFee
-          }))
-        }
+  onMounted(async () => {
+    if (isEdit) {
+      const event = await eventStore.getEvent(id)
+
+      form.value = {
+        id: event.id,
+        idGathering: event.idGathering,
+        idFormat: event.idFormat,
+        confraFee: event.confraFee,
+        roundFee: event.roundFee,
+        fees: event.fees.map(f => ({
+          id: f.id,
+          idEvent: f.idEvent,
+          players: f.players,
+          prizeFee: f.prizeFee,
+          loserFee: f.loserFee
+        }))
       }
     }
   })
@@ -176,7 +175,7 @@
   // CONFIGURAÇÕES DE TAXAS (ADD/REMOVE)
   // ---------------------------------------------
   function addConfig() {
-    form.value.configs.push({
+    form.value.fees.push({
       id: null,
       players: null,
       prize: null,
@@ -185,25 +184,24 @@
   }
 
   function removeConfig(index) {
-    form.value.configs.splice(index, 1)
+    form.value.fees.splice(index, 1)
   }
 
-  // ---------------------------------------------
-  // AÇÕES
-  // ---------------------------------------------
-  function cancel() {
-    router.back()
-  }
+  async function save() {
+    try {
+      if (isEdit) {
+        await eventStore.updateEvent(id, form.value)
+      } else {
+        await eventStore.createEvent(form.value)
+      }
 
-  function save() {
-    console.log('Salvar evento:', form.value)
-
-    if (eventId) {
-      // atualizar futuramente
-    } else {
-      // criar futuramente
+      router.back()
+    } catch (err) {
+      console.error(err)
     }
+  }
 
+  function cancel() {
     router.back()
   }
 </script>
