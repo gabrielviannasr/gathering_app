@@ -2,6 +2,7 @@
 import { defineStore } from 'pinia'
 import { api } from 'boot/axios'
 import { ref } from 'vue'
+import { LocalStorage } from 'quasar'
 
 export const useConfraStore = defineStore('confra', () => {
   const selectedConfra = ref({ id: null, name: null, year: null })
@@ -28,6 +29,14 @@ export const useConfraStore = defineStore('confra', () => {
 
   function setConfra(confra) {
     selectedConfra.value = confra
+    LocalStorage.set('selectedConfra', confra)
+  }
+
+  function loadConfra() {
+    const saved = LocalStorage.getItem('selectedConfra')
+    if (saved) {
+      selectedConfra.value = saved
+    }
   }
 
   /* ------------------------------------------
@@ -114,6 +123,7 @@ export const useConfraStore = defineStore('confra', () => {
     confras,
     selectedConfra,
     setConfra,
+    loadConfra,
     // getConfraById,
     getConfra,
     getConfras,

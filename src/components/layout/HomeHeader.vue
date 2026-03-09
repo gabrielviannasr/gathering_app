@@ -29,11 +29,13 @@
 
 <script setup>
   import { useConfraStore } from 'src/stores/confra'
-  import { storeToRefs } from 'pinia'
-  import { onMounted, ref } from 'vue'
+
+  import { computed, onMounted, ref } from 'vue'
 
   const confraStore = useConfraStore()
-  const { confras, selectedConfra } = storeToRefs(confraStore)
+  const confras = computed(() => confraStore.confras)
+  const selectedConfra = computed(() => confraStore.selectedConfra)
+  // const { confras, selectedConfra } = storeToRefs(confraStore)
 
   const confraPopup = ref(false)
 
