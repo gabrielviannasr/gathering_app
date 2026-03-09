@@ -235,7 +235,7 @@
   const roundNumber = isNewRound ? null : Number(roundParam)
 
   /* ----------------- DATA ---------------- */
-  const event = ref(null)
+  const event = computed(() => eventStore.event)
   const round = ref(null)
 
   const formatOptions = computed(() =>
