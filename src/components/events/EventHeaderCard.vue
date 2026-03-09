@@ -7,7 +7,7 @@
 
     <div class="col">
       <!-- Nome do formato -->
-      <template v-if="event.idFormat && event.format">
+      <template v-if="event?.idFormat && event?.format">
         <div class="text-subtitle1 text-bold">{{ event.format.name }}</div>
       </template>
       <template v-else>
@@ -16,12 +16,12 @@
 
       <!-- Data -->
       <div class="text-caption text-grey">
-        {{ formatDateShort(event.createdAt) }}
+        {{ formatDateShort(event?.createdAt) }}
       </div>
 
       <!-- Jogadores e rodadas -->
       <div class="text-caption q-mt-xs">
-        {{ event.players }} jogadores • {{ event.rounds }} rodadas
+        {{ event?.players }} jogadores • {{ event?.rounds }} rodadas
       </div>
     </div>
   </q-card>

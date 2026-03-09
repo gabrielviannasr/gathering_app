@@ -103,8 +103,8 @@
   import EventHeaderCard from 'src/components/events/EventHeaderCard.vue'
 
   /* VUE + PINIA */
-  import { computed, ref } from 'vue'
-  import { useRoute } from 'vue-router'
+  import { ref, computed, onMounted } from 'vue'
+  import { useRoute, useRouter } from 'vue-router'
 
   import { useEventStore } from 'src/stores/event'
   import { useRoundStore } from 'src/stores/round'
@@ -112,6 +112,7 @@
   import { useRoundNavigator } from 'src/composables/navigation'
 
   const route = useRoute()
+  const router = useRouter()
   const idEvent = Number(route.params.idEvent)
 
   /* STORES */
@@ -123,7 +124,7 @@
   const { goToRoundNew, goToRoundEdit } = useRoundNavigator()
 
   /* EVENT */
-  const event = computed(() => eventStore.getEvent(idEvent))
+  const event = computed(() => eventStore.event)
 
   /* ROUNDS DO EVENTO */
   const rounds = computed(() => roundStore.getRoundsByEvent(idEvent))
@@ -137,6 +138,17 @@
   const paginatedRounds = computed(() => {
     const start = (page.value - 1) * perPage
     return rounds.value.slice(start, start + perPage)
+  })
+
+  /* ---------------- LOAD ---------------- */
+  onMounted(() => {
+    event.value = eventStore.getEvent(idEvent)
+
+    if (!event.value) {
+      console.warn('EVENT NOT FOUND:', idEvent)
+      router.back()
+      return
+    }
   })
 
   /* HELPERS */
