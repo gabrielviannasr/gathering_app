@@ -37,8 +37,8 @@
         <div class="row items-center justify-between q-mt-md">
           <div class="text-subtitle2 text-bold">Vencedor</div>
 
-          <div v-if="round.idPlayerWinner" class="winner-box q-pa-sm">
-            {{ resolvePlayer(round.idPlayerWinner).name }}
+          <div v-if="round.playerWinner" class="winner-box q-pa-sm">
+            {{ round.playerWinner.name }}
           </div>
 
           <div v-else class="text-grey">Sem vencedor</div>
@@ -80,17 +80,17 @@
         <div class="q-mt-sm">
           <div class="row items-center justify-between q-mb-sm">
             <div class="label">Jogadores</div>
-            <div class="round-number-circle-gray">{{ activeConfig?.players ?? 0 }}</div>
+            <div class="round-number-circle-gray">{{ round?.players ?? 0 }}</div>
           </div>
 
           <div class="row items-center justify-between q-mb-sm">
             <div class="label">Premiação</div>
-            <div class="value text-right">R$ {{ format(activeConfig?.prize ?? 0) }}</div>
+            <div class="value text-right">R$ {{ format(round?.prize ?? 0) }}</div>
           </div>
 
           <div class="row items-center justify-between q-mt-md">
             <div class="label">Pote dos Derrotados</div>
-            <div class="value text-right">R$ {{ format(activeConfig?.loserPot ?? 0) }}</div>
+            <div class="value text-right">R$ {{ format(round?.loserPot ?? 0) }}</div>
           </div>
         </div>
       </q-card>
@@ -251,31 +251,33 @@
   const roundPlayers = ref([])
 
   /* configs do evento (fees) */
-  const eventConfigs = computed(() => event.value?.fees ?? [])
+  // const eventConfigs = computed(() => event.value?.fees ?? [])
 
   /* config ativa conforme qtd jogadores */
-  const activeConfig = computed(() => {
-    const qty = roundPlayers.value.length
+  // const activeConfig = computed(() => {
+  //   const qty = roundPlayers.value.length
 
-    // 1. Buscar config definida no evento
-    const config = eventConfigs.value.find(c => c.players === qty)
+  //   // 1. Buscar config definida no evento
+  //   const config = eventConfigs.value.find(c => c.players === qty)
 
-    if (config) return config
+  //   if (config) return config
 
-    // 2. Fallback dinâmico
-    return {
-      players: qty,
-      prize: qty * (event.value?.roundFee ?? 0),
-      loserPot: 0
-    }
-  })
+  //   // 2. Fallback dinâmico
+  //   return {
+  //     players: qty,
+  //     prize: qty * (event.value?.roundFee ?? 0),
+  //     loserPot: 0
+  //   }
+  // })
 
   /* selecionado para definir vencedor */
   const selectedPlayer = ref(null)
 
   /* ---------------- LOAD ---------------- */
-  onMounted(() => {
-    event.value = eventStore.getEvent(idEvent)
+  onMounted(load)
+
+  async function load() {
+    await eventStore.getEvent(idEvent)
 
     if (!event.value) {
       console.warn('EVENT NOT FOUND:', idEvent)
@@ -284,10 +286,9 @@
     }
 
     if (isNewRound) {
-      // --------- CRIA OBJETO PADRÃO PARA NOVA RODADA ---------
       round.value = {
         id: null,
-        round: (event.value.rounds ?? 0) + 1, // próximo número
+        round: (event.value.rounds ?? 0) + 1,
         idFormat: event.value.idFormat ?? null,
         idPlayerWinner: null,
         canceled: false,
@@ -295,11 +296,9 @@
         createdAt: new Date().toISOString()
       }
 
-      // jogadores iniciais (nenhum)
       roundPlayers.value = []
     } else {
-      // --------- EDIÇÃO ---------
-      const stored = roundStore.getRoundByNumber(idEvent, roundNumber)
+      const stored = await roundStore.getRound(idEvent, roundNumber)
 
       if (!stored) {
         console.warn('ROUND NOT FOUND:', idEvent, roundNumber)
@@ -307,20 +306,11 @@
         return
       }
 
-      round.value = JSON.parse(JSON.stringify(stored))
-
-      // monta jogadores pela quantidade
-      const qty = stored.players ?? 0
-      roundPlayers.value = playerStore.players.slice(0, qty)
+      round.value = { ...stored }
     }
-  })
-
-  /* ----------------- FUNÇÕES ---------------- */
-
-  function resolvePlayer(id) {
-    return allPlayers.value.find(p => p.id === id) || { name: 'Desconhecido' }
   }
 
+  /* ----------------- FUNÇÕES ---------------- */
   function selectPlayer(player) {
     selectedPlayer.value = player
   }
@@ -357,12 +347,23 @@
     router.back()
   }
 
-  function save() {
-    console.log('Salvar round:', {
+  async function save() {
+    const data = {
       ...round.value,
-      players: roundPlayers.value.map(p => p.id)
-    })
-    router.back()
+      players: roundPlayers.value.length
+    }
+
+    try {
+      if (isNewRound) {
+        await roundStore.createRound(idEvent, data)
+      } else {
+        await roundStore.updateRound(idEvent, roundNumber, data)
+      }
+
+      router.back()
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   /* Busca players para adicionar */
