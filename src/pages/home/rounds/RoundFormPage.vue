@@ -277,6 +277,7 @@
   onMounted(load)
 
   async function load() {
+    await formatStore.getFormats()
     await eventStore.getEvent(idEvent)
 
     if (!event.value) {
