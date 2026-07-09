@@ -16,7 +16,7 @@
     <!-- LISTA DE RODADAS -->
     <div class="q-pa-md q-gutter-md">
       <q-card
-        v-for="round in paginatedRounds"
+        v-for="round in rounds"
         :key="round.id"
         class="list-card q-pa-md"
         clickable
@@ -35,12 +35,13 @@
             </div>
 
             <div class="text-subtitle2 q-mt-xs">
-              <template v-if="round.idPlayerWinner">
+              <template v-if="round.playerWinner">
                 Vencedor:
-                <span class="text-bold text-primary">{{
-                  resolveWinner(round.idPlayerWinner)
-                }}</span>
+                <span class="text-bold text-primary">
+                  {{ round.playerWinner.name }}
+                </span>
               </template>
+
               <template v-else>
                 <span class="text-caption">Sem vencedor</span>
               </template>
@@ -103,12 +104,11 @@
   import EventHeaderCard from 'src/components/events/EventHeaderCard.vue'
 
   /* VUE + PINIA */
-  import { ref, computed, onMounted } from 'vue'
+  import { ref, computed, onMounted, watch } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
 
   import { useEventStore } from 'src/stores/event'
   import { useRoundStore } from 'src/stores/round'
-  import { usePlayerStore } from 'src/stores/player'
   import { useRoundNavigator } from 'src/composables/navigation'
 
   const route = useRoute()
@@ -118,7 +118,6 @@
   /* STORES */
   const eventStore = useEventStore()
   const roundStore = useRoundStore()
-  const playerStore = usePlayerStore()
 
   /* NAVIGATION */
   const { goToRoundNew, goToRoundEdit } = useRoundNavigator()
@@ -127,22 +126,25 @@
   const event = computed(() => eventStore.event)
 
   /* ROUNDS DO EVENTO */
-  const rounds = computed(() => roundStore.getRoundsByEvent(idEvent))
+  const rounds = computed(() => roundStore.rounds?.content || [])
 
   /* PAGINATION */
   const page = ref(1)
-  const perPage = 10
+  const perPage = 3
 
-  const maxPages = computed(() => Math.ceil(rounds.value.length / perPage))
+  const maxPages = computed(() => roundStore.rounds?.totalPages || 1)
 
-  const paginatedRounds = computed(() => {
-    const start = (page.value - 1) * perPage
-    return rounds.value.slice(start, start + perPage)
-  })
+  async function loadRounds() {
+    await roundStore.getRounds(idEvent, {
+      page: page.value - 1,
+      size: perPage
+    })
+  }
 
   /* ---------------- LOAD ---------------- */
-  onMounted(() => {
-    event.value = eventStore.getEvent(idEvent)
+  onMounted(async () => {
+    await eventStore.getEvent(idEvent)
+    await loadRounds()
 
     if (!event.value) {
       console.warn('EVENT NOT FOUND:', idEvent)
@@ -151,10 +153,9 @@
     }
   })
 
-  /* HELPERS */
-  function resolveWinner(id) {
-    return playerStore.players.find(p => p.id === id)?.name || 'Desconhecido'
-  }
+  watch(page, () => {
+    loadRounds()
+  })
 
   /* OPEN ROUND FORM */
   function openAddForm() {
