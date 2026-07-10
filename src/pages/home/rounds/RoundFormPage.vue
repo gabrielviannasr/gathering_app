@@ -318,6 +318,7 @@
   function addPlayer(player) {
     if (!roundPlayers.value.some(p => p.id === player.id)) {
       roundPlayers.value.push(player)
+      sortPlayers()
       updateRoundFees()
     }
   }
@@ -343,6 +344,15 @@
       round.value.prize = playersTotal * (event.value.roundFee ?? 0)
       round.value.loserPot = 0
     }
+  }
+
+  // tratar nomes com acentos e caixa alta/baixa
+  function sortPlayers() {
+    roundPlayers.value.sort((a, b) =>
+      a.name.localeCompare(b.name, 'pt-BR', {
+        sensitivity: 'base'
+      })
+    )
   }
 
   function defineWinner() {
