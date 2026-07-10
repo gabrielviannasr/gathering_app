@@ -57,16 +57,15 @@
           </q-badge>
         </div>
 
-        <div class="row justify-end q-mt-sm">
-          <q-toggle
-            left-label
-            v-model="round.canceled"
-            size="md"
-            color="negative"
-            :label="round.canceled ? 'Ativar rodada' : 'Cancelar rodada'"
-            class="text-bold"
-          />
-        </div>
+        <q-btn
+          rounded
+          no-caps
+          class="add-btn full-width q-mt-md"
+          :color="round.canceled ? 'positive' : 'negative'"
+          :icon="round.canceled ? 'check_circle' : 'cancel'"
+          :label="round.canceled ? 'Reativar rodada' : 'Cancelar rodada'"
+          @click="toggleCanceled"
+        />
       </q-card>
 
       <q-skeleton v-else height="180px" class="q-pa-md" />
@@ -310,6 +309,10 @@
   }
 
   /* ----------------- FUNÇÕES ---------------- */
+  function toggleCanceled() {
+    round.value.canceled = !round.value.canceled
+  }
+
   function selectPlayer(player) {
     selectedPlayer.value = player
   }
