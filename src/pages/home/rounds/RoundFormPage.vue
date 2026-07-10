@@ -140,9 +140,9 @@
       <q-card class="q-pa-md form-card">
         <div class="form-section-title">Jogadores da Rodada</div>
 
-        <div v-if="roundPlayers.length > 0" class="q-mt-sm q-gutter-sm">
+        <div v-if="round?.players.length > 0" class="q-mt-sm q-gutter-sm">
           <q-card
-            v-for="player in roundPlayers"
+            v-for="player in round.players"
             :key="player.id"
             class="list-card q-pa-sm"
             :class="{ 'round-player-selected': selectedPlayer?.id === player.id }"
@@ -246,7 +246,7 @@
   )
 
   /* lista de jogadores dessa rodada */
-  const roundPlayers = ref([])
+  // const roundPlayers = ref([])
 
   /* configs do evento (fees) */
   // const eventConfigs = computed(() => event.value?.fees ?? [])
@@ -291,11 +291,10 @@
         idFormat: event.value.idFormat ?? null,
         idPlayerWinner: null,
         canceled: false,
-        players: 0,
+        playersTotal: 0,
+        players: [],
         createdAt: new Date().toISOString()
       }
-
-      roundPlayers.value = []
     } else {
       const stored = await roundStore.getRound(idEvent, roundNumber)
 
@@ -306,7 +305,7 @@
       }
 
       round.value = { ...stored }
-      roundPlayers.value = stored.players ?? []
+      round.value.players = stored.players ?? []
     }
   }
 
@@ -316,22 +315,22 @@
   }
 
   function addPlayer(player) {
-    if (!roundPlayers.value.some(p => p.id === player.id)) {
-      roundPlayers.value.push(player)
+    if (!round.value.players.some(p => p.id === player.id)) {
+      round.value.players.push(player)
       sortPlayers()
       updateRoundFees()
     }
   }
 
   function removePlayer(player) {
-    roundPlayers.value = roundPlayers.value.filter(p => p.id !== player.id)
+    round.value.players = round.value.players.filter(p => p.id !== player.id)
     updateRoundFees()
   }
 
   function updateRoundFees() {
     if (!round.value || !event.value) return
 
-    const playersTotal = roundPlayers.value.length
+    const playersTotal = round.value.players.length
 
     const fee = event.value.fees?.find(fee => fee.players === playersTotal)
 
@@ -348,7 +347,7 @@
 
   // tratar nomes com acentos e caixa alta/baixa
   function sortPlayers() {
-    roundPlayers.value.sort((a, b) =>
+    round.value.players.sort((a, b) =>
       a.name.localeCompare(b.name, 'pt-BR', {
         sensitivity: 'base'
       })
@@ -380,8 +379,8 @@
   async function save() {
     const data = {
       ...round.value,
-      playersTotal: roundPlayers.value.length,
-      players: roundPlayers.value
+      playersTotal: round.value.players.length,
+      players: round.value.players
     }
 
     try {
@@ -401,7 +400,7 @@
   const search = ref('')
   const availablePlayers = computed(() =>
     playerStore.players.filter(
-      player => !roundPlayers.value.some(roundPlayer => roundPlayer.id === player.id)
+      player => !round.value.players.some(roundPlayer => roundPlayer.id === player.id)
     )
   )
 
