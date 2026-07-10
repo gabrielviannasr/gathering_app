@@ -363,7 +363,9 @@
 
   function defineWinner() {
     if (!selectedPlayer.value) return
+
     round.value.idPlayerWinner = selectedPlayer.value.id
+    round.value.playerWinner = selectedPlayer.value
   }
 
   function initials(name) {
