@@ -207,7 +207,7 @@
 </template>
 
 <script setup>
-  import { ref, computed, onMounted } from 'vue'
+  import { ref, computed, onMounted, watch } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
 
   import EventHeaderCard from 'src/components/events/EventHeaderCard.vue'
@@ -244,8 +244,6 @@
       value: f.id
     }))
   )
-
-  const allPlayers = computed(() => playerStore.players)
 
   /* lista de jogadores dessa rodada */
   const roundPlayers = ref([])
@@ -352,7 +350,8 @@
   async function save() {
     const data = {
       ...round.value,
-      players: roundPlayers.value.length
+      playersTotal: roundPlayers.value.length,
+      players: roundPlayers.value
     }
 
     try {
@@ -370,13 +369,21 @@
 
   /* Busca players para adicionar */
   const search = ref('')
-  const availablePlayers = computed(() => {
-    if (!search.value) return []
-    return allPlayers.value.filter(
-      p =>
-        p.name.toLowerCase().includes(search.value.toLowerCase()) &&
-        !roundPlayers.value.some(rp => rp.id === p.id)
+  const availablePlayers = computed(() =>
+    playerStore.players.filter(
+      player => !roundPlayers.value.some(roundPlayer => roundPlayer.id === player.id)
     )
+  )
+
+  watch(search, async value => {
+    if (!value?.trim()) {
+      playerStore.players = []
+      return
+    }
+
+    await playerStore.getPlayers({
+      name: value.trim()
+    })
   })
 </script>
 
