@@ -324,6 +324,13 @@
 
   function removePlayer(player) {
     round.value.players = round.value.players.filter(p => p.id !== player.id)
+
+    if (round.value.idPlayerWinner === player.id) {
+      round.value.idPlayerWinner = null
+      round.value.playerWinner = null
+      selectedPlayer.value = null
+    }
+
     updateRoundFees()
   }
 
