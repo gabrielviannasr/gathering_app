@@ -31,7 +31,7 @@
           <!-- INFO -->
           <div class="col">
             <div class="text-caption q-mt-xs">
-              Formato: {{ round.format?.name || '—' }} • {{ round.players }} jogadores
+              Formato: {{ round.format?.name || '—' }} • {{ round.playersTotal }} jogadores
             </div>
 
             <div class="text-subtitle2 q-mt-xs">

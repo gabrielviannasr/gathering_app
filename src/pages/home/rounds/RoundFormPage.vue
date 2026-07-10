@@ -80,7 +80,7 @@
         <div class="q-mt-sm">
           <div class="row items-center justify-between q-mb-sm">
             <div class="label">Jogadores</div>
-            <div class="round-number-circle-gray">{{ round?.players ?? 0 }}</div>
+            <div class="round-number-circle-gray">{{ round?.playersTotal ?? 0 }}</div>
           </div>
 
           <div class="row items-center justify-between q-mb-sm">
