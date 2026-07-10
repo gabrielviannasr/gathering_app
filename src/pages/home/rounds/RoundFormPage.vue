@@ -318,11 +318,31 @@
   function addPlayer(player) {
     if (!roundPlayers.value.some(p => p.id === player.id)) {
       roundPlayers.value.push(player)
+      updateRoundFees()
     }
   }
 
   function removePlayer(player) {
     roundPlayers.value = roundPlayers.value.filter(p => p.id !== player.id)
+    updateRoundFees()
+  }
+
+  function updateRoundFees() {
+    if (!round.value || !event.value) return
+
+    const playersTotal = roundPlayers.value.length
+
+    const fee = event.value.fees?.find(fee => fee.players === playersTotal)
+
+    round.value.playersTotal = playersTotal
+
+    if (fee) {
+      round.value.prize = fee.prizeFee
+      round.value.loserPot = fee.loserFee
+    } else {
+      round.value.prize = playersTotal * (event.value.roundFee ?? 0)
+      round.value.loserPot = 0
+    }
   }
 
   function defineWinner() {
