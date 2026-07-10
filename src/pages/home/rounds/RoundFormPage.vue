@@ -400,7 +400,7 @@
   const search = ref('')
   const availablePlayers = computed(() =>
     playerStore.players.filter(
-      player => !round.value.players.some(roundPlayer => roundPlayer.id === player.id)
+      player => !(round.value?.players ?? []).some(roundPlayer => roundPlayer.id === player.id)
     )
   )
 
