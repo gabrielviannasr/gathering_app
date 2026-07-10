@@ -308,6 +308,7 @@
       }
 
       round.value = { ...stored }
+      roundPlayers.value = stored.players ?? []
     }
   }
 
