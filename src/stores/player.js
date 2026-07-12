@@ -3,6 +3,7 @@ import { api } from 'boot/axios'
 import { ref } from 'vue'
 
 export const usePlayerStore = defineStore('player', () => {
+  const path = '/player'
   const player = ref(null)
   const players = ref([
     // { id: 1, name: 'Anderson Dias' },
@@ -17,7 +18,7 @@ export const usePlayerStore = defineStore('player', () => {
 
   async function getPlayers(params) {
     try {
-      const res = await api.get(`/player`, { params })
+      const res = await api.get(`${path}/page`, { params })
       this.players = res.data
       return this.players
     } catch (err) {
@@ -28,7 +29,7 @@ export const usePlayerStore = defineStore('player', () => {
   async function getPlayer(id) {
     // return players.value.find(p => p.id === id)
     try {
-      const res = await api.get(`/player/${id}`)
+      const res = await api.get(`${path}/${id}`)
       this.player = res.data
       return this.player
     } catch (err) {
@@ -37,12 +38,12 @@ export const usePlayerStore = defineStore('player', () => {
   }
 
   async function createPlayer(data) {
-    const res = await api.post('/player', data)
+    const res = await api.post(`${path}`, data)
     return res.data
   }
 
   async function updatePlayer(id, data) {
-    const res = await api.put(`/player/${id}`, data)
+    const res = await api.put(`${path}/${id}`, data)
     return res.data
   }
 

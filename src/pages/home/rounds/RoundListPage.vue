@@ -131,7 +131,6 @@
   /* PAGINATION */
   const page = ref(1)
   const perPage = 3
-
   const maxPages = computed(() => roundStore.rounds?.totalPages || 1)
 
   async function loadRounds() {
