@@ -1,14 +1,34 @@
 <template>
   <q-page class="page-bg">
     <div class="q-pa-md q-gutter-md">
-      <PlayerListBase
-        :players="players"
-        :filters="filters"
-        showAddButton
-        :showWalletInfo="false"
-        @add="onAdd"
-        @select="openPlayer"
-      />
+      <!-- ===== FILTROS ===== -->
+      <div class="q-pa-md">
+        <q-card class="q-pa-md form-card">
+          <!-- Title -->
+          <div class="form-section-title">Filtros</div>
+
+          <div class="row q-col-gutter-sm q-mt-sm">
+            <!-- Nome -->
+            <div class="col">
+              <GlobalInput label="Nome" v-model="filters.name" debounce="300">
+                <template #prepend>
+                  <q-icon name="search" />
+                </template>
+              </GlobalInput>
+            </div>
+          </div>
+
+          <!-- Botão Adicionar -->
+          <div class="q-mt-sm">
+            <q-btn class="add-btn full-width" no-caps rounded unelevated @click="onAdd">
+              <q-icon name="add" class="q-mr-sm" />
+              Adicionar Jogador
+            </q-btn>
+          </div>
+        </q-card>
+      </div>
+
+      <PlayerListBase :players="players" @select="openPlayer" />
 
       <!-- PAGINAÇÃO -->
       <div class="q-mt-md">
@@ -19,6 +39,7 @@
 </template>
 
 <script setup>
+  import GlobalInput from 'src/components/ui/GlobalInput.vue'
   import PlayerListBase from 'src/components/players/PlayerListBase.vue'
   import { computed, onMounted, ref, watch } from 'vue'
   import { usePlayerNavigator } from 'src/composables/navigation'
