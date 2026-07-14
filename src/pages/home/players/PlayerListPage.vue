@@ -24,21 +24,22 @@
   import { usePlayerNavigator } from 'src/composables/navigation'
   import { usePlayerStore } from 'src/stores/player'
 
-  /* STORES */
-  const playerStore = usePlayerStore()
-
   /* NAVIGATION */
   const { goToPlayerNew, goToPlayerEdit } = usePlayerNavigator()
 
-  /* PLAYERS */
+  /* STORES */
+  const playerStore = usePlayerStore()
+
+  /* ITEMS */
   const players = computed(() => playerStore.players?.content || [])
+
+  /* FILTERS */
+  const filters = ref({ name: '' })
 
   /* PAGINATION */
   const page = ref(1)
   const perPage = 4
   const maxPages = computed(() => playerStore.players?.totalPages || 1)
-
-  const filters = ref({ name: '' })
 
   /* ---------------- LOAD ---------------- */
   onMounted(load)
