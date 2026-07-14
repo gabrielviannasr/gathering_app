@@ -135,7 +135,7 @@
   })
 
   async function load() {
-    await confraStore.getConfras({
+    await confraStore.getConfrasPage({
       ...filters.value,
       page: page.value - 1,
       size: perPage

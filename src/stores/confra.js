@@ -88,6 +88,16 @@ export const useConfraStore = defineStore('confra', () => {
 
   async function getConfras(params) {
     try {
+      const res = await api.get(`${path}`, { params })
+      this.confras = res.data
+      return this.confras
+    } catch (err) {
+      return err
+    }
+  }
+
+  async function getConfrasPage(params) {
+    try {
       const res = await api.get(`${path}/page`, { params })
       this.confras = res.data
       return this.confras
@@ -136,6 +146,7 @@ export const useConfraStore = defineStore('confra', () => {
     // getConfraById,
     getConfra,
     getConfras,
+    getConfrasPage,
     getYears,
     createConfra,
     updateConfra,
