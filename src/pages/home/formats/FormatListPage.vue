@@ -89,7 +89,7 @@
   })
 
   async function load() {
-    await formatStore.getFormats({
+    await formatStore.getFormatsPage({
       ...filters.value,
       page: page.value - 1,
       size: perPage

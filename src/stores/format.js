@@ -17,6 +17,16 @@ export const useFormatStore = defineStore('format', () => {
 
   async function getFormats(params) {
     try {
+      const res = await api.get(`${path}`, { params })
+      this.formats = res.data
+      return this.formats
+    } catch (err) {
+      return err
+    }
+  }
+
+  async function getFormatsPage(params) {
+    try {
       const res = await api.get(`${path}/page`, { params })
       this.formats = res.data
       return this.formats
@@ -51,6 +61,7 @@ export const useFormatStore = defineStore('format', () => {
     formats,
     getFormat,
     getFormats,
+    getFormatsPage,
     createFormat,
     updateFormat
   }
