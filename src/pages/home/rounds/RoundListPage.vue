@@ -104,12 +104,15 @@
   import EventHeaderCard from 'src/components/events/EventHeaderCard.vue'
 
   /* VUE + PINIA */
-  import { ref, computed, onMounted, watch } from 'vue'
+  import { computed, onMounted, ref, watch } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
 
   import { useEventStore } from 'src/stores/event'
   import { useRoundStore } from 'src/stores/round'
   import { useRoundNavigator } from 'src/composables/navigation'
+
+  /* NAVIGATION */
+  const { goToRoundNew, goToRoundEdit } = useRoundNavigator()
 
   const route = useRoute()
   const router = useRouter()
@@ -118,9 +121,6 @@
   /* STORES */
   const eventStore = useEventStore()
   const roundStore = useRoundStore()
-
-  /* NAVIGATION */
-  const { goToRoundNew, goToRoundEdit } = useRoundNavigator()
 
   /* EVENT */
   const event = computed(() => eventStore.event)
@@ -133,8 +133,8 @@
   const perPage = 3
   const maxPages = computed(() => roundStore.rounds?.totalPages || 1)
 
-  async function loadRounds() {
-    await roundStore.getRounds(idEvent, {
+  async function load() {
+    await roundStore.getRoundsPage(idEvent, {
       page: page.value - 1,
       size: perPage
     })
@@ -143,7 +143,7 @@
   /* ---------------- LOAD ---------------- */
   onMounted(async () => {
     await eventStore.getEvent(idEvent)
-    await loadRounds()
+    await load()
 
     if (!event.value) {
       console.warn('EVENT NOT FOUND:', idEvent)
@@ -153,7 +153,7 @@
   })
 
   watch(page, () => {
-    loadRounds()
+    load()
   })
 
   /* OPEN ROUND FORM */

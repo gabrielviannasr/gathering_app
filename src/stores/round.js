@@ -20,6 +20,16 @@ export const useRoundStore = defineStore('round', () => {
 
   async function getRounds(idEvent, params) {
     try {
+      const res = await api.get(`${path(idEvent)}`, { params })
+      rounds.value = res.data
+      return rounds.value
+    } catch (err) {
+      return err
+    }
+  }
+
+  async function getRoundsPage(idEvent, params) {
+    try {
       const res = await api.get(`${path(idEvent)}/page`, { params })
       rounds.value = res.data
       return rounds.value
@@ -43,6 +53,7 @@ export const useRoundStore = defineStore('round', () => {
     rounds,
     getRound,
     getRounds,
+    getRoundsPage,
     createRound,
     updateRound
   }
