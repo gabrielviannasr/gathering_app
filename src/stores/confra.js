@@ -5,12 +5,11 @@ import { ref } from 'vue'
 import { LocalStorage } from 'quasar'
 
 export const useConfraStore = defineStore('confra', () => {
+  const path = '/gathering'
   const selectedConfra = ref({ id: null, name: null, year: null })
   const confra = ref(null)
-  const confras = ref([
-    // { id: 1, name: 'DIRETORIA', year: 2024 },
-    // { id: 2, name: 'DIRETORIA 2.0', year: 2025 }
-  ])
+  const confras = ref([])
+  const years = ref([])
 
   // Resumo (mock da view vw_gathering_summary)
   const confraSummary = ref([
@@ -89,7 +88,7 @@ export const useConfraStore = defineStore('confra', () => {
 
   async function getConfras(params) {
     try {
-      const res = await api.get(`/gathering`, { params })
+      const res = await api.get(`${path}/page`, { params })
       this.confras = res.data
       return this.confras
     } catch (err) {
@@ -100,7 +99,7 @@ export const useConfraStore = defineStore('confra', () => {
   async function getConfra(id) {
     // return confras.value.find(p => p.id === id)
     try {
-      const res = await api.get(`/gathering/${id}`)
+      const res = await api.get(`${path}/${id}`)
       this.confra = res.data
       return this.confra
     } catch (err) {
@@ -108,25 +107,36 @@ export const useConfraStore = defineStore('confra', () => {
     }
   }
 
+  async function getYears() {
+    try {
+      const res = await api.get(`${path}/year`)
+      this.years = res.data
+      return this.years
+    } catch (err) {
+      return err
+    }
+  }
   async function createConfra(data) {
-    const res = await api.post('/gathering', data)
+    const res = await api.post(`${path}`, data)
     return res.data
   }
 
   async function updateConfra(id, data) {
-    const res = await api.put(`/gathering/${id}`, data)
+    const res = await api.put(`${path}/${id}`, data)
     return res.data
   }
 
   return {
     confra,
     confras,
+    years,
     selectedConfra,
     setConfra,
     loadConfra,
     // getConfraById,
     getConfra,
     getConfras,
+    getYears,
     createConfra,
     updateConfra,
     getConfraSummary

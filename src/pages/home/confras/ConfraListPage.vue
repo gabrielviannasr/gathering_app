@@ -41,8 +41,8 @@
     <!-- ===== LISTA ===== -->
     <div class="q-pa-md q-gutter-md">
       <q-card
-        v-for="item in filteredGatherings"
-        :key="item.name + item.year"
+        v-for="item in gatherings"
+        :key="item.id"
         class="list-card q-pa-sm"
         clickable
         @click="openGathering(item)"
@@ -59,10 +59,10 @@
               {{ item.name }}
             </div>
 
-            <div class="text-caption text-grey">
+            <!-- <div class="text-caption text-grey">
               {{ item.year }}&nbsp;&nbsp; {{ item.events }} eventos&nbsp;&nbsp;
               {{ item.players }} jogadores
-            </div>
+            </div> -->
           </div>
 
           <!-- seta -->
@@ -87,52 +87,60 @@
   import { useConfraNavigator } from 'src/composables/navigation'
   import { useConfraStore } from 'src/stores/confra'
 
+  /* NAVIGATION */
   const { goToConfraNew, goToConfraEdit } = useConfraNavigator()
+
+  /* STORES */
   const confraStore = useConfraStore()
 
-  // paginação mock
+  /* ITEMS */
+  const gatherings = computed(() => confraStore.confras?.content || [])
+
+  /* PAGINATION */
   const page = ref(1)
-  const maxPages = 2
+  const perPage = 4
+  const maxPages = computed(() => confraStore.confras?.totalPages || 1)
 
-  // anos disponíveis
-  const yearOptions = [
-    { label: 'Todos', value: null },
-    { label: '2025', value: 2025 },
-    { label: '2024', value: 2024 },
-    { label: '2023', value: 2023 }
-  ]
-
-  // filtros
+  /* FILTERS */
   const filters = ref({
     name: '',
     year: null
   })
 
-  // carregar ao abrir
-  onMounted(load)
+  const yearOptions = computed(() => [
+    { label: 'Todos', value: null },
+    ...confraStore.years.map(year => ({
+      label: String(year),
+      value: year
+    }))
+  ])
 
-  // recarregar ao mudar filtro
-  watch(filters, load, { deep: true })
+  /* ---------------- LOAD ---------------- */
+  onMounted(async () => {
+    await confraStore.getYears()
+    await load()
+  })
+
+  watch(
+    filters,
+    () => {
+      page.value = 1
+      load()
+    },
+    { deep: true }
+  )
+
+  watch(page, () => {
+    load()
+  })
 
   async function load() {
-    await confraStore.getConfras(filters.value)
-  }
-
-  // lista mockada
-  // const gatherings = [
-  //   { id: 1, name: 'DIRETORIA', year: 2025, events: 25, players: 13 },
-  //   { id: 2, name: 'DIRETORIA', year: 2024, events: 20, players: 12 },
-  //   { id: 3, name: 'DIRETORIA', year: 2023, events: 20, players: 10 }
-  // ]
-
-  // filtro dinâmico
-  const filteredGatherings = computed(() => {
-    return confraStore.confras.filter(g => {
-      const matchName = g.name.toLowerCase().includes(filters.value.name.toLowerCase())
-      const matchYear = filters.value.year ? g.year === filters.value.year : true
-      return matchName && matchYear
+    await confraStore.getConfras({
+      ...filters.value,
+      page: page.value - 1,
+      size: perPage
     })
-  })
+  }
 
   function onAdd() {
     console.log('Adicionar confra')
