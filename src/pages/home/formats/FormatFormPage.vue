@@ -10,14 +10,14 @@
 
             <GlobalNumberInput v-model="form.lifeCount" label="Pontos de Vida" :min="1" :step="5" />
 
-            <GlobalSelect
+            <!-- <GlobalSelect
               label="Tipo do Jogo"
               :options="typeOptions"
               v-model="form.idFormatType"
               placeholder="Selecione o tipo"
               emit-value
               map-options
-            />
+            /> -->
           </div>
         </q-card>
 
@@ -42,18 +42,18 @@
 <script setup>
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
   import GlobalNumberInput from 'components/ui/GlobalNumberInput.vue'
-  import GlobalSelect from 'src/components/ui/GlobalSelect.vue'
+  // import GlobalSelect from 'src/components/ui/GlobalSelect.vue'
 
-  import { computed, onMounted, ref } from 'vue'
+  import { onMounted, ref } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
   import { useFormatStore } from 'src/stores/format'
-  import { useFormatTypeStore } from 'src/stores/formatType'
+  // import { useFormatTypeStore } from 'src/stores/formatType'
 
   const route = useRoute()
   const router = useRouter()
 
   const formatStore = useFormatStore()
-  const typeStore = useFormatTypeStore()
+  // const typeStore = useFormatTypeStore()
 
   const id = route.params.id
   const isEdit = !!id
@@ -64,13 +64,13 @@
     idFormatType: null
   })
 
-  const typeOptions = computed(() =>
-    typeStore.types.map(t => ({
-      label: t.label,
-      value: t.id,
-      icon: t.icon
-    }))
-  )
+  // const typeOptions = computed(() =>
+  //   typeStore.types.map(t => ({
+  //     label: t.label,
+  //     value: t.id,
+  //     icon: t.icon
+  //   }))
+  // )
 
   async function save() {
     try {
