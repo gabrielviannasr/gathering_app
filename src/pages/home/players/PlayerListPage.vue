@@ -20,7 +20,7 @@
 
 <script setup>
   import PlayerListBase from 'src/components/players/PlayerListBase.vue'
-  import { ref, computed, onMounted, watch } from 'vue'
+  import { computed, onMounted, ref, watch } from 'vue'
   import { usePlayerNavigator } from 'src/composables/navigation'
   import { usePlayerStore } from 'src/stores/player'
 
@@ -58,7 +58,7 @@
   })
 
   async function load() {
-    await playerStore.getPlayers({
+    await playerStore.getPlayersPage({
       ...filters.value,
       page: page.value - 1,
       size: perPage

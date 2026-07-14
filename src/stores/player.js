@@ -18,6 +18,16 @@ export const usePlayerStore = defineStore('player', () => {
 
   async function getPlayers(params) {
     try {
+      const res = await api.get(`${path}`, { params })
+      this.players = res.data
+      return this.players
+    } catch (err) {
+      return err
+    }
+  }
+
+  async function getPlayersPage(params) {
+    try {
       const res = await api.get(`${path}/page`, { params })
       this.players = res.data
       return this.players
@@ -52,6 +62,7 @@ export const usePlayerStore = defineStore('player', () => {
     players,
     getPlayer,
     getPlayers,
+    getPlayersPage,
     createPlayer,
     updatePlayer
   }
