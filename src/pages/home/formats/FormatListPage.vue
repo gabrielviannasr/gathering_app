@@ -21,7 +21,7 @@
     <!-- LISTA -->
     <div class="q-pa-md q-gutter-md">
       <q-card
-        v-for="item in filteredFormats"
+        v-for="item in formats"
         :key="item.id"
         class="list-card q-pa-sm"
         clickable
@@ -29,7 +29,7 @@
       >
         <div class="row items-center no-wrap">
           <div class="icon-circle q-mr-md">
-            <q-icon :name="resolveType(item.idFormatType)?.icon" color="white" size="24px" />
+            <q-icon name="style" color="white" size="24px" />
           </div>
 
           <div class="col">
@@ -54,34 +54,46 @@
   import { computed, onMounted, ref, watch } from 'vue'
   import { useFormatNavigator } from 'src/composables/navigation'
   import { useFormatStore } from 'src/stores/format'
-  import { useFormatTypeStore } from 'src/stores/formatType'
 
+  /* NAVIGATION */
   const { goToNewFormat, goToEditFormat } = useFormatNavigator()
 
+  /* STORES */
   const formatStore = useFormatStore()
-  const typeStore = useFormatTypeStore()
 
+  /* ITEMS */
+  const formats = computed(() => formatStore.formats?.content || [])
+
+  /* FILTERS */
   const filters = ref({ name: '' })
 
+  /* PAGINATION */
   const page = ref(1)
-  const maxPages = 3
+  const perPage = 5
+  const maxPages = computed(() => formatStore.formats?.totalPages || 1)
 
-  // carregar ao abrir
+  /* ---------------- LOAD ---------------- */
   onMounted(load)
 
-  // recarregar ao mudar filtro
-  watch(filters, load, { deep: true })
-
-  async function load() {
-    await formatStore.getFormats(filters.value)
-  }
-
-  const filteredFormats = computed(() =>
-    formatStore.formats.filter(f => f.name.toLowerCase().includes(filters.value.name.toLowerCase()))
+  watch(
+    filters,
+    () => {
+      page.value = 1
+      load()
+    },
+    { deep: true }
   )
 
-  function resolveType(typeId) {
-    return typeStore.getType(typeId)
+  watch(page, () => {
+    load()
+  })
+
+  async function load() {
+    await formatStore.getFormats({
+      ...filters.value,
+      page: page.value - 1,
+      size: perPage
+    })
   }
 
   function onAdd() {
