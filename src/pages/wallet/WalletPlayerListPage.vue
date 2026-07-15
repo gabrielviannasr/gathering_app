@@ -1,5 +1,5 @@
 <template>
-  <PlayerListBase
+  <PlayerList
     :players="players"
     :filters="filters"
     :wallets="walletStore.walletsByPlayer"
@@ -9,7 +9,7 @@
 </template>
 
 <script setup>
-  import PlayerListBase from 'src/components/players/PlayerListBase.vue'
+  import PlayerList from 'src/components/players/PlayerList.vue'
   import { ref } from 'vue'
   import { useRouter } from 'vue-router'
   import { useWalletStore } from 'src/stores/wallet'

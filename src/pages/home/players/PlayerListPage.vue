@@ -28,7 +28,7 @@
     </div>
 
     <div class="q-pa-md q-gutter-md">
-      <PlayerListBase :players="players" @select="openPlayer" />
+      <PlayerList :players="players" @select="openPlayer" />
 
       <!-- PAGINAÇÃO -->
       <div class="q-mt-md">
@@ -40,7 +40,7 @@
 
 <script setup>
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
-  import PlayerListBase from 'src/components/players/PlayerListBase.vue'
+  import PlayerList from 'src/components/players/PlayerList.vue'
   import { computed, onMounted, ref, watch } from 'vue'
   import { usePlayerNavigator } from 'src/composables/navigation'
   import { usePlayerStore } from 'src/stores/player'
