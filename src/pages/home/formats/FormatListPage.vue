@@ -56,7 +56,7 @@
   import { useFormatStore } from 'src/stores/format'
 
   /* NAVIGATION */
-  const { goToNewFormat, goToEditFormat } = useFormatNavigator()
+  const { goToFormatNew, goToFormatEdit } = useFormatNavigator()
 
   /* STORES */
   const formatStore = useFormatStore()
@@ -97,10 +97,10 @@
   }
 
   function onAdd() {
-    goToNewFormat()
+    goToFormatNew()
   }
 
   function openFormat(item) {
-    goToEditFormat(item.id)
+    goToFormatEdit(item.id)
   }
 </script>

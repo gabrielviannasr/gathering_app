@@ -6,7 +6,7 @@ export function useFormatNavigator() {
 
   return {
     goToFormats: () => router.push({ name: ROUTES.FORMATOS }),
-    goToNewFormat: () => router.push({ name: ROUTES.FORMATOS_NEW }),
-    goToEditFormat: id => router.push({ name: ROUTES.FORMATOS_EDIT, params: { id } })
+    goToFormatNew: () => router.push({ name: ROUTES.FORMATOS_NEW }),
+    goToFormatEdit: id => router.push({ name: ROUTES.FORMATOS_EDIT, params: { id } })
   }
 }
