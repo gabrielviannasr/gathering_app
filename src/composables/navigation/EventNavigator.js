@@ -7,6 +7,6 @@ export function useEventNavigator() {
   return {
     goToEvents: () => router.push({ name: ROUTES.EVENTOS }),
     goToEventNew: () => router.push({ name: ROUTES.EVENTOS_NEW }),
-    goToEditEvent: id => router.push({ name: ROUTES.EVENTOS_EDIT, params: { id } })
+    goToEventEdit: id => router.push({ name: ROUTES.EVENTOS_EDIT, params: { id } })
   }
 }
