@@ -80,7 +80,7 @@
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
 
   /* VUE + PINIA */
-  import { ref, computed, onMounted } from 'vue'
+  import { computed, onMounted, ref } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
 
   import { useEventStore } from 'src/stores/event'

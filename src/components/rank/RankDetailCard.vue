@@ -6,7 +6,7 @@
       <!-- Jogador -->
       <div class="row item-row">
         <div class="col-6 label">Jogador</div>
-        <div class="col-6 value text-bold">{{ data.playerName }}</div>
+        <div class="col-6 value text-bold">{{ data.player?.name }}</div>
       </div>
 
       <!-- Rank -->

@@ -1,5 +1,5 @@
 <template>
-  <q-page class="page-bg">
+  <q-page v-if="headerData && rankData" class="page-bg">
     <!-- HEADER DINÂMICO -->
     <div class="q-pa-md">
       <EventHeaderCard v-if="mode === 'event'" :event="headerData" />
@@ -27,36 +27,30 @@
 </template>
 
 <script setup>
-  import { computed } from 'vue'
-  import { useRoute } from 'vue-router'
-
   import EventHeaderCard from 'src/components/events/EventHeaderCard.vue'
   import ConfraHeaderCard from 'src/components/confras/ConfraHeaderCard.vue'
   // import PlayerCard from 'src/components/players/PlayerCard.vue'
   import RankDetailCard from 'src/components/rank/RankDetailCard.vue'
 
-  // import { usePlayerStore } from 'src/stores/player'
+  /* VUE + PINIA */
+  import { computed, onMounted } from 'vue'
+  import { useRoute, useRouter } from 'vue-router'
+
   import { useEventStore } from 'src/stores/event'
   import { useResultStore } from 'src/stores/result'
   import { useConfraStore } from 'src/stores/confra'
   import { useRankConfraStore } from 'src/stores/rankConfra'
 
+  /* NAVIGATION */
   const route = useRoute()
+  const router = useRouter()
+  const idEvent = Number(route.params.idEvent)
+  const idGathering = Number(route.params.idGathering)
+  const idPlayer = Number(route.params.idPlayer)
 
   const mode = computed(() => {
     return route.name === 'rank-confra-jogador' ? 'confra' : 'event'
   })
-
-  /* ============================
-   EVENTO
-============================ */
-  const idEvent = Number(route.params.idEvent)
-
-  /* ============================
-   CONFRA
-============================ */
-  const idGathering = Number(route.params.idGathering)
-  const idPlayer = Number(route.params.idPlayer)
 
   /* STORES */
   // const playerStore = usePlayerStore()
@@ -65,20 +59,39 @@
   const confraStore = useConfraStore()
   const rankConfraStore = useRankConfraStore()
 
-  /* PLAYER */
-  // const player = computed(() => playerStore.getPlayer(idPlayer))
-
-  /* HEADER DATA (evento ou confra) */
-  const headerData = computed(() => {
-    return mode.value === 'event'
-      ? eventStore.getEvent(idEvent)
-      : confraStore.getConfraSummary(idGathering)
-  })
-
-  /* RANK DATA */
+  /* DATA */
+  const event = computed(() => eventStore.event)
+  const confra = computed(() => confraStore.confra)
   const rankData = computed(() => {
-    return mode.value === 'event'
-      ? resultStore.getResultByPlayer(idEvent, idPlayer)
-      : rankConfraStore.getRankByPlayer(idGathering, idPlayer)
+    return mode.value === 'event' ? resultStore.result : rankConfraStore.rank
   })
+  const headerData = computed(() => {
+    return mode.value === 'event' ? eventStore.event : confraStore.confra
+  })
+
+  /* ---------------- LOAD ---------------- */
+  onMounted(load)
+
+  async function load() {
+    if (mode.value === 'event') {
+      await eventStore.getEvent(idEvent)
+
+      if (!event.value) {
+        console.warn('EVENT NOT FOUND:', idEvent)
+        router.back()
+        return
+      }
+
+      await resultStore.getResultsByPlayer(idEvent, idPlayer)
+    } else {
+      await confraStore.getConfraSummary(idGathering)
+
+      if (!confra.value) {
+        console.warn('CONFRA NOT FOUND:', idGathering)
+        router.back()
+        return
+      }
+      await rankConfraStore.getRankByPlayer(idGathering, idPlayer)
+    }
+  }
 </script>
