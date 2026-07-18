@@ -32,7 +32,7 @@
     <!-- LISTA -->
     <div class="q-pa-md q-gutter-md">
       <q-card
-        v-for="item in results"
+        v-for="item in filteredResults"
         :key="item.id"
         class="list-card q-pa-sm"
         clickable
@@ -66,9 +66,9 @@
       </q-card>
 
       <!-- PAGINAÇÃO -->
-      <div class="q-mt-md">
+      <!-- <div class="q-mt-md">
         <q-pagination v-model="page" :max="maxPages" max-pages="5" />
-      </div>
+      </div> -->
     </div>
   </q-page>
 </template>
@@ -106,10 +106,20 @@
 
   /* RANK */
   // const results = computed(() => resultStore.results?.content || [])
-  const results = computed(() => resultStore.results || [])
+  // const results = computed(() => resultStore.results || [])
 
   /* FILTERS */
   const filters = ref({ name: '' })
+
+  const filteredResults = computed(() => {
+    const name = filters.value.name.trim().toLowerCase()
+
+    if (!name) {
+      return resultStore.results
+    }
+
+    return resultStore.results.filter(item => item.player.name.toLowerCase().includes(name))
+  })
 
   /* ---------------- LOAD ---------------- */
   onMounted(async () => {
@@ -128,8 +138,8 @@
   }
 
   /* página única */
-  const page = ref(1)
-  const maxPages = 1
+  // const page = ref(1)
+  // const maxPages = 1
 
   function openRankPlayer(item) {
     goToRankEventPlayer(item.idEvent, item.idPlayer)
