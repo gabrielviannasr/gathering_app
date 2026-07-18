@@ -67,15 +67,16 @@
   const eventStore = useEventStore()
   const formatStore = useFormatStore()
 
-  /* ITEMS */
+  /* DATA */
   const events = computed(() => eventStore.events?.content || [])
+  const formats = computed(() => formatStore.formats || [])
 
   /* FILTERS */
   const filters = ref({ format: null, month: null })
 
   const formatOptions = computed(() => [
     { label: 'Todos', value: null },
-    ...formatStore.formats.map(format => ({
+    ...formats.value.map(format => ({
       label: format.name,
       value: format.id
     }))
