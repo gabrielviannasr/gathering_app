@@ -1,5 +1,5 @@
 <template>
-  <q-page class="page-bg">
+  <q-page v-if="event" class="page-bg">
     <!-- CARD DO EVENTO -->
     <div class="q-pa-md">
       <EventHeaderCard :event="event" />
@@ -123,7 +123,7 @@
   const eventStore = useEventStore()
   const roundStore = useRoundStore()
 
-  /* EVENT */
+  /* DATA */
   const event = computed(() => eventStore.event)
 
   /* ROUNDS DO EVENTO */
