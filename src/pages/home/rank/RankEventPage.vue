@@ -1,9 +1,8 @@
 <template>
-  <q-page class="page-bg">
+  <q-page v-if="event" class="page-bg">
     <!-- CARD DO EVENTO -->
     <div class="q-pa-md">
-      <!-- <EventHeaderCard :event="event" /> -->
-      <EventCard :event="event" asHeader />
+      <EventCard :event="event" @open="openEvent(event)" showPots />
     </div>
 
     <!-- CARD DE INSCRIÇÃO -->
@@ -14,25 +13,27 @@
     <!-- CARD DE FILTRO -->
     <div class="q-pa-md">
       <q-card class="q-pa-md form-card">
+        <!-- Title -->
         <div class="form-section-title">Filtros</div>
 
-        <GlobalInput
-          label="Buscar por nome do jogador..."
-          v-model="filters.search"
-          placeholder="Digite o nome..."
-        >
-          <template #prepend>
-            <q-icon name="search" />
-          </template>
-        </GlobalInput>
+        <div class="row q-col-gutter-sm q-mt-sm">
+          <!-- Nome -->
+          <div class="col">
+            <GlobalInput label="Nome" v-model="filters.name" debounce="300">
+              <template #prepend>
+                <q-icon name="search" />
+              </template>
+            </GlobalInput>
+          </div>
+        </div>
       </q-card>
     </div>
 
     <!-- LISTA -->
     <div class="q-pa-md q-gutter-md">
       <q-card
-        v-for="item in filteredRank"
-        :key="item.rank + '-' + item.idPlayer"
+        v-for="item in results"
+        :key="item.id"
         class="list-card q-pa-sm"
         clickable
         @click="openRankPlayer(item)"
@@ -47,7 +48,7 @@
           <!-- INFO -->
           <div class="col">
             <div class="text-subtitle2 text-bold">
-              {{ resolvePlayer(item.idPlayer) }}
+              {{ item?.player?.name || '—' }}
             </div>
 
             <div class="text-caption q-mt-xs row items-center">
@@ -73,51 +74,58 @@
 </template>
 
 <script setup>
-  import { ref, computed, onMounted } from 'vue'
-  import { useRoute } from 'vue-router'
-
   // import EventHeaderCard from 'src/components/events/EventHeaderCard.vue'
   import EventCard from 'src/components/events/EventCard.vue'
   import EventBodyCard from 'src/components/events/EventBodyCard.vue'
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
 
-  import { useRankNavigator } from 'src/composables/navigation'
-  import { useEventStore } from 'src/stores/event'
-  import { usePlayerStore } from 'src/stores/player'
-  import { useRankStore } from 'src/stores/rank'
+  /* VUE + PINIA */
+  import { ref, computed, onMounted } from 'vue'
+  import { useRoute, useRouter } from 'vue-router'
 
-  /* ROUTES */
+  import { useEventStore } from 'src/stores/event'
+  import { useResultStore } from 'src/stores/result'
+
+  import { useEventNavigator } from 'src/composables/navigation'
+  import { useRankNavigator } from 'src/composables/navigation'
+
+  /* NAVIGATION */
+  const { goToEventEdit } = useEventNavigator()
+  const { goToRankEventPlayer } = useRankNavigator()
+
   const route = useRoute()
+  const router = useRouter()
   const idEvent = Number(route.params.idEvent)
 
   /* STORES */
-  const { goToRankEventPlayer } = useRankNavigator()
   const eventStore = useEventStore()
-  const playerStore = usePlayerStore()
-  const rankStore = useRankStore()
+  const resultStore = useResultStore()
 
   /* EVENT */
-  const event = computed(() => eventStore.getEvent(idEvent))
+  const event = computed(() => eventStore.event)
 
   /* RANK */
-  const rank = computed(() => rankStore.getRankByEvent(idEvent))
+  // const results = computed(() => resultStore.results?.content || [])
+  const results = computed(() => resultStore.results || [])
 
-  /* LOAD */
-  onMounted(() => {})
+  /* FILTERS */
+  const filters = ref({ name: '' })
 
-  /* resolve nome do jogador */
-  function resolvePlayer(id) {
-    return playerStore.players.find(p => p.id === id)?.name || '—'
-  }
+  /* ---------------- LOAD ---------------- */
+  onMounted(async () => {
+    await eventStore.getEvent(idEvent)
+    await load()
 
-  /* FILTRO */
-  const filters = ref({ search: '' })
-
-  const filteredRank = computed(() => {
-    const query = filters.value.search.toLowerCase()
-
-    return rank.value.filter(item => resolvePlayer(item.idPlayer).toLowerCase().includes(query))
+    if (!event.value) {
+      console.warn('EVENT NOT FOUND:', idEvent)
+      router.back()
+      return
+    }
   })
+
+  async function load() {
+    await resultStore.getResults(idEvent)
+  }
 
   /* página única */
   const page = ref(1)
@@ -125,5 +133,9 @@
 
   function openRankPlayer(item) {
     goToRankEventPlayer(item.idEvent, item.idPlayer)
+  }
+
+  function openEvent(event) {
+    goToEventEdit(event.id)
   }
 </script>
