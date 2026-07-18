@@ -30,7 +30,7 @@
         </div>
 
         <!-- Botão Adicionar -->
-        <div v-if="showAddButton" class="q-mt-sm">
+        <div class="q-mt-sm">
           <q-btn class="add-btn full-width" no-caps rounded unelevated @click="onAdd">
             <q-icon name="add" class="q-mr-sm" />
             Adicionar Evento
