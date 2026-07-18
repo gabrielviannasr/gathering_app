@@ -78,8 +78,8 @@
 
       <!-- Saldo Final -->
       <div class="row item-row final-row">
-        <div class="col-6 label">Saldo Final</div>
-        <div class="col-6 value final-value">
+        <div class="col-6 final-label">Saldo Final</div>
+        <div class="col-6 final-value">
           R$ {{ formatCurrency(data.finalBalance ?? data.rankBalance) }}
         </div>
       </div>
@@ -133,6 +133,11 @@
     background: #f5e8ff;
     border-radius: 8px;
     margin-top: 6px;
+  }
+  .final-label {
+    font-size: 20px;
+    font-weight: 700;
+    color: #7f00ff;
   }
   .final-value {
     font-size: 20px;
