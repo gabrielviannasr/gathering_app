@@ -10,7 +10,7 @@ export const useDashboardStore = defineStore('dashboard', () => {
 
   async function getConfraResults(idGathering) {
     try {
-      const res = await api.get(`${path}/${idGathering}/result`)
+      const res = await api.get(`${path}/result/${idGathering}`)
       confraResults.value = res.data
       return confraResults.value
     } catch (err) {
@@ -20,7 +20,7 @@ export const useDashboardStore = defineStore('dashboard', () => {
 
   async function getConfraResultByPlayer(idGathering, idPlayer) {
     try {
-      const res = await api.get(`${path}/${idGathering}/player/${idPlayer}`)
+      const res = await api.get(`${path}/result/${idGathering}/player/${idPlayer}`)
       confraResult.value = res.data
       return confraResult.value
     } catch (err) {
@@ -30,7 +30,7 @@ export const useDashboardStore = defineStore('dashboard', () => {
 
   async function getConfraSummary(idGathering) {
     try {
-      const res = await api.get(`${path}/${idGathering}/summary`)
+      const res = await api.get(`${path}/summary/${idGathering}`)
       confraSummary.value = res.data
       return confraSummary.value
     } catch (err) {
