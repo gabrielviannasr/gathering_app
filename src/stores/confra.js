@@ -139,6 +139,7 @@ export const useConfraStore = defineStore('confra', () => {
   return {
     confra,
     confras,
+    confraSummary,
     years,
     selectedConfra,
     setConfra,

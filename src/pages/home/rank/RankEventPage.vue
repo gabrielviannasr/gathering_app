@@ -1,5 +1,5 @@
 <template>
-  <q-page v-if="event" class="page-bg">
+  <q-page class="page-bg" v-if="event">
     <!-- CARD DO EVENTO -->
     <div class="q-pa-md">
       <EventCard :event="event" @open="openEvent(event)" showPots />
@@ -101,10 +101,8 @@
   const eventStore = useEventStore()
   const resultStore = useResultStore()
 
-  /* EVENT */
+  /* DATA */
   const event = computed(() => eventStore.event)
-
-  /* RANK */
   // const results = computed(() => resultStore.results?.content || [])
   // const results = computed(() => resultStore.results || [])
 

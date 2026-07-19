@@ -21,7 +21,7 @@
   import WinrateChartCard from 'src/components/reports/WinrateChartCard.vue'
 
   import { useConfraStore } from 'src/stores/confra'
-  import { useRankConfraStore } from 'src/stores/rankConfra'
+  import { useDashboardStore } from 'src/stores/dashboard'
 
   /* ROUTE */
   const route = useRoute()
@@ -29,14 +29,14 @@
 
   /* STORES */
   const confraStore = useConfraStore()
-  const rankConfraStore = useRankConfraStore()
+  const dashboardStore = useDashboardStore()
 
   /* CONFRA HEADER */
   const confraSummary = computed(() => confraStore.getConfraSummary(idGathering))
 
   /* WINRATE DATA */
   const winrateList = computed(() =>
-    rankConfraStore.getRankByGathering(idGathering).map(r => ({
+    dashboardStore.getConfraResults(idGathering).map(r => ({
       playerName: r.playerName,
       winrate: r.rounds > 0 ? Number(((r.wins / r.rounds) * 100).toFixed(2)) : 0
     }))

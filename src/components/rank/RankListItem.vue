@@ -9,7 +9,7 @@
       <!-- INFO -->
       <div class="col">
         <div class="text-subtitle2 text-bold">
-          {{ item.playerName }}
+          {{ item.player.name }}
         </div>
 
         <div class="text-caption q-mt-xs row items-center">

@@ -1,5 +1,5 @@
 <template>
-  <q-page class="page-bg">
+  <q-page class="page-bg" v-if="confraSummary">
     <!-- CARD DA CONFRA -->
     <div class="q-pa-md">
       <ConfraHeaderCard :confraSummary="confraSummary" />
@@ -12,7 +12,7 @@
 
         <GlobalInput
           label="Buscar por nome do jogador..."
-          v-model="filters.search"
+          v-model="filters.name"
           placeholder="Digite o nome..."
         >
           <template #prepend>
@@ -25,63 +25,80 @@
     <!-- LISTA -->
     <div class="q-pa-md q-gutter-md">
       <RankListItem
-        v-for="item in filteredRank"
-        :key="item.rank + '-' + item.idPlayer"
+        v-for="item in filteredResults"
+        :key="item.idPlayer"
         :item="item"
-        @select="openRankPlayer"
+        @select="openRankPlayer(item)"
       />
 
       <!-- PAGINAÇÃO -->
-      <div class="q-mt-md">
+      <!-- <div class="q-mt-md">
         <q-pagination v-model="page" :max="maxPages" max-pages="5" />
-      </div>
+      </div> -->
     </div>
   </q-page>
 </template>
 
 <script setup>
-  import { ref, computed } from 'vue'
-  import { useRoute } from 'vue-router'
-
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
+
   import RankListItem from 'src/components/rank/RankListItem.vue'
   import ConfraHeaderCard from 'src/components/confras/ConfraHeaderCard.vue'
 
-  import { useConfraStore } from 'src/stores/confra'
-  import { usePlayerStore } from 'src/stores/player'
-  import { useRankConfraStore } from 'src/stores/rankConfra'
+  /* VUE + PINIA */
+  import { computed, onMounted, ref } from 'vue'
+  import { useRoute, useRouter } from 'vue-router'
+
+  import { useDashboardStore } from 'src/stores/dashboard'
   import { useRankNavigator } from 'src/composables/navigation'
 
-  /* ROUTES */
+  /* NAVIGATION */
+  const { goToRankConfraPlayer } = useRankNavigator()
+
   const route = useRoute()
+  const router = useRouter()
   const idGathering = Number(route.params.idGathering)
 
   /* STORES */
-  const confraStore = useConfraStore()
-  // eslint-disable-next-line no-unused-vars
-  const playerStore = usePlayerStore()
-  const rankConfraStore = useRankConfraStore()
-  const { goToRankConfraPlayer } = useRankNavigator()
+  const dashboardStore = useDashboardStore()
 
-  /* CONFRA CARD */
-  const confraSummary = computed(() => confraStore.getConfraSummary(idGathering))
+  /* DATA */
+  const confraSummary = computed(() => dashboardStore.confraSummary)
+  const results = computed(() => dashboardStore.confraResults)
 
-  /* RANK CONFRA */
-  const rank = computed(() => rankConfraStore.getRankByGathering(idGathering))
+  /* FILTERS */
+  const filters = ref({ name: '' })
 
-  /* FILTRO */
-  const filters = ref({ search: '' })
+  const filteredResults = computed(() => {
+    const name = filters.value.name.trim().toLowerCase()
 
-  const filteredRank = computed(() => {
-    const q = filters.value.search.toLowerCase()
-    return rank.value.filter(r => r.playerName.toLowerCase().includes(q))
+    if (!name) {
+      return results.value
+    }
+
+    return results.value.filter(item => item.player.name.toLowerCase().includes(name))
   })
 
   /* PAGINAÇÃO */
-  const page = ref(1)
-  const maxPages = 1
+  // const page = ref(1)
+  // const maxPages = 1
 
-  /* NAVEGAÇÃO */
+  /* ---------------- LOAD ---------------- */
+  onMounted(async () => {
+    await dashboardStore.getConfraSummary(idGathering)
+    await load()
+
+    if (!confraSummary.value) {
+      console.warn('CONFRA NOT FOUND:', idGathering)
+      router.back()
+      return
+    }
+  })
+
+  async function load() {
+    await dashboardStore.getConfraResults(idGathering)
+  }
+
   function openRankPlayer(item) {
     goToRankConfraPlayer(idGathering, item.idPlayer)
   }

@@ -39,7 +39,7 @@
   import { useEventStore } from 'src/stores/event'
   import { useResultStore } from 'src/stores/result'
   import { useConfraStore } from 'src/stores/confra'
-  import { useRankConfraStore } from 'src/stores/rankConfra'
+  import { useDashboardStore } from 'src/stores/dashboard'
 
   /* NAVIGATION */
   const route = useRoute()
@@ -57,13 +57,13 @@
   const eventStore = useEventStore()
   const resultStore = useResultStore()
   const confraStore = useConfraStore()
-  const rankConfraStore = useRankConfraStore()
+  const dashboardStore = useDashboardStore()
 
   /* DATA */
   const event = computed(() => eventStore.event)
   const confra = computed(() => confraStore.confra)
   const rankData = computed(() => {
-    return mode.value === 'event' ? resultStore.result : rankConfraStore.rank
+    return mode.value === 'event' ? resultStore.result : dashboardStore.rankConfra
   })
   const headerData = computed(() => {
     return mode.value === 'event' ? eventStore.event : confraStore.confra
@@ -91,7 +91,7 @@
         router.back()
         return
       }
-      await rankConfraStore.getRankByPlayer(idGathering, idPlayer)
+      await dashboardStore.getConfraResultByPlayer(idGathering, idPlayer)
     }
   }
 </script>
