@@ -8,12 +8,12 @@
     <div class="col">
       <!-- Nome do formato -->
       <div class="text-subtitle1 text-bold">
-        {{ confraSummary.gathering.year }} - {{ confraSummary.gathering.name }}
+        {{ confraSummary.gathering.name }}
       </div>
 
       <!-- Ano -->
       <div class="text-caption text-grey">
-        {{ confraSummary.year }}
+        {{ confraSummary.gathering.year }}
       </div>
 
       <!-- Eventos, jogadores e rodadas -->
