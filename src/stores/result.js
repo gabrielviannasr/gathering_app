@@ -17,7 +17,7 @@ export const useResultStore = defineStore('result', () => {
     }
   }
 
-  async function getResultByPlayer(idEvent, idPlayer) {
+  async function getResult(idEvent, idPlayer) {
     try {
       const res = await api.get(`${path}/${idEvent}/player/${idPlayer}`)
       result.value = res.data
@@ -31,6 +31,6 @@ export const useResultStore = defineStore('result', () => {
     result,
     results,
     getResults,
-    getResultByPlayer
+    getResult
   }
 })

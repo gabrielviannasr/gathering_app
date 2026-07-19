@@ -18,7 +18,7 @@ export const useDashboardStore = defineStore('dashboard', () => {
     }
   }
 
-  async function getConfraResultByPlayer(idGathering, idPlayer) {
+  async function getConfraResult(idGathering, idPlayer) {
     try {
       const res = await api.get(`${path}/result/${idGathering}/player/${idPlayer}`)
       confraResult.value = res.data
@@ -43,7 +43,7 @@ export const useDashboardStore = defineStore('dashboard', () => {
     confraResults,
     confraSummary,
     getConfraResults,
-    getConfraResultByPlayer,
+    getConfraResult,
     getConfraSummary
   }
 })

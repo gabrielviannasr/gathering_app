@@ -38,7 +38,6 @@
 
   import { useEventStore } from 'src/stores/event'
   import { useResultStore } from 'src/stores/result'
-  import { useConfraStore } from 'src/stores/confra'
   import { useDashboardStore } from 'src/stores/dashboard'
 
   /* NAVIGATION */
@@ -56,21 +55,22 @@
   // const playerStore = usePlayerStore()
   const eventStore = useEventStore()
   const resultStore = useResultStore()
-  const confraStore = useConfraStore()
   const dashboardStore = useDashboardStore()
 
   /* DATA */
   const event = computed(() => eventStore.event)
-  const confra = computed(() => confraStore.confra)
+  const confraSummary = computed(() => dashboardStore.confraSummary)
   const rankData = computed(() => {
-    return mode.value === 'event' ? resultStore.result : dashboardStore.rankConfra
+    return mode.value === 'event' ? resultStore.result : dashboardStore.confraResult
   })
   const headerData = computed(() => {
-    return mode.value === 'event' ? eventStore.event : confraStore.confra
+    return mode.value === 'event' ? eventStore.event : dashboardStore.confraSummary
   })
 
   /* ---------------- LOAD ---------------- */
-  onMounted(load)
+  onMounted(async () => {
+    await load()
+  })
 
   async function load() {
     if (mode.value === 'event') {
@@ -82,16 +82,16 @@
         return
       }
 
-      await resultStore.getResultByPlayer(idEvent, idPlayer)
+      await resultStore.getResult(idEvent, idPlayer)
     } else {
       await dashboardStore.getConfraSummary(idGathering)
 
-      if (!confra.value) {
-        console.warn('CONFRA NOT FOUND:', idGathering)
+      if (!confraSummary.value) {
+        console.warn('CONFRA SUMMARY NOT FOUND:', idGathering)
         router.back()
         return
       }
-      await dashboardStore.getConfraResultByPlayer(idGathering, idPlayer)
+      await dashboardStore.getConfraResult(idGathering, idPlayer)
     }
   }
 </script>
