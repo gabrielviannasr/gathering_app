@@ -82,9 +82,9 @@
         return
       }
 
-      await resultStore.getResultsByPlayer(idEvent, idPlayer)
+      await resultStore.getResultByPlayer(idEvent, idPlayer)
     } else {
-      await confraStore.getConfraSummary(idGathering)
+      await dashboardStore.getConfraSummary(idGathering)
 
       if (!confra.value) {
         console.warn('CONFRA NOT FOUND:', idGathering)
