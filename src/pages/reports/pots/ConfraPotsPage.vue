@@ -11,7 +11,7 @@
     </div>
 
     <!-- LISTA DE EVENTOS -->
-    <div class="q-pa-md q-gutter-md">
+    <div class="q-pa-md q-gutter-md" v-if="events.length > 0">
       <EventCard
         v-for="item in events"
         :key="item.id"
