@@ -5,8 +5,7 @@ export function useWalletNavigator() {
   const router = useRouter()
 
   return {
-    goToWalletPlayer: idPlayer =>
-      router.push({ name: ROUTES.CARTEIRA_JOGADOR, params: { idPlayer } }),
+    goToWallet: idPlayer => router.push({ name: ROUTES.CARTEIRA_JOGADOR, params: { idPlayer } }),
 
     goToNewTransaction: idPlayer =>
       router.push({

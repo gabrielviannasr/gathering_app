@@ -41,6 +41,7 @@
 <script setup>
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
   import PlayerList from 'src/components/players/PlayerList.vue'
+
   import { computed, onMounted, ref, watch } from 'vue'
   import { usePlayerNavigator } from 'src/composables/navigation'
   import { usePlayerStore } from 'src/stores/player'
@@ -51,7 +52,7 @@
   /* STORES */
   const playerStore = usePlayerStore()
 
-  /* ITEMS */
+  /* DATA */
   const players = computed(() => playerStore.players?.content || [])
 
   /* FILTERS */

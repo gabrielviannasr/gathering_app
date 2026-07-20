@@ -93,7 +93,7 @@
   /* STORES */
   const confraStore = useConfraStore()
 
-  /* ITEMS */
+  /* DATA */
   const gatherings = computed(() => confraStore.confras?.content || [])
 
   /* PAGINATION */
