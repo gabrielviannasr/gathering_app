@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 export const useFormatReportStore = defineStore('formatReport', () => {
+  const formats = ref([])
   const formatSummary = ref([
     {
       idGathering: 1,
@@ -27,8 +28,9 @@ export const useFormatReportStore = defineStore('formatReport', () => {
   ])
 
   function getByGathering(idGathering) {
-    return formatSummary.value.filter(f => f.idGathering === idGathering)
+    formats.value = formatSummary.value.filter(f => f.idGathering === idGathering)
+    return formats.value
   }
 
-  return { formatSummary, getByGathering }
+  return { formats, formatSummary, getByGathering }
 })

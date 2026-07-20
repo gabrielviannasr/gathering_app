@@ -12,7 +12,7 @@
     <div class="q-mt-md">
       <div v-for="item in data" :key="item.idFormat" class="row items-center q-my-xs">
         <div class="legend-color q-mr-sm" :style="{ background: getColor(item.idFormat) }" />
-        <div class="text-subtitle2">{{ item.formatName }}</div>
+        <div class="text-subtitle2">{{ item.format.name }}</div>
         <div class="q-ml-auto text-caption text-bold">{{ item.rounds }} rodadas</div>
       </div>
     </div>

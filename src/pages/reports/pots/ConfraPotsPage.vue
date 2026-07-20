@@ -47,9 +47,9 @@
 
   /* DATA */
   const confraSummary = computed(() => dashboardStore.confraSummary)
-
   const events = computed(() => eventStore.events)
 
+  /* ---------------- LOAD ---------------- */
   onMounted(async () => {
     await load()
   })

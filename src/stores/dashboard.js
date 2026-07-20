@@ -4,9 +4,20 @@ import { ref } from 'vue'
 
 export const useDashboardStore = defineStore('dashboard', () => {
   const path = '/dashboard'
+  const confraFormats = ref([])
   const confraResult = ref(null)
   const confraResults = ref([])
   const confraSummary = ref(null)
+
+  async function getConfraFormats(idGathering) {
+    try {
+      const res = await api.get(`${path}/format/${idGathering}`)
+      confraFormats.value = res.data
+      return confraFormats.value
+    } catch (err) {
+      return err
+    }
+  }
 
   async function getConfraResults(idGathering) {
     try {
@@ -39,9 +50,11 @@ export const useDashboardStore = defineStore('dashboard', () => {
   }
 
   return {
+    confraFormats,
     confraResult,
     confraResults,
     confraSummary,
+    getConfraFormats,
     getConfraResults,
     getConfraResult,
     getConfraSummary
