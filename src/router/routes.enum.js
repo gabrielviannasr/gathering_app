@@ -6,9 +6,6 @@ export const ROUTES = {
   // EXTRATO
   EXTRATO: 'extrato',
 
-  // CARTEIRA (LISTAGEM)
-  CARTEIRA_JOGADORES: 'carteira-jogadores',
-
   // CONFRAS
   CONFRAS: 'confras',
   CONFRAS_NEW: 'confras-new',
@@ -52,6 +49,7 @@ export const ROUTES = {
   RULES: 'rules',
 
   // WALLET
+  CARTEIRA_JOGADORES: 'carteira-jogadores',
   CARTEIRA_JOGADOR: 'carteira-jogador',
   CARTEIRA_JOGADOR_TRANSACAO_NEW: 'carteira-jogador-transacao-new',
   CARTEIRA_JOGADOR_TRANSACAO_EDIT: 'carteira-jogador-transacao-edit'

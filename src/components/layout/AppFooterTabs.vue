@@ -9,16 +9,17 @@
         class="gathering-tabs"
         @update:model-value="goToTab"
       >
-        <q-tab name="home" icon="home" label="Home" />
-        <q-tab name="extrato" icon="swap_vert" label="Extrato" />
-        <q-tab name="carteira-jogadores" icon="account_balance_wallet" label="Carteira" />
-        <q-tab name="relatorios" icon="bar_chart" label="Relatórios" />
+        <q-tab :name="ROUTES.HOME" icon="home" label="Home" />
+        <q-tab :name="ROUTES.EXTRATO" icon="swap_vert" label="Extrato" />
+        <q-tab :name="ROUTES.CARTEIRA_JOGADORES" icon="account_balance_wallet" label="Carteira" />
+        <q-tab :name="ROUTES.RELATORIOS" icon="bar_chart" label="Relatórios" />
       </q-tabs>
     </PageWrapper>
   </q-footer>
 </template>
 
 <script setup>
+  import { ROUTES } from 'src/router/routes.enum'
   import PageWrapper from './PageWrapper.vue'
   import { useRoute, useRouter } from 'vue-router'
   import { useTabStore } from 'src/stores/tabs'
@@ -43,7 +44,7 @@
       if (!newName) return
 
       // Se a rota atual existe entre as tabs, sincroniza
-      const validTabs = ['home', 'extrato', 'carteira-jogadores', 'relatorios']
+      const validTabs = [ROUTES.HOME, ROUTES.EXTRATO, ROUTES.CARTEIRA_JOGADORES, ROUTES.RELATORIOS]
 
       if (validTabs.includes(newName)) {
         tabStore.setTab(newName)
