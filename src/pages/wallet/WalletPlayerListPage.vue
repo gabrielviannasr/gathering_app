@@ -37,7 +37,6 @@
 
   import { useConfraStore } from 'src/stores/confra'
   import { useDashboardStore } from 'src/stores/dashboard'
-  import { usePlayerStore } from 'src/stores/player'
 
   import { useWalletNavigator } from 'src/composables/navigation'
 
@@ -47,12 +46,9 @@
   /* STORES */
   const confraStore = useConfraStore()
   const dashboardStore = useDashboardStore()
-  const playerStore = usePlayerStore()
 
   /* DATA */
   const confra = computed(() => confraStore.selectedConfra || null)
-  // eslint-disable-next-line no-unused-vars
-  const players = computed(() => playerStore.players || [])
   const wallets = computed(() => dashboardStore.wallets || [])
 
   /* FILTERS */
@@ -74,11 +70,10 @@
   })
 
   async function load() {
-    await playerStore.getPlayers({ idGathering: confra.value?.id })
     await dashboardStore.getWallets(confra.value.id)
   }
 
   function openWallet(wallet) {
-    goToWallet(wallet.player.id)
+    goToWallet(confra.value?.id, wallet.player.id)
   }
 </script>

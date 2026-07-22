@@ -2,17 +2,17 @@
   <q-card class="q-pa-sm list-card">
     <div class="row items-center no-wrap">
       <!-- Ícone do tipo -->
-      <q-icon :name="type?.icon" size="26px" class="q-mr-md" :style="`color: ${amountColorCss}`" />
+      <q-icon :name="type.icon" size="26px" class="q-mr-md" :style="`color: ${amountColorCss}`" />
 
       <!-- Conteúdo -->
       <div class="col">
         <div class="text-subtitle2 text-bold">
-          {{ type?.name }}
+          {{ props.item.type.name }}
         </div>
 
         <!-- Jogador -->
         <div class="text-caption text-grey-7">
-          {{ playerName }}
+          {{ props.item.player.name }}
         </div>
 
         <div class="text-caption text-grey-6 q-mt-xs">
@@ -20,7 +20,7 @@
         </div>
 
         <div class="text-caption text-grey-8 q-mt-xs">
-          {{ item.description || '-' }}
+          {{ props.item.type.description || '-' }}
         </div>
       </div>
 
@@ -36,20 +36,20 @@
 
 <script setup>
   import { computed } from 'vue'
-  import { usePlayerStore } from 'src/stores/player'
+  // import { usePlayerStore } from 'src/stores/player'
   import { useTransactionTypeStore } from 'src/stores/transactionType'
 
   const props = defineProps({ item: Object })
 
-  const playerStore = usePlayerStore()
+  // const playerStore = usePlayerStore()
   const typeStore = useTransactionTypeStore()
 
-  const type = computed(() => typeStore.getType(props.item.idTransactionType))
+  const type = computed(() => typeStore.getType(props.item.type.id))
 
-  const playerName = computed(() => {
-    const p = playerStore.players.find(x => x.id === props.item.idPlayer)
-    return p?.name || 'Desconhecido'
-  })
+  // const playerName = computed(() => {
+  //   const p = playerStore.players.find(x => x.id === props.item.idPlayer)
+  //   return p?.name || 'Desconhecido'
+  // })
 
   const formattedAmount = computed(() =>
     props.item.amount.toLocaleString('pt-BR', {
