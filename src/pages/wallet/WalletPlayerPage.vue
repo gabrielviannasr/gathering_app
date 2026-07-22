@@ -2,20 +2,7 @@
   <q-page class="page-bg">
     <!-- CARD DO PLAYER -->
     <div class="q-pa-md">
-      <PlayerCard
-        :wallet="{
-          playerName: player.name,
-          wallet: walletAmount,
-          events: 1
-        }"
-        :showWalletInfo="true"
-        :showArrow="false"
-      />
-    </div>
-
-    <!-- SALDO DA CARTEIRA -->
-    <div class="q-pa-md">
-      <PlayerWalletCard :wallet="walletAmount" />
+      <WalletCard :wallet="wallet" :showArrow="false" v-if="wallet" />
     </div>
 
     <!-- ADICIONAR TRANSAÇÃO -->
@@ -27,54 +14,83 @@
     </div>
 
     <!-- LISTA DE TRANSAÇÕES DO JOGADOR -->
-    <div class="q-pa-md q-gutter-md">
+    <div class="q-pa-md q-gutter-md" v-if="transactions.length > 0">
       <TransactionCard
-        v-for="item in playerTransactions"
-        :key="item.id"
-        :item="item"
-        @click="handleClick(item)"
+        v-for="transaction in transactions"
+        :key="transaction.id"
+        :item="transaction"
+        @click="handleClick(transaction)"
       />
+
+      <!-- Paginação -->
+      <div class="q-mt-md q-pb-xl">
+        <q-pagination v-model="page" :max="maxPages" max-pages="5" />
+      </div>
     </div>
   </q-page>
 </template>
 
 <script setup>
-  import { computed } from 'vue'
-  import { useRoute } from 'vue-router'
-
-  import PlayerCard from 'src/components/players/PlayerCard.vue'
-  import PlayerWalletCard from 'src/components/players/PlayerWalletCard.vue'
+  /* COMPONENTS */
+  import WalletCard from 'src/components/wallet/WalletCard.vue'
   import TransactionCard from 'src/components/transactions/TransactionCard.vue'
 
-  import { usePlayerStore } from 'src/stores/player'
+  /* VUE + PINIA */
+  import { computed, onMounted, ref, watch } from 'vue'
+  import { useRoute } from 'vue-router'
+
+  /* STORES */
+  import { useConfraStore } from 'src/stores/confra'
+  import { useDashboardStore } from 'src/stores/dashboard'
   import { useTransactionStore } from 'src/stores/transaction'
+
+  /* NAVIGATION */
   import { useRankNavigator } from 'src/composables/navigation'
   import { useWalletNavigator } from 'src/composables/navigation'
 
+  /* NAVIGATION */
   const { goToRankEvent, goToRankEventPlayer } = useRankNavigator()
-
-  const route = useRoute()
-  const playerStore = usePlayerStore()
-  const transactionStore = useTransactionStore()
   const { goToNewTransaction, goToEditTransaction } = useWalletNavigator()
 
-  const playerId = Number(route.params.idPlayer)
+  const route = useRoute()
+  const idPlayer = Number(route.params.idPlayer)
 
-  const player = computed(() => playerStore.getPlayer(playerId))
+  /* STORES */
+  const confraStore = useConfraStore()
+  const dashboardStore = useDashboardStore()
+  const transactionStore = useTransactionStore()
 
-  // MOCK TEMPORÁRIO (depois vem do backend)
-  const walletAmount = computed(() => {
-    return transactionStore.transactions
-      .filter(t => t.idPlayer === playerId)
-      .reduce((acc, t) => acc + t.amount, 0)
+  /* DATA */
+  const confra = computed(() => confraStore.selectedConfra)
+  const wallet = computed(() => dashboardStore.wallet)
+  const transactions = computed(() => transactionStore.transactions.content || [])
+
+  /* PAGINATION */
+  const page = ref(1)
+  const perPage = 10
+  const maxPages = computed(() => transactionStore.transactions?.totalPages || 1)
+
+  /* ---------------- LOAD ---------------- */
+  onMounted(async () => {
+    await dashboardStore.getWallet(confra.value.id, idPlayer)
+    await load()
   })
 
-  const playerTransactions = computed(() =>
-    transactionStore.transactions.filter(t => t.idPlayer === playerId)
-  )
+  watch(page, () => {
+    load()
+  })
+
+  async function load() {
+    await transactionStore.getTransactionsPage({
+      idGathering: confra.value.id,
+      idPlayer: idPlayer,
+      page: page.value - 1,
+      size: perPage
+    })
+  }
 
   function onAdd() {
-    goToNewTransaction(playerId)
+    goToNewTransaction(idPlayer)
   }
 
   function handleClick(item) {
