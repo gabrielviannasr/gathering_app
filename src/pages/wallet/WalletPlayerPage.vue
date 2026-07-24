@@ -94,20 +94,20 @@
   }
 
   function handleClick(item) {
-    const t = item.idTransactionType
+    const transactionTypeId = item.type.id
 
-    switch (t) {
+    switch (transactionTypeId) {
       case 1: // INSCRIÇÃO
-        goToRankEvent(item.idEvent)
+        goToRankEvent(item.event.id)
         break
 
       case 2: // RESULTADO
-        goToRankEventPlayer(item.idEvent, item.idPlayer)
+        goToRankEventPlayer(item.event.id, item.player.id)
         break
 
       case 3: // DEPÓSITO
       case 4: // SAQUE
-        goToEditTransaction(item.idPlayer, item.id)
+        goToEditTransaction(item.player.id, item.id)
         break
     }
   }
