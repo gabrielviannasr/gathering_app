@@ -4,8 +4,6 @@
     v-for="player in props.players"
     :key="player.id"
     :player="player"
-    :wallet="props.wallets[player.id]"
-    :showWalletInfo="props.showWalletInfo"
     @click="emit('select', player)"
     class="list-card"
   />
@@ -15,9 +13,7 @@
   import PlayerCard from 'src/components/players/PlayerCard.vue'
 
   const props = defineProps({
-    players: { type: Array, required: true },
-    showWalletInfo: { type: Boolean, default: false }, // <-- NOVO
-    wallets: { type: Object, default: () => ({}) } // <-- wallet opcional
+    players: { type: Array, required: true }
   })
 
   const emit = defineEmits(['select'])
