@@ -49,8 +49,8 @@ export const ROUTES = {
   RULES: 'rules',
 
   // WALLET
-  CARTEIRA_JOGADORES: 'carteira-jogadores',
+  CARTEIRA: 'carteiras',
   CARTEIRA_JOGADOR: 'carteira-jogador',
-  CARTEIRA_JOGADOR_TRANSACAO_NEW: 'carteira-jogador-transacao-new',
-  CARTEIRA_JOGADOR_TRANSACAO_EDIT: 'carteira-jogador-transacao-edit'
+  TRANSACAO_NEW: 'transacao-new',
+  TRANSACAO_EDIT: 'transacao-edit'
 }

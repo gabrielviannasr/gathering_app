@@ -27,8 +27,8 @@ const routes = [
         meta: { title: 'Extrato', subtitle: 'Histórico de Transações' }
       },
       {
-        path: 'carteira/jogadores',
-        name: ROUTES.CARTEIRA_JOGADORES,
+        path: ROUTES.CARTEIRA,
+        name: ROUTES.CARTEIRA,
         component: () => import('pages/wallet/WalletPlayerListPage.vue'),
         meta: { title: 'Carteira', subtitle: 'Lista de Jogadores' }
       }
@@ -244,7 +244,7 @@ const routes = [
 
       // --- CARTEIRA INDIVIDUAL ---
       {
-        path: 'carteira-jogador/:idPlayer',
+        path: 'carteiras/jogador/:idPlayer',
         children: [
           {
             path: '',
@@ -254,13 +254,13 @@ const routes = [
           },
           {
             path: 'transacao/new',
-            name: ROUTES.CARTEIRA_JOGADOR_TRANSACAO_NEW,
+            name: ROUTES.TRANSACAO_NEW,
             component: () => import('pages/wallet/WalletTransactionFormPage.vue'),
             meta: { title: 'Carteira', subtitle: 'Nova Transação' }
           },
           {
             path: 'transacao/:idTransaction',
-            name: ROUTES.CARTEIRA_JOGADOR_TRANSACAO_EDIT,
+            name: ROUTES.TRANSACAO_EDIT,
             component: () => import('pages/wallet/WalletTransactionFormPage.vue'),
             meta: { title: 'Carteira', subtitle: 'Editar Transação' }
           }

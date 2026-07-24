@@ -74,6 +74,6 @@
   }
 
   function openWallet(wallet) {
-    goToWallet(confra.value?.id, wallet.player.id)
+    goToWallet(wallet.player.id)
   }
 </script>

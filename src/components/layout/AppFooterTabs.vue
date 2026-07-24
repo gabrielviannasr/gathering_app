@@ -11,7 +11,7 @@
       >
         <q-tab :name="ROUTES.HOME" icon="home" label="Home" />
         <q-tab :name="ROUTES.EXTRATO" icon="swap_vert" label="Extrato" />
-        <q-tab :name="ROUTES.CARTEIRA_JOGADORES" icon="account_balance_wallet" label="Carteira" />
+        <q-tab :name="ROUTES.CARTEIRA" icon="account_balance_wallet" label="Carteira" />
         <q-tab :name="ROUTES.RELATORIOS" icon="bar_chart" label="Relatórios" />
       </q-tabs>
     </PageWrapper>
@@ -44,7 +44,7 @@
       if (!newName) return
 
       // Se a rota atual existe entre as tabs, sincroniza
-      const validTabs = [ROUTES.HOME, ROUTES.EXTRATO, ROUTES.CARTEIRA_JOGADORES, ROUTES.RELATORIOS]
+      const validTabs = [ROUTES.HOME, ROUTES.EXTRATO, ROUTES.CARTEIRA, ROUTES.RELATORIOS]
 
       if (validTabs.includes(newName)) {
         tabStore.setTab(newName)
