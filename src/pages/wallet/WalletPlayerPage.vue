@@ -1,6 +1,6 @@
 <template>
   <q-page class="page-bg">
-    <!-- CARD DO PLAYER -->
+    <!-- CARD DO PLAYER COM CARTEIRA -->
     <div class="q-pa-md">
       <WalletCard :wallet="wallet" :showArrow="false" v-if="wallet" />
     </div>

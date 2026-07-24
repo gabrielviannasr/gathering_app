@@ -1,21 +1,8 @@
 <template>
   <q-page class="page-bg">
-    <!-- CARD DO PLAYER -->
+    <!-- CARD DO PLAYER COM CARTEIRA -->
     <div class="q-pa-md">
-      <PlayerCard
-        :wallet="{
-          playerName: player.name,
-          wallet: walletAmount,
-          events: 1
-        }"
-        :showWalletInfo="true"
-        :showArrow="false"
-      />
-    </div>
-
-    <!-- SALDO DA CARTEIRA -->
-    <div class="q-pa-md">
-      <PlayerWalletCard :wallet="walletAmount" />
+      <WalletCard :wallet="wallet" :showArrow="false" v-if="wallet" />
     </div>
 
     <q-form greedy @submit="onSubmit">
@@ -43,20 +30,6 @@
 
           <!-- Valor -->
           <div class="">
-            <!-- <GlobalInput
-              v-model="form.amountMasked"
-              label="Valor"
-              placeholder="0,00"
-              @input="handleAmountMasked"
-              :rules="[
-                val => !!val || 'Campo obrigatório!',
-                () => numericAmount > 0 || 'O valor deve ser maior que zero!'
-              ]"
-            >
-              <template #prepend>
-                <q-icon name="attach_money" />
-              </template>
-            </GlobalInput> -->
             <GlobalNumberInput
               v-model="form.amount"
               label="Valor"
@@ -74,7 +47,7 @@
           <div class="q-mt-md">
             <GlobalSelect
               label="Descrição"
-              v-model="form.descriptionType"
+              v-model="descriptionType"
               :options="descriptionOptions"
               emit-value
               map-options
@@ -83,7 +56,7 @@
           </div>
 
           <!-- CAMPO DE DESCRIÇÃO MANUAL -->
-          <div v-if="form.descriptionType === 'other'" class="q-mt-md">
+          <div v-if="descriptionType === 'other'" class="q-mt-md">
             <GlobalInput
               v-model="form.description"
               label="Descrição personalizada"
@@ -103,7 +76,7 @@
       <div class="q-pa-md">
         <div class="row q-col-gutter-sm">
           <!-- Excluir (somente edit) -->
-          <div class="col" v-if="!isNew">
+          <div class="col" v-if="isEditMode">
             <q-btn
               outline
               color="negative"
@@ -159,44 +132,48 @@
 </template>
 
 <script setup>
-  /* -------------------- IMPORTS -------------------- */
-  import { computed, ref } from 'vue'
-  import { useRoute, useRouter } from 'vue-router'
-
-  import PlayerCard from 'src/components/players/PlayerCard.vue'
-  import PlayerWalletCard from 'src/components/players/PlayerWalletCard.vue'
+  /* COMPONENTS */
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
   import GlobalNumberInput from 'components/ui/GlobalNumberInput.vue'
   import GlobalSelect from 'src/components/ui/GlobalSelect.vue'
+  import WalletCard from 'src/components/wallet/WalletCard.vue'
 
-  import { usePlayerStore } from 'src/stores/player'
+  /* VUE */
+  import { computed, onMounted, ref } from 'vue'
+  import { useRoute, useRouter } from 'vue-router'
+
+  /* PINIA */
+  import { useConfraStore } from 'src/stores/confra'
+  import { useDashboardStore } from 'src/stores/dashboard'
   import { useTransactionStore } from 'src/stores/transaction'
   import { useTransactionTypeStore } from 'src/stores/transactionType'
-  // import { store } from 'quasar/wrappers'
 
-  /* -------------------- ROUTE -------------------- */
+  /* ROUTE */
   const route = useRoute()
   const router = useRouter()
 
+  /* PARAMS */
   const idPlayer = Number(route.params.idPlayer)
   const idTransaction = route.params.idTransaction
-  const isNew = idTransaction === undefined
+  const isEditMode = idTransaction !== undefined
 
-  /* -------------------- STORES -------------------- */
-  const playerStore = usePlayerStore()
+  /* STORES */
+  const confraStore = useConfraStore()
+  const dashboardStore = useDashboardStore()
   const transactionStore = useTransactionStore()
   const typeStore = useTransactionTypeStore()
 
-  /* -------------------- PLAYER -------------------- */
-  const player = computed(() => playerStore.getPlayer(idPlayer))
+  /* COMPUTED */
+  const confra = computed(() => confraStore.selectedConfra)
+  const transaction = computed(() => transactionStore.transaction ?? {})
+  const wallet = computed(() => dashboardStore.wallet)
 
-  const walletAmount = computed(() =>
-    transactionStore.transactions
-      .filter(t => t.idPlayer === idPlayer)
-      .reduce((acc, t) => acc + t.amount, 0)
-  )
+  const descriptionOptions = [
+    { label: 'Transferência Bancária', value: 'transfer' },
+    { label: 'Isenção de Inscrição', value: 'waiver' },
+    { label: 'Outro', value: 'other' }
+  ]
 
-  /* -------------------- WALLET TYPES -------------------- */
   const walletTypeOptions = computed(() =>
     typeStore.getWalletTypes().map(t => ({
       label: t.name,
@@ -206,55 +183,45 @@
 
   const getType = id => typeStore.getType(id)
   const typeName = computed(() => getType(form.value.idTransactionType)?.name || '')
+  const descriptionType = ref('transfer')
 
-  /* -------------------- DESCRIPTION OPTIONS ------------- */
-  const descriptionOptions = [
-    { label: 'Transferência Bancária', value: 'transfer' },
-    { label: 'Isenção de Inscrição', value: 'waiver' },
-    { label: 'Outro', value: 'other' }
-  ]
-
-  function getDescriptionLabel(value) {
-    return descriptionOptions.find(d => d.value === value)?.label || null
-  }
-
-  /* -------------------- FORM -------------------- */
+  /* FORM */
   const form = ref({
-    id: null,
+    idGathering: confra.value.id,
     idPlayer: idPlayer,
     idTransactionType: null,
     amount: 0,
-    // amountMasked: '',
-    descriptionType: 'transfer',
-    description: null,
-    createdAt: new Date().toISOString()
+    description: null
   })
 
-  /* EDIT MODE */
-  if (!isNew) {
-    const stored = transactionStore.getById(Number(idTransaction))
-    if (stored) {
-      form.value = {
-        ...stored,
-        amount: Math.abs(stored.amount),
-        descriptionType: 'other',
-        description: stored.description
+  /* LIFECYCLE */
+  onMounted(async () => {
+    await load()
+  })
+
+  /* FUNCTIONS */
+  async function load() {
+    await dashboardStore.getWallet(confra.value.id, idPlayer)
+
+    if (isEditMode) {
+      await transactionStore.getTransaction(idTransaction)
+
+      if (transaction.value) {
+        form.value = {
+          idGathering: transaction.value.gathering.id,
+          idPlayer: transaction.value.player.id,
+          idTransactionType: transaction.value.type.id,
+          amount: Math.abs(transaction.value.amount),
+          description: transaction.value.description
+        }
+        descriptionType.value = transaction.value.description ? 'other' : 'transfer'
       }
     }
   }
 
-  /* -------------------- MASK LOGIC -------------------- */
-  // function handleAmountMasked(v) {
-  //   const clean = v.replace(/[^\d]/g, '')
-  //   const num = Number(clean) / 100
-  //   form.value.amountMasked = num.toFixed(2).replace('.', ',')
-  // }
-
-  /* Amount numérico */
-  // const numericAmount = computed(() => {
-  //   const n = Number(form.value.amountMasked.replace(',', '.'))
-  //   return isNaN(n) ? 0 : n
-  // })
+  function getDescriptionLabel(value) {
+    return descriptionOptions.find(d => d.value === value)?.label || null
+  }
 
   /* -------------------- SAVE -------------------- */
   const confirmSave = ref(false)
@@ -270,16 +237,16 @@
     // depósito = positivo | saque = negativo
     form.value.amount = type === 3 ? amount : -amount
 
-    if (form.value.descriptionType === 'other') {
+    if (descriptionType.value === 'other') {
       form.value.description = form.value.description.trim()
     } else {
-      form.value.description = getDescriptionLabel(form.value.descriptionType)
+      form.value.description = getDescriptionLabel(descriptionType)
     }
 
-    if (isNew) {
-      transactionStore.add(form.value)
+    if (isEditMode) {
+      await transactionStore.updateTransaction(idTransaction, form.value)
     } else {
-      transactionStore.update(form.value)
+      await transactionStore.createTransaction(form.value)
     }
 
     confirmSave.value = false
@@ -289,7 +256,7 @@
   /* -------------------- DELETE -------------------- */
   const confirmDelete = ref(false)
   async function deleteTransaction() {
-    transactionStore.remove(form.value.id)
+    await transactionStore.deleteTransaction(idTransaction)
     confirmDelete.value = false
     router.back()
   }
@@ -299,13 +266,3 @@
     router.back()
   }
 </script>
-
-<style scoped>
-  .item-row {
-    padding: 10px 0;
-    border-bottom: 1px solid #eee;
-  }
-  .item-row:last-child {
-    border-bottom: none;
-  }
-</style>

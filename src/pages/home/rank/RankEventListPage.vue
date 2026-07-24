@@ -59,7 +59,7 @@
   const eventStore = useEventStore()
   const formatStore = useFormatStore()
 
-  /* ITEMS */
+  /* DATA */
   const events = computed(() => eventStore.events?.content || [])
 
   /* FILTERS */
