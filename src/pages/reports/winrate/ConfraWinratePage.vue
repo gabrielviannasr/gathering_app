@@ -29,7 +29,7 @@
   /* STORES */
   const dashboardStore = useDashboardStore()
 
-  /* DATA */
+  /* COMPUTED */
   const confraSummary = computed(() => dashboardStore.confraSummary)
 
   const winrateData = computed(() =>

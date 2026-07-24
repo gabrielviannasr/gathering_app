@@ -60,7 +60,7 @@
   const dashboardStore = useDashboardStore()
   const transactionStore = useTransactionStore()
 
-  /* DATA */
+  /* COMPUTED */
   const confra = computed(() => confraStore.selectedConfra)
   const wallet = computed(() => dashboardStore.wallet)
   const transactions = computed(() => transactionStore.transactions.content || [])

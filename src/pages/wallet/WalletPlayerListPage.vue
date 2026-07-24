@@ -47,7 +47,7 @@
   const confraStore = useConfraStore()
   const dashboardStore = useDashboardStore()
 
-  /* DATA */
+  /* COMPUTED */
   const confra = computed(() => confraStore.selectedConfra || null)
   const wallets = computed(() => dashboardStore.wallets || [])
 

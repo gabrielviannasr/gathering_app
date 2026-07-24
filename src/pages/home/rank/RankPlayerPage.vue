@@ -57,7 +57,7 @@
   const resultStore = useResultStore()
   const dashboardStore = useDashboardStore()
 
-  /* DATA */
+  /* COMPUTED */
   const event = computed(() => eventStore.event)
   const confraSummary = computed(() => dashboardStore.confraSummary)
   const rankData = computed(() => {

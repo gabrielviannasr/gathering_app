@@ -123,7 +123,7 @@
   const eventStore = useEventStore()
   const roundStore = useRoundStore()
 
-  /* DATA */
+  /* COMPUTED */
   const event = computed(() => eventStore.event)
 
   /* ROUNDS DO EVENTO */

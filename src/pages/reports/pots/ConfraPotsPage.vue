@@ -45,7 +45,7 @@
   const dashboardStore = useDashboardStore()
   const eventStore = useEventStore()
 
-  /* DATA */
+  /* COMPUTED */
   const confraSummary = computed(() => dashboardStore.confraSummary)
   const events = computed(() => eventStore.events)
 

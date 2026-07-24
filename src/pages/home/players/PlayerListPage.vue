@@ -52,7 +52,7 @@
   /* STORES */
   const playerStore = usePlayerStore()
 
-  /* DATA */
+  /* COMPUTED */
   const players = computed(() => playerStore.players?.content || [])
 
   /* FILTERS */

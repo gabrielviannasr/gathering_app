@@ -101,7 +101,7 @@
   const eventStore = useEventStore()
   const resultStore = useResultStore()
 
-  /* DATA */
+  /* COMPUTED */
   const event = computed(() => eventStore.event)
   // const results = computed(() => resultStore.results?.content || [])
   // const results = computed(() => resultStore.results || [])

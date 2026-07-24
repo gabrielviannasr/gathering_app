@@ -61,7 +61,7 @@
   /* STORES */
   const formatStore = useFormatStore()
 
-  /* ITEMS */
+  /* COMPUTED */
   const formats = computed(() => formatStore.formats?.content || [])
 
   /* FILTERS */
