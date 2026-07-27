@@ -35,7 +35,7 @@
   import WalletCard from 'src/components/wallet/WalletCard.vue'
   import TransactionCard from 'src/components/transactions/TransactionCard.vue'
 
-  /* VUE + PINIA */
+  /* VUE */
   import { computed, onMounted, ref, watch } from 'vue'
   import { useRoute } from 'vue-router'
 
