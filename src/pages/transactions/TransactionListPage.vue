@@ -1,5 +1,10 @@
 <template>
   <q-page class="page-bg">
+    <!-- CARD DA CONFRA -->
+    <div class="q-pa-md" v-if="confraSummary">
+      <ConfraHeaderCard :confraSummary="confraSummary" />
+    </div>
+
     <!-- FILTROS -->
     <div class="q-pa-md">
       <q-card class="q-pa-md form-card">
@@ -67,6 +72,7 @@
 
 <script setup>
   /* COMPONENTS */
+  import ConfraHeaderCard from 'src/components/confras/ConfraHeaderCard.vue'
   import GlobalSelect from 'src/components/ui/GlobalSelect.vue'
   import TransactionCard from 'src/components/transactions/TransactionCard.vue'
 
@@ -75,6 +81,7 @@
 
   /* STORES */
   import { useConfraStore } from 'src/stores/confra'
+  import { useDashboardStore } from 'src/stores/dashboard'
   import { usePlayerStore } from 'src/stores/player'
   import { useRankNavigator } from 'src/composables/navigation'
   import { useTransactionStore } from 'src/stores/transaction'
@@ -89,12 +96,14 @@
 
   /* STORES */
   const confraStore = useConfraStore()
+  const dashboardStore = useDashboardStore()
   const playerStore = usePlayerStore()
   const transactionStore = useTransactionStore()
   const transactionTypeStore = useTransactionTypeStore()
 
   /* COMPUTED */
   const confra = computed(() => confraStore.selectedConfra)
+  const confraSummary = computed(() => dashboardStore.confraSummary)
   const players = computed(() => playerStore.players)
   const transactions = computed(() => transactionStore.transactions.content ?? [])
   const types = computed(() => transactionTypeStore.types)
@@ -113,6 +122,7 @@
 
   /* LIFECYCLE */
   onMounted(async () => {
+    await dashboardStore.getConfraSummary(confra.value.id)
     await playerStore.getPlayers()
     await load()
   })
