@@ -1,20 +1,23 @@
+import { TransactionType } from 'src/constants/transaction-type'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 export const useTransactionTypeStore = defineStore('transactionType', () => {
   const types = ref([
-    { id: 1, name: 'Inscrição', icon: 'local_activity' },
-    { id: 2, name: 'Resultado', icon: 'emoji_events' },
-    { id: 3, name: 'Depósito', icon: 'arrow_upward' },
-    { id: 4, name: 'Saque', icon: 'arrow_downward' }
+    { id: TransactionType.REGISTRATION, name: 'Inscrição', icon: 'local_activity' },
+    { id: TransactionType.RESULT, name: 'Resultado', icon: 'emoji_events' },
+    { id: TransactionType.DEPOSIT, name: 'Depósito', icon: 'arrow_upward' },
+    { id: TransactionType.WITHDRAW, name: 'Saque', icon: 'arrow_downward' }
   ])
 
-  function getType(id) {
-    return types.value.find(t => t.id === id)
+  function getWalletTypes() {
+    return types.value.filter(
+      t => t.id === TransactionType.DEPOSIT || t.id === TransactionType.WITHDRAW
+    )
   }
 
-  function getWalletTypes() {
-    return types.value.filter(t => t.id === 3 || t.id === 4)
+  function getType(id) {
+    return types.value.find(type => type.id === id)
   }
 
   return {

@@ -131,6 +131,9 @@
 </template>
 
 <script setup>
+  /* CONSTANTS */
+  import { TransactionType } from 'src/constants/transaction-type'
+
   /* COMPONENTS */
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
   import GlobalNumberInput from 'components/ui/GlobalNumberInput.vue'
@@ -229,7 +232,7 @@
     const amount = form.value.amount
 
     // depósito = positivo | saque = negativo
-    form.value.amount = type === 3 ? amount : -amount
+    form.value.amount = type === TransactionType.DEPOSIT ? amount : -amount
 
     if (isEditMode) {
       await transactionStore.updateTransaction(idTransaction, form.value)
