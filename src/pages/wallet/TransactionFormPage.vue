@@ -14,7 +14,7 @@
           <!-- Tipo -->
           <div class="q-mt-md">
             <GlobalSelect
-              label="Tipo"
+              label="Tipo:"
               :options="walletTypeOptions"
               v-model="form.idTransactionType"
               emit-value
@@ -32,7 +32,7 @@
           <div class="">
             <GlobalNumberInput
               v-model="form.amount"
-              label="Valor"
+              label="Valor:"
               placeholder="0"
               :min="0"
               :step="5"
@@ -46,20 +46,19 @@
           <!-- DESCRIÇÃO / TIPO DE DESCRIÇÃO -->
           <div class="q-mt-md">
             <GlobalSelect
-              label="Descrição"
-              v-model="descriptionType"
+              label="Descrição: (Sugerida)"
+              v-model="form.description"
               :options="descriptionOptions"
               emit-value
               map-options
-              :rules="[val => !!val || 'Campo obrigatório!']"
             />
           </div>
 
           <!-- CAMPO DE DESCRIÇÃO MANUAL -->
-          <div v-if="descriptionType === 'other'" class="q-mt-md">
+          <div class="q-mt-md">
             <GlobalInput
               v-model="form.description"
-              label="Descrição personalizada"
+              label="Descrição:"
               type="textarea"
               maxlength="25"
               counter
@@ -169,21 +168,21 @@
   const wallet = computed(() => dashboardStore.wallet)
 
   const descriptionOptions = [
-    { label: 'Transferência Bancária', value: 'transfer' },
-    { label: 'Isenção de Inscrição', value: 'waiver' },
-    { label: 'Outro', value: 'other' }
+    { label: 'Pix', value: 'Pix' },
+    { label: 'Dinheiro', value: 'Dinheiro' },
+    { label: 'Dinheiro + Pix', value: 'Dinheiro + Pix' },
+    { label: 'Outro', value: 'Outro' }
   ]
 
   const walletTypeOptions = computed(() =>
-    typeStore.getWalletTypes().map(t => ({
-      label: t.name,
-      value: t.id
+    typeStore.getWalletTypes().map(type => ({
+      label: type.name,
+      value: type.id
     }))
   )
 
   const getType = id => typeStore.getType(id)
   const typeName = computed(() => getType(form.value.idTransactionType)?.name || '')
-  const descriptionType = ref('transfer')
 
   /* FORM */
   const form = ref({
@@ -214,13 +213,8 @@
           amount: Math.abs(transaction.value.amount),
           description: transaction.value.description
         }
-        descriptionType.value = transaction.value.description ? 'other' : 'transfer'
       }
     }
-  }
-
-  function getDescriptionLabel(value) {
-    return descriptionOptions.find(d => d.value === value)?.label || null
   }
 
   /* -------------------- SAVE -------------------- */
@@ -236,12 +230,6 @@
 
     // depósito = positivo | saque = negativo
     form.value.amount = type === 3 ? amount : -amount
-
-    if (descriptionType.value === 'other') {
-      form.value.description = form.value.description.trim()
-    } else {
-      form.value.description = getDescriptionLabel(descriptionType)
-    }
 
     if (isEditMode) {
       await transactionStore.updateTransaction(idTransaction, form.value)
