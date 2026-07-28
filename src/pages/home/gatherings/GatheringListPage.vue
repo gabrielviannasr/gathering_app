@@ -31,7 +31,7 @@
 
         <!-- Botão Adicionar -->
         <div class="q-mt-sm">
-          <q-btn class="add-btn full-width" no-caps rounded unelevated @click="onAdd">
+          <q-btn push no-caps rounded class="add-btn full-width" @click="onAdd">
             <q-icon name="add" class="q-mr-sm" />
             Adicionar Confra
           </q-btn>

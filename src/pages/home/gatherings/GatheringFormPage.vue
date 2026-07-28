@@ -12,15 +12,13 @@
       <!-- Botões -->
       <div class="row q-col-gutter-md q-mt-md">
         <div class="col">
-          <q-btn outline color="grey-8" no-caps rounded class="full-width" @click="cancel">
+          <q-btn no-caps rounded outline color="grey-8" class="full-width" @click="cancel">
             Cancelar
           </q-btn>
         </div>
 
         <div class="col">
-          <q-btn class="add-btn full-width" no-caps rounded unelevated @click="save">
-            Salvar
-          </q-btn>
+          <q-btn push no-caps rounded class="add-btn full-width" @click="save"> Salvar </q-btn>
         </div>
       </div>
     </div>

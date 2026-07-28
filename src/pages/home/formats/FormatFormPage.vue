@@ -3,11 +3,14 @@
     <q-form @submit.prevent="save">
       <div class="q-pa-md">
         <q-card class="q-pa-md form-card">
+          <!-- Title -->
           <div class="form-section-title">Formato</div>
 
           <div class="q-col-gutter-md">
+            <!-- Nome -->
             <GlobalInput label="Nome" v-model="form.name" />
 
+            <!-- Pontos de Vida -->
             <GlobalNumberInput v-model="form.lifeCount" label="Pontos de Vida" :min="1" :step="5" />
 
             <!-- <GlobalSelect
@@ -21,17 +24,18 @@
           </div>
         </q-card>
 
+        <!-- BOTÕES FINAIS -->
         <div class="row q-col-gutter-md q-mt-md">
-          <div class="col">
-            <q-btn outline color="grey-8" no-caps rounded class="full-width" @click="cancel">
+          <!-- Botão Cancelar -->
+          <div class="col-6">
+            <q-btn no-caps rounded outline color="grey-8" class="full-width" @click="cancel">
               Cancelar
             </q-btn>
           </div>
 
-          <div class="col">
-            <q-btn type="submit" class="add-btn full-width" no-caps rounded unelevated>
-              Salvar
-            </q-btn>
+          <!-- Botão Salvar -->
+          <div class="col-6">
+            <q-btn push no-caps rounded type="submit" class="add-btn full-width"> Salvar </q-btn>
           </div>
         </div>
       </div>
