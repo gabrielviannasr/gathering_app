@@ -44,11 +44,11 @@
     <!-- LISTA -->
     <div class="q-pa-md q-gutter-md">
       <EventCard
-        v-for="item in events"
-        :key="item.id"
-        :event="item"
+        v-for="event in events"
+        :key="event.id"
+        :event="event"
         class="list-card"
-        @open="openEvent"
+        @click="openEvent(event)"
       />
 
       <!-- PAGINAÇÃO -->

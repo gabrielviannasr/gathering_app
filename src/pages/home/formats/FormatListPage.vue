@@ -33,8 +33,8 @@
         v-for="format in formats"
         :key="format.id"
         :format="format"
-        @click="openFormat(format)"
         class="list-card q-pa-sm"
+        @click="openFormat(format)"
       />
 
       <!-- PAGINAÇÃO -->

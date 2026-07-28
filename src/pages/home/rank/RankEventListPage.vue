@@ -1,13 +1,14 @@
 <template>
   <q-page class="page-bg">
-    <!-- ===== FILTROS ===== -->
+    <!-- FILTROS -->
     <div class="q-pa-md">
       <q-card class="q-pa-md form-card">
+        <!-- Title -->
         <div class="form-section-title">Filtros</div>
 
         <div class="row q-col-gutter-sm q-mt-sm">
           <!-- Formato -->
-          <div class="col">
+          <div class="col-12">
             <GlobalSelect
               label="Formato"
               :options="formatOptions"
@@ -18,7 +19,7 @@
           </div>
 
           <!-- Mês -->
-          <div class="col">
+          <!-- <div class="col">
             <GlobalSelect
               label="Mês"
               :options="monthOptions"
@@ -26,14 +27,20 @@
               emit-value
               map-options
             />
-          </div>
+          </div> -->
         </div>
       </q-card>
     </div>
 
-    <!-- ===== LISTA ===== -->
+    <!-- LISTA -->
     <div class="q-pa-md q-gutter-md">
-      <EventCard v-for="item in events" :key="item.id" :event="item" @open="openEvent" />
+      <EventCard
+        v-for="event in events"
+        :key="event.id"
+        :event="event"
+        class="list-card"
+        @click="openEvent(event)"
+      />
 
       <!-- Paginação -->
       <div class="q-mt-md q-pb-xl">
@@ -50,7 +57,6 @@
   import { useRankNavigator } from 'src/composables/navigation'
   import { useEventStore } from 'src/stores/event'
   import { useFormatStore } from 'src/stores/format'
-  import { monthOptions } from 'src/constants/months'
 
   /* NAVIGATION */
   const { goToRankEvent } = useRankNavigator()

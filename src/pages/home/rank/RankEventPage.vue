@@ -2,12 +2,17 @@
   <q-page class="page-bg" v-if="event">
     <!-- CARD DO EVENTO -->
     <div class="q-pa-md">
-      <EventCard :event="event" @open="openEvent(event)" showPots />
+      <EventCard :event="event" @open="openEvent(event)" />
     </div>
 
     <!-- CARD DE INSCRIÇÃO -->
     <div class="q-pa-md">
       <EventBodyCard :event="event" />
+    </div>
+
+    <!-- CARD DOS POTES -->
+    <div class="q-pa-md">
+      <PotSummaryCard :pots="event" />
     </div>
 
     <!-- CARD DE FILTRO -->
@@ -78,6 +83,7 @@
   import EventCard from 'src/components/events/EventCard.vue'
   import EventBodyCard from 'src/components/events/EventBodyCard.vue'
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
+  import PotSummaryCard from 'src/components/pots/PotSummaryCard.vue'
 
   /* VUE + PINIA */
   import { computed, onMounted, ref } from 'vue'

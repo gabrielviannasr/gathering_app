@@ -32,8 +32,8 @@
         v-for="player in players"
         :key="player.id"
         :player="player"
-        @click="openPlayer(player)"
         class="list-card"
+        @click="openPlayer(player)"
       />
 
       <!-- PAGINAÇÃO -->

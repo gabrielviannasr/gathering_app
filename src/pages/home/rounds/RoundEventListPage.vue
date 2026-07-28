@@ -31,14 +31,18 @@
       </q-card>
     </div>
 
-    <!-- ===== LISTA ===== -->
+    <!-- LISTA -->
     <div class="q-pa-md q-gutter-md">
-      <EventCard v-for="item in events" :key="item.id" :event="item" @open="openEvent" />
+      <EventCard
+        v-for="event in events"
+        :key="event.id"
+        :event="event"
+        class="list-card"
+        @click="openEvent(event)"
+      />
 
-      <!-- Paginação -->
-      <div class="q-mt-md q-pb-xl">
-        <q-pagination v-model="page" :max="maxPages" max-pages="5" />
-      </div>
+      <!-- PAGINAÇÃO -->
+      <q-pagination v-model="page" :max="maxPages" max-pages="5" />
     </div>
   </q-page>
 </template>
