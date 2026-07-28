@@ -29,8 +29,9 @@
 
   const initials = computed(() =>
     player.name
-      .split(' ')
-      .map(w => w[0])
+      .trim()
+      .split(/\s+/)
+      .map(word => word[0])
       .slice(0, 2)
       .join('')
       .toUpperCase()
