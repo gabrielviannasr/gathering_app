@@ -2,15 +2,15 @@
   <q-card bordered class="q-pa-md">
     <div class="row items-center no-wrap">
       <!-- Ícone -->
-      <div class="circle-icon q-mr-md">
-        <q-icon name="groups" color="white" size="24px" />
+      <div class="icon-circle q-mr-md">
+        <q-icon name="style" color="white" size="24px" />
       </div>
 
       <!-- Conteúdo -->
       <div class="col">
-        <div class="text-subtitle2 text-bold">{{ gathering.name }}</div>
+        <div class="text-subtitle2 text-bold">{{ format.name }}</div>
 
-        <div class="text-caption text-grey">{{ gathering.year }}</div>
+        <div class="text-caption text-grey">{{ format.lifeCount }} pontos de vida</div>
       </div>
 
       <!-- Seta -->
@@ -20,8 +20,8 @@
 </template>
 
 <script setup>
-  const { gathering, showArrow } = defineProps({
-    gathering: { type: Object, required: true },
+  const { format, showArrow } = defineProps({
+    format: { type: Object, required: true },
     showArrow: { type: Boolean, default: true }
   })
 </script>

@@ -8,9 +8,7 @@
 
       <!-- Conteúdo -->
       <div class="col">
-        <div class="text-subtitle2 text-bold">
-          {{ player.name }}
-        </div>
+        <div class="text-subtitle2 text-bold">{{ player.name }}</div>
       </div>
 
       <!-- Seta -->
