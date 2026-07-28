@@ -28,25 +28,43 @@
 </template>
 
 <script setup>
+  /* COMPONENTS */
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
+
+  /* VUE */
   import { onMounted, ref } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
+
+  /* STORES */
   import { useConfraStore } from 'src/stores/confra'
 
-  const confraStore = useConfraStore()
-
+  /* NAVIGATION */
   const route = useRoute()
   const router = useRouter()
 
   const id = route.params.id
   const isEdit = !!id
 
+  /* STORES */
+  const confraStore = useConfraStore()
+
+  /* FORM */
   const form = ref({
-    name: '',
-    year: null,
-    idPlayer: null
+    name: ''
   })
 
+  /* LIFECYCLE */
+  onMounted(async () => {
+    if (isEdit) {
+      const confra = await confraStore.getConfra(id)
+
+      form.value = {
+        name: confra.name
+      }
+    }
+  })
+
+  /* FUNCTIONS */
   function cancel() {
     router.back()
   }
@@ -64,16 +82,4 @@
       console.error(err)
     }
   }
-
-  onMounted(async () => {
-    if (isEdit) {
-      const confra = await confraStore.getConfra(id)
-
-      form.value = {
-        name: confra.name,
-        year: confra.year,
-        idPlayer: confra.idPlayer
-      }
-    }
-  })
 </script>

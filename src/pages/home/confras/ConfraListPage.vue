@@ -1,6 +1,6 @@
 <template>
   <q-page class="page-bg">
-    <!-- ===== FILTROS ===== -->
+    <!-- FILTROS -->
     <div class="q-pa-md">
       <q-card class="q-pa-md form-card">
         <!-- Title -->
@@ -8,7 +8,7 @@
 
         <div class="row q-col-gutter-sm q-mt-sm">
           <!-- Nome -->
-          <div class="col">
+          <div class="col-12">
             <GlobalInput label="Nome" v-model="filters.name" debounce="300">
               <template #prepend>
                 <q-icon name="search" />
@@ -17,8 +17,9 @@
           </div>
 
           <!-- Ano -->
-          <div class="col-auto" style="width: 130px">
+          <div class="col-12">
             <GlobalSelect
+              clearable
               label="Ano"
               :options="yearOptions"
               v-model="filters.year"
@@ -38,7 +39,7 @@
       </q-card>
     </div>
 
-    <!-- ===== LISTA ===== -->
+    <!-- LISTA -->
     <div class="q-pa-md q-gutter-md">
       <q-card
         v-for="item in gatherings"
@@ -59,13 +60,12 @@
               {{ item.name }}
             </div>
 
-            <!-- <div class="text-caption text-grey">
-              {{ item.year }}&nbsp;&nbsp; {{ item.events }} eventos&nbsp;&nbsp;
-              {{ item.players }} jogadores
-            </div> -->
+            <div class="text-caption text-grey">
+              {{ item.year }}
+            </div>
           </div>
 
-          <!-- seta -->
+          <!-- Seta -->
           <div class="q-ml-auto">
             <q-icon name="chevron_right" />
           </div>
@@ -81,11 +81,18 @@
 </template>
 
 <script setup>
+  /* COMPONENTS */
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
   import GlobalSelect from 'src/components/ui/GlobalSelect.vue'
+
+  /* VUE */
   import { computed, onMounted, ref, watch } from 'vue'
-  import { useConfraNavigator } from 'src/composables/navigation'
+
+  /* STORES */
   import { useConfraStore } from 'src/stores/confra'
+
+  /* NAVIGATION */
+  import { useConfraNavigator } from 'src/composables/navigation'
 
   /* NAVIGATION */
   const { goToConfraNew, goToConfraEdit } = useConfraNavigator()
@@ -94,12 +101,13 @@
   const confraStore = useConfraStore()
 
   /* COMPUTED */
-  const gatherings = computed(() => confraStore.confras?.content || [])
-
-  /* PAGINATION */
-  const page = ref(1)
-  const perPage = 4
-  const maxPages = computed(() => confraStore.confras?.totalPages || 1)
+  const gatherings = computed(() => confraStore.confras?.content ?? [])
+  const yearOptions = computed(() =>
+    confraStore.years.map(year => ({
+      label: String(year),
+      value: year
+    }))
+  )
 
   /* FILTERS */
   const filters = ref({
@@ -107,33 +115,32 @@
     year: null
   })
 
-  const yearOptions = computed(() => [
-    { label: 'Todos', value: null },
-    ...confraStore.years.map(year => ({
-      label: String(year),
-      value: year
-    }))
-  ])
+  /* PAGINATION */
+  const page = ref(1)
+  const perPage = 10
+  const maxPages = computed(() => confraStore.confras?.totalPages || 1)
 
-  /* ---------------- LOAD ---------------- */
+  /* LIFECYCLE */
   onMounted(async () => {
     await confraStore.getYears()
     await load()
   })
 
+  watch(page, load)
+
   watch(
     filters,
     () => {
-      page.value = 1
-      load()
+      if (page.value !== 1) {
+        page.value = 1
+      } else {
+        load()
+      }
     },
     { deep: true }
   )
 
-  watch(page, () => {
-    load()
-  })
-
+  /* FUNCTIONS */
   async function load() {
     await confraStore.getConfrasPage({
       ...filters.value,
@@ -143,12 +150,10 @@
   }
 
   function onAdd() {
-    console.log('Adicionar confra')
     goToConfraNew()
   }
 
   function openGathering(item) {
-    console.log('Abrir confra', item)
     goToConfraEdit(item.id)
   }
 </script>

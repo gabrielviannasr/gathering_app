@@ -1,4 +1,3 @@
-// src/stores/useConfraStore.ts
 import { defineStore } from 'pinia'
 import { api } from 'boot/axios'
 import { ref } from 'vue'
@@ -10,21 +9,6 @@ export const useConfraStore = defineStore('confra', () => {
   const confra = ref(null)
   const confras = ref([])
   const years = ref([])
-
-  // Resumo (mock da view vw_gathering_summary)
-  const confraSummary = ref([
-    {
-      idGathering: 1,
-      gatheringName: 'DIRETORIA',
-      year: 2024,
-      events: 1,
-      players: 8,
-      rounds: 8,
-      loserPot: 120.0,
-      confraPot: 160.0,
-      prize: 360.0
-    }
-  ])
 
   function setConfra(confra) {
     selectedConfra.value = confra
@@ -38,94 +22,30 @@ export const useConfraStore = defineStore('confra', () => {
     }
   }
 
-  /* ------------------------------------------
-     Retorna uma confra da lista base
-  ------------------------------------------ */
-  // function getConfraById(id) {
-  //   return confras.value.find(c => c.id === id) || null
-  // }
-
-  /* ------------------------------------------
-     Retorna o resumo da confra:
-     - Se existir no confraSummary → retorna
-     - Se não existir → gera fallback com zeros
-  ------------------------------------------ */
-  function getConfraSummary(idGathering) {
-    // tenta encontrar na view de resumo
-    const summary = confraSummary.value.find(s => s.idGathering === idGathering)
-
-    if (summary) return summary
-
-    // fallback: busca apenas nome/ano
-    const base = getConfra(idGathering)
-
-    // se nem a confra existir, retorna algo neutro
-    if (!base) {
-      return {
-        idGathering,
-        gatheringName: '—',
-        events: 0,
-        players: 0,
-        rounds: 0,
-        loserPot: 0.0,
-        confraPot: 0.0,
-        prize: 0.0
-      }
-    }
-
-    // confra existe, mas não tem resumo → retorna tudo 0
-    return {
-      idGathering: idGathering,
-      gatheringName: base.name,
-      events: 0,
-      players: 0,
-      rounds: 0,
-      loserPot: 0.0,
-      confraPot: 0.0,
-      prize: 0.0
-    }
-  }
-
   async function getConfras(params) {
-    try {
-      const res = await api.get(`${path}`, { params })
-      this.confras = res.data
-      return this.confras
-    } catch (err) {
-      return err
-    }
+    const res = await api.get(`${path}`, { params })
+    confras.value = res.data
+    return confras.value
   }
 
   async function getConfrasPage(params) {
-    try {
-      const res = await api.get(`${path}/page`, { params })
-      this.confras = res.data
-      return this.confras
-    } catch (err) {
-      return err
-    }
+    const res = await api.get(`${path}/page`, { params })
+    confras.value = res.data
+    return confras.value
   }
 
   async function getConfra(id) {
-    // return confras.value.find(p => p.id === id)
-    try {
-      const res = await api.get(`${path}/${id}`)
-      this.confra = res.data
-      return this.confra
-    } catch (err) {
-      return err
-    }
+    const res = await api.get(`${path}/${id}`)
+    confra.value = res.data
+    return confra.value
   }
 
   async function getYears() {
-    try {
-      const res = await api.get(`${path}/year`)
-      this.years = res.data
-      return this.years
-    } catch (err) {
-      return err
-    }
+    const res = await api.get(`${path}/year`)
+    years.value = res.data
+    return years.value
   }
+
   async function createConfra(data) {
     const res = await api.post(`${path}`, data)
     return res.data
@@ -139,18 +59,15 @@ export const useConfraStore = defineStore('confra', () => {
   return {
     confra,
     confras,
-    confraSummary,
-    years,
     selectedConfra,
+    years,
     setConfra,
     loadConfra,
-    // getConfraById,
     getConfra,
     getConfras,
     getConfrasPage,
     getYears,
     createConfra,
-    updateConfra,
-    getConfraSummary
+    updateConfra
   }
 })
