@@ -8,6 +8,7 @@
 
       <!-- Conteúdo -->
       <div class="col">
+        <!-- Nome -->
         <div class="text-subtitle2 text-bold">{{ player.name }}</div>
       </div>
 
