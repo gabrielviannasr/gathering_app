@@ -1,6 +1,6 @@
 export * from './EventNavigator.js'
 export * from './FormatNavigator.js'
-export * from './ConfraNavigator.js'
+export * from './GatheringNavigator.js'
 export * from './PlayerNavigator.js'
 export * from './RankNavigator.js'
 export * from './RoundNavigator.js'

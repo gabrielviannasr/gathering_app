@@ -1,8 +1,8 @@
 <template>
-  <q-page class="page-bg" v-if="confraSummary">
+  <q-page class="page-bg" v-if="gatheringSummary">
     <!-- CARD DA CONFRA -->
     <div class="q-pa-md">
-      <ConfraHeaderCard :confraSummary="confraSummary" />
+      <GatheringHeaderCard :gatheringSummary="gatheringSummary" />
     </div>
 
     <!-- CARD FILTRO -->
@@ -43,7 +43,7 @@
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
 
   import RankListItem from 'src/components/rank/RankListItem.vue'
-  import ConfraHeaderCard from 'src/components/confras/ConfraHeaderCard.vue'
+  import GatheringHeaderCard from 'src/components/gatherings/GatheringHeaderCard.vue'
 
   /* VUE + PINIA */
   import { computed, onMounted, ref } from 'vue'
@@ -53,7 +53,7 @@
   import { useRankNavigator } from 'src/composables/navigation'
 
   /* NAVIGATION */
-  const { goToRankConfraPlayer } = useRankNavigator()
+  const { goToRankGatheringPlayer } = useRankNavigator()
 
   const route = useRoute()
   const router = useRouter()
@@ -63,8 +63,8 @@
   const dashboardStore = useDashboardStore()
 
   /* COMPUTED */
-  const confraSummary = computed(() => dashboardStore.confraSummary)
-  const results = computed(() => dashboardStore.confraResults)
+  const gatheringSummary = computed(() => dashboardStore.gatheringSummary)
+  const results = computed(() => dashboardStore.gatheringResults)
 
   /* FILTERS */
   const filters = ref({ name: '' })
@@ -85,10 +85,10 @@
 
   /* ---------------- LOAD ---------------- */
   onMounted(async () => {
-    await dashboardStore.getConfraSummary(idGathering)
+    await dashboardStore.getGatheringSummary(idGathering)
     await load()
 
-    if (!confraSummary.value) {
+    if (!gatheringSummary.value) {
       console.warn('CONFRA NOT FOUND:', idGathering)
       router.back()
       return
@@ -96,10 +96,10 @@
   })
 
   async function load() {
-    await dashboardStore.getConfraResults(idGathering)
+    await dashboardStore.getGatheringResults(idGathering)
   }
 
   function openRankPlayer(item) {
-    goToRankConfraPlayer(idGathering, item.idPlayer)
+    goToRankGatheringPlayer(idGathering, item.idPlayer)
   }
 </script>

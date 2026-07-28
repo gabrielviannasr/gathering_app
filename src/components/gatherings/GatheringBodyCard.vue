@@ -4,17 +4,19 @@
 
     <div class="row q-mt-md justify-between">
       <div class="text-center">
-        <div class="text-subtitle1 text-bold text-positive">R$ {{ confraSummary.confraPot }}</div>
+        <div class="text-subtitle1 text-bold text-positive">
+          R$ {{ gatheringSummary.confraPot }}
+        </div>
         <div class="text-caption text-bold">Confra</div>
       </div>
 
       <div class="text-center">
-        <div class="text-subtitle1 text-bold text-negative">R$ {{ confraSummary.loserPot }}</div>
+        <div class="text-subtitle1 text-bold text-negative">R$ {{ gatheringSummary.loserPot }}</div>
         <div class="text-caption text-bold">Derrotados</div>
       </div>
 
       <div class="text-center">
-        <div class="text-subtitle1 text-bold">R$ {{ confraSummary.prize }}</div>
+        <div class="text-subtitle1 text-bold">R$ {{ gatheringSummary.prize }}</div>
         <div class="text-caption text-bold">Premiação</div>
       </div>
     </div>
@@ -23,6 +25,6 @@
 
 <script setup>
   defineProps({
-    confraSummary: Object
+    gatheringSummary: Object
   })
 </script>

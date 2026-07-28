@@ -1,25 +1,25 @@
 <template>
   <q-header class="home-header column items-center text-white">
-    <div class="text-h4 text-bold">{{ selectedConfra.name }}</div>
-    <div class="text-subtitle1 q-mt-xs">{{ selectedConfra.year }}</div>
+    <div class="text-h4 text-bold">{{ gatheringSelected.name }}</div>
+    <div class="text-subtitle1 q-mt-xs">{{ gatheringSelected.year }}</div>
 
-    <q-btn class="confra-btn q-mt-md" no-caps rounded unelevated @click="confraPopup = true">
+    <q-btn class="confra-btn q-mt-md" no-caps rounded unelevated @click="gatheringPopup = true">
       Selecionar confra
     </q-btn>
 
     <!-- POPUP -->
-    <q-dialog v-model="confraPopup">
+    <q-dialog v-model="gatheringPopup">
       <q-card class="q-pa-md" style="min-width: 260px">
         <div class="text-h6 text-center q-mb-md">Selecionar Confra</div>
 
         <q-list bordered separator>
           <q-item
             clickable
-            v-for="confra in confras"
-            :key="confra.id"
-            @click="selectConfra(confra)"
+            v-for="gathering in gatherings"
+            :key="gathering.id"
+            @click="selectGathering(gathering)"
           >
-            <q-item-section>{{ confra.name }} - {{ confra.year }}</q-item-section>
+            <q-item-section>{{ gathering.name }} - {{ gathering.year }}</q-item-section>
           </q-item>
         </q-list>
       </q-card>
@@ -28,26 +28,26 @@
 </template>
 
 <script setup>
-  import { useConfraStore } from 'src/stores/confra'
+  import { useGatheringStore } from 'src/stores/gathering'
 
   import { computed, onMounted, ref } from 'vue'
 
-  const confraStore = useConfraStore()
-  const confras = computed(() => confraStore.confras)
-  const selectedConfra = computed(() => confraStore.selectedConfra)
-  // const { confras, selectedConfra } = storeToRefs(confraStore)
+  const gatheringStore = useGatheringStore()
+  const gatherings = computed(() => gatheringStore.gatherings)
+  const gatheringSelected = computed(() => gatheringStore.gatheringSelected)
+  // const { confras, gatheringSelected } = storeToRefs(gatheringStore)
 
-  const confraPopup = ref(false)
+  const gatheringPopup = ref(false)
 
-  function selectConfra(confra) {
-    confraStore.setConfra(confra)
-    confraPopup.value = false
+  function selectGathering(gathering) {
+    gatheringStore.setGathering(gathering)
+    gatheringPopup.value = false
   }
 
   onMounted(load)
 
   async function load() {
-    await confraStore.getConfras()
+    await gatheringStore.getGatherings()
   }
 </script>
 

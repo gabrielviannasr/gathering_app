@@ -4,7 +4,7 @@
     <div class="q-pa-md">
       <EventHeaderCard v-if="mode === 'event'" :event="headerData" />
 
-      <ConfraHeaderCard v-else :confraSummary="headerData" />
+      <GatheringHeaderCard v-else :gatheringSummary="headerData" />
     </div>
 
     <!-- PLAYER -->
@@ -28,7 +28,7 @@
 
 <script setup>
   import EventHeaderCard from 'src/components/events/EventHeaderCard.vue'
-  import ConfraHeaderCard from 'src/components/confras/ConfraHeaderCard.vue'
+  import GatheringHeaderCard from 'src/components/gatherings/GatheringHeaderCard.vue'
   // import PlayerCard from 'src/components/players/PlayerCard.vue'
   import RankDetailCard from 'src/components/rank/RankDetailCard.vue'
 
@@ -59,12 +59,12 @@
 
   /* COMPUTED */
   const event = computed(() => eventStore.event)
-  const confraSummary = computed(() => dashboardStore.confraSummary)
+  const gatheringSummary = computed(() => dashboardStore.gatheringSummary)
   const rankData = computed(() => {
-    return mode.value === 'event' ? resultStore.result : dashboardStore.confraResult
+    return mode.value === 'event' ? resultStore.result : dashboardStore.gatheringResult
   })
   const headerData = computed(() => {
-    return mode.value === 'event' ? eventStore.event : dashboardStore.confraSummary
+    return mode.value === 'event' ? eventStore.event : dashboardStore.gatheringSummary
   })
 
   /* ---------------- LOAD ---------------- */
@@ -84,14 +84,14 @@
 
       await resultStore.getResult(idEvent, idPlayer)
     } else {
-      await dashboardStore.getConfraSummary(idGathering)
+      await dashboardStore.getGatheringSummary(idGathering)
 
-      if (!confraSummary.value) {
-        console.warn('CONFRA SUMMARY NOT FOUND:', idGathering)
+      if (!gatheringSummary.value) {
+        console.warn('GATHERING SUMMARY NOT FOUND:', idGathering)
         router.back()
         return
       }
-      await dashboardStore.getConfraResult(idGathering, idPlayer)
+      await dashboardStore.getGatheringResult(idGathering, idPlayer)
     }
   }
 </script>

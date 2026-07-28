@@ -36,7 +36,7 @@
   import { useRoute, useRouter } from 'vue-router'
 
   /* STORES */
-  import { useConfraStore } from 'src/stores/confra'
+  import { useGatheringStore } from 'src/stores/gathering'
 
   /* NAVIGATION */
   const route = useRoute()
@@ -46,7 +46,7 @@
   const isEdit = !!id
 
   /* STORES */
-  const confraStore = useConfraStore()
+  const gatheringStore = useGatheringStore()
 
   /* FORM */
   const form = ref({
@@ -56,10 +56,10 @@
   /* LIFECYCLE */
   onMounted(async () => {
     if (isEdit) {
-      const confra = await confraStore.getConfra(id)
+      const gathering = await gatheringStore.getGathering(id)
 
       form.value = {
-        name: confra.name
+        name: gathering.name
       }
     }
   })
@@ -72,9 +72,9 @@
   async function save() {
     try {
       if (isEdit) {
-        await confraStore.updateConfra(id, form.value)
+        await gatheringStore.updateGathering(id, form.value)
       } else {
-        await confraStore.createConfra(form.value)
+        await gatheringStore.createGathering(form.value)
       }
 
       router.back()

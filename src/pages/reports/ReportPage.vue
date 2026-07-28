@@ -40,51 +40,51 @@
   import CardItem from 'src/components/CardItem.vue'
   import { useRouter } from 'vue-router'
 
-  import { useConfraStore } from 'src/stores/confra'
-  import { useConfraNavigator } from 'src/composables/navigation'
+  import { useGatheringStore } from 'src/stores/gathering'
+  import { useGatheringNavigator } from 'src/composables/navigation'
   import { useRankNavigator } from 'src/composables/navigation'
 
-  const confraStore = useConfraStore()
-  const { goToConfraFormats, goToConfraPots, goToConfraWinrate } = useConfraNavigator()
-  const { goToRankConfra } = useRankNavigator()
+  const gatheringStore = useGatheringStore()
+  const { goToGatheringFormats, goToGatheringPots, goToGatheringWinrate } = useGatheringNavigator()
+  const { goToRankGathering } = useRankNavigator()
 
   // No futuro pode virar navegação própria
   // eslint-disable-next-line no-unused-vars
   const router = useRouter()
 
   function goToPotsReport() {
-    const id = confraStore.selectedConfra?.id
+    const id = gatheringStore.gatheringSelected?.id
     if (!id) {
       console.warn('Nenhuma confra selecionada.')
       return
     }
-    goToConfraPots(id)
+    goToGatheringPots(id)
   }
 
   function goToFormatsReport() {
-    const id = confraStore.selectedConfra?.id
+    const id = gatheringStore.gatheringSelected?.id
     if (!id) {
       console.warn('Nenhuma confra selecionada.')
       return
     }
-    goToConfraFormats(id)
+    goToGatheringFormats(id)
   }
 
   function goToWinsReport() {
-    const id = confraStore.selectedConfra?.id
+    const id = gatheringStore.gatheringSelected?.id
     if (!id) {
       console.warn('Nenhuma confra selecionada.')
       return
     }
-    goToConfraWinrate(id)
+    goToGatheringWinrate(id)
   }
 
   function goToRankReport() {
-    const id = confraStore.selectedConfra?.id
+    const id = gatheringStore.gatheringSelected?.id
     if (!id) {
       console.warn('Nenhuma confra selecionada.')
       return
     }
-    goToRankConfra(id)
+    goToRankGathering(id)
   }
 </script>

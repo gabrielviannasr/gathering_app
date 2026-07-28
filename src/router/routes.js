@@ -47,38 +47,38 @@ const routes = [
           {
             path: '',
             name: ROUTES.CONFRAS,
-            component: () => import('pages/home/confras/ConfraListPage.vue'),
+            component: () => import('pages/home/gatherings/GatheringListPage.vue'),
             meta: { title: 'Confras', subtitle: 'Lista de Confras' }
           },
           {
             path: 'new',
             name: ROUTES.CONFRAS_NEW,
-            component: () => import('pages/home/confras/ConfraFormPage.vue'),
+            component: () => import('pages/home/gatherings/GatheringFormPage.vue'),
             meta: { title: 'Confras', subtitle: 'Nova Confra' }
           },
           {
             path: ':id',
             name: ROUTES.CONFRAS_EDIT,
-            component: () => import('pages/home/confras/ConfraFormPage.vue'),
+            component: () => import('pages/home/gatherings/GatheringFormPage.vue'),
             meta: { title: 'Confras', subtitle: 'Editar Confra' }
           },
 
           {
             path: ':id/formats',
             name: ROUTES.CONFRAS_FORMATS,
-            component: () => import('src/pages/reports/formats/ConfraFormatPage.vue'),
+            component: () => import('src/pages/reports/formats/GatheringFormatPage.vue'),
             meta: { title: 'Confras', subtitle: 'Potes da Confra' }
           },
           {
             path: ':id/pots',
             name: ROUTES.CONFRAS_POTS,
-            component: () => import('pages/reports/pots/ConfraPotsPage.vue'),
+            component: () => import('src/pages/reports/pots/GatheringPotsPage.vue'),
             meta: { title: 'Confras', subtitle: 'Potes da Confra' }
           },
           {
             path: ':id/winrate',
             name: ROUTES.CONFRAS_WINRATE,
-            component: () => import('pages/reports/winrate/ConfraWinratePage.vue'),
+            component: () => import('pages/reports/winrate/GatheringWinratePage.vue'),
             meta: { title: 'Confras', subtitle: 'Winrate da Confra' }
           }
         ]
@@ -222,7 +222,7 @@ const routes = [
           {
             path: ':idGathering',
             name: ROUTES.RANK_CONFRA,
-            component: () => import('pages/reports/rank/RankConfraPage.vue'),
+            component: () => import('src/pages/reports/rank/GatheringRankPage.vue'),
             meta: { title: 'Rank', subtitle: 'Rank da Confra' }
           },
           {

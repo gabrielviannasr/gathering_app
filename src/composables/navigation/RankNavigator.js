@@ -12,9 +12,9 @@ export function useRankNavigator() {
       router.push({ name: ROUTES.RANK_EVENTO_JOGADOR, params: { idEvent, idPlayer } }),
 
     // Confras
-    goToRankConfra: idGathering =>
+    goToRankGathering: idGathering =>
       router.push({ name: ROUTES.RANK_CONFRA, params: { idGathering } }),
-    goToRankConfraPlayer: (idGathering, idPlayer) =>
+    goToRankGatheringPlayer: (idGathering, idPlayer) =>
       router.push({ name: ROUTES.RANK_CONFRA_JOGADOR, params: { idGathering, idPlayer } })
   }
 }

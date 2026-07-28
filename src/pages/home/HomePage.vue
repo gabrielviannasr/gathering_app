@@ -7,7 +7,7 @@
         title="Confras"
         subtitle="Gerenciar"
         color="#A259FF"
-        @click="goToConfras"
+        @click="goToGatherings"
       />
 
       <CardItem
@@ -65,7 +65,7 @@
   import CardItem from 'src/components/CardItem.vue'
   import { useEventNavigator } from 'src/composables/navigation'
   import { useFormatNavigator } from 'src/composables/navigation'
-  import { useConfraNavigator } from 'src/composables/navigation'
+  import { useGatheringNavigator } from 'src/composables/navigation'
   import { usePlayerNavigator } from 'src/composables/navigation'
   import { useRankNavigator } from 'src/composables/navigation'
   import { useRoundNavigator } from 'src/composables/navigation'
@@ -73,7 +73,7 @@
 
   const { goToEvents } = useEventNavigator()
   const { goToFormats } = useFormatNavigator()
-  const { goToConfras } = useConfraNavigator()
+  const { goToGatherings } = useGatheringNavigator()
   const { goToPlayers } = usePlayerNavigator()
   const { goToRankEvents } = useRankNavigator()
   const { goToRoundEvents } = useRoundNavigator()

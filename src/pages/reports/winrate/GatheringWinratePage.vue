@@ -1,9 +1,8 @@
-<!-- src/pages/reports/winrate/ConfraWinratePage.vue -->
 <template>
   <q-page class="page-bg">
     <!-- Header da Confra -->
     <div class="q-pa-md">
-      <ConfraHeaderCard :confraSummary="confraSummary" v-if="confraSummary" />
+      <GatheringHeaderCard :gatheringSummary="gatheringSummary" v-if="gatheringSummary" />
     </div>
 
     <!-- Gráfico de Winrate -->
@@ -14,7 +13,7 @@
 </template>
 
 <script setup>
-  import ConfraHeaderCard from 'src/components/confras/ConfraHeaderCard.vue'
+  import GatheringHeaderCard from 'src/components/gatherings/GatheringHeaderCard.vue'
   import WinrateChartCard from 'src/components/reports/WinrateChartCard.vue'
 
   import { computed, onMounted } from 'vue'
@@ -30,17 +29,17 @@
   const dashboardStore = useDashboardStore()
 
   /* COMPUTED */
-  const confraSummary = computed(() => dashboardStore.confraSummary)
+  const gatheringSummary = computed(() => dashboardStore.gatheringSummary)
 
   const winrateData = computed(() =>
-    dashboardStore.confraResults.map(r => ({
+    dashboardStore.gatheringResults.map(r => ({
       playerName: r.player.name,
       winrate: r.rounds > 0 ? Number(((r.wins / r.rounds) * 100).toFixed(2)) : 0
     }))
   )
 
   // const winrateData = computed(() =>
-  //   dashboardStore.getConfraResults(idGathering).map(r => ({
+  //   dashboardStore.getGatheringResults(idGathering).map(r => ({
   //     playerName: r.playerName,
   //     winrate: r.rounds > 0 ? Number(((r.wins / r.rounds) * 100).toFixed(2)) : 0
   //   }))
@@ -52,7 +51,7 @@
   })
 
   async function load() {
-    await dashboardStore.getConfraSummary(idGathering)
-    await dashboardStore.getConfraResults(idGathering)
+    await dashboardStore.getGatheringSummary(idGathering)
+    await dashboardStore.getGatheringResults(idGathering)
   }
 </script>

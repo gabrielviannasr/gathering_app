@@ -1,8 +1,8 @@
 <template>
   <q-page class="page-bg">
     <!-- CARD DA CONFRA -->
-    <div class="q-pa-md" v-if="confraSummary">
-      <ConfraHeaderCard :confraSummary="confraSummary" />
+    <div class="q-pa-md" v-if="gatheringSummary">
+      <GatheringHeaderCard :gatheringSummary="gatheringSummary" />
     </div>
 
     <!-- ===== FILTROS ===== -->
@@ -37,7 +37,7 @@
 
 <script setup>
   /* COMPONENTS */
-  import ConfraHeaderCard from 'src/components/confras/ConfraHeaderCard.vue'
+  import GatheringHeaderCard from 'src/components/gatherings/GatheringHeaderCard.vue'
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
   import WalletCard from 'src/components/wallet/WalletCard.vue'
 
@@ -45,7 +45,7 @@
   import { computed, onMounted, ref } from 'vue'
 
   /* STORES */
-  import { useConfraStore } from 'src/stores/confra'
+  import { useGatheringStore } from 'src/stores/gathering'
   import { useDashboardStore } from 'src/stores/dashboard'
 
   /* NAVIGATION */
@@ -55,12 +55,12 @@
   const { goToWallet } = useWalletNavigator()
 
   /* STORES */
-  const confraStore = useConfraStore()
+  const gatheringStore = useGatheringStore()
   const dashboardStore = useDashboardStore()
 
   /* COMPUTED */
-  const confra = computed(() => confraStore.selectedConfra || null)
-  const confraSummary = computed(() => dashboardStore.confraSummary)
+  const gathering = computed(() => gatheringStore.gatheringSelected || null)
+  const gatheringSummary = computed(() => dashboardStore.gatheringSummary)
   const wallets = computed(() => dashboardStore.wallets || [])
 
   /* FILTERS */
@@ -82,8 +82,8 @@
   })
 
   async function load() {
-    await dashboardStore.getConfraSummary(confra.value.id)
-    await dashboardStore.getWallets(confra.value.id)
+    await dashboardStore.getGatheringSummary(gathering.value.id)
+    await dashboardStore.getWallets(gathering.value.id)
   }
 
   function openWallet(wallet) {

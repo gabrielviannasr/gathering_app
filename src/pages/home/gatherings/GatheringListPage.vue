@@ -41,7 +41,7 @@
 
     <!-- LISTA -->
     <div class="q-pa-md q-gutter-md">
-      <ConfraCard
+      <GatheringCard
         v-for="gathering in gatherings"
         :key="gathering.id"
         :gathering="gathering"
@@ -59,27 +59,27 @@
   /* COMPONENTS */
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
   import GlobalSelect from 'src/components/ui/GlobalSelect.vue'
-  import ConfraCard from 'src/components/confras/ConfraCard.vue'
+  import GatheringCard from 'src/components/gatherings/GatheringCard.vue'
 
   /* VUE */
   import { computed, onMounted, ref, watch } from 'vue'
 
   /* STORES */
-  import { useConfraStore } from 'src/stores/confra'
+  import { useGatheringStore } from 'src/stores/gathering'
 
   /* NAVIGATION */
-  import { useConfraNavigator } from 'src/composables/navigation'
+  import { useGatheringNavigator } from 'src/composables/navigation'
 
   /* NAVIGATION */
-  const { goToConfraNew, goToConfraEdit } = useConfraNavigator()
+  const { goToGatheringNew, goToGatheringEdit } = useGatheringNavigator()
 
   /* STORES */
-  const confraStore = useConfraStore()
+  const gatheringStore = useGatheringStore()
 
   /* COMPUTED */
-  const gatherings = computed(() => confraStore.confras?.content ?? [])
+  const gatherings = computed(() => gatheringStore.gatherings?.content ?? [])
   const yearOptions = computed(() =>
-    confraStore.years.map(year => ({
+    gatheringStore.years.map(year => ({
       label: String(year),
       value: year
     }))
@@ -94,11 +94,11 @@
   /* PAGINATION */
   const page = ref(1)
   const perPage = 10
-  const maxPages = computed(() => confraStore.confras?.totalPages || 1)
+  const maxPages = computed(() => gatheringStore.gatherings?.totalPages || 1)
 
   /* LIFECYCLE */
   onMounted(async () => {
-    await confraStore.getYears()
+    await gatheringStore.getYears()
     await load()
   })
 
@@ -118,7 +118,7 @@
 
   /* FUNCTIONS */
   async function load() {
-    await confraStore.getConfrasPage({
+    await gatheringStore.getGatheringsPage({
       ...filters.value,
       page: page.value - 1,
       size: perPage
@@ -126,10 +126,10 @@
   }
 
   function onAdd() {
-    goToConfraNew()
+    goToGatheringNew()
   }
 
   function openGathering(item) {
-    goToConfraEdit(item.id)
+    goToGatheringEdit(item.id)
   }
 </script>

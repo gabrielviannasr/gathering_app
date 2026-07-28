@@ -1,8 +1,8 @@
 <template>
   <q-page class="page-bg">
     <!-- CARD DA CONFRA -->
-    <div class="q-pa-md" v-if="confraSummary">
-      <ConfraHeaderCard :confraSummary="confraSummary" />
+    <div class="q-pa-md" v-if="gatheringSummary">
+      <GatheringHeaderCard :gatheringSummary="gatheringSummary" />
     </div>
 
     <!-- FILTROS -->
@@ -72,7 +72,7 @@
 
 <script setup>
   /* COMPONENTS */
-  import ConfraHeaderCard from 'src/components/confras/ConfraHeaderCard.vue'
+  import GatheringHeaderCard from 'src/components/gatherings/GatheringHeaderCard.vue'
   import GlobalSelect from 'src/components/ui/GlobalSelect.vue'
   import TransactionCard from 'src/components/transactions/TransactionCard.vue'
 
@@ -80,7 +80,7 @@
   import { computed, onMounted, ref, watch } from 'vue'
 
   /* STORES */
-  import { useConfraStore } from 'src/stores/confra'
+  import { useGatheringStore } from 'src/stores/gathering'
   import { useDashboardStore } from 'src/stores/dashboard'
   import { usePlayerStore } from 'src/stores/player'
   import { useRankNavigator } from 'src/composables/navigation'
@@ -95,15 +95,15 @@
   const { goToEditTransaction } = useWalletNavigator()
 
   /* STORES */
-  const confraStore = useConfraStore()
+  const gatheringStore = useGatheringStore()
   const dashboardStore = useDashboardStore()
   const playerStore = usePlayerStore()
   const transactionStore = useTransactionStore()
   const transactionTypeStore = useTransactionTypeStore()
 
   /* COMPUTED */
-  const confra = computed(() => confraStore.selectedConfra)
-  const confraSummary = computed(() => dashboardStore.confraSummary)
+  const gathering = computed(() => gatheringStore.gatheringSelected)
+  const gatheringSummary = computed(() => dashboardStore.gatheringSummary)
   const players = computed(() => playerStore.players)
   const transactions = computed(() => transactionStore.transactions.content ?? [])
   const types = computed(() => transactionTypeStore.types)
@@ -122,7 +122,7 @@
 
   /* LIFECYCLE */
   onMounted(async () => {
-    await dashboardStore.getConfraSummary(confra.value.id)
+    await dashboardStore.getGatheringSummary(gathering.value.id)
     await playerStore.getPlayers()
     await load()
   })
@@ -144,7 +144,7 @@
   /* FUNCTIONS */
   async function load() {
     await transactionStore.getTransactionsPage({
-      idGathering: confra.value.id,
+      idGathering: gathering.value.id,
       idPlayer: filters.value.idPlayer,
       idTransactionType: filters.value.idType,
       page: page.value - 1,

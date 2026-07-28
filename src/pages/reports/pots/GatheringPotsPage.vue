@@ -1,13 +1,13 @@
 <template>
-  <q-page class="page-bg" v-if="confraSummary">
+  <q-page class="page-bg" v-if="gatheringSummary">
     <!-- CARD DA CONFRA -->
     <div class="q-pa-md">
-      <ConfraHeaderCard :confraSummary="confraSummary" />
+      <GatheringHeaderCard :gatheringSummary="gatheringSummary" />
     </div>
 
     <!-- CARD DOS POTES -->
     <div class="q-pa-md">
-      <ConfraBodyCard :confraSummary="confraSummary" />
+      <GatheringBodyCard :gatheringSummary="gatheringSummary" />
     </div>
 
     <!-- LISTA DE EVENTOS -->
@@ -24,8 +24,8 @@
 </template>
 
 <script setup>
-  import ConfraBodyCard from 'src/components/confras/ConfraBodyCard.vue'
-  import ConfraHeaderCard from 'src/components/confras/ConfraHeaderCard.vue'
+  import GatheringBodyCard from 'src/components/gatherings/GatheringBodyCard.vue'
+  import GatheringHeaderCard from 'src/components/gatherings/GatheringHeaderCard.vue'
   import EventCard from 'src/components/events/EventCard.vue'
 
   import { computed, onMounted } from 'vue'
@@ -46,7 +46,7 @@
   const eventStore = useEventStore()
 
   /* COMPUTED */
-  const confraSummary = computed(() => dashboardStore.confraSummary)
+  const gatheringSummary = computed(() => dashboardStore.gatheringSummary)
   const events = computed(() => eventStore.events)
 
   /* ---------------- LOAD ---------------- */
@@ -55,7 +55,7 @@
   })
 
   async function load() {
-    await dashboardStore.getConfraSummary(idGathering)
+    await dashboardStore.getGatheringSummary(idGathering)
     await eventStore.getEvents({ idGathering: idGathering })
   }
 

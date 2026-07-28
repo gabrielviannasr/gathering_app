@@ -145,7 +145,7 @@
   import { useRoute, useRouter } from 'vue-router'
 
   /* PINIA */
-  import { useConfraStore } from 'src/stores/confra'
+  import { useGatheringStore } from 'src/stores/gathering'
   import { useDashboardStore } from 'src/stores/dashboard'
   import { useTransactionStore } from 'src/stores/transaction'
   import { useTransactionTypeStore } from 'src/stores/transactionType'
@@ -160,13 +160,13 @@
   const isEditMode = idTransaction !== undefined
 
   /* STORES */
-  const confraStore = useConfraStore()
+  const gatheringStore = useGatheringStore()
   const dashboardStore = useDashboardStore()
   const transactionStore = useTransactionStore()
   const typeStore = useTransactionTypeStore()
 
   /* COMPUTED */
-  const confra = computed(() => confraStore.selectedConfra)
+  const gathering = computed(() => gatheringStore.gatheringSelected)
   const transaction = computed(() => transactionStore.transaction ?? {})
   const wallet = computed(() => dashboardStore.wallet)
 
@@ -189,7 +189,7 @@
 
   /* FORM */
   const form = ref({
-    idGathering: confra.value.id,
+    idGathering: gathering.value.id,
     idPlayer: idPlayer,
     idTransactionType: null,
     amount: 0,
@@ -203,7 +203,7 @@
 
   /* FUNCTIONS */
   async function load() {
-    await dashboardStore.getWallet(confra.value.id, idPlayer)
+    await dashboardStore.getWallet(gathering.value.id, idPlayer)
 
     if (isEditMode) {
       await transactionStore.getTransaction(idTransaction)

@@ -2,18 +2,18 @@
   <q-page class="page-bg">
     <!-- CONFRA HEADER -->
     <div class="q-pa-md">
-      <ConfraHeaderCard :confraSummary="confraSummary" v-if="confraSummary" />
+      <GatheringHeaderCard :gatheringSummary="gatheringSummary" v-if="gatheringSummary" />
     </div>
 
     <!-- GRÁFICO -->
     <div class="q-pa-md">
-      <FormatChartCard :data="confraFormats" v-if="confraFormats" />
+      <FormatChartCard :data="gatheringFormats" v-if="gatheringFormats" />
     </div>
   </q-page>
 </template>
 
 <script setup>
-  import ConfraHeaderCard from 'src/components/confras/ConfraHeaderCard.vue'
+  import GatheringHeaderCard from 'src/components/gatherings/GatheringHeaderCard.vue'
   import FormatChartCard from 'src/components/formats/FormatChartCard.vue'
 
   import { computed, onMounted } from 'vue'
@@ -29,8 +29,8 @@
   const dashboardStore = useDashboardStore()
 
   /* COMPUTED */
-  const confraSummary = computed(() => dashboardStore.confraSummary)
-  const confraFormats = computed(() => dashboardStore.confraFormats)
+  const gatheringSummary = computed(() => dashboardStore.gatheringSummary)
+  const gatheringFormats = computed(() => dashboardStore.gatheringFormats)
 
   /* ---------------- LOAD ---------------- */
   onMounted(async () => {
@@ -38,7 +38,7 @@
   })
 
   async function load() {
-    await dashboardStore.getConfraSummary(idGathering)
-    await dashboardStore.getConfraFormats(idGathering)
+    await dashboardStore.getGatheringSummary(idGathering)
+    await dashboardStore.getGatheringFormats(idGathering)
   }
 </script>

@@ -40,7 +40,7 @@
   import { useRoute } from 'vue-router'
 
   /* STORES */
-  import { useConfraStore } from 'src/stores/confra'
+  import { useGatheringStore } from 'src/stores/gathering'
   import { useDashboardStore } from 'src/stores/dashboard'
   import { useTransactionStore } from 'src/stores/transaction'
 
@@ -56,12 +56,12 @@
   const idPlayer = Number(route.params.idPlayer)
 
   /* STORES */
-  const confraStore = useConfraStore()
+  const gatheringStore = useGatheringStore()
   const dashboardStore = useDashboardStore()
   const transactionStore = useTransactionStore()
 
   /* COMPUTED */
-  const confra = computed(() => confraStore.selectedConfra)
+  const gathering = computed(() => gatheringStore.gatheringSelected)
   const wallet = computed(() => dashboardStore.wallet)
   const transactions = computed(() => transactionStore.transactions.content || [])
 
@@ -72,7 +72,7 @@
 
   /* ---------------- LOAD ---------------- */
   onMounted(async () => {
-    await dashboardStore.getWallet(confra.value.id, idPlayer)
+    await dashboardStore.getWallet(gathering.value.id, idPlayer)
     await load()
   })
 
@@ -82,7 +82,7 @@
 
   async function load() {
     await transactionStore.getTransactionsPage({
-      idGathering: confra.value.id,
+      idGathering: gathering.value.id,
       idPlayer: idPlayer,
       page: page.value - 1,
       size: perPage

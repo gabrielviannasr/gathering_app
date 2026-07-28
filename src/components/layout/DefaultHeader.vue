@@ -9,7 +9,7 @@
     <div class="header-body q-pa-md">
       <div class="title">{{ pageTitle }}</div>
       <div class="subtitle" v-if="pageSubtitle">{{ pageSubtitle }}</div>
-      <div class="subtitle">{{ selectedConfra.year }} - {{ selectedConfra.name }}</div>
+      <div class="subtitle">{{ gatheringSelected.year }} - {{ gatheringSelected.name }}</div>
     </div>
   </q-header>
 </template>
@@ -17,7 +17,7 @@
 <script setup>
   import { useRoute, useRouter } from 'vue-router'
   import { computed } from 'vue'
-  import { useConfraStore } from 'src/stores/confra'
+  import { useGatheringStore } from 'src/stores/gathering'
   import { storeToRefs } from 'pinia'
 
   /* Router hooks */
@@ -25,8 +25,8 @@
   const router = useRouter()
 
   /* Confra Store */
-  const confraStore = useConfraStore()
-  const { selectedConfra } = storeToRefs(confraStore)
+  const gatheringStore = useGatheringStore()
+  const { gatheringSelected } = storeToRefs(gatheringStore)
 
   /* Título vindo das rotas */
   const pageTitle = computed(() => route.meta?.title || '')

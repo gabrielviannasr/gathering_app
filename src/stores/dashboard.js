@@ -4,48 +4,48 @@ import { ref } from 'vue'
 
 export const useDashboardStore = defineStore('dashboard', () => {
   const path = '/dashboard'
-  const confraFormats = ref([])
-  const confraResult = ref(null)
-  const confraResults = ref([])
-  const confraSummary = ref(null)
+  const gatheringFormats = ref([])
+  const gatheringResult = ref(null)
+  const gatheringResults = ref([])
+  const gatheringSummary = ref(null)
   const wallet = ref(null)
   const wallets = ref([])
 
-  async function getConfraFormats(idGathering) {
+  async function getGatheringFormats(idGathering) {
     try {
       const res = await api.get(`${path}/format/${idGathering}`)
-      confraFormats.value = res.data
-      return confraFormats.value
+      gatheringFormats.value = res.data
+      return gatheringFormats.value
     } catch (err) {
       return err
     }
   }
 
-  async function getConfraResults(idGathering) {
+  async function getGatheringResults(idGathering) {
     try {
       const res = await api.get(`${path}/result/${idGathering}`)
-      confraResults.value = res.data
-      return confraResults.value
+      gatheringResults.value = res.data
+      return gatheringResults.value
     } catch (err) {
       return err
     }
   }
 
-  async function getConfraResult(idGathering, idPlayer) {
+  async function getGatheringResult(idGathering, idPlayer) {
     try {
       const res = await api.get(`${path}/result/${idGathering}/player/${idPlayer}`)
-      confraResult.value = res.data
-      return confraResult.value
+      gatheringResult.value = res.data
+      return gatheringResult.value
     } catch (err) {
       return err
     }
   }
 
-  async function getConfraSummary(idGathering) {
+  async function getGatheringSummary(idGathering) {
     try {
       const res = await api.get(`${path}/summary/${idGathering}`)
-      confraSummary.value = res.data
-      return confraSummary.value
+      gatheringSummary.value = res.data
+      return gatheringSummary.value
     } catch (err) {
       return err
     }
@@ -72,16 +72,16 @@ export const useDashboardStore = defineStore('dashboard', () => {
   }
 
   return {
-    confraFormats,
-    confraResult,
-    confraResults,
-    confraSummary,
+    gatheringFormats,
+    gatheringResult,
+    gatheringResults,
+    gatheringSummary,
     wallets,
     wallet,
-    getConfraFormats,
-    getConfraResults,
-    getConfraResult,
-    getConfraSummary,
+    getGatheringFormats,
+    getGatheringResults,
+    getGatheringResult,
+    getGatheringSummary,
     getWallets,
     getWallet
   }
