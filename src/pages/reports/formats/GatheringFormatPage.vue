@@ -2,7 +2,7 @@
   <q-page class="page-bg">
     <!-- CONFRA HEADER -->
     <div class="q-pa-md">
-      <GatheringHeaderCard :gatheringSummary="gatheringSummary" v-if="gatheringSummary" />
+      <GatheringSummaryCard :gatheringSummary="gatheringSummary" v-if="gatheringSummary" />
     </div>
 
     <!-- GRÁFICO -->
@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-  import GatheringHeaderCard from 'src/components/gatherings/GatheringHeaderCard.vue'
+  import GatheringSummaryCard from 'src/components/gatherings/GatheringSummaryCard.vue'
   import FormatChartCard from 'src/components/formats/FormatChartCard.vue'
 
   import { computed, onMounted } from 'vue'

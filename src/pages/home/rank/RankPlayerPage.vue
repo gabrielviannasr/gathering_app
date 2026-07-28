@@ -4,7 +4,7 @@
     <div class="q-pa-md">
       <EventHeaderCard v-if="mode === 'event'" :event="headerData" />
 
-      <GatheringHeaderCard v-else :gatheringSummary="headerData" />
+      <GatheringSummaryCard v-else :gatheringSummary="headerData" />
     </div>
 
     <!-- PLAYER -->
@@ -28,7 +28,7 @@
 
 <script setup>
   import EventHeaderCard from 'src/components/events/EventHeaderCard.vue'
-  import GatheringHeaderCard from 'src/components/gatherings/GatheringHeaderCard.vue'
+  import GatheringSummaryCard from 'src/components/gatherings/GatheringSummaryCard.vue'
   // import PlayerCard from 'src/components/players/PlayerCard.vue'
   import RankDetailCard from 'src/components/ranks/RankDetailCard.vue'
 

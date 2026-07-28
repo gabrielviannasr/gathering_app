@@ -2,7 +2,7 @@
   <q-page class="page-bg" v-if="gatheringSummary">
     <!-- CARD DA CONFRA -->
     <div class="q-pa-md">
-      <GatheringHeaderCard :gatheringSummary="gatheringSummary" />
+      <GatheringSummaryCard :gatheringSummary="gatheringSummary" />
     </div>
 
     <!-- CARD DOS POTES -->
@@ -25,7 +25,7 @@
 
 <script setup>
   import GatheringBodyCard from 'src/components/gatherings/GatheringBodyCard.vue'
-  import GatheringHeaderCard from 'src/components/gatherings/GatheringHeaderCard.vue'
+  import GatheringSummaryCard from 'src/components/gatherings/GatheringSummaryCard.vue'
   import EventCard from 'src/components/events/EventCard.vue'
 
   import { computed, onMounted } from 'vue'

@@ -1,11 +1,11 @@
 <template>
   <q-page class="page-bg">
-    <!-- Header da Confra -->
+    <!-- CARD DA CONFRA -->
     <div class="q-pa-md">
-      <GatheringHeaderCard :gatheringSummary="gatheringSummary" v-if="gatheringSummary" />
+      <GatheringSummaryCard :gatheringSummary="gatheringSummary" v-if="gatheringSummary" />
     </div>
 
-    <!-- Gráfico de Winrate -->
+    <!-- CARD DO CHART -->
     <div class="q-pa-md">
       <WinrateChartCard :winrateData="winrateData" v-if="winrateData" />
     </div>
@@ -13,16 +13,21 @@
 </template>
 
 <script setup>
-  import GatheringHeaderCard from 'src/components/gatherings/GatheringHeaderCard.vue'
+  /* COMPONENTS */
+  import GatheringSummaryCard from 'src/components/gatherings/GatheringSummaryCard.vue'
   import WinrateChartCard from 'src/components/reports/WinrateChartCard.vue'
 
+  /* VUE */
   import { computed, onMounted } from 'vue'
   import { useRoute } from 'vue-router'
 
+  /* STORES */
   import { useDashboardStore } from 'src/stores/dashboard'
 
-  /* NAVIGATION */
+  /* ROUTES */
   const route = useRoute()
+
+  /* PARAMS */
   const idGathering = Number(route.params.id)
 
   /* STORES */
@@ -32,24 +37,18 @@
   const gatheringSummary = computed(() => dashboardStore.gatheringSummary)
 
   const winrateData = computed(() =>
-    dashboardStore.gatheringResults.map(r => ({
-      playerName: r.player.name,
-      winrate: r.rounds > 0 ? Number(((r.wins / r.rounds) * 100).toFixed(2)) : 0
+    dashboardStore.gatheringResults.map(result => ({
+      playerName: result.player.name,
+      winrate: result.rounds > 0 ? Number(((result.wins / result.rounds) * 100).toFixed(2)) : 0
     }))
   )
 
-  // const winrateData = computed(() =>
-  //   dashboardStore.getGatheringResults(idGathering).map(r => ({
-  //     playerName: r.playerName,
-  //     winrate: r.rounds > 0 ? Number(((r.wins / r.rounds) * 100).toFixed(2)) : 0
-  //   }))
-  // )
-
-  /* ---------------- LOAD ---------------- */
+  /* LIFECYCLE */
   onMounted(async () => {
     await load()
   })
 
+  /* FUNCTIONS */
   async function load() {
     await dashboardStore.getGatheringSummary(idGathering)
     await dashboardStore.getGatheringResults(idGathering)

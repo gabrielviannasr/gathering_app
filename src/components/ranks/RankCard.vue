@@ -33,12 +33,10 @@
 </template>
 
 <script setup>
+  import { pluralize } from 'src/utils/text.js'
+
   defineProps({
     result: { type: Object, required: true },
     showArrow: { type: Boolean, default: true }
   })
-
-  function pluralize(value, singular, plural = `${singular}s`) {
-    return `${value} ${value === 1 ? singular : plural}`
-  }
 </script>

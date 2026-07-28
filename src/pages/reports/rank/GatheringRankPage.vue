@@ -2,7 +2,7 @@
   <q-page class="page-bg" v-if="gatheringSummary">
     <!-- CARD DA CONFRA -->
     <div class="q-pa-md">
-      <GatheringHeaderCard :gatheringSummary="gatheringSummary" />
+      <GatheringSummaryCard :gatheringSummary="gatheringSummary" />
     </div>
 
     <!-- CARD DE FILTRO -->
@@ -42,7 +42,7 @@
 
 <script setup>
   /* COMPONENTS */
-  import GatheringHeaderCard from 'src/components/gatherings/GatheringHeaderCard.vue'
+  import GatheringSummaryCard from 'src/components/gatherings/GatheringSummaryCard.vue'
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
   import RankCard from 'src/components/ranks/RankCard.vue'
 

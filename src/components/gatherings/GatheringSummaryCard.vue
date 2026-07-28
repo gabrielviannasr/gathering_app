@@ -18,16 +18,20 @@
 
       <!-- Eventos, jogadores e rodadas -->
       <div class="text-caption q-mt-xs">
-        {{ gatheringSummary.events }} eventos • {{ gatheringSummary.players }} jogadores •
-        {{ gatheringSummary.rounds }} rodadas
+        {{ pluralize(gatheringSummary.events, 'evento') }}
+        •
+        {{ pluralize(gatheringSummary.players, 'jogador') }}
+        •
+        {{ pluralize(gatheringSummary.rounds, 'rodada') }}
       </div>
     </div>
   </q-card>
 </template>
 
 <script setup>
-  // eslint-disable-next-line no-unused-vars
-  const props = defineProps({
+  import { pluralize } from 'src/utils/text.js'
+
+  defineProps({
     gatheringSummary: { type: Object, required: true }
   })
 </script>
