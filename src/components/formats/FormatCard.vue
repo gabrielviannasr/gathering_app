@@ -20,7 +20,8 @@
 </template>
 
 <script setup>
-  const { format, showArrow } = defineProps({
+  // eslint-disable-next-line no-unused-vars
+  const props = defineProps({
     format: { type: Object, required: true },
     showArrow: { type: Boolean, default: true }
   })

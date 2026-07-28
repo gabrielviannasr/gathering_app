@@ -20,7 +20,8 @@
 </template>
 
 <script setup>
-  const { gathering, showArrow } = defineProps({
+  // eslint-disable-next-line no-unused-vars
+  const props = defineProps({
     gathering: { type: Object, required: true },
     showArrow: { type: Boolean, default: true }
   })

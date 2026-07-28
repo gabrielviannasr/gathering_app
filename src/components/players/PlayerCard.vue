@@ -20,13 +20,13 @@
 <script setup>
   import { computed } from 'vue'
 
-  const { player, showArrow } = defineProps({
+  const props = defineProps({
     player: { type: Object, required: true },
     showArrow: { type: Boolean, default: true }
   })
 
   const initials = computed(() =>
-    player.name
+    props.player.name
       .trim()
       .split(/\s+/)
       .map(word => word[0])
