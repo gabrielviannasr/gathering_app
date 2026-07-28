@@ -30,7 +30,7 @@
   import EventHeaderCard from 'src/components/events/EventHeaderCard.vue'
   import GatheringHeaderCard from 'src/components/gatherings/GatheringHeaderCard.vue'
   // import PlayerCard from 'src/components/players/PlayerCard.vue'
-  import RankDetailCard from 'src/components/rank/RankDetailCard.vue'
+  import RankDetailCard from 'src/components/ranks/RankDetailCard.vue'
 
   /* VUE + PINIA */
   import { computed, onMounted } from 'vue'

@@ -5,58 +5,65 @@
       <GatheringHeaderCard :gatheringSummary="gatheringSummary" />
     </div>
 
-    <!-- CARD FILTRO -->
+    <!-- CARD DE FILTRO -->
     <div class="q-pa-md">
       <q-card class="q-pa-md form-card">
+        <!-- Title -->
         <div class="form-section-title">Filtros</div>
 
-        <GlobalInput
-          label="Buscar por nome do jogador..."
-          v-model="filters.name"
-          placeholder="Digite o nome..."
-        >
-          <template #prepend>
-            <q-icon name="search" />
-          </template>
-        </GlobalInput>
+        <div class="row q-col-gutter-sm q-mt-sm">
+          <!-- Nome -->
+          <div class="col">
+            <GlobalInput label="Nome" v-model="filters.name" debounce="300">
+              <template #prepend>
+                <q-icon name="search" />
+              </template>
+            </GlobalInput>
+          </div>
+        </div>
       </q-card>
     </div>
 
     <!-- LISTA -->
     <div class="q-pa-md q-gutter-md">
-      <RankListItem
-        v-for="item in filteredResults"
-        :key="item.idPlayer"
-        :item="item"
-        @select="openRankPlayer(item)"
+      <RankCard
+        v-for="result in filteredResults"
+        :key="result.idPlayer"
+        :result="result"
+        class="list-card"
+        @click="openResult(result)"
       />
 
       <!-- PAGINAÇÃO -->
-      <!-- <div class="q-mt-md">
-        <q-pagination v-model="page" :max="maxPages" max-pages="5" />
-      </div> -->
+      <!-- <q-pagination v-model="page" :max="maxPages" max-pages="5" /> -->
     </div>
   </q-page>
 </template>
 
 <script setup>
-  import GlobalInput from 'src/components/ui/GlobalInput.vue'
-
-  import RankListItem from 'src/components/rank/RankListItem.vue'
+  /* COMPONENTS */
   import GatheringHeaderCard from 'src/components/gatherings/GatheringHeaderCard.vue'
+  import GlobalInput from 'src/components/ui/GlobalInput.vue'
+  import RankCard from 'src/components/ranks/RankCard.vue'
 
-  /* VUE + PINIA */
+  /* VUE */
   import { computed, onMounted, ref } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
 
+  /* STORES */
   import { useDashboardStore } from 'src/stores/dashboard'
+
+  /* NAVIGATION */
   import { useRankNavigator } from 'src/composables/navigation'
 
   /* NAVIGATION */
   const { goToRankGatheringPlayer } = useRankNavigator()
 
+  /* ROUTES */
   const route = useRoute()
   const router = useRouter()
+
+  /* PARAMS */
   const idGathering = Number(route.params.idGathering)
 
   /* STORES */
@@ -64,7 +71,7 @@
 
   /* COMPUTED */
   const gatheringSummary = computed(() => dashboardStore.gatheringSummary)
-  const results = computed(() => dashboardStore.gatheringResults)
+  const results = computed(() => dashboardStore.gatheringResults ?? [])
 
   /* FILTERS */
   const filters = ref({ name: '' })
@@ -79,27 +86,25 @@
     return results.value.filter(item => item.player.name.toLowerCase().includes(name))
   })
 
-  /* PAGINAÇÃO */
-  // const page = ref(1)
-  // const maxPages = 1
-
-  /* ---------------- LOAD ---------------- */
+  /* LIFECYCLE */
   onMounted(async () => {
     await dashboardStore.getGatheringSummary(idGathering)
-    await load()
 
     if (!gatheringSummary.value) {
-      console.warn('CONFRA NOT FOUND:', idGathering)
+      console.warn('GATHERING NOT FOUND:', idGathering)
       router.back()
       return
     }
+
+    await load()
   })
 
+  /* FUNCTIONS */
   async function load() {
     await dashboardStore.getGatheringResults(idGathering)
   }
 
-  function openRankPlayer(item) {
-    goToRankGatheringPlayer(idGathering, item.idPlayer)
+  function openResult(result) {
+    goToRankGatheringPlayer(idGathering, result.idPlayer)
   }
 </script>

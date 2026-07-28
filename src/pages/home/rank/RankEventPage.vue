@@ -2,7 +2,7 @@
   <q-page class="page-bg" v-if="event">
     <!-- CARD DO EVENTO -->
     <div class="q-pa-md">
-      <EventCard :event="event" @open="openEvent(event)" />
+      <EventCard :event="event" @click="openEvent(event)" />
     </div>
 
     <!-- CARD DE INSCRIÇÃO -->
@@ -36,62 +36,37 @@
 
     <!-- LISTA -->
     <div class="q-pa-md q-gutter-md">
-      <q-card
-        v-for="item in filteredResults"
-        :key="item.id"
-        class="list-card q-pa-sm"
-        clickable
-        @click="openRankPlayer(item)"
-      >
-        <!-- WRAPPER -->
-        <div class="row items-center no-wrap">
-          <!-- CÍRCULO COM NÚMERO DO RANK -->
-          <div class="round-number-circle q-mr-md">
-            {{ item.rank }}
-          </div>
-
-          <!-- INFO -->
-          <div class="col">
-            <div class="text-subtitle2 text-bold">
-              {{ item?.player?.name || '—' }}
-            </div>
-
-            <div class="text-caption q-mt-xs row items-center">
-              <q-icon name="emoji_events" size="16px" class="q-mr-xs" style="color: #fe9a00" />
-
-              {{ item.wins }} vitórias • {{ item.rounds }} rodadas
-            </div>
-          </div>
-
-          <!-- SETA -->
-          <div class="q-ml-auto">
-            <q-icon name="chevron_right" size="22px" />
-          </div>
-        </div>
-      </q-card>
+      <RankCard
+        v-for="result in filteredResults"
+        :key="result.idPlayer"
+        :result="result"
+        class="list-card"
+        @click="openResult(result)"
+      />
 
       <!-- PAGINAÇÃO -->
-      <!-- <div class="q-mt-md">
-        <q-pagination v-model="page" :max="maxPages" max-pages="5" />
-      </div> -->
+      <!-- <q-pagination v-model="page" :max="maxPages" max-pages="5" /> -->
     </div>
   </q-page>
 </template>
 
 <script setup>
-  // import EventHeaderCard from 'src/components/events/EventHeaderCard.vue'
+  /* COMPONENTS */
   import EventCard from 'src/components/events/EventCard.vue'
   import EventBodyCard from 'src/components/events/EventBodyCard.vue'
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
   import PotSummaryCard from 'src/components/pots/PotSummaryCard.vue'
+  import RankCard from 'src/components/ranks/RankCard.vue'
 
-  /* VUE + PINIA */
+  /* VUE */
   import { computed, onMounted, ref } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
 
+  /* STORES */
   import { useEventStore } from 'src/stores/event'
   import { useResultStore } from 'src/stores/result'
 
+  /* NAVIGATION */
   import { useEventNavigator } from 'src/composables/navigation'
   import { useRankNavigator } from 'src/composables/navigation'
 
@@ -99,8 +74,11 @@
   const { goToEventEdit } = useEventNavigator()
   const { goToRankEventPlayer } = useRankNavigator()
 
+  /* ROUTES */
   const route = useRoute()
   const router = useRouter()
+
+  /* PARAMS */
   const idEvent = Number(route.params.idEvent)
 
   /* STORES */
@@ -109,8 +87,7 @@
 
   /* COMPUTED */
   const event = computed(() => eventStore.event)
-  // const results = computed(() => resultStore.results?.content || [])
-  // const results = computed(() => resultStore.results || [])
+  const results = computed(() => resultStore.results || [])
 
   /* FILTERS */
   const filters = ref({ name: '' })
@@ -119,34 +96,32 @@
     const name = filters.value.name.trim().toLowerCase()
 
     if (!name) {
-      return resultStore.results
+      return results.value
     }
 
-    return resultStore.results.filter(item => item.player.name.toLowerCase().includes(name))
+    return results.value.filter(item => item.player.name.toLowerCase().includes(name))
   })
 
-  /* ---------------- LOAD ---------------- */
+  /* LIFECYCLE */
   onMounted(async () => {
     await eventStore.getEvent(idEvent)
-    await load()
 
     if (!event.value) {
       console.warn('EVENT NOT FOUND:', idEvent)
       router.back()
       return
     }
+
+    await load()
   })
 
+  /* FUNCTIONS */
   async function load() {
     await resultStore.getResults(idEvent)
   }
 
-  /* página única */
-  // const page = ref(1)
-  // const maxPages = 1
-
-  function openRankPlayer(item) {
-    goToRankEventPlayer(item.idEvent, item.idPlayer)
+  function openResult(result) {
+    goToRankEventPlayer(result.idEvent, result.idPlayer)
   }
 
   function openEvent(event) {

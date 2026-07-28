@@ -10,6 +10,7 @@
           <!-- Formato -->
           <div class="col-12">
             <GlobalSelect
+              clearable
               label="Formato"
               :options="formatOptions"
               v-model="filters.format"
@@ -42,21 +43,26 @@
         @click="openEvent(event)"
       />
 
-      <!-- Paginação -->
-      <div class="q-mt-md q-pb-xl">
-        <q-pagination v-model="page" :max="maxPages" max-pages="5" />
-      </div>
+      <!-- PAGINAÇÃO -->
+      <q-pagination v-model="page" :max="maxPages" max-pages="5" />
     </div>
   </q-page>
 </template>
 
 <script setup>
+  /* COMPONENTS */
   import EventCard from 'src/components/events/EventCard.vue'
   import GlobalSelect from 'src/components/ui/GlobalSelect.vue'
+
+  /* VUE */
   import { computed, onMounted, ref, watch } from 'vue'
-  import { useRankNavigator } from 'src/composables/navigation'
+
+  /* STORES */
   import { useEventStore } from 'src/stores/event'
   import { useFormatStore } from 'src/stores/format'
+
+  /* NAVIGATION */
+  import { useRankNavigator } from 'src/composables/navigation'
 
   /* NAVIGATION */
   const { goToRankEvent } = useRankNavigator()
@@ -67,42 +73,42 @@
 
   /* COMPUTED */
   const events = computed(() => eventStore.events?.content || [])
-
-  /* FILTERS */
-  const filters = ref({ format: null, month: null })
-
   const formatOptions = computed(() => [
-    { label: 'Todos', value: null },
     ...formatStore.formats.map(format => ({
       label: format.name,
       value: format.id
     }))
   ])
 
+  /* FILTERS */
+  const filters = ref({ format: null })
+
   /* PAGINATION */
   const page = ref(1)
-  const perPage = 4
+  const perPage = 10
   const maxPages = computed(() => eventStore.events?.totalPages || 1)
 
-  /* ---------------- LOAD ---------------- */
+  /* LIFECYCLE */
   onMounted(async () => {
     await formatStore.getFormats()
     await load()
   })
 
+  watch(page, load)
+
   watch(
     filters,
     () => {
-      page.value = 1
-      load()
+      if (page.value !== 1) {
+        page.value = 1
+      } else {
+        load()
+      }
     },
     { deep: true }
   )
 
-  watch(page, () => {
-    load()
-  })
-
+  /* FUNCTIONS */
   async function load() {
     await eventStore.getEventsPage({
       ...filters.value,
