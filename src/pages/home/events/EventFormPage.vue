@@ -17,6 +17,7 @@
             map-options
           />
 
+          <!-- ConfraFee -->
           <GlobalNumberInput
             label="Inscrição do evento"
             placeholder="Digite a inscrição do evento"
@@ -25,6 +26,7 @@
             :step="5"
           />
 
+          <!-- RoundFee -->
           <GlobalNumberInput
             label="Inscrição por Rodada"
             placeholder="Digite a inscrição por rodada"
@@ -42,7 +44,7 @@
         <div class="form-section-title">Configurações de Taxas</div>
 
         <div class="row justify-center q-mt-sm">
-          <q-btn rounded unelevated no-caps class="add-btn" @click="addConfig">
+          <q-btn push no-caps rounded class="add-btn" @click="addConfig">
             <q-icon name="add" class="q-mr-sm" />
             Adicionar Configuração
           </q-btn>
@@ -50,27 +52,30 @@
       </q-card>
 
       <!-- LISTA DINÂMICA -->
-      <div v-for="(cfg, index) in form.fees" :key="index" class="q-mt-md">
+      <div v-for="(config, index) in form.fees" :key="index" class="q-mt-md">
         <q-card class="q-pa-md form-card">
           <div class="row q-col-gutter-md">
+            <!-- Jogadores -->
             <GlobalNumberInput
-              v-model="cfg.players"
+              v-model="config.players"
               label="Jogadores"
               placeholder="Digite o nº de jogadores"
               :min="1"
               :max="99"
             />
 
+            <!-- PrizeFee -->
             <GlobalNumberInput
-              v-model="cfg.prizeFee"
+              v-model="config.prizeFee"
               label="Premiação"
               placeholder="Digite a taxa da premiação"
               :min="1"
               :step="5"
             />
 
+            <!-- LoserFee -->
             <GlobalNumberInput
-              v-model="cfg.loserFee"
+              v-model="config.loserFee"
               label="Pote dos Derrotados"
               placeholder="Digite a taxa dos derrotados"
               :min="1"
@@ -78,15 +83,15 @@
             />
           </div>
 
-          <!-- Botão remover -->
+          <!-- Botão Remover -->
           <div class="q-mt-sm row justify-center">
             <q-btn
-              color="negative"
               flat
               no-caps
               rounded
               icon="delete"
               label="Remover"
+              color="negative"
               @click="removeConfig(index)"
             />
           </div>
@@ -96,49 +101,55 @@
 
     <!-- BOTÕES FINAIS -->
     <div class="row q-col-gutter-md q-pa-md">
-      <div class="col">
-        <q-btn outline color="grey-8" no-caps rounded class="full-width" @click="cancel">
+      <!-- Botão Cancelar -->
+      <div class="col-6">
+        <q-btn no-caps rounded outline color="grey-8" class="full-width" @click="cancel">
           Cancelar
         </q-btn>
       </div>
 
-      <div class="col">
-        <q-btn class="add-btn full-width" no-caps rounded unelevated @click="save"> Salvar </q-btn>
+      <!-- Botão Salvar -->
+      <div class="col-6">
+        <q-btn no-caps push rounded class="add-btn full-width" @click="save"> Salvar </q-btn>
       </div>
     </div>
   </q-page>
 </template>
 
 <script setup>
+  /* COMPONENTS */
   import GlobalNumberInput from 'components/ui/GlobalNumberInput.vue'
   import GlobalSelect from 'components/ui/GlobalSelect.vue'
-  import { ref, onMounted, computed } from 'vue'
+
+  /* VUE */
+  import { computed, onMounted, ref } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
+
+  /* STORES */
   import { useEventStore } from 'src/stores/event'
   import { useFormatStore } from 'src/stores/format'
 
-  const eventStore = useEventStore()
-  const formatStore = useFormatStore()
-
+  /* ROUTE */
   const route = useRoute()
   const router = useRouter()
 
+  /* PARAMS */
   const id = route.params.id
   const isEdit = !!id
 
-  // ---------------------------------------------
-  // FORMAT OPTIONS (do Pinia)
-  // ---------------------------------------------
+  /* STORES */
+  const eventStore = useEventStore()
+  const formatStore = useFormatStore()
+
+  /* COMPUTED */
   const formatOptions = computed(() =>
-    formatStore.formats.map(f => ({
-      label: f.name,
-      value: f.id
+    formatStore.formats.map(format => ({
+      label: format.name,
+      value: format.id
     }))
   )
 
-  // ---------------------------------------------
-  // FORM DEFAULT (NOVO EVENTO)
-  // ---------------------------------------------
+  /* FORM */
   const form = ref({
     id: null,
     idFormat: null,
@@ -147,9 +158,7 @@
     fees: []
   })
 
-  // ---------------------------------------------
-  // CARREGAR EVENTO (EDIÇÃO)
-  // ---------------------------------------------
+  /* LIFECYCLE */
   onMounted(async () => {
     await formatStore.getFormats()
 
@@ -162,20 +171,18 @@
         idFormat: event.idFormat,
         confraFee: event.confraFee,
         roundFee: event.roundFee,
-        fees: event.fees.map(f => ({
-          id: f.id,
-          idEvent: f.idEvent,
-          players: f.players,
-          prizeFee: f.prizeFee,
-          loserFee: f.loserFee
+        fees: event.fees.map(fee => ({
+          id: fee.id,
+          idEvent: fee.idEvent,
+          players: fee.players,
+          prizeFee: fee.prizeFee,
+          loserFee: fee.loserFee
         }))
       }
     }
   })
 
-  // ---------------------------------------------
-  // CONFIGURAÇÕES DE TAXAS (ADD/REMOVE)
-  // ---------------------------------------------
+  /* FUNCTIONS */
   function addConfig() {
     form.value.fees.push({
       id: null,

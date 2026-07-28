@@ -1,14 +1,16 @@
 <template>
   <q-page class="page-bg">
-    <!-- ===== FILTROS ===== -->
+    <!-- FILTROS -->
     <div class="q-pa-md">
       <q-card class="q-pa-md form-card">
+        <!-- Title -->
         <div class="form-section-title">Filtros</div>
 
         <div class="row q-col-gutter-sm q-mt-sm">
           <!-- Formato -->
-          <div class="col">
+          <div class="col-12">
             <GlobalSelect
+              clearable
               label="Formato"
               :options="formatOptions"
               v-model="filters.format"
@@ -18,7 +20,7 @@
           </div>
 
           <!-- Mês -->
-          <div class="col">
+          <!-- <div class="col">
             <GlobalSelect
               label="Mês"
               :options="monthOptions"
@@ -26,7 +28,7 @@
               emit-value
               map-options
             />
-          </div>
+          </div> -->
         </div>
 
         <!-- Botão Adicionar -->
@@ -39,26 +41,37 @@
       </q-card>
     </div>
 
-    <!-- ===== LISTA ===== -->
+    <!-- LISTA -->
     <div class="q-pa-md q-gutter-md">
-      <EventCard v-for="item in events" :key="item.id" :event="item" @open="openEvent" />
+      <EventCard
+        v-for="item in events"
+        :key="item.id"
+        :event="item"
+        class="list-card"
+        @open="openEvent"
+      />
 
-      <!-- Paginação -->
-      <div class="q-mt-md q-pb-xl">
-        <q-pagination v-model="page" :max="maxPages" max-pages="5" />
-      </div>
+      <!-- PAGINAÇÃO -->
+      <q-pagination v-model="page" :max="maxPages" max-pages="5" />
     </div>
   </q-page>
 </template>
 
 <script setup>
-  import EventCard from 'src/components/events/EventCard.vue'
+  /* COMPONENTS */
   import GlobalSelect from 'src/components/ui/GlobalSelect.vue'
+  import EventCard from 'src/components/events/EventCard.vue'
+
+  /* VUE */
   import { computed, onMounted, ref, watch } from 'vue'
-  import { useEventNavigator } from 'src/composables/navigation'
+
+  /* STORES */
   import { useEventStore } from 'src/stores/event'
   import { useFormatStore } from 'src/stores/format'
-  import { monthOptions } from 'src/constants/months'
+  // import { monthOptions } from 'src/constants/months'
+
+  /* NAVIGATION */
+  import { useEventNavigator } from 'src/composables/navigation'
 
   /* NAVIGATION */
   const { goToEventNew, goToEventEdit } = useEventNavigator()
@@ -71,41 +84,46 @@
   const events = computed(() => eventStore.events?.content || [])
   const formats = computed(() => formatStore.formats || [])
 
-  /* FILTERS */
-  const filters = ref({ format: null, month: null })
-
   const formatOptions = computed(() => [
-    { label: 'Todos', value: null },
+    // { label: 'Todos', value: null },
     ...formats.value.map(format => ({
       label: format.name,
       value: format.id
     }))
   ])
 
+  /* FILTERS */
+  const filters = ref({
+    format: null
+    // month: null
+  })
+
   /* PAGINATION */
   const page = ref(1)
-  const perPage = 4
+  const perPage = 10
   const maxPages = computed(() => eventStore.events?.totalPages || 1)
 
-  /* ---------------- LOAD ---------------- */
+  /* LIFECYCLE */
   onMounted(async () => {
     await formatStore.getFormats()
     await load()
   })
 
+  watch(page, load)
+
   watch(
     filters,
     () => {
-      page.value = 1
-      load()
+      if (page.value !== 1) {
+        page.value = 1
+      } else {
+        load()
+      }
     },
     { deep: true }
   )
 
-  watch(page, () => {
-    load()
-  })
-
+  /* FUNCTIONS */
   async function load() {
     await eventStore.getEventsPage({
       ...filters.value,
@@ -115,7 +133,6 @@
   }
 
   function onAdd() {
-    console.log('Adicionar evento')
     goToEventNew()
   }
 

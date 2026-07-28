@@ -1,5 +1,6 @@
 <template>
   <q-card
+    bordered
     class="q-pa-md form-card"
     :class="{ 'q-pa-sm list-card': !asHeader }"
     :clickable="!asHeader && clickable"
