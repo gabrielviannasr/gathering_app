@@ -41,41 +41,16 @@
 
     <!-- LISTA -->
     <div class="q-pa-md q-gutter-md">
-      <q-card
-        v-for="item in gatherings"
-        :key="item.id"
-        class="list-card q-pa-sm"
-        clickable
-        @click="openGathering(item)"
-      >
-        <div class="row items-center no-wrap">
-          <!-- Ícone -->
-          <div class="circle-icon q-mr-md">
-            <q-icon name="groups" color="white" size="24px" />
-          </div>
-
-          <!-- Conteúdo -->
-          <div class="col">
-            <div class="text-subtitle2 text-bold">
-              {{ item.name }}
-            </div>
-
-            <div class="text-caption text-grey">
-              {{ item.year }}
-            </div>
-          </div>
-
-          <!-- Seta -->
-          <div class="q-ml-auto">
-            <q-icon name="chevron_right" />
-          </div>
-        </div>
-      </q-card>
+      <ConfraCard
+        v-for="gathering in gatherings"
+        :key="gathering.id"
+        :gathering="gathering"
+        class="list-card"
+        @click="openGathering(gathering)"
+      />
 
       <!-- PAGINAÇÃO -->
-      <div class="q-mt-md">
-        <q-pagination v-model="page" :max="maxPages" max-pages="5" />
-      </div>
+      <q-pagination v-model="page" :max="maxPages" max-pages="5" />
     </div>
   </q-page>
 </template>
@@ -84,6 +59,7 @@
   /* COMPONENTS */
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
   import GlobalSelect from 'src/components/ui/GlobalSelect.vue'
+  import ConfraCard from 'src/components/confras/ConfraCard.vue'
 
   /* VUE */
   import { computed, onMounted, ref, watch } from 'vue'
