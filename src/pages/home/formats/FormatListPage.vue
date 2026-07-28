@@ -45,8 +45,8 @@
 
 <script setup>
   /* COMPONENTS */
-  import GlobalInput from 'src/components/ui/GlobalInput.vue'
   import FormatCard from 'src/components/formats/FormatCard.vue'
+  import GlobalInput from 'src/components/ui/GlobalInput.vue'
 
   /* VUE */
   import { computed, onMounted, ref, watch } from 'vue'

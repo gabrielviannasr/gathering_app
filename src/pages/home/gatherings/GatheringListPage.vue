@@ -57,9 +57,9 @@
 
 <script setup>
   /* COMPONENTS */
+  import GatheringCard from 'src/components/gatherings/GatheringCard.vue'
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
   import GlobalSelect from 'src/components/ui/GlobalSelect.vue'
-  import GatheringCard from 'src/components/gatherings/GatheringCard.vue'
 
   /* VUE */
   import { computed, onMounted, ref, watch } from 'vue'

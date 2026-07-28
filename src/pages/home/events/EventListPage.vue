@@ -59,8 +59,8 @@
 
 <script setup>
   /* COMPONENTS */
-  import GlobalSelect from 'src/components/ui/GlobalSelect.vue'
   import EventCard from 'src/components/events/EventCard.vue'
+  import GlobalSelect from 'src/components/ui/GlobalSelect.vue'
 
   /* VUE */
   import { computed, onMounted, ref, watch } from 'vue'
