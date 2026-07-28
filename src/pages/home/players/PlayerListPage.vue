@@ -1,6 +1,6 @@
 <template>
   <q-page class="page-bg">
-    <!-- ===== FILTROS ===== -->
+    <!-- FILTROS -->
     <div class="q-pa-md">
       <q-card class="q-pa-md form-card">
         <!-- Title -->
@@ -28,23 +28,33 @@
     </div>
 
     <div class="q-pa-md q-gutter-md">
-      <PlayerList :players="players" @select="openPlayer" />
+      <PlayerCard
+        v-for="player in players"
+        :key="player.id"
+        :player="player"
+        @click="openPlayer(player)"
+        class="list-card"
+      />
 
       <!-- PAGINAÇÃO -->
-      <div class="q-mt-md">
-        <q-pagination v-model="page" :max="maxPages" max-pages="5" />
-      </div>
+      <q-pagination v-model="page" :max="maxPages" max-pages="5" />
     </div>
   </q-page>
 </template>
 
 <script setup>
+  /* COMPONENTS */
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
-  import PlayerList from 'src/components/players/PlayerList.vue'
+  import PlayerCard from 'src/components/players/PlayerCard.vue'
 
+  /* VUE */
   import { computed, onMounted, ref, watch } from 'vue'
-  import { usePlayerNavigator } from 'src/composables/navigation'
+
+  /* STORES */
   import { usePlayerStore } from 'src/stores/player'
+
+  /* NAVIGATION */
+  import { usePlayerNavigator } from 'src/composables/navigation'
 
   /* NAVIGATION */
   const { goToPlayerNew, goToPlayerEdit } = usePlayerNavigator()
@@ -60,25 +70,27 @@
 
   /* PAGINATION */
   const page = ref(1)
-  const perPage = 4
+  const perPage = 10
   const maxPages = computed(() => playerStore.players?.totalPages || 1)
 
-  /* ---------------- LOAD ---------------- */
+  /* LIFECYCLE */
   onMounted(load)
+
+  watch(page, load)
 
   watch(
     filters,
     () => {
-      page.value = 1
-      load()
+      if (page.value !== 1) {
+        page.value = 1
+      } else {
+        load()
+      }
     },
     { deep: true }
   )
 
-  watch(page, () => {
-    load()
-  })
-
+  /* FUNCTIONS */
   async function load() {
     await playerStore.getPlayersPage({
       ...filters.value,
