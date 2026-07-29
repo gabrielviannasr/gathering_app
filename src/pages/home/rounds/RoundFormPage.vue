@@ -8,11 +8,11 @@
 
     <!-- CARD DO ROUND -->
     <div class="q-pa-md">
-      <q-card v-if="round" class="q-pa-md form-card">
+      <q-card class="q-pa-md form-card" v-if="form">
         <div class="row items-center justify-between">
           <div class="form-section-title">Rodada</div>
           <div class="round-number-circle">
-            {{ round.round }}
+            {{ form.round }}
           </div>
         </div>
 
@@ -21,7 +21,7 @@
           <GlobalSelect
             label="Formato da Rodada"
             :options="formatOptions"
-            v-model="round.idFormat"
+            v-model="form.idFormat"
             emit-value
             map-options
             placeholder="Selecione um formato"
@@ -37,8 +37,8 @@
         <div class="row items-center justify-between q-mt-md">
           <div class="text-subtitle2 text-bold">Vencedor</div>
 
-          <div v-if="round.playerWinner" class="winner-box q-pa-sm">
-            {{ round.playerWinner.name }}
+          <div v-if="form.idPlayerWinner" class="winner-box q-pa-sm">
+            {{ form.playerWinner.name }}
           </div>
 
           <div v-else class="text-grey">Sem vencedor</div>
@@ -49,11 +49,11 @@
           <div class="text-subtitle2 text-bold">Status</div>
 
           <q-badge
-            :color="round.canceled ? 'negative' : 'positive'"
+            :color="form.canceled ? 'negative' : 'positive'"
             class="q-px-md q-py-xs text-bold"
             rounded
           >
-            {{ round.canceled ? 'Cancelada' : 'Ativa' }}
+            {{ form.canceled ? 'Cancelada' : 'Ativa' }}
           </q-badge>
         </div>
 
@@ -61,9 +61,9 @@
           rounded
           no-caps
           class="add-btn full-width q-mt-md"
-          :color="round.canceled ? 'positive' : 'negative'"
-          :icon="round.canceled ? 'check_circle' : 'cancel'"
-          :label="round.canceled ? 'Reativar rodada' : 'Cancelar rodada'"
+          :color="form.canceled ? 'positive' : 'negative'"
+          :icon="form.canceled ? 'check_circle' : 'cancel'"
+          :label="form.canceled ? 'Reativar rodada' : 'Cancelar rodada'"
           @click="toggleCanceled"
         />
       </q-card>
@@ -79,17 +79,17 @@
         <div class="q-mt-sm">
           <div class="row items-center justify-between q-mb-sm">
             <div class="label">Jogadores</div>
-            <div class="round-number-circle-gray">{{ round?.playersTotal ?? 0 }}</div>
+            <div class="round-number-circle-gray">{{ form.playersTotal ?? 0 }}</div>
           </div>
 
           <div class="row items-center justify-between q-mb-sm">
             <div class="label">Premiação</div>
-            <div class="value text-right">R$ {{ formatCurrency(round?.prize ?? 0) }}</div>
+            <div class="value text-right">R$ {{ formatCurrency(form.prize ?? 0) }}</div>
           </div>
 
           <div class="row items-center justify-between q-mt-md">
             <div class="label">Pote dos Derrotados</div>
-            <div class="value text-right">R$ {{ formatCurrency(round?.loserPot ?? 0) }}</div>
+            <div class="value text-right">R$ {{ formatCurrency(form.loserPot ?? 0) }}</div>
           </div>
         </div>
       </q-card>
@@ -101,7 +101,7 @@
         <div class="form-section-title">Adicionar Jogador</div>
 
         <GlobalInput
-          v-model="search"
+          v-model="filters.name"
           placeholder="Buscar jogador"
           label="Nome"
           debounce="300"
@@ -112,7 +112,7 @@
           </template>
         </GlobalInput>
 
-        <div v-if="search.length > 0" class="q-mt-md q-gutter-sm">
+        <div v-if="filters.name.length > 0" class="q-mt-md q-gutter-sm">
           <q-card
             v-for="player in availablePlayers"
             :key="player.id"
@@ -140,10 +140,10 @@
         <!-- Title -->
         <div class="form-section-title">Jogadores da Rodada</div>
 
-        <div v-if="round?.players.length > 0" class="q-mt-sm q-gutter-sm">
+        <div v-if="form?.players.length > 0" class="q-mt-sm q-gutter-sm">
           <!-- LISTA -->
           <PlayerCard
-            v-for="player in round.players"
+            v-for="player in form.players"
             :key="player.id"
             :player="player"
             class="list-card q-pa-sm"
@@ -152,7 +152,7 @@
           >
             <template #actions>
               <q-icon
-                v-if="round.idPlayerWinner === player.id"
+                v-if="form.idPlayerWinner === player.id"
                 name="emoji_events"
                 class="trophy-icon q-mr-md"
                 size="26px"
@@ -247,23 +247,43 @@
 
   /* COMPUTED */
   const event = computed(() => eventStore.event)
-  const round = ref(null)
+  const formats = computed(() => formatStore.formats ?? [])
+  const players = computed(() => playerStore.players ?? [])
+  const round = computed(() => roundStore.round)
+
+  /* selecionado para definir vencedor */
+  const playerSelected = ref(null)
+
+  const availablePlayers = computed(() =>
+    players.value.filter(
+      player => !(form.value?.players ?? []).some(roundPlayer => roundPlayer.id === player.id)
+    )
+  )
 
   const formatOptions = computed(() =>
-    formatStore.formats.map(format => ({
+    formats.value.map(format => ({
       label: format.name,
       value: format.id
     }))
   )
 
-  /* selecionado para definir vencedor */
-  const playerSelected = ref(null)
+  /* FILTERS */
+  const filters = ref({
+    name: ''
+  })
+
+  /* FORM */
+  const form = ref({
+    round: 1,
+    idFormat: null,
+    idPlayerWinner: null,
+    canceled: false,
+    playersTotal: 0,
+    players: []
+  })
 
   /* LIFECYCLE */
-  onMounted(load)
-
-  /* FUNCTIONS */
-  async function load() {
+  onMounted(async () => {
     await eventStore.getEvent(idEvent)
 
     if (!event.value) {
@@ -275,7 +295,7 @@
     await formatStore.getFormats()
 
     if (isNewRound) {
-      round.value = {
+      form.value = {
         id: null,
         round: (event.value.rounds ?? 0) + 1,
         idFormat: event.value.idFormat ?? null,
@@ -286,21 +306,40 @@
         createdAt: new Date().toISOString()
       }
     } else {
-      const stored = await roundStore.getRound(idEvent, roundNumber)
+      await load()
 
-      if (!stored) {
+      if (!round.value) {
         console.warn('ROUND NOT FOUND:', idEvent, roundNumber)
         router.back()
         return
       }
-
-      round.value = { ...stored }
-      round.value.players = stored.players ?? []
     }
+  })
+
+  watch(
+    () => filters.value.name,
+    async value => {
+      if (!value?.trim()) {
+        playerStore.players = []
+        return
+      }
+
+      await playerStore.getPlayers({
+        name: value.trim()
+      })
+    }
+  )
+
+  /* FUNCTIONS */
+  async function load() {
+    await roundStore.getRound(idEvent, roundNumber)
+
+    form.value = { ...round.value }
+    form.value.players = round.value.players ?? []
   }
 
   function toggleCanceled() {
-    round.value.canceled = !round.value.canceled
+    form.value.canceled = !form.value.canceled
   }
 
   function selectPlayer(player) {
@@ -308,19 +347,19 @@
   }
 
   function addPlayer(player) {
-    if (!round.value.players.some(p => p.id === player.id)) {
-      round.value.players.push(player)
+    if (!form.value.players.some(p => p.id === player.id)) {
+      form.value.players.push(player)
       sortPlayers()
       updateRoundFees()
     }
   }
 
   function removePlayer(player) {
-    round.value.players = round.value.players.filter(p => p.id !== player.id)
+    form.value.players = form.value.players.filter(p => p.id !== player.id)
 
-    if (round.value.idPlayerWinner === player.id) {
-      round.value.idPlayerWinner = null
-      round.value.playerWinner = null
+    if (form.value.idPlayerWinner === player.id) {
+      form.value.idPlayerWinner = null
+      form.value.playerWinner = null
       playerSelected.value = null
     }
 
@@ -328,26 +367,26 @@
   }
 
   function updateRoundFees() {
-    if (!round.value || !event.value) return
+    if (!form.value || !event.value) return
 
-    const playersTotal = round.value.players.length
+    const playersTotal = form.value.players.length
 
     const fee = event.value.fees?.find(fee => fee.players === playersTotal)
 
-    round.value.playersTotal = playersTotal
+    form.value.playersTotal = playersTotal
 
     if (fee) {
-      round.value.prize = fee.prizeFee
-      round.value.loserPot = fee.loserFee
+      form.value.prize = fee.prizeFee
+      form.value.loserPot = fee.loserFee
     } else {
-      round.value.prize = playersTotal * (event.value.roundFee ?? 0)
-      round.value.loserPot = 0
+      form.value.prize = playersTotal * (event.value.roundFee ?? 0)
+      form.value.loserPot = 0
     }
   }
 
   // tratar nomes com acentos e caixa alta/baixa
   function sortPlayers() {
-    round.value.players.sort((a, b) =>
+    form.value.players.sort((a, b) =>
       a.name.localeCompare(b.name, 'pt-BR', {
         sensitivity: 'base'
       })
@@ -357,8 +396,8 @@
   function defineWinner() {
     if (!playerSelected.value) return
 
-    round.value.idPlayerWinner = playerSelected.value.id
-    round.value.playerWinner = playerSelected.value
+    form.value.idPlayerWinner = playerSelected.value.id
+    form.value.playerWinner = playerSelected.value
   }
 
   function cancel() {
@@ -367,9 +406,9 @@
 
   async function save() {
     const data = {
-      ...round.value,
-      playersTotal: round.value.players.length,
-      players: round.value.players
+      ...form.value,
+      playersTotal: form.value.players.length,
+      players: form.value.players
     }
 
     try {
@@ -384,25 +423,6 @@
       console.error(err)
     }
   }
-
-  /* Busca players para adicionar */
-  const search = ref('')
-  const availablePlayers = computed(() =>
-    playerStore.players.filter(
-      player => !(round.value?.players ?? []).some(roundPlayer => roundPlayer.id === player.id)
-    )
-  )
-
-  watch(search, async value => {
-    if (!value?.trim()) {
-      playerStore.players = []
-      return
-    }
-
-    await playerStore.getPlayers({
-      name: value.trim()
-    })
-  })
 </script>
 
 <style scoped>

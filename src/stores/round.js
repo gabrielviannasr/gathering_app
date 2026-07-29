@@ -7,15 +7,10 @@ export const useRoundStore = defineStore('round', () => {
   const round = ref(null)
   const rounds = ref([])
 
-  // 🔍 Buscar um round pelo id
   async function getRound(idEvent, roundNumber) {
-    try {
-      const res = await api.get(`${path(idEvent)}/${roundNumber}`)
-      rounds.value = res.data
-      return rounds.value
-    } catch (err) {
-      return err
-    }
+    const res = await api.get(`${path(idEvent)}/${roundNumber}`)
+    round.value = res.data
+    return round.value
   }
 
   async function getRounds(idEvent, params) {
