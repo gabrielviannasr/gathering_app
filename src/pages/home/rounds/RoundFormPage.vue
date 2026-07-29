@@ -2,7 +2,7 @@
   <q-page class="page-bg">
     <!-- CARD DO EVENTO -->
     <div class="q-pa-md">
-      <EventHeaderCard v-if="event" :event="event" />
+      <EventCard :showArrow="false" :event="event" v-if="event" />
       <q-skeleton v-else height="120px" class="q-ma-md" />
     </div>
 
@@ -145,7 +145,6 @@
             :key="player.id"
             class="list-card q-pa-sm"
             :class="{ 'round-player-selected': selectedPlayer?.id === player.id }"
-            clickable
             @click="selectPlayer(player)"
           >
             <div class="row items-center no-wrap">
@@ -179,12 +178,12 @@
         <div v-else class="text-grey q-mt-sm">Nenhum jogador na rodada.</div>
 
         <q-btn
-          rounded
           no-caps
-          class="add-btn full-width q-mt-md"
+          rounded
           icon="emoji_events"
           label="Definir Vencedor"
           :disable="!selectedPlayer"
+          class="add-btn full-width q-mt-md"
           @click="defineWinner"
         />
       </q-card>
@@ -193,12 +192,22 @@
     <!-- BOTÕES FINAIS -->
     <div class="q-pa-md">
       <div class="row q-col-gutter-sm">
-        <div class="col">
-          <q-btn outline rounded no-caps class="full-width" label="Cancelar" @click="cancel" />
+        <!-- Botão Cancelar -->
+        <div class="col-6">
+          <q-btn
+            no-caps
+            rounded
+            outline
+            label="Cancelar"
+            color="grey-8"
+            class="full-width"
+            @click="cancel"
+          />
         </div>
 
-        <div class="col">
-          <q-btn rounded no-caps class="add-btn full-width" label="Salvar" @click="save" />
+        <!-- Botão Salvar -->
+        <div class="col-6">
+          <q-btn push no-caps rounded label="Salvar" class="add-btn full-width" @click="save" />
         </div>
       </div>
     </div>
@@ -206,75 +215,56 @@
 </template>
 
 <script setup>
-  import { ref, computed, onMounted, watch } from 'vue'
-  import { useRoute, useRouter } from 'vue-router'
-
-  import EventHeaderCard from 'src/components/events/EventHeaderCard.vue'
+  /* COMPONENTS */
+  import EventCard from 'src/components/events/EventCard.vue'
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
   import GlobalSelect from 'src/components/ui/GlobalSelect.vue'
 
+  /* VUE */
+  import { ref, computed, onMounted, watch } from 'vue'
+  import { useRoute, useRouter } from 'vue-router'
+
+  /* STORES */
   import { useEventStore } from 'src/stores/event'
   import { useFormatStore } from 'src/stores/format'
   import { usePlayerStore } from 'src/stores/player'
   import { useRoundStore } from 'src/stores/round'
 
-  /* ------------- ROTAS / STORES ---------------- */
+  /* ROUTES */
   const route = useRoute()
   const router = useRouter()
 
-  const eventStore = useEventStore()
-  const formatStore = useFormatStore()
-  const playerStore = usePlayerStore()
-  const roundStore = useRoundStore()
-
-  /* ------------- PARAMS ---------------- */
+  /* PARAMS */
   const idEvent = Number(route.params.idEvent)
   const roundParam = route.params.round
   const isNewRound = roundParam === undefined
   const roundNumber = isNewRound ? null : Number(roundParam)
 
-  /* ----------------- DATA ---------------- */
+  /* STORES */
+  const eventStore = useEventStore()
+  const formatStore = useFormatStore()
+  const playerStore = usePlayerStore()
+  const roundStore = useRoundStore()
+
+  /* COMPUTED */
   const event = computed(() => eventStore.event)
   const round = ref(null)
 
   const formatOptions = computed(() =>
-    formatStore.formats.map(f => ({
-      label: f.name,
-      value: f.id
+    formatStore.formats.map(format => ({
+      label: format.name,
+      value: format.id
     }))
   )
-
-  /* lista de jogadores dessa rodada */
-  // const roundPlayers = ref([])
-
-  /* configs do evento (fees) */
-  // const eventConfigs = computed(() => event.value?.fees ?? [])
-
-  /* config ativa conforme qtd jogadores */
-  // const activeConfig = computed(() => {
-  //   const qty = roundPlayers.value.length
-
-  //   // 1. Buscar config definida no evento
-  //   const config = eventConfigs.value.find(c => c.players === qty)
-
-  //   if (config) return config
-
-  //   // 2. Fallback dinâmico
-  //   return {
-  //     players: qty,
-  //     prize: qty * (event.value?.roundFee ?? 0),
-  //     loserPot: 0
-  //   }
-  // })
 
   /* selecionado para definir vencedor */
   const selectedPlayer = ref(null)
 
-  /* ---------------- LOAD ---------------- */
+  /* LIFECYCLE */
   onMounted(load)
 
+  /* FUNCTIONS */
   async function load() {
-    await formatStore.getFormats()
     await eventStore.getEvent(idEvent)
 
     if (!event.value) {
@@ -282,6 +272,8 @@
       router.back()
       return
     }
+
+    await formatStore.getFormats()
 
     if (isNewRound) {
       round.value = {
@@ -308,7 +300,6 @@
     }
   }
 
-  /* ----------------- FUNÇÕES ---------------- */
   function toggleCanceled() {
     round.value.canceled = !round.value.canceled
   }

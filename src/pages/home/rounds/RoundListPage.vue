@@ -2,70 +2,29 @@
   <q-page v-if="event" class="page-bg">
     <!-- CARD DO EVENTO -->
     <div class="q-pa-md">
-      <EventHeaderCard :event="event" />
+      <EventCard :showArrow="false" :event="event" />
     </div>
 
     <!-- BOTÃO ADICIONAR -->
     <div class="q-pa-md">
-      <q-btn class="add-btn full-width" rounded unelevated no-caps @click="openAddForm">
+      <q-btn class="add-btn full-width" rounded unelevated no-caps @click="onAdd">
         <q-icon name="add" class="q-mr-sm" />
         Adicionar Rodada
       </q-btn>
     </div>
 
-    <!-- LISTA DE RODADAS -->
+    <!-- LISTA -->
     <div class="q-pa-md q-gutter-md">
-      <q-card
+      <RoundCard
         v-for="round in rounds"
         :key="round.id"
-        class="list-card q-pa-md"
-        clickable
-        @click="open(round)"
-      >
-        <div class="row items-center no-wrap">
-          <!-- NÚMERO DA RODADA -->
-          <div class="round-number-circle q-mr-md">
-            {{ round.round }}
-          </div>
-
-          <!-- INFO -->
-          <div class="col">
-            <div class="text-caption q-mt-xs">
-              Formato: {{ round.format?.name || '—' }} • {{ round.playersTotal }} jogadores
-            </div>
-
-            <div class="text-subtitle2 q-mt-xs">
-              <template v-if="round.playerWinner">
-                Vencedor:
-                <span class="text-bold text-primary">
-                  {{ round.playerWinner.name }}
-                </span>
-              </template>
-
-              <template v-else>
-                <span class="text-caption">Sem vencedor</span>
-              </template>
-            </div>
-
-            <q-badge
-              class="q-mt-sm"
-              :color="round.canceled ? 'negative' : 'positive'"
-              align="middle"
-            >
-              {{ round.canceled ? 'Cancelada' : 'Ativa' }}
-            </q-badge>
-          </div>
-
-          <div class="q-ml-auto">
-            <q-icon name="chevron_right" size="22px" />
-          </div>
-        </div>
-      </q-card>
+        :round="round"
+        class="list-card"
+        @click="openRound(round)"
+      />
 
       <!-- PAGINAÇÃO -->
-      <div class="q-mt-md">
-        <q-pagination v-model="page" :max="maxPages" max-pages="5" />
-      </div>
+      <q-pagination v-model="page" :max="maxPages" max-pages="5" />
     </div>
 
     <!-- BOTÃO FINALIZAR EVENTO -->
@@ -101,22 +60,28 @@
 
 <script setup>
   /* COMPONENTS */
-  import EventHeaderCard from 'src/components/events/EventHeaderCard.vue'
+  import EventCard from 'src/components/events/EventCard.vue'
+  import RoundCard from 'src/components/rounds/RoundCard.vue'
 
-  /* VUE + PINIA */
+  /* VUE */
   import { computed, onMounted, ref, watch } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
 
+  /* STORES */
   import { useEventStore } from 'src/stores/event'
   import { useRoundStore } from 'src/stores/round'
 
+  /* NAVIGATION */
   import { useRoundNavigator } from 'src/composables/navigation'
 
   /* NAVIGATION */
   const { goToRoundNew, goToRoundEdit } = useRoundNavigator()
 
+  /* ROUTES */
   const route = useRoute()
   const router = useRouter()
+
+  /* PARAMS */
   const idEvent = Number(route.params.idEvent)
 
   /* STORES */
@@ -125,15 +90,29 @@
 
   /* COMPUTED */
   const event = computed(() => eventStore.event)
-
-  /* ROUNDS DO EVENTO */
   const rounds = computed(() => roundStore.rounds?.content || [])
 
   /* PAGINATION */
   const page = ref(1)
-  const perPage = 3
+  const perPage = 10
   const maxPages = computed(() => roundStore.rounds?.totalPages || 1)
 
+  /* LIFECYCLE */
+  onMounted(async () => {
+    await eventStore.getEvent(idEvent)
+
+    if (!event.value) {
+      console.warn('EVENT NOT FOUND:', idEvent)
+      router.back()
+      return
+    }
+
+    await load()
+  })
+
+  watch(page, load)
+
+  /* FUNCTIONS */
   async function load() {
     await roundStore.getRoundsPage(idEvent, {
       page: page.value - 1,
@@ -141,28 +120,11 @@
     })
   }
 
-  /* ---------------- LOAD ---------------- */
-  onMounted(async () => {
-    await eventStore.getEvent(idEvent)
-    await load()
-
-    if (!event.value) {
-      console.warn('EVENT NOT FOUND:', idEvent)
-      router.back()
-      return
-    }
-  })
-
-  watch(page, () => {
-    load()
-  })
-
-  /* OPEN ROUND FORM */
-  function openAddForm() {
+  function onAdd() {
     goToRoundNew(idEvent)
   }
 
-  function open(round) {
+  function openRound(round) {
     goToRoundEdit(idEvent, round.round)
   }
 

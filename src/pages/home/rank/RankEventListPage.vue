@@ -73,6 +73,7 @@
 
   /* COMPUTED */
   const events = computed(() => eventStore.events?.content || [])
+
   const formatOptions = computed(() => [
     ...formatStore.formats.map(format => ({
       label: format.name,

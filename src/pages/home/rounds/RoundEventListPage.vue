@@ -1,14 +1,16 @@
 <template>
   <q-page class="page-bg">
-    <!-- ===== FILTROS ===== -->
+    <!-- FILTROS -->
     <div class="q-pa-md">
       <q-card class="q-pa-md form-card">
+        <!-- Title -->
         <div class="form-section-title">Filtros</div>
 
         <div class="row q-col-gutter-sm q-mt-sm">
           <!-- Formato -->
-          <div class="col">
+          <div class="col-12">
             <GlobalSelect
+              clearable
               label="Formato"
               :options="formatOptions"
               v-model="filters.format"
@@ -18,7 +20,7 @@
           </div>
 
           <!-- Mês -->
-          <div class="col">
+          <!-- <div class="col">
             <GlobalSelect
               label="Mês"
               :options="monthOptions"
@@ -26,7 +28,7 @@
               emit-value
               map-options
             />
-          </div>
+          </div> -->
         </div>
       </q-card>
     </div>
@@ -48,13 +50,19 @@
 </template>
 
 <script setup>
+  /* COMPONENTS */
   import EventCard from 'src/components/events/EventCard.vue'
   import GlobalSelect from 'src/components/ui/GlobalSelect.vue'
+
+  /* VUE */
   import { computed, onMounted, ref, watch } from 'vue'
-  import { useRoundNavigator } from 'src/composables/navigation'
+
+  /* STORES */
   import { useEventStore } from 'src/stores/event'
   import { useFormatStore } from 'src/stores/format'
-  import { monthOptions } from 'src/constants/months'
+
+  /* NAVIGATION */
+  import { useRoundNavigator } from 'src/composables/navigation'
 
   /* NAVIGATION */
   const { goToRounds } = useRoundNavigator()
@@ -66,41 +74,42 @@
   /* COMPUTED */
   const events = computed(() => eventStore.events?.content || [])
 
-  /* FILTERS */
-  const filters = ref({ format: null, month: null })
-
   const formatOptions = computed(() => [
-    { label: 'Todos', value: null },
     ...formatStore.formats.map(format => ({
       label: format.name,
       value: format.id
     }))
   ])
 
+  /* FILTERS */
+  const filters = ref({ format: null })
+
   /* PAGINATION */
   const page = ref(1)
   const perPage = 4
   const maxPages = computed(() => eventStore.events?.totalPages || 1)
 
-  /* ---------------- LOAD ---------------- */
+  /* LIFECYCLE */
   onMounted(async () => {
     await formatStore.getFormats()
     await load()
   })
 
+  watch(page, load)
+
   watch(
     filters,
     () => {
-      page.value = 1
-      load()
+      if (page.value !== 1) {
+        page.value = 1
+      } else {
+        load()
+      }
     },
     { deep: true }
   )
 
-  watch(page, () => {
-    load()
-  })
-
+  /* FUNCTIONS */
   async function load() {
     await eventStore.getEventsPage({
       ...filters.value,

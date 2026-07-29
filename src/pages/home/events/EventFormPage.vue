@@ -103,14 +103,20 @@
     <div class="row q-col-gutter-md q-pa-md">
       <!-- Botão Cancelar -->
       <div class="col-6">
-        <q-btn no-caps rounded outline color="grey-8" class="full-width" @click="cancel">
-          Cancelar
-        </q-btn>
+        <q-btn
+          no-caps
+          rounded
+          outline
+          label="Cancelar"
+          color="grey-8"
+          class="full-width"
+          @click="cancel"
+        />
       </div>
 
       <!-- Botão Salvar -->
       <div class="col-6">
-        <q-btn no-caps push rounded class="add-btn full-width" @click="save"> Salvar </q-btn>
+        <q-btn Push no-caps rounded label="Salvar" class="add-btn full-width" @click="save" />
       </div>
     </div>
   </q-page>

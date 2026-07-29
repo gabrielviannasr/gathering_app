@@ -14,14 +14,20 @@
         <div class="row q-col-gutter-md q-mt-md">
           <!-- Botão Cancelar -->
           <div class="col-6">
-            <q-btn no-caps rounded outline color="grey-8" class="full-width" @click="cancel"
-              >Cancelar</q-btn
-            >
+            <q-btn
+              no-caps
+              rounded
+              outline
+              label="Cancelar"
+              color="grey-8"
+              class="full-width"
+              @click="cancel"
+            />
           </div>
 
           <!-- Botão Salvar -->
           <div class="col-6">
-            <q-btn push no-caps rounded type="submit" class="add-btn full-width"> Salvar </q-btn>
+            <q-btn push no-caps rounded label="Salvar" class="add-btn full-width" @click="save" />
           </div>
         </div>
       </div>
