@@ -29,7 +29,7 @@
 </template>
 
 <script setup>
-  import { pluralize } from 'src/utils/text.js'
+  import { pluralize } from 'src/utils'
 
   defineProps({
     gatheringSummary: { type: Object, required: true }

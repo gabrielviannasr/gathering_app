@@ -84,12 +84,12 @@
 
           <div class="row items-center justify-between q-mb-sm">
             <div class="label">Premiação</div>
-            <div class="value text-right">R$ {{ format(round?.prize ?? 0) }}</div>
+            <div class="value text-right">R$ {{ formatCurrency(round?.prize ?? 0) }}</div>
           </div>
 
           <div class="row items-center justify-between q-mt-md">
             <div class="label">Pote dos Derrotados</div>
-            <div class="value text-right">R$ {{ format(round?.loserPot ?? 0) }}</div>
+            <div class="value text-right">R$ {{ formatCurrency(round?.loserPot ?? 0) }}</div>
           </div>
         </div>
       </q-card>
@@ -147,7 +147,7 @@
             :key="player.id"
             :player="player"
             class="list-card q-pa-sm"
-            :class="{ 'round-player-selected': selectedPlayer?.id === player.id }"
+            :class="{ 'round-player-selected': playerSelected?.id === player.id }"
             @click="selectPlayer(player)"
           >
             <template #actions>
@@ -177,7 +177,7 @@
           rounded
           icon="emoji_events"
           label="Definir Vencedor"
-          :disable="!selectedPlayer"
+          :disable="!playerSelected"
           class="add-btn full-width q-mt-md"
           @click="defineWinner"
         />
@@ -210,12 +210,6 @@
 </template>
 
 <script setup>
-  /* COMPONENTS */
-  import EventCard from 'src/components/events/EventCard.vue'
-  import GlobalInput from 'src/components/ui/GlobalInput.vue'
-  import GlobalSelect from 'src/components/ui/GlobalSelect.vue'
-  import PlayerCard from 'src/components/players/PlayerCard.vue'
-
   /* VUE */
   import { ref, computed, onMounted, watch } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
@@ -225,6 +219,15 @@
   import { useFormatStore } from 'src/stores/format'
   import { usePlayerStore } from 'src/stores/player'
   import { useRoundStore } from 'src/stores/round'
+
+  /* COMPONENTS */
+  import EventCard from 'src/components/events/EventCard.vue'
+  import GlobalInput from 'src/components/ui/GlobalInput.vue'
+  import GlobalSelect from 'src/components/ui/GlobalSelect.vue'
+  import PlayerCard from 'src/components/players/PlayerCard.vue'
+
+  /* UTILITIES */
+  import { formatCurrency } from 'src/utils'
 
   /* ROUTES */
   const route = useRoute()
@@ -254,7 +257,7 @@
   )
 
   /* selecionado para definir vencedor */
-  const selectedPlayer = ref(null)
+  const playerSelected = ref(null)
 
   /* LIFECYCLE */
   onMounted(load)
@@ -301,7 +304,7 @@
   }
 
   function selectPlayer(player) {
-    selectedPlayer.value = player
+    playerSelected.value = player
   }
 
   function addPlayer(player) {
@@ -318,7 +321,7 @@
     if (round.value.idPlayerWinner === player.id) {
       round.value.idPlayerWinner = null
       round.value.playerWinner = null
-      selectedPlayer.value = null
+      playerSelected.value = null
     }
 
     updateRoundFees()
@@ -352,15 +355,10 @@
   }
 
   function defineWinner() {
-    if (!selectedPlayer.value) return
+    if (!playerSelected.value) return
 
-    round.value.idPlayerWinner = selectedPlayer.value.id
-    round.value.playerWinner = selectedPlayer.value
-  }
-
-  function format(v) {
-    if (!v) return '0,00'
-    return Number(v).toLocaleString('pt-BR', { minimumFractionDigits: 2 })
+    round.value.idPlayerWinner = playerSelected.value.id
+    round.value.playerWinner = playerSelected.value
   }
 
   function cancel() {
@@ -408,15 +406,6 @@
 </script>
 
 <style scoped>
-  /* Espaçamento dos rows do card da taxa */
-  .item-row {
-    padding: 10px 0;
-    border-bottom: 1px solid #eee;
-  }
-  .item-row:last-child {
-    border-bottom: none;
-  }
-
   .label {
     color: #555;
     font-size: 14px;

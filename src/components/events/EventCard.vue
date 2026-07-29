@@ -33,7 +33,7 @@
 </template>
 
 <script setup>
-  import { formatDateShort } from 'src/utils/date'
+  import { formatDateShort } from 'src/utils'
 
   defineProps({
     event: { type: Object, required: true },

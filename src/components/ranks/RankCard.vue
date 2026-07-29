@@ -35,7 +35,7 @@
 </template>
 
 <script setup>
-  import { pluralize } from 'src/utils/text.js'
+  import { pluralize } from 'src/utils'
 
   defineProps({
     result: { type: Object, required: true },
