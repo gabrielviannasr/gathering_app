@@ -7,38 +7,47 @@
 
     <!-- CARD DOS POTES -->
     <div class="q-pa-md">
-      <GatheringBodyCard :gatheringSummary="gatheringSummary" />
+      <PotSummaryCard :pots="gatheringSummary" />
     </div>
 
-    <!-- LISTA DE EVENTOS -->
+    <!-- LISTA -->
     <div class="q-pa-md q-gutter-md" v-if="events.length > 0">
       <EventCard
-        v-for="item in events"
-        :key="item.id"
-        :event="item"
-        showPots
-        @open="openEvent(item)"
+        v-for="event in events"
+        :key="event.id"
+        :event="event"
+        class="list-card"
+        @click="openEvent(event)"
       />
     </div>
   </q-page>
 </template>
 
 <script setup>
-  import GatheringBodyCard from 'src/components/gatherings/GatheringBodyCard.vue'
-  import GatheringSummaryCard from 'src/components/gatherings/GatheringSummaryCard.vue'
+  /* COMPONENTS */
   import EventCard from 'src/components/events/EventCard.vue'
+  import GatheringSummaryCard from 'src/components/gatherings/GatheringSummaryCard.vue'
+  import PotSummaryCard from 'src/components/pots/PotSummaryCard.vue'
 
+  /* VUE */
   import { computed, onMounted } from 'vue'
-  import { useRoute } from 'vue-router'
+  import { useRoute, useRouter } from 'vue-router'
 
-  import { useRoundNavigator } from 'src/composables/navigation'
+  /* STORES */
   import { useDashboardStore } from 'src/stores/dashboard'
   import { useEventStore } from 'src/stores/event'
 
   /* NAVIGATION */
-  const { goToRounds } = useRoundNavigator()
+  import { useRankNavigator } from 'src/composables/navigation'
 
+  /* NAVIGATION */
+  const { goToRankEvent } = useRankNavigator()
+
+  /* ROUTES */
   const route = useRoute()
+  const router = useRouter()
+
+  /* PARAMS */
   const idGathering = Number(route.params.id)
 
   /* STORES */
@@ -47,19 +56,27 @@
 
   /* COMPUTED */
   const gatheringSummary = computed(() => dashboardStore.gatheringSummary)
-  const events = computed(() => eventStore.events)
+  const events = computed(() => eventStore.events ?? [])
 
-  /* ---------------- LOAD ---------------- */
+  /* LIFECYCLE */
   onMounted(async () => {
     await load()
   })
 
+  /* FUNCTIONS */
   async function load() {
     await dashboardStore.getGatheringSummary(idGathering)
-    await eventStore.getEvents({ idGathering: idGathering })
+
+    if (!gatheringSummary.value) {
+      console.warn('GATHERING SUMMARY NOT FOUND:', idGathering)
+      router.back()
+      return
+    }
+
+    await eventStore.getEvents({ idGathering })
   }
 
   function openEvent(event) {
-    goToRounds(event.id)
+    goToRankEvent(event.id)
   }
 </script>
