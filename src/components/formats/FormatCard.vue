@@ -13,8 +13,10 @@
         <div class="text-caption text-grey">{{ format.lifeCount }} pontos de vida</div>
       </div>
 
-      <!-- Seta -->
-      <q-icon v-if="showArrow" name="chevron_right" class="q-ml-auto" />
+      <slot name="actions">
+        <!-- Seta -->
+        <q-icon v-if="showArrow" name="chevron_right" />
+      </slot>
     </div>
   </q-card>
 </template>
