@@ -4,6 +4,7 @@ import { ref } from 'vue'
 
 export const useRoundStore = defineStore('round', () => {
   const path = idEvent => `/event/${idEvent}/round`
+
   const round = ref(null)
   const rounds = ref([])
 
@@ -14,23 +15,15 @@ export const useRoundStore = defineStore('round', () => {
   }
 
   async function getRounds(idEvent, params) {
-    try {
-      const res = await api.get(`${path(idEvent)}`, { params })
-      rounds.value = res.data
-      return rounds.value
-    } catch (err) {
-      return err
-    }
+    const res = await api.get(`${path(idEvent)}`, { params })
+    rounds.value = res.data
+    return rounds.value
   }
 
   async function getRoundsPage(idEvent, params) {
-    try {
-      const res = await api.get(`${path(idEvent)}/page`, { params })
-      rounds.value = res.data
-      return rounds.value
-    } catch (err) {
-      return err
-    }
+    const res = await api.get(`${path(idEvent)}/page`, { params })
+    rounds.value = res.data
+    return rounds.value
   }
 
   async function createRound(idEvent, data) {
@@ -46,9 +39,11 @@ export const useRoundStore = defineStore('round', () => {
   return {
     round,
     rounds,
+
     getRound,
     getRounds,
     getRoundsPage,
+
     createRound,
     updateRound
   }

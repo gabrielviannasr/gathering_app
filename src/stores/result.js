@@ -4,33 +4,27 @@ import { ref } from 'vue'
 
 export const useResultStore = defineStore('result', () => {
   const path = '/result'
+
   const result = ref(null)
   const results = ref([])
 
-  async function getResults(idEvent) {
-    try {
-      const res = await api.get(`${path}/${idEvent}`)
-      results.value = res.data
-      return results.value
-    } catch (err) {
-      return err
-    }
+  async function getResult(idEvent, idPlayer) {
+    const res = await api.get(`${path}/${idEvent}/player/${idPlayer}`)
+    result.value = res.data
+    return result.value
   }
 
-  async function getResult(idEvent, idPlayer) {
-    try {
-      const res = await api.get(`${path}/${idEvent}/player/${idPlayer}`)
-      result.value = res.data
-      return result.value
-    } catch (err) {
-      return err
-    }
+  async function getResults(idEvent) {
+    const res = await api.get(`${path}/${idEvent}`)
+    results.value = res.data
+    return results.value
   }
 
   return {
     result,
     results,
-    getResults,
-    getResult
+
+    getResult,
+    getResults
   }
 })

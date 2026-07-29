@@ -4,37 +4,26 @@ import { ref } from 'vue'
 
 export const useEventStore = defineStore('event', () => {
   const path = '/event'
+
   const event = ref(null)
   const events = ref([])
 
   async function getEvent(id) {
-    try {
-      const res = await api.get(`${path}/${id}`)
-      this.event = res.data
-      return this.event
-    } catch (err) {
-      return err
-    }
+    const res = await api.get(`${path}/${id}`)
+    event.value = res.data
+    return event.value
   }
 
   async function getEvents(params) {
-    try {
-      const res = await api.get(`${path}`, { params })
-      this.events = res.data
-      return this.events
-    } catch (err) {
-      return err
-    }
+    const res = await api.get(`${path}`, { params })
+    events.value = res.data
+    return events.value
   }
 
   async function getEventsPage(params) {
-    try {
-      const res = await api.get(`${path}/page`, { params })
-      this.events = res.data
-      return this.events
-    } catch (err) {
-      return err
-    }
+    const res = await api.get(`${path}/page`, { params })
+    events.value = res.data
+    return events.value
   }
 
   async function createEvent(data) {
@@ -50,9 +39,11 @@ export const useEventStore = defineStore('event', () => {
   return {
     event,
     events,
+
     getEvent,
     getEvents,
     getEventsPage,
+
     createEvent,
     updateEvent
   }

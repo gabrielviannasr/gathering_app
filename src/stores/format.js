@@ -4,46 +4,26 @@ import { ref } from 'vue'
 
 export const useFormatStore = defineStore('format', () => {
   const path = '/format'
+
   const format = ref(null)
-  const formats = ref([
-    //   { id: 1, name: 'Commander', lifeCount: 40, idFormatType: 1 },
-    //   { id: 2, name: 'Conquest', lifeCount: 30, idFormatType: 1 },
-    //   { id: 3, name: 'Tiny Leader', lifeCount: 30, idFormatType: 1 },
-    //   { id: 4, name: 'Detetive', lifeCount: 0, idFormatType: 5 },
-    //   { id: 5, name: 'Gartic', lifeCount: 0, idFormatType: 3 },
-    //   { id: 6, name: 'Porrinha', lifeCount: 0, idFormatType: 2 },
-    //   { id: 7, name: 'Stop', lifeCount: 0, idFormatType: 4 }
-  ])
+  const formats = ref([])
+
+  async function getFormat(id) {
+    const res = await api.get(`${path}/${id}`)
+    format.value = res.data
+    return format.value
+  }
 
   async function getFormats(params) {
-    try {
-      const res = await api.get(`${path}`, { params })
-      this.formats = res.data
-      return this.formats
-    } catch (err) {
-      return err
-    }
+    const res = await api.get(`${path}`, { params })
+    formats.value = res.data
+    return formats.value
   }
 
   async function getFormatsPage(params) {
-    try {
-      const res = await api.get(`${path}/page`, { params })
-      this.formats = res.data
-      return this.formats
-    } catch (err) {
-      return err
-    }
-  }
-
-  async function getFormat(id) {
-    // return formats.value.find(p => p.id === id)
-    try {
-      const res = await api.get(`${path}/${id}`)
-      this.format = res.data
-      return this.format
-    } catch (err) {
-      return err
-    }
+    const res = await api.get(`${path}/page`, { params })
+    formats.value = res.data
+    return formats.value
   }
 
   async function createFormat(data) {
@@ -59,9 +39,11 @@ export const useFormatStore = defineStore('format', () => {
   return {
     format,
     formats,
+
     getFormat,
     getFormats,
     getFormatsPage,
+
     createFormat,
     updateFormat
   }
