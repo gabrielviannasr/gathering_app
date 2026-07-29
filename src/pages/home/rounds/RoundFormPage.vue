@@ -134,28 +134,23 @@
       </q-card>
     </div>
 
-    <!-- LISTA DE JOGADORES DA RODADA -->
+    <!-- CARD DE JOGADORES DA RODADA -->
     <div class="q-pa-md">
       <q-card class="q-pa-md form-card">
+        <!-- Title -->
         <div class="form-section-title">Jogadores da Rodada</div>
 
         <div v-if="round?.players.length > 0" class="q-mt-sm q-gutter-sm">
-          <q-card
+          <!-- LISTA -->
+          <PlayerCard
             v-for="player in round.players"
             :key="player.id"
+            :player="player"
             class="list-card q-pa-sm"
             :class="{ 'round-player-selected': selectedPlayer?.id === player.id }"
             @click="selectPlayer(player)"
           >
-            <div class="row items-center no-wrap">
-              <div class="avatar-circle q-mr-md">
-                <div class="avatar-text">{{ initials(player.name) }}</div>
-              </div>
-
-              <div class="col">
-                <div class="text-subtitle2 text-bold">{{ player.name }}</div>
-              </div>
-
+            <template #actions>
               <q-icon
                 v-if="round.idPlayerWinner === player.id"
                 name="emoji_events"
@@ -164,15 +159,15 @@
               />
 
               <q-btn
+                flat
                 round
                 dense
-                flat
                 color="negative"
                 icon="delete"
                 @click.stop="removePlayer(player)"
               />
-            </div>
-          </q-card>
+            </template>
+          </PlayerCard>
         </div>
 
         <div v-else class="text-grey q-mt-sm">Nenhum jogador na rodada.</div>
@@ -219,6 +214,7 @@
   import EventCard from 'src/components/events/EventCard.vue'
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
   import GlobalSelect from 'src/components/ui/GlobalSelect.vue'
+  import PlayerCard from 'src/components/players/PlayerCard.vue'
 
   /* VUE */
   import { ref, computed, onMounted, watch } from 'vue'
@@ -360,14 +356,6 @@
 
     round.value.idPlayerWinner = selectedPlayer.value.id
     round.value.playerWinner = selectedPlayer.value
-  }
-
-  function initials(name) {
-    return name
-      .split(' ')
-      .map(n => n[0])
-      .join('')
-      .toUpperCase()
   }
 
   function format(v) {
