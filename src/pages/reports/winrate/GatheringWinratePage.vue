@@ -5,7 +5,7 @@
       <GatheringSummaryCard :gatheringSummary="gatheringSummary" v-if="gatheringSummary" />
     </div>
 
-    <!-- CARD DO CHART -->
+    <!-- CARD DO GRÁFICO -->
     <div class="q-pa-md">
       <WinrateChartCard :winrateData="winrateData" v-if="winrateData" />
     </div>

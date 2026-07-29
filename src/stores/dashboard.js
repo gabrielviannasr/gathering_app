@@ -12,63 +12,39 @@ export const useDashboardStore = defineStore('dashboard', () => {
   const wallets = ref([])
 
   async function getGatheringFormats(idGathering) {
-    try {
-      const res = await api.get(`${path}/format/${idGathering}`)
-      gatheringFormats.value = res.data
-      return gatheringFormats.value
-    } catch (err) {
-      return err
-    }
+    const res = await api.get(`${path}/format/${idGathering}`)
+    gatheringFormats.value = res.data
+    return gatheringFormats.value
   }
 
   async function getGatheringResults(idGathering) {
-    try {
-      const res = await api.get(`${path}/result/${idGathering}`)
-      gatheringResults.value = res.data
-      return gatheringResults.value
-    } catch (err) {
-      return err
-    }
+    const res = await api.get(`${path}/result/${idGathering}`)
+    gatheringResults.value = res.data
+    return gatheringResults.value
   }
 
   async function getGatheringResult(idGathering, idPlayer) {
-    try {
-      const res = await api.get(`${path}/result/${idGathering}/player/${idPlayer}`)
-      gatheringResult.value = res.data
-      return gatheringResult.value
-    } catch (err) {
-      return err
-    }
+    const res = await api.get(`${path}/result/${idGathering}/player/${idPlayer}`)
+    gatheringResult.value = res.data
+    return gatheringResult.value
   }
 
   async function getGatheringSummary(idGathering) {
-    try {
-      const res = await api.get(`${path}/summary/${idGathering}`)
-      gatheringSummary.value = res.data
-      return gatheringSummary.value
-    } catch (err) {
-      return err
-    }
+    const res = await api.get(`${path}/summary/${idGathering}`)
+    gatheringSummary.value = res.data
+    return gatheringSummary.value
   }
 
   async function getWallets(idGathering) {
-    try {
-      const res = await api.get(`${path}/wallet/${idGathering}`)
-      wallets.value = res.data
-      return wallets.value
-    } catch (err) {
-      return err
-    }
+    const res = await api.get(`${path}/wallet/${idGathering}`)
+    wallets.value = res.data
+    return wallets.value
   }
 
   async function getWallet(idGathering, idPlayer) {
-    try {
-      const res = await api.get(`${path}/wallet/${idGathering}/player/${idPlayer}`)
-      wallet.value = res.data
-      return wallet.value
-    } catch (err) {
-      return err
-    }
+    const res = await api.get(`${path}/wallet/${idGathering}/player/${idPlayer}`)
+    wallet.value = res.data
+    return wallet.value
   }
 
   return {
