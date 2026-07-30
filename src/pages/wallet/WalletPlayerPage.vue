@@ -44,11 +44,11 @@
   import { useDashboardStore } from 'src/stores/dashboard'
   import { useTransactionStore } from 'src/stores/transaction'
 
-  /* NAVIGATION */
+  /* COMPOSABLES */
   import { useRankNavigator } from 'src/composables/navigation'
   import { useWalletNavigator } from 'src/composables/navigation'
 
-  /* NAVIGATION */
+  /* COMPOSABLES */
   const { goToRankEvent, goToRankEventPlayer } = useRankNavigator()
   const { goToNewTransaction, goToEditTransaction } = useWalletNavigator()
 

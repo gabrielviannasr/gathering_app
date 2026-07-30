@@ -53,10 +53,10 @@
   /* STORES */
   import { useDashboardStore } from 'src/stores/dashboard'
 
-  /* NAVIGATION */
+  /* COMPOSABLES */
   import { useRankNavigator } from 'src/composables/navigation'
 
-  /* NAVIGATION */
+  /* COMPOSABLES */
   const { goToRankGatheringPlayer } = useRankNavigator()
 
   /* ROUTES */

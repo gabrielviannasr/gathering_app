@@ -50,10 +50,6 @@
 </template>
 
 <script setup>
-  /* COMPONENTS */
-  import EventCard from 'src/components/events/EventCard.vue'
-  import GlobalSelect from 'src/components/ui/GlobalSelect.vue'
-
   /* VUE */
   import { computed, onMounted, ref, watch } from 'vue'
 
@@ -61,10 +57,14 @@
   import { useEventStore } from 'src/stores/event'
   import { useFormatStore } from 'src/stores/format'
 
-  /* NAVIGATION */
+  /* COMPOSABLES */
   import { useRoundNavigator } from 'src/composables/navigation'
 
-  /* NAVIGATION */
+  /* COMPONENTS */
+  import EventCard from 'src/components/events/EventCard.vue'
+  import GlobalSelect from 'src/components/ui/GlobalSelect.vue'
+
+  /* COMPOSABLES */
   const { goToRounds } = useRoundNavigator()
 
   /* STORES */

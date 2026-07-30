@@ -61,10 +61,10 @@
   import { useEventStore } from 'src/stores/event'
   import { useFormatStore } from 'src/stores/format'
 
-  /* NAVIGATION */
+  /* COMPOSABLES */
   import { useRankNavigator } from 'src/composables/navigation'
 
-  /* NAVIGATION */
+  /* COMPOSABLES */
   const { goToRankEvent } = useRankNavigator()
 
   /* STORES */

@@ -12,15 +12,6 @@
 
             <!-- Pontos de Vida -->
             <GlobalNumberInput v-model="form.lifeCount" label="Pontos de Vida" :min="1" :step="5" />
-
-            <!-- <GlobalSelect
-              label="Tipo do Jogo"
-              :options="typeOptions"
-              v-model="form.idFormatType"
-              placeholder="Selecione o tipo"
-              emit-value
-              map-options
-            /> -->
           </div>
         </q-card>
 
@@ -50,38 +41,49 @@
 </template>
 
 <script setup>
-  import GlobalInput from 'src/components/ui/GlobalInput.vue'
-  import GlobalNumberInput from 'components/ui/GlobalNumberInput.vue'
-  // import GlobalSelect from 'src/components/ui/GlobalSelect.vue'
-
+  /* VUE */
   import { onMounted, ref } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
-  import { useFormatStore } from 'src/stores/format'
-  // import { useFormatTypeStore } from 'src/stores/formatType'
 
+  /* STORES */
+  import { useFormatStore } from 'src/stores/format'
+
+  /* COMPONENTS */
+  import GlobalInput from 'src/components/ui/GlobalInput.vue'
+  import GlobalNumberInput from 'components/ui/GlobalNumberInput.vue'
+
+  /* ROUTES */
   const route = useRoute()
   const router = useRouter()
 
-  const formatStore = useFormatStore()
-  // const typeStore = useFormatTypeStore()
-
+  /* PARAMS */
   const id = route.params.id
   const isEdit = !!id
 
+  /* ROUTES */
+  const formatStore = useFormatStore()
+
+  /* FORM */
   const form = ref({
     name: '',
     lifeCount: null,
     idFormatType: null
   })
 
-  // const typeOptions = computed(() =>
-  //   typeStore.types.map(t => ({
-  //     label: t.label,
-  //     value: t.id,
-  //     icon: t.icon
-  //   }))
-  // )
+  /* LIFECYCLE */
+  onMounted(async () => {
+    if (isEdit) {
+      const format = await formatStore.getFormat(id)
 
+      form.value = {
+        name: format.name,
+        lifeCount: format.lifeCount,
+        idFormatType: format.idFormatType
+      }
+    }
+  })
+
+  /* FUNCTIONS */
   async function save() {
     try {
       if (isEdit) {
@@ -99,16 +101,4 @@
   function cancel() {
     router.back()
   }
-
-  onMounted(async () => {
-    if (isEdit) {
-      const format = await formatStore.getFormat(id)
-
-      form.value = {
-        name: format.name,
-        lifeCount: format.lifeCount,
-        idFormatType: format.idFormatType
-      }
-    }
-  })
 </script>

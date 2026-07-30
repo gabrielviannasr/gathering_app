@@ -49,17 +49,17 @@
           <div class="text-subtitle2 text-bold">Status</div>
 
           <q-badge
+            rounded
             :color="form.canceled ? 'negative' : 'positive'"
             class="q-px-md q-py-xs text-bold"
-            rounded
           >
             {{ form.canceled ? 'Cancelada' : 'Ativa' }}
           </q-badge>
         </div>
 
         <q-btn
-          rounded
           no-caps
+          rounded
           class="add-btn full-width q-mt-md"
           :color="form.canceled ? 'positive' : 'negative'"
           :icon="form.canceled ? 'check_circle' : 'cancel'"
@@ -277,6 +277,7 @@
     round: 1,
     idFormat: null,
     idPlayerWinner: null,
+    playerWinner: null,
     canceled: false,
     playersTotal: 0,
     players: []

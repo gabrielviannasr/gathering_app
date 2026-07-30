@@ -17,8 +17,7 @@
 </template>
 
 <script setup>
-  // eslint-disable-next-line no-unused-vars
-  const props = defineProps({
+  defineProps({
     icon: String,
     title: String,
     subtitle: String,

@@ -58,22 +58,21 @@
 </template>
 
 <script setup>
-  /* COMPONENTS */
-  import EventCard from 'src/components/events/EventCard.vue'
-  import GlobalSelect from 'src/components/ui/GlobalSelect.vue'
-
   /* VUE */
   import { computed, onMounted, ref, watch } from 'vue'
 
   /* STORES */
   import { useEventStore } from 'src/stores/event'
   import { useFormatStore } from 'src/stores/format'
-  // import { monthOptions } from 'src/constants/months'
 
-  /* NAVIGATION */
+  /* COMPOSABLES */
   import { useEventNavigator } from 'src/composables/navigation'
 
-  /* NAVIGATION */
+  /* COMPONENTS */
+  import EventCard from 'src/components/events/EventCard.vue'
+  import GlobalSelect from 'src/components/ui/GlobalSelect.vue'
+
+  /* COMPOSABLES */
   const { goToEventNew, goToEventEdit } = useEventNavigator()
 
   /* STORES */

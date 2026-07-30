@@ -123,10 +123,6 @@
 </template>
 
 <script setup>
-  /* COMPONENTS */
-  import GlobalNumberInput from 'components/ui/GlobalNumberInput.vue'
-  import GlobalSelect from 'components/ui/GlobalSelect.vue'
-
   /* VUE */
   import { computed, onMounted, ref } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
@@ -134,6 +130,10 @@
   /* STORES */
   import { useEventStore } from 'src/stores/event'
   import { useFormatStore } from 'src/stores/format'
+
+  /* COMPONENTS */
+  import GlobalNumberInput from 'components/ui/GlobalNumberInput.vue'
+  import GlobalSelect from 'components/ui/GlobalSelect.vue'
 
   /* ROUTE */
   const route = useRoute()

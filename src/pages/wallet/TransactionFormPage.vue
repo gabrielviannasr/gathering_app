@@ -131,24 +131,24 @@
 </template>
 
 <script setup>
+  /* VUE */
+  import { computed, onMounted, ref } from 'vue'
+  import { useRoute, useRouter } from 'vue-router'
+
+  /* STORES */
+  import { useGatheringStore } from 'src/stores/gathering'
+  import { useDashboardStore } from 'src/stores/dashboard'
+  import { useTransactionStore } from 'src/stores/transaction'
+  import { useTransactionTypeStore } from 'src/stores/transactionType'
+
   /* CONSTANTS */
   import { TransactionType } from 'src/constants/transaction-type'
 
   /* COMPONENTS */
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
-  import GlobalNumberInput from 'components/ui/GlobalNumberInput.vue'
+  import GlobalNumberInput from 'src/components/ui/GlobalNumberInput.vue'
   import GlobalSelect from 'src/components/ui/GlobalSelect.vue'
   import WalletCard from 'src/components/wallet/WalletCard.vue'
-
-  /* VUE */
-  import { computed, onMounted, ref } from 'vue'
-  import { useRoute, useRouter } from 'vue-router'
-
-  /* PINIA */
-  import { useGatheringStore } from 'src/stores/gathering'
-  import { useDashboardStore } from 'src/stores/dashboard'
-  import { useTransactionStore } from 'src/stores/transaction'
-  import { useTransactionTypeStore } from 'src/stores/transactionType'
 
   /* ROUTE */
   const route = useRoute()
@@ -187,6 +187,8 @@
   const getType = id => typeStore.getType(id)
   const typeName = computed(() => getType(form.value.idTransactionType)?.name || '')
 
+  const confirmSave = ref(false)
+
   /* FORM */
   const form = ref({
     idGathering: gathering.value.id,
@@ -220,9 +222,6 @@
     }
   }
 
-  /* -------------------- SAVE -------------------- */
-  const confirmSave = ref(false)
-
   async function onSubmit() {
     confirmSave.value = true
   }
@@ -244,7 +243,6 @@
     router.back()
   }
 
-  /* -------------------- DELETE -------------------- */
   const confirmDelete = ref(false)
   async function deleteTransaction() {
     await transactionStore.deleteTransaction(idTransaction)
@@ -252,7 +250,6 @@
     router.back()
   }
 
-  /* -------------------- CANCEL -------------------- */
   function cancel() {
     router.back()
   }

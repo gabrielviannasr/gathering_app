@@ -26,9 +26,6 @@
 </template>
 
 <script setup>
-  /* COMPONENTS */
-  import GlobalInput from 'src/components/ui/GlobalInput.vue'
-
   /* VUE */
   import { onMounted, ref } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
@@ -36,10 +33,14 @@
   /* STORES */
   import { useGatheringStore } from 'src/stores/gathering'
 
-  /* NAVIGATION */
+  /* COMPONENTS */
+  import GlobalInput from 'src/components/ui/GlobalInput.vue'
+
+  /* ROUTES */
   const route = useRoute()
   const router = useRouter()
 
+  /* PARAMS */
   const id = route.params.id
   const isEdit = !!id
 

@@ -27,6 +27,7 @@
       </q-card>
     </div>
 
+    <!-- LISTA -->
     <div class="q-pa-md q-gutter-md">
       <PlayerCard
         v-for="player in players"
@@ -53,10 +54,10 @@
   /* STORES */
   import { usePlayerStore } from 'src/stores/player'
 
-  /* NAVIGATION */
+  /* COMPOSABLES */
   import { usePlayerNavigator } from 'src/composables/navigation'
 
-  /* NAVIGATION */
+  /* COMPOSABLES */
   const { goToPlayerNew, goToPlayerEdit } = usePlayerNavigator()
 
   /* STORES */

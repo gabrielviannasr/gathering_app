@@ -71,10 +71,10 @@
   import { useEventStore } from 'src/stores/event'
   import { useRoundStore } from 'src/stores/round'
 
-  /* NAVIGATION */
+  /* COMPOSABLES */
   import { useRoundNavigator } from 'src/composables/navigation'
 
-  /* NAVIGATION */
+  /* COMPOSABLES */
   const { goToRoundNew, goToRoundEdit } = useRoundNavigator()
 
   /* ROUTES */

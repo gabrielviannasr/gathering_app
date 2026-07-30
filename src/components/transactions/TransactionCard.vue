@@ -36,20 +36,13 @@
 
 <script setup>
   import { computed } from 'vue'
-  // import { usePlayerStore } from 'src/stores/player'
   import { useTransactionTypeStore } from 'src/stores/transactionType'
 
   const props = defineProps({ item: Object })
 
-  // const playerStore = usePlayerStore()
   const typeStore = useTransactionTypeStore()
 
   const type = computed(() => typeStore.getType(props.item.type.id))
-
-  // const playerName = computed(() => {
-  //   const p = playerStore.players.find(x => x.id === props.item.idPlayer)
-  //   return p?.name || 'Desconhecido'
-  // })
 
   const formattedAmount = computed(() =>
     props.item.amount.toLocaleString('pt-BR', {

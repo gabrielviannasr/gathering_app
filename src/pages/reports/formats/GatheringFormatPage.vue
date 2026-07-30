@@ -13,16 +13,16 @@
 </template>
 
 <script setup>
-  /* COMPONENTS */
-  import FormatChartCard from 'src/components/formats/FormatChartCard.vue'
-  import GatheringSummaryCard from 'src/components/gatherings/GatheringSummaryCard.vue'
-
   /* VUE */
   import { computed, onMounted } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
 
   /* STORES */
   import { useDashboardStore } from 'src/stores/dashboard'
+
+  /* COMPONENTS */
+  import FormatChartCard from 'src/components/formats/FormatChartCard.vue'
+  import GatheringSummaryCard from 'src/components/gatherings/GatheringSummaryCard.vue'
 
   /* ROUTES */
   const route = useRoute()

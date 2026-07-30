@@ -36,23 +36,44 @@
 </template>
 
 <script setup>
-  import GlobalInput from 'src/components/ui/GlobalInput.vue'
+  /* VUE */
   import { onMounted, ref } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
+
+  /* STORES */
   import { usePlayerStore } from 'src/stores/player'
 
-  const playerStore = usePlayerStore()
+  /* COMPONENTS */
+  import GlobalInput from 'src/components/ui/GlobalInput.vue'
 
+  /* ROUTES */
   const route = useRoute()
   const router = useRouter()
 
+  /* PARAMS */
   const id = route.params.id
   const isEdit = !!id
 
+  /* STORES */
+  const playerStore = usePlayerStore()
+
+  /* FORM */
   const form = ref({
     name: ''
   })
 
+  /* LIFECYCLE */
+  onMounted(async () => {
+    if (isEdit) {
+      const player = await playerStore.getPlayer(id)
+
+      form.value = {
+        name: player.name
+      }
+    }
+  })
+
+  /* FUNCTIONS */
   async function save() {
     try {
       if (isEdit) {
@@ -70,14 +91,4 @@
   function cancel() {
     router.back()
   }
-
-  onMounted(async () => {
-    if (isEdit) {
-      const player = await playerStore.getPlayer(id)
-
-      form.value = {
-        name: player.name
-      }
-    }
-  })
 </script>

@@ -71,11 +71,6 @@
 </template>
 
 <script setup>
-  /* COMPONENTS */
-  import GatheringSummaryCard from 'src/components/gatherings/GatheringSummaryCard.vue'
-  import GlobalSelect from 'src/components/ui/GlobalSelect.vue'
-  import TransactionCard from 'src/components/transactions/TransactionCard.vue'
-
   /* VUE */
   import { computed, onMounted, ref, watch } from 'vue'
 
@@ -87,10 +82,15 @@
   import { useTransactionStore } from 'src/stores/transaction'
   import { useTransactionTypeStore } from 'src/stores/transactionType'
 
-  /* NAVIGATION */
+  /* COMPOSABLES */
   import { useWalletNavigator } from 'src/composables/navigation'
 
-  /* NAVIGATION */
+  /* COMPONENTS */
+  import GatheringSummaryCard from 'src/components/gatherings/GatheringSummaryCard.vue'
+  import GlobalSelect from 'src/components/ui/GlobalSelect.vue'
+  import TransactionCard from 'src/components/transactions/TransactionCard.vue'
+
+  /* COMPOSABLES */
   const { goToRankEvent, goToRankEventPlayer } = useRankNavigator()
   const { goToEditTransaction } = useWalletNavigator()
 

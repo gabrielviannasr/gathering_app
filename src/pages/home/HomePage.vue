@@ -62,7 +62,7 @@
 </template>
 
 <script setup>
-  import CardItem from 'src/components/CardItem.vue'
+  /* COMPOSABLES */
   import { useEventNavigator } from 'src/composables/navigation'
   import { useFormatNavigator } from 'src/composables/navigation'
   import { useGatheringNavigator } from 'src/composables/navigation'
@@ -71,6 +71,10 @@
   import { useRoundNavigator } from 'src/composables/navigation'
   import { useRuleNavigator } from 'src/composables/navigation'
 
+  /* COMPONENTS */
+  import CardItem from 'src/components/CardItem.vue'
+
+  /* COMPOSABLES */
   const { goToEvents } = useEventNavigator()
   const { goToFormats } = useFormatNavigator()
   const { goToGatherings } = useGatheringNavigator()

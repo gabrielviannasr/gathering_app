@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-  import DefaultHeader from 'src/components/layout/DefaultHeader.vue'
   import AppFooterTabs from 'src/components/layout/AppFooterTabs.vue'
+  import DefaultHeader from 'src/components/layout/DefaultHeader.vue'
   import PageWrapper from 'src/components/layout/PageWrapper.vue'
 </script>

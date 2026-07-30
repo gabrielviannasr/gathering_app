@@ -67,10 +67,10 @@
   /* STORES */
   import { useGatheringStore } from 'src/stores/gathering'
 
-  /* NAVIGATION */
+  /* COMPOSABLES */
   import { useGatheringNavigator } from 'src/composables/navigation'
 
-  /* NAVIGATION */
+  /* COMPOSABLES */
   const { goToGatheringNew, goToGatheringEdit } = useGatheringNavigator()
 
   /* STORES */

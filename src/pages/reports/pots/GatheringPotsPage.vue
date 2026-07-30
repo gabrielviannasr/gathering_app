@@ -24,11 +24,6 @@
 </template>
 
 <script setup>
-  /* COMPONENTS */
-  import EventCard from 'src/components/events/EventCard.vue'
-  import GatheringSummaryCard from 'src/components/gatherings/GatheringSummaryCard.vue'
-  import PotSummaryCard from 'src/components/pots/PotSummaryCard.vue'
-
   /* VUE */
   import { computed, onMounted } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
@@ -37,10 +32,15 @@
   import { useDashboardStore } from 'src/stores/dashboard'
   import { useEventStore } from 'src/stores/event'
 
-  /* NAVIGATION */
+  /* COMPOSABLES */
   import { useRankNavigator } from 'src/composables/navigation'
 
-  /* NAVIGATION */
+  /* COMPONENTS */
+  import EventCard from 'src/components/events/EventCard.vue'
+  import GatheringSummaryCard from 'src/components/gatherings/GatheringSummaryCard.vue'
+  import PotSummaryCard from 'src/components/pots/PotSummaryCard.vue'
+
+  /* COMPOSABLES */
   const { goToRankEvent } = useRankNavigator()
 
   /* ROUTES */

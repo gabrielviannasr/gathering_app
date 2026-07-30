@@ -15,11 +15,6 @@
 </template>
 
 <script setup>
-  /* COMPONENTS */
-  import EventCard from 'src/components/events/EventCard.vue'
-  import GatheringSummaryCard from 'src/components/gatherings/GatheringSummaryCard.vue'
-  import RankDetailCard from 'src/components/ranks/RankDetailCard.vue'
-
   /* VUE */
   import { computed, onMounted } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
@@ -28,6 +23,11 @@
   import { useEventStore } from 'src/stores/event'
   import { useResultStore } from 'src/stores/result'
   import { useDashboardStore } from 'src/stores/dashboard'
+
+  /* COMPONENTS */
+  import EventCard from 'src/components/events/EventCard.vue'
+  import GatheringSummaryCard from 'src/components/gatherings/GatheringSummaryCard.vue'
+  import RankDetailCard from 'src/components/ranks/RankDetailCard.vue'
 
   /* ROUTES */
   const route = useRoute()

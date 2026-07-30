@@ -48,10 +48,10 @@
   import { useGatheringStore } from 'src/stores/gathering'
   import { useDashboardStore } from 'src/stores/dashboard'
 
-  /* NAVIGATION */
+  /* COMPOSABLES */
   import { useWalletNavigator } from 'src/composables/navigation'
 
-  /* NAVIGATION */
+  /* COMPOSABLES */
   const { goToWallet } = useWalletNavigator()
 
   /* STORES */

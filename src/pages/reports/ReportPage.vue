@@ -37,21 +37,24 @@
 </template>
 
 <script setup>
-  import CardItem from 'src/components/CardItem.vue'
-  import { useRouter } from 'vue-router'
-
+  /* STORES */
   import { useGatheringStore } from 'src/stores/gathering'
+
+  /* COMPOSABLES */
   import { useGatheringNavigator } from 'src/composables/navigation'
   import { useRankNavigator } from 'src/composables/navigation'
 
-  const gatheringStore = useGatheringStore()
+  /* COMPONENTS */
+  import CardItem from 'src/components/CardItem.vue'
+
+  /* COMPOSABLES */
   const { goToGatheringFormats, goToGatheringPots, goToGatheringWinrate } = useGatheringNavigator()
   const { goToRankGathering } = useRankNavigator()
 
-  // No futuro pode virar navegação própria
-  // eslint-disable-next-line no-unused-vars
-  const router = useRouter()
+  /* STORES */
+  const gatheringStore = useGatheringStore()
 
+  /* FUNCTIONS */
   function goToPotsReport() {
     const id = gatheringStore.gatheringSelected?.id
     if (!id) {

@@ -11,28 +11,22 @@
 
 <script setup>
   import Chart from 'chart.js/auto'
-
-  /* VUE */
   import { onMounted, onBeforeUnmount, ref, watch } from 'vue'
 
-  /* PROPS */
   // [{ playerName: 'Tobias', winrate: 50 }, ...]
   const props = defineProps({
     winrateData: { type: Array, required: true }
   })
 
-  /* REFS */
   const canvasRef = ref(null)
   let chartInstance = null
 
-  /* LIFECYCLE */
   onMounted(renderChart)
 
   onBeforeUnmount(() => chartInstance?.destroy())
 
   watch(() => props.winrateData, renderChart)
 
-  /* FUNCTIONS */
   function renderChart() {
     if (!canvasRef.value) return
 

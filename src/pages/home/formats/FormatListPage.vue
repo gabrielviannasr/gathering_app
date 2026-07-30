@@ -44,20 +44,20 @@
 </template>
 
 <script setup>
-  /* COMPONENTS */
-  import FormatCard from 'src/components/formats/FormatCard.vue'
-  import GlobalInput from 'src/components/ui/GlobalInput.vue'
-
   /* VUE */
   import { computed, onMounted, ref, watch } from 'vue'
 
   /* STORES */
   import { useFormatStore } from 'src/stores/format'
 
-  /* NAVIGATION */
+  /* COMPOSABLES */
   import { useFormatNavigator } from 'src/composables/navigation'
 
-  /* NAVIGATION */
+  /* COMPONENTS */
+  import FormatCard from 'src/components/formats/FormatCard.vue'
+  import GlobalInput from 'src/components/ui/GlobalInput.vue'
+
+  /* COMPOSABLES */
   const { goToFormatNew, goToFormatEdit } = useFormatNavigator()
 
   /* STORES */

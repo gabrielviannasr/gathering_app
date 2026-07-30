@@ -66,11 +66,11 @@
   import { useEventStore } from 'src/stores/event'
   import { useResultStore } from 'src/stores/result'
 
-  /* NAVIGATION */
+  /* COMPOSABLES */
   import { useEventNavigator } from 'src/composables/navigation'
   import { useRankNavigator } from 'src/composables/navigation'
 
-  /* NAVIGATION */
+  /* COMPOSABLES */
   const { goToEventEdit } = useEventNavigator()
   const { goToRankEventPlayer } = useRankNavigator()
 
