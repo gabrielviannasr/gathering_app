@@ -1,5 +1,5 @@
 <template>
-  <q-card class="q-pa-md form-card">
+  <q-card bordered class="q-pa-md form-card">
     <!-- Título -->
     <div class="text-h6 text-bold q-mb-md">Formatos Mais Jogados</div>
 

@@ -1,5 +1,5 @@
 <template>
-  <q-card class="q-pa-md form-card">
+  <q-card bordered class="q-pa-md form-card">
     <div class="text-h6 text-bold">Potes</div>
 
     <div class="row q-mt-md justify-between">

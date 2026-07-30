@@ -1,5 +1,5 @@
 <template>
-  <q-card class="q-pa-md form-card row items-center">
+  <q-card bordered class="q-pa-md form-card row items-center">
     <!-- ÍCONE DO FORMATO -->
     <div class="icon-circle q-mr-md">
       <q-icon name="style" color="white" size="28px" />

@@ -116,7 +116,7 @@
 
       <!-- Botão Salvar -->
       <div class="col-6">
-        <q-btn Push no-caps rounded label="Salvar" class="add-btn full-width" @click="save" />
+        <q-btn push no-caps rounded label="Salvar" class="add-btn full-width" @click="save" />
       </div>
     </div>
   </q-page>

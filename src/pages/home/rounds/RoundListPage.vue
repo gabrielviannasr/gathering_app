@@ -7,7 +7,7 @@
 
     <!-- BOTÃO ADICIONAR -->
     <div class="q-pa-md">
-      <q-btn class="add-btn full-width" rounded unelevated no-caps @click="onAdd">
+      <q-btn push no-caps rounded class="add-btn full-width" @click="onAdd">
         <q-icon name="add" class="q-mr-sm" />
         Adicionar Rodada
       </q-btn>

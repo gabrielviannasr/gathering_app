@@ -1,5 +1,5 @@
 <template>
-  <q-card class="q-pa-md">
+  <q-card bordered class="q-pa-md">
     <!-- Título -->
     <div class="text-h6 text-bold q-mb-sm">Inscrições</div>
 

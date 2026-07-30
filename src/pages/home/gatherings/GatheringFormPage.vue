@@ -12,9 +12,15 @@
       <!-- Botões -->
       <div class="row q-col-gutter-md q-mt-md">
         <div class="col">
-          <q-btn no-caps rounded outline color="grey-8" class="full-width" @click="cancel">
-            Cancelar
-          </q-btn>
+          <q-btn
+            no-caps
+            rounded
+            outline
+            label="Cancelar"
+            color="grey-8"
+            class="full-width"
+            @click="cancel"
+          />
         </div>
 
         <div class="col">

@@ -1,5 +1,5 @@
 <template>
-  <q-card class="q-pa-sm list-card">
+  <q-card bordered class="q-pa-sm list-card">
     <div class="row items-center no-wrap">
       <!-- Ícone do tipo -->
       <q-icon :name="type.icon" size="26px" class="q-mr-md" :style="`color: ${amountColorCss}`" />

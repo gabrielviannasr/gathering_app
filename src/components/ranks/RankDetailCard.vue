@@ -1,5 +1,5 @@
 <template>
-  <q-card class="q-pa-md form-card">
+  <q-card bordored class="q-pa-md form-card">
     <div class="form-section-title">Rank do Jogador</div>
 
     <div class="rank-table q-mt-md">

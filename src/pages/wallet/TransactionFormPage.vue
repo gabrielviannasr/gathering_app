@@ -89,12 +89,20 @@
 
           <!-- Cancelar -->
           <div class="col">
-            <q-btn outline rounded no-caps class="full-width" label="Cancelar" @click="cancel" />
+            <q-btn
+              no-caps
+              rounded
+              outline
+              label="Cancelar"
+              color="grey-8"
+              class="full-width"
+              @click="cancel"
+            />
           </div>
 
           <!-- Salvar -->
           <div class="col">
-            <q-btn type="submit" rounded no-caps class="add-btn full-width" label="Salvar" />
+            <q-btn push no-caps rounded type="submit" class="add-btn full-width" label="Salvar" />
           </div>
         </div>
       </div>

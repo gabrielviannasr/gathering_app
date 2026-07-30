@@ -1,5 +1,5 @@
 <template>
-  <q-card class="q-pa-md" clickable @click="emit('select', wallet)">
+  <q-card bordered class="q-pa-md">
     <div class="row items-center no-wrap">
       <div class="avatar-circle q-mr-md">
         <div class="avatar-text">{{ initials }}</div>
@@ -39,6 +39,4 @@
   )
 
   const amountClass = computed(() => (props.wallet.wallet >= 0 ? 'text-positive' : 'text-negative'))
-
-  const emit = defineEmits(['select'])
 </script>

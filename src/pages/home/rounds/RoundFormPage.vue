@@ -63,7 +63,7 @@
           class="add-btn full-width q-mt-md"
           :color="form.canceled ? 'positive' : 'negative'"
           :icon="form.canceled ? 'check_circle' : 'cancel'"
-          :label="form.canceled ? 'Reativar rodada' : 'Cancelar rodada'"
+          :label="form.canceled ? 'Ativar rodada' : 'Cancelar rodada'"
           @click="toggleCanceled"
         />
       </q-card>

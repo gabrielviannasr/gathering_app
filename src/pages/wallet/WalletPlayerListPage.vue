@@ -29,7 +29,7 @@
         v-for="wallet in filteredResults"
         :key="wallet.idPlayer"
         :wallet="wallet"
-        @select="openWallet(wallet)"
+        @click="openWallet(wallet)"
       />
     </div>
   </q-page>
