@@ -4,17 +4,21 @@
 
     <div class="row q-mt-md justify-between">
       <div class="text-center">
-        <div class="text-subtitle1 text-bold text-positive">R$ {{ pots.confraPot }}</div>
+        <div class="text-subtitle1 text-bold text-positive">
+          {{ formatCurrency(pots.confraPot) }}
+        </div>
         <div class="text-caption text-bold">Confra</div>
       </div>
 
       <div class="text-center">
-        <div class="text-subtitle1 text-bold text-negative">R$ {{ pots.loserPot }}</div>
+        <div class="text-subtitle1 text-bold text-negative">
+          {{ formatCurrency(pots.loserPot) }}
+        </div>
         <div class="text-caption text-bold">Derrotados</div>
       </div>
 
       <div class="text-center">
-        <div class="text-subtitle1 text-bold">R$ {{ pots.prize }}</div>
+        <div class="text-subtitle1 text-bold">{{ formatCurrency(pots.prize) }}</div>
         <div class="text-caption text-bold">Premiação</div>
       </div>
     </div>
@@ -22,6 +26,8 @@
 </template>
 
 <script setup>
+  import { formatCurrency } from 'src/utils/number'
+
   defineProps({
     pots: { type: Object, required: true }
   })

@@ -6,7 +6,8 @@
     <!-- Taxa da Confra -->
     <div class="row justify-between q-my-sm">
       <div class="text-subtitle2">Inscrição no Evento</div>
-      <div class="text-negative">
+
+      <div class="text-negative text-bold">
         {{ formatCurrency(event.confraFee) }}
       </div>
     </div>
@@ -14,7 +15,8 @@
     <!-- Taxa da Rodada -->
     <div class="row justify-between q-my-sm">
       <div class="text-subtitle2">Inscrição por Rodada</div>
-      <div class="text-negative">
+
+      <div class="text-negative text-bold">
         {{ formatCurrency(event.roundFee) }}
       </div>
     </div>

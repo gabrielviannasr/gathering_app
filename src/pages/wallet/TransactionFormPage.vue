@@ -112,9 +112,7 @@
     <q-dialog v-model="confirmSave">
       <q-card class="q-pa-md">
         <div class="text-h6 q-mb-sm">Confirmar Transação</div>
-        <div class="q-mb-md">
-          {{ typeName }} de R$ {{ form.amount.toFixed(2).replace('.', ',') }}?
-        </div>
+        <div class="q-mb-md">{{ typeName }} de {{ formatCurrency(form.amount) }}?</div>
 
         <div class="row q-gutter-sm justify-end">
           <q-btn flat label="Cancelar" color="primary" v-close-popup />
@@ -151,6 +149,9 @@
 
   /* CONSTANTS */
   import { TransactionType } from 'src/constants/transaction-type'
+
+  /* UTILITIES */
+  import { formatCurrency } from 'src/utils/number'
 
   /* COMPONENTS */
   import GlobalInput from 'src/components/ui/GlobalInput.vue'

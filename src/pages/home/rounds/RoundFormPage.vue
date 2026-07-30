@@ -84,12 +84,12 @@
 
           <div class="row items-center justify-between q-mb-sm">
             <div class="label">Premiação</div>
-            <div class="value text-right">R$ {{ formatCurrency(form.prize ?? 0) }}</div>
+            <div class="value text-right">{{ formatCurrency(form.prize ?? 0) }}</div>
           </div>
 
           <div class="row items-center justify-between q-mt-md">
             <div class="label">Pote dos Derrotados</div>
-            <div class="value text-right">R$ {{ formatCurrency(form.loserPot ?? 0) }}</div>
+            <div class="value text-right">{{ formatCurrency(form.loserPot ?? 0) }}</div>
           </div>
         </div>
       </q-card>

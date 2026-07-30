@@ -55,32 +55,32 @@
       <!-- Positivo -->
       <div class="row item-row">
         <div class="col-6 label">Positivo</div>
-        <div class="col-6 value text-positive">R$ {{ formatCurrency(data.positive) }}</div>
+        <div class="col-6 value text-positive">{{ formatCurrency(data.positive) }}</div>
       </div>
 
       <!-- Negativo -->
       <div class="row item-row">
         <div class="col-6 label">Negativo</div>
-        <div class="col-6 value text-negative">R$ {{ formatCurrency(data.negative) }}</div>
+        <div class="col-6 value text-negative">{{ formatCurrency(data.negative) }}</div>
       </div>
 
       <!-- Saldo Rankeado -->
       <div class="row item-row">
         <div class="col-6 label">Saldo Rankeado</div>
-        <div class="col-6 value">R$ {{ formatCurrency(data.rankBalance) }}</div>
+        <div class="col-6 value">{{ formatCurrency(data.rankBalance) }}</div>
       </div>
 
       <!-- Pote dos derrotados -->
       <div class="row item-row">
         <div class="col-6 label">Pote dos Derrotados</div>
-        <div class="col-6 value">R$ {{ formatCurrency(data.loserPot ?? 0) }}</div>
+        <div class="col-6 value">{{ formatCurrency(data.loserPot ?? 0) }}</div>
       </div>
 
       <!-- Saldo Final -->
       <div class="row item-row final-row">
         <div class="col-6 final-label">Saldo Final</div>
         <div class="col-6 final-value">
-          R$ {{ formatCurrency(data.finalBalance ?? data.rankBalance) }}
+          {{ formatCurrency(data.finalBalance ?? data.rankBalance) }}
         </div>
       </div>
     </div>
