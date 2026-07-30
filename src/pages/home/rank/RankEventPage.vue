@@ -7,7 +7,7 @@
 
     <!-- CARD DE INSCRIÇÃO -->
     <div class="q-pa-md">
-      <EventBodyCard :event="event" />
+      <EventFeeCard :event="event" />
     </div>
 
     <!-- CARD DOS POTES -->
@@ -53,7 +53,7 @@
 <script setup>
   /* COMPONENTS */
   import EventCard from 'src/components/events/EventCard.vue'
-  import EventBodyCard from 'src/components/events/EventBodyCard.vue'
+  import EventFeeCard from 'src/components/events/EventFeeCard.vue'
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
   import PotSummaryCard from 'src/components/pots/PotSummaryCard.vue'
   import RankCard from 'src/components/ranks/RankCard.vue'

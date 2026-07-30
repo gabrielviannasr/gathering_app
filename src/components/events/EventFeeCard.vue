@@ -3,37 +3,28 @@
     <!-- Título -->
     <div class="text-h6 text-bold q-mb-sm">Inscrições</div>
 
-    <!-- Linha: taxa da confra -->
+    <!-- Taxa da Confra -->
     <div class="row justify-between q-my-sm">
       <div class="text-subtitle2">Inscrição no Evento</div>
       <div class="text-negative">
-        {{ confraFeeFormatted }}
+        {{ formatCurrency(event.confraFee) }}
       </div>
     </div>
 
-    <!-- Linha: taxa das rodadas -->
+    <!-- Taxa da Rodada -->
     <div class="row justify-between q-my-sm">
       <div class="text-subtitle2">Inscrição por Rodada</div>
       <div class="text-negative">
-        {{ roundFeeFormatted }}
+        {{ formatCurrency(event.roundFee) }}
       </div>
     </div>
   </q-card>
 </template>
 
 <script setup>
-  import { computed } from 'vue'
+  import { formatCurrency } from 'src/utils'
 
-  const props = defineProps({
+  defineProps({
     event: { type: Object, required: true }
   })
-
-  /* Formatações */
-  const confraFeeFormatted = computed(() =>
-    props.event.confraFee.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
-  )
-
-  const roundFeeFormatted = computed(() =>
-    props.event.roundFee.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
-  )
 </script>

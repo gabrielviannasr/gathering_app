@@ -26,7 +26,7 @@
 
       <!-- Valor -->
       <div class="text-subtitle1 text-bold q-ml-md" :class="amountColorClass">
-        {{ formattedAmount }}
+        {{ formatCurrency(item.amount) }}
       </div>
 
       <q-icon name="chevron_right" class="q-ml-xs" />
@@ -37,19 +37,13 @@
 <script setup>
   import { computed } from 'vue'
   import { useTransactionTypeStore } from 'src/stores/transactionType'
+  import { formatCurrency } from 'src/utils'
 
   const props = defineProps({ item: Object })
 
   const typeStore = useTransactionTypeStore()
 
   const type = computed(() => typeStore.getType(props.item.type.id))
-
-  const formattedAmount = computed(() =>
-    props.item.amount.toLocaleString('pt-BR', {
-      style: 'currency',
-      currency: 'BRL'
-    })
-  )
 
   const amountColorClass = computed(() =>
     props.item.amount >= 0 ? 'text-positive' : 'text-negative'
