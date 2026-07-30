@@ -1,15 +1,15 @@
 <template>
-  <q-page v-if="headerData && rankData" class="page-bg">
+  <q-page v-if="result || gatheringResult" class="page-bg">
     <!-- HEADER DINÂMICO -->
     <div class="q-pa-md">
-      <EventCard :showArrow="false" :event="headerData" v-if="mode === 'event'" />
+      <EventCard :showArrow="false" :event="event" v-if="isEvent" />
 
-      <GatheringSummaryCard v-else :gatheringSummary="headerData" />
+      <GatheringSummaryCard v-else :gatheringSummary="gatheringSummary" />
     </div>
 
     <!-- RANK DETAIL -->
     <div class="q-pa-md">
-      <RankDetailCard :data="rankData" />
+      <RankDetailCard :data="isEvent ? result : gatheringResult" />
     </div>
   </q-page>
 </template>
@@ -23,6 +23,9 @@
   import { useEventStore } from 'src/stores/event'
   import { useResultStore } from 'src/stores/result'
   import { useDashboardStore } from 'src/stores/dashboard'
+
+  /* CONSTANTS */
+  import { ROUTES } from 'src/router/routes.enum.js'
 
   /* COMPONENTS */
   import EventCard from 'src/components/events/EventCard.vue'
@@ -38,10 +41,6 @@
   const idGathering = Number(route.params.idGathering)
   const idPlayer = Number(route.params.idPlayer)
 
-  const mode = computed(() => {
-    return route.name === 'rank-confra-jogador' ? 'confra' : 'event'
-  })
-
   /* STORES */
   const eventStore = useEventStore()
   const resultStore = useResultStore()
@@ -49,12 +48,12 @@
 
   /* COMPUTED */
   const event = computed(() => eventStore.event)
+  const gatheringResult = computed(() => dashboardStore.gatheringResult)
   const gatheringSummary = computed(() => dashboardStore.gatheringSummary)
-  const rankData = computed(() => {
-    return mode.value === 'event' ? resultStore.result : dashboardStore.gatheringResult
-  })
-  const headerData = computed(() => {
-    return mode.value === 'event' ? eventStore.event : dashboardStore.gatheringSummary
+  const result = computed(() => resultStore.result)
+
+  const isEvent = computed(() => {
+    return route.name === ROUTES.RANK_EVENTO_JOGADOR
   })
 
   /* LIFECYCLE */
@@ -64,7 +63,7 @@
 
   /* FUNCTIONS */
   async function load() {
-    if (mode.value === 'event') {
+    if (isEvent.value) {
       await eventStore.getEvent(idEvent)
 
       if (!event.value) {

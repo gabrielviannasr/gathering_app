@@ -88,15 +88,11 @@
 </template>
 
 <script setup>
+  import { formatCurrency } from 'src/utils/number'
+
   defineProps({
     data: { type: Object, required: true }
   })
-
-  function formatCurrency(v) {
-    const n = Number(v)
-    if (isNaN(n)) return '0,00'
-    return n.toFixed(2).replace('.', ',')
-  }
 
   function rankMedalColor(position) {
     return (

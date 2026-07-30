@@ -20,7 +20,7 @@
       <div class="text-caption q-mt-xs">
         {{ pluralize(gatheringSummary.events, 'evento') }}
         •
-        {{ pluralize(gatheringSummary.players, 'jogador') }}
+        {{ pluralize(gatheringSummary.players, 'jogador', 'jogadores') }}
         •
         {{ pluralize(gatheringSummary.rounds, 'rodada') }}
       </div>

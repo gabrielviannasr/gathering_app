@@ -75,7 +75,7 @@
       <div class="q-pa-md">
         <div class="row q-col-gutter-sm">
           <!-- Excluir (somente edit) -->
-          <div class="col" v-if="isEditMode">
+          <div class="col" v-if="isEdit">
             <q-btn
               outline
               color="negative"
@@ -157,7 +157,7 @@
   /* PARAMS */
   const idPlayer = Number(route.params.idPlayer)
   const idTransaction = route.params.idTransaction
-  const isEditMode = idTransaction !== undefined
+  const isEdit = idTransaction !== undefined
 
   /* STORES */
   const gatheringStore = useGatheringStore()
@@ -207,7 +207,7 @@
   async function load() {
     await dashboardStore.getWallet(gathering.value.id, idPlayer)
 
-    if (isEditMode) {
+    if (isEdit) {
       await transactionStore.getTransaction(idTransaction)
 
       if (transaction.value) {
@@ -233,7 +233,7 @@
     // depósito = positivo | saque = negativo
     form.value.amount = type === TransactionType.DEPOSIT ? amount : -amount
 
-    if (isEditMode) {
+    if (isEdit) {
       await transactionStore.updateTransaction(idTransaction, form.value)
     } else {
       await transactionStore.createTransaction(form.value)

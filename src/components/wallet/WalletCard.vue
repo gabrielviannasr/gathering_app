@@ -11,7 +11,7 @@
         </div>
 
         <div class="text-caption text-bold" :class="amountClass">
-          {{ formattedWallet }}
+          {{ formatCurrency(wallet.wallet) }}
         </div>
       </div>
 
@@ -22,6 +22,7 @@
 
 <script setup>
   import { computed } from 'vue'
+  import { formatCurrency } from 'src/utils/number'
 
   const props = defineProps({
     wallet: { type: Object, required: true },
@@ -35,13 +36,6 @@
       .slice(0, 2)
       .join('')
       .toUpperCase()
-  )
-
-  const formattedWallet = computed(() =>
-    props.wallet.wallet.toLocaleString('pt-BR', {
-      style: 'currency',
-      currency: 'BRL'
-    })
   )
 
   const amountClass = computed(() => (props.wallet.wallet >= 0 ? 'text-positive' : 'text-negative'))
