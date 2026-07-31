@@ -1,25 +1,50 @@
 <template>
-  <q-page class="page-bg" v-if="gatheringSummary">
-    <!-- CARD DA CONFRA -->
-    <div class="q-pa-md">
-      <GatheringSummaryCard :gatheringSummary="gatheringSummary" />
-    </div>
+  <q-page class="page-bg">
+    <template v-if="!gatheringSummary">
+      <div class="q-pa-md q-gutter-md">
+        <!-- CARD NOT FOUND -->
+        <EmptyStateCard
+          title="Confra não encontrada"
+          message="A confra pode ter sido removida ou não existir."
+        />
 
-    <!-- CARD DOS POTES -->
-    <div class="q-pa-md">
-      <PotSummaryCard :pots="gatheringSummary" />
-    </div>
+        <!-- Botão Voltar -->
+        <div>
+          <q-btn
+            push
+            no-caps
+            rounded
+            class="full-width"
+            label="Voltar"
+            color="primary"
+            @click="router.back()"
+          />
+        </div>
+      </div>
+    </template>
 
-    <!-- LISTA -->
-    <div class="q-pa-md q-gutter-md" v-if="events.length > 0">
-      <EventCard
-        v-for="event in events"
-        :key="event.id"
-        :event="event"
-        class="list-card"
-        @click="openEvent(event)"
-      />
-    </div>
+    <template v-else>
+      <!-- CARD DA CONFRA -->
+      <div class="q-pa-md">
+        <GatheringSummaryCard :gatheringSummary="gatheringSummary" />
+      </div>
+
+      <!-- CARD DOS POTES -->
+      <div class="q-pa-md">
+        <PotSummaryCard :pots="gatheringSummary" />
+      </div>
+
+      <!-- LISTA -->
+      <div class="q-pa-md q-gutter-md" v-if="events.length > 0">
+        <EventCard
+          v-for="event in events"
+          :key="event.id"
+          :event="event"
+          class="list-card"
+          @click="openEvent(event)"
+        />
+      </div>
+    </template>
   </q-page>
 </template>
 
@@ -36,6 +61,7 @@
   import { useRankNavigator } from 'src/composables/navigation'
 
   /* COMPONENTS */
+  import EmptyStateCard from 'src/components/ui/EmptyStateCard.vue'
   import EventCard from 'src/components/events/EventCard.vue'
   import GatheringSummaryCard from 'src/components/gatherings/GatheringSummaryCard.vue'
   import PotSummaryCard from 'src/components/pots/PotSummaryCard.vue'

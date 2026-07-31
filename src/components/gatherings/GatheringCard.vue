@@ -13,7 +13,6 @@
         <div class="text-caption text-grey">{{ gathering.year }}</div>
       </div>
 
-      <!-- Seta -->
       <slot name="actions">
         <!-- Seta -->
         <q-icon v-if="showArrow" name="chevron_right" />
