@@ -130,6 +130,7 @@
   /* STORES */
   import { useEventStore } from 'src/stores/event'
   import { useFormatStore } from 'src/stores/format'
+  import { useGatheringStore } from 'src/stores/gathering'
 
   /* COMPONENTS */
   import GlobalNumberInput from 'components/ui/GlobalNumberInput.vue'
@@ -146,8 +147,11 @@
   /* STORES */
   const eventStore = useEventStore()
   const formatStore = useFormatStore()
+  const gatheringStore = useGatheringStore()
 
   /* COMPUTED */
+  const gathering = computed(() => gatheringStore.gatheringSelected)
+
   const formatOptions = computed(() =>
     formatStore.formats.map(format => ({
       label: format.name,
@@ -158,6 +162,7 @@
   /* FORM */
   const form = ref({
     id: null,
+    idGathering: gathering.value.id,
     idFormat: null,
     confraFee: null,
     roundFee: null,

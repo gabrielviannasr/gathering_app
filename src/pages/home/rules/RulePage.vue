@@ -48,9 +48,9 @@
   import { ruleSections } from './RuleSections'
 
   // SUMÁRIO
-  const summary = ruleSections.map(s => ({
-    id: s.id,
-    label: s.title
+  const summary = ruleSections.map(section => ({
+    id: section.id,
+    label: section.title
   }))
 
   // SEÇÕES

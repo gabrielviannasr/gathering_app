@@ -60,6 +60,7 @@
   /* STORES */
   import { useEventStore } from 'src/stores/event'
   import { useFormatStore } from 'src/stores/format'
+  import { useGatheringStore } from 'src/stores/gathering'
 
   /* COMPOSABLES */
   import { useRankNavigator } from 'src/composables/navigation'
@@ -71,8 +72,11 @@
   const eventStore = useEventStore()
   const formatStore = useFormatStore()
 
+  const gatheringStore = useGatheringStore()
+
   /* COMPUTED */
   const events = computed(() => eventStore.events?.content || [])
+  const gathering = computed(() => gatheringStore.gatheringSelected)
 
   const formatOptions = computed(() => [
     ...formatStore.formats.map(format => ({
@@ -112,6 +116,7 @@
   /* FUNCTIONS */
   async function load() {
     await eventStore.getEventsPage({
+      idGathering: gathering.value.id,
       ...filters.value,
       page: page.value - 1,
       size: perPage
