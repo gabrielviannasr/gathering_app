@@ -1,14 +1,36 @@
 <template>
-  <q-page class="page-bg" v-if="gatheringSummary">
-    <!-- CARD DA CONFRA -->
-    <div class="q-pa-md">
-      <GatheringSummaryCard :gatheringSummary="gatheringSummary" />
-    </div>
+  <q-page class="page-bg">
+    <template v-if="!gatheringSummary">
+      <div class="q-pa-md q-gutter-md">
+        <!-- CARD NOT FOUND -->
+        <EmptyStateCard type="gathering" />
 
-    <!-- CARD DO GRÁFICO -->
-    <div class="q-pa-md">
-      <FormatChartCard :data="gatheringFormats" />
-    </div>
+        <!-- Botão Voltar -->
+        <div>
+          <q-btn
+            push
+            no-caps
+            rounded
+            class="full-width"
+            label="Voltar"
+            color="primary"
+            @click="router.back()"
+          />
+        </div>
+      </div>
+    </template>
+
+    <template v-else>
+      <!-- CARD DA CONFRA -->
+      <div class="q-pa-md">
+        <GatheringSummaryCard :gatheringSummary="gatheringSummary" />
+      </div>
+
+      <!-- CARD DO GRÁFICO -->
+      <div class="q-pa-md">
+        <FormatChartCard :data="gatheringFormats" />
+      </div>
+    </template>
   </q-page>
 </template>
 
@@ -21,6 +43,7 @@
   import { useDashboardStore } from 'src/stores/dashboard'
 
   /* COMPONENTS */
+  import EmptyStateCard from 'src/components/ui/EmptyStateCard.vue'
   import FormatChartCard from 'src/components/formats/FormatChartCard.vue'
   import GatheringSummaryCard from 'src/components/gatherings/GatheringSummaryCard.vue'
 
@@ -35,7 +58,7 @@
   const dashboardStore = useDashboardStore()
 
   /* COMPUTED */
-  const gatheringSummary = computed(() => dashboardStore.gatheringSummary ?? [])
+  const gatheringSummary = computed(() => dashboardStore.gatheringSummary)
   const gatheringFormats = computed(() => dashboardStore.gatheringFormats)
 
   /* LIFECYCLE */
@@ -48,7 +71,6 @@
     await dashboardStore.getGatheringSummary(idGathering)
 
     if (!gatheringSummary.value) {
-      console.warn('GATHERING SUMMARY NOT FOUND:', idGathering)
       router.back()
       return
     }
