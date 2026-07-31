@@ -30,8 +30,12 @@ export const useDashboardStore = defineStore('dashboard', () => {
   }
 
   async function getGatheringSummary(idGathering) {
-    const res = await api.get(`${path}/summary/${idGathering}`)
-    gatheringSummary.value = res.data
+    try {
+      const res = await api.get(`${path}/summary/${idGathering}`)
+      gatheringSummary.value = res.data
+    } catch {
+      gatheringSummary.value = null
+    }
     return gatheringSummary.value
   }
 

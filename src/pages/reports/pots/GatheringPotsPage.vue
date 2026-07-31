@@ -69,7 +69,6 @@
 
     if (!gatheringSummary.value) {
       console.warn('GATHERING SUMMARY NOT FOUND:', idGathering)
-      router.back()
       return
     }
 
