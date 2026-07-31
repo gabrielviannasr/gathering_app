@@ -161,7 +161,6 @@
 
   /* FORM */
   const form = ref({
-    id: null,
     idGathering: gathering.value.id,
     idFormat: null,
     confraFee: null,
@@ -196,10 +195,9 @@
   /* FUNCTIONS */
   function addConfig() {
     form.value.fees.push({
-      id: null,
       players: null,
-      prize: null,
-      loserPot: null
+      prizeFee: null,
+      loserFee: null
     })
   }
 
