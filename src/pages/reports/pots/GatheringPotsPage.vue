@@ -3,10 +3,7 @@
     <template v-if="!gatheringSummary">
       <div class="q-pa-md q-gutter-md">
         <!-- CARD NOT FOUND -->
-        <EmptyStateCard
-          title="Confra não encontrada"
-          mmessage="A confra não existe ou pode ter sido removida."
-        />
+        <EmptyStateCard type="gathering" />
 
         <!-- Botão Voltar -->
         <div>
