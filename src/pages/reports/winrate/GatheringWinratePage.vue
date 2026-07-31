@@ -1,31 +1,58 @@
 <template>
   <q-page class="page-bg">
-    <!-- CARD DA CONFRA -->
-    <div class="q-pa-md">
-      <GatheringSummaryCard :gatheringSummary="gatheringSummary" v-if="gatheringSummary" />
-    </div>
+    <template v-if="!gatheringSummary">
+      <div class="q-pa-md q-gutter-md">
+        <!-- CARD NOT FOUND -->
+        <EmptyStateCard
+          title="Confra não encontrada"
+          message="A confra não existe ou pode ter sido removida."
+        />
 
-    <!-- CARD DO GRÁFICO -->
-    <div class="q-pa-md">
-      <WinrateChartCard :winrateData="winrateData" v-if="winrateData" />
-    </div>
+        <!-- Botão Voltar -->
+        <div>
+          <q-btn
+            push
+            no-caps
+            rounded
+            class="full-width"
+            label="Voltar"
+            color="primary"
+            @click="router.back()"
+          />
+        </div>
+      </div>
+    </template>
+
+    <template v-else>
+      <!-- CARD DA CONFRA -->
+      <div class="q-pa-md">
+        <GatheringSummaryCard :gatheringSummary="gatheringSummary" />
+      </div>
+
+      <!-- CARD DO GRÁFICO -->
+      <div class="q-pa-md">
+        <WinrateChartCard :winrateData="winrateData" v-if="winrateData" />
+      </div>
+    </template>
   </q-page>
 </template>
 
 <script setup>
   /* VUE */
   import { computed, onMounted } from 'vue'
-  import { useRoute } from 'vue-router'
+  import { useRoute, useRouter } from 'vue-router'
 
   /* STORES */
   import { useDashboardStore } from 'src/stores/dashboard'
 
   /* COMPONENTS */
+  import EmptyStateCard from 'src/components/ui/EmptyStateCard.vue'
   import GatheringSummaryCard from 'src/components/gatherings/GatheringSummaryCard.vue'
   import WinrateChartCard from 'src/components/reports/WinrateChartCard.vue'
 
   /* ROUTES */
   const route = useRoute()
+  const router = useRouter()
 
   /* PARAMS */
   const idGathering = Number(route.params.id)
@@ -51,6 +78,11 @@
   /* FUNCTIONS */
   async function load() {
     await dashboardStore.getGatheringSummary(idGathering)
+
+    if (!gatheringSummary.value) {
+      return
+    }
+
     await dashboardStore.getGatheringResults(idGathering)
   }
 </script>

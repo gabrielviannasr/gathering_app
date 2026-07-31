@@ -5,7 +5,7 @@
         <!-- CARD NOT FOUND -->
         <EmptyStateCard
           title="Confra não encontrada"
-          message="A confra pode ter sido removida ou não existir."
+          mmessage="A confra não existe ou pode ter sido removida."
         />
 
         <!-- Botão Voltar -->
@@ -94,7 +94,6 @@
     await dashboardStore.getGatheringSummary(idGathering)
 
     if (!gatheringSummary.value) {
-      console.warn('GATHERING SUMMARY NOT FOUND:', idGathering)
       return
     }
 
