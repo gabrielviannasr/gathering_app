@@ -274,6 +274,7 @@
 
   /* FORM */
   const form = ref({
+    idEvent: event.value.id,
     round: 1,
     idFormat: null,
     idPlayerWinner: null,
@@ -297,7 +298,7 @@
 
     if (isNewRound) {
       form.value = {
-        id: null,
+        idEvent: event.value.id,
         round: (event.value.rounds ?? 0) + 1,
         idFormat: event.value.idFormat ?? null,
         idPlayerWinner: null,
