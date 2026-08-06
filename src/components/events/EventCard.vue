@@ -22,6 +22,22 @@
         <div class="text-caption q-mt-xs">
           {{ event.players }} jogadores • {{ event.rounds }} rodadas
         </div>
+
+        <!-- Flags -->
+        <div class="q-gutter-sm q-mt-xs">
+          <q-badge class="q-mt-sm" :color="event.canceled ? 'negative' : 'positive'" align="middle">
+            {{ event.canceled ? 'Cancelado' : 'Ativo' }}
+          </q-badge>
+
+          <q-badge
+            class="q-mt-sm"
+            :color="event.finalized ? 'grey' : 'primary'"
+            align="middle"
+            v-if="!event.canceled"
+          >
+            {{ event.finalized ? 'Finalizado' : 'Em andamento' }}
+          </q-badge>
+        </div>
       </div>
 
       <slot name="actions">
