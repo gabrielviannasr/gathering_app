@@ -54,7 +54,8 @@ api.interceptors.response.use(
 
     Notify.create({
       type: 'negative',
-      message: `Erro: ${msg}`
+      message: msg
+      // message: `Erro: ${msg}`
     })
 
     return Promise.reject(error)

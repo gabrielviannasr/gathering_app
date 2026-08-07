@@ -5,9 +5,80 @@
       <EventCard :showArrow="false" :event="event" />
     </div>
 
+    <!-- BOTÕES DE AÇÃO -->
+    <div class="row q-col-gutter-sm q-pa-md">
+      <!-- ESQUERDA -->
+      <div class="col">
+        <!-- BOTÃO REATIVAR -->
+        <q-btn
+          v-if="event.canceled"
+          push
+          no-caps
+          rounded
+          color="positive"
+          class="add-btn full-width"
+          @click="onReactivate"
+        >
+          <q-icon name="refresh" class="q-mr-sm" />
+          Reativar Evento
+        </q-btn>
+
+        <!-- BOTÃO CANCELAR -->
+        <q-btn
+          v-else
+          push
+          no-caps
+          rounded
+          color="negative"
+          class="add-btn full-width"
+          @click="onCancel"
+        >
+          <q-icon name="cancel" class="q-mr-sm" />
+          Cancelar Evento
+        </q-btn>
+      </div>
+
+      <!-- DIREITA -->
+      <div class="col">
+        <!-- BOTÃO REABRIR -->
+        <q-btn
+          v-if="event.finalized"
+          push
+          no-caps
+          rounded
+          class="add-btn full-width"
+          @click="onReopen"
+        >
+          <q-icon name="refresh" class="q-mr-sm" />
+          Reabrir Evento
+        </q-btn>
+
+        <!-- BOTÃO FINALIZAR -->
+        <q-btn
+          v-else
+          push
+          no-caps
+          rounded
+          :disable="event.canceled"
+          class="add-btn full-width"
+          @click="onFinalize"
+        >
+          <q-icon name="emoji_events" class="q-mr-sm" />
+          Finalizar Evento
+        </q-btn>
+      </div>
+    </div>
+
     <!-- BOTÃO ADICIONAR -->
     <div class="q-pa-md">
-      <q-btn push no-caps rounded class="add-btn full-width" @click="onAdd">
+      <q-btn
+        push
+        no-caps
+        rounded
+        :disable="event.finalized || event.canceled"
+        class="add-btn full-width"
+        @click="onAdd"
+      >
         <q-icon name="add" class="q-mr-sm" />
         Adicionar Rodada
       </q-btn>
@@ -27,31 +98,20 @@
       <q-pagination v-model="page" :max="maxPages" max-pages="5" />
     </div>
 
-    <!-- BOTÃO FINALIZAR EVENTO -->
-    <div class="q-pa-md q-mt-lg">
-      <q-btn class="add-btn full-width" rounded unelevated no-caps @click="finalizeDialog = true">
-        <q-icon name="emoji_events" class="q-mr-sm" />
-        Finalizar Evento
-      </q-btn>
-    </div>
-
-    <!-- CONFIRMAÇÃO -->
-    <q-dialog v-model="finalizeDialog">
+    <!-- DIÁLOGO DE CONFIRMAÇÃO -->
+    <q-dialog v-model="dialog.show">
       <q-card class="q-pa-md" style="min-width: 300px">
-        <div class="text-h6 text-center text-primary q-mb-sm">Finalizar Evento</div>
+        <div class="text-h6 text-center text-primary q-mb-sm">{{ dialog.title }}</div>
 
-        <div class="text-body2 text-justify q-mb-md">
-          Ao finalizar, serão calculados:
-          <ul class="q-ml-md q-mt-sm">
-            <li>Pote dos derrotados</li>
-            <li>Total arrecadado</li>
-            <li>Saldo por jogador</li>
-          </ul>
-        </div>
+        <div class="text-body2 text-justify q-mb-md">{{ dialog.message }}</div>
 
         <div class="row justify-end q-gutter-sm q-mt-md">
           <q-btn flat label="Cancelar" color="grey" v-close-popup />
-          <q-btn flat label="Finalizar" color="primary" @click="confirmFinalizeEvent" />
+          <q-btn
+            :label="dialog.confirmLabel"
+            :color="dialog.confirmColor"
+            @click="dialog.confirmAction"
+          />
         </div>
       </q-card>
     </q-dialog>
@@ -92,6 +152,15 @@
   const event = computed(() => eventStore.event)
   const rounds = computed(() => roundStore.rounds?.content || [])
 
+  const dialog = ref({
+    show: false,
+    title: '',
+    message: '',
+    confirmLabel: '',
+    confirmColor: 'primary',
+    confirmAction: null
+  })
+
   /* PAGINATION */
   const page = ref(1)
   const perPage = 10
@@ -128,11 +197,56 @@
     goToRoundEdit(idEvent, round.round)
   }
 
-  /* FINALIZAR EVENTO */
-  const finalizeDialog = ref(false)
+  async function confirmCancel() {
+    try {
+      await eventStore.cancelEvent(idEvent)
 
-  function confirmFinalizeEvent() {
-    console.log('Finalizar evento → calcular potes e saldos...')
-    finalizeDialog.value = false
+      dialog.value.show = false
+
+      await load()
+    } catch {
+      // nada
+    }
+  }
+
+  async function confirmFinalize() {
+    try {
+      await eventStore.finalizeEvent(idEvent)
+
+      dialog.value.show = false
+    } catch {
+      // nada
+    }
+  }
+
+  function onCancel() {
+    dialog.value = {
+      show: true,
+      title: 'Cancelar Evento',
+      message:
+        'Todas as rodadas serão canceladas. Esta ação poderá ser revertida reativando o evento.',
+      confirmLabel: 'Cancelar Evento',
+      confirmColor: 'negative',
+      confirmAction: confirmCancel
+    }
+  }
+
+  function onFinalize() {
+    dialog.value = {
+      show: true,
+      title: 'Finalizar Evento',
+      message: 'Ao finalizar, serão calculados os potes, os saldos e as premiações do evento.',
+      confirmLabel: 'Finalizar',
+      confirmColor: 'primary',
+      confirmAction: confirmFinalize
+    }
+  }
+
+  async function onReactivate() {
+    await eventStore.reactivateEvent(idEvent)
+  }
+
+  async function onReopen() {
+    await eventStore.reopenEvent(idEvent)
   }
 </script>

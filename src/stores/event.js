@@ -36,6 +36,30 @@ export const useEventStore = defineStore('event', () => {
     return res.data
   }
 
+  async function cancelEvent(id) {
+    const res = await api.post(`${path}/${id}/cancel`)
+    event.value = res.data
+    return res.data
+  }
+
+  async function finalizeEvent(id) {
+    const res = await api.post(`${path}/${id}/finalize`)
+    event.value = res.data
+    return res.data
+  }
+
+  async function reactivateEvent(id) {
+    const res = await api.post(`${path}/${id}/reactivate`)
+    event.value = res.data
+    return res.data
+  }
+
+  async function reopenEvent(id) {
+    const res = await api.post(`${path}/${id}/reopen`)
+    event.value = res.data
+    return res.data
+  }
+
   return {
     event,
     events,
@@ -45,6 +69,11 @@ export const useEventStore = defineStore('event', () => {
     getEventsPage,
 
     createEvent,
-    updateEvent
+    updateEvent,
+
+    cancelEvent,
+    finalizeEvent,
+    reactivateEvent,
+    reopenEvent
   }
 })
