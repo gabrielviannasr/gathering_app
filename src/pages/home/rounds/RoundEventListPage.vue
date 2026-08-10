@@ -75,10 +75,11 @@
 
   /* COMPUTED */
   const events = computed(() => eventStore.events?.content || [])
+  const formats = computed(() => formatStore.formats || [])
   const gathering = computed(() => gatheringStore.gatheringSelected)
 
   const formatOptions = computed(() => [
-    ...formatStore.formats.map(format => ({
+    ...formats.value.map(format => ({
       label: format.name,
       value: format.id
     }))

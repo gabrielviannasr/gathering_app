@@ -59,9 +59,10 @@
 
   /* COMPUTED */
   const gatheringSummary = computed(() => dashboardStore.gatheringSummary)
+  const gatheringResults = computed(() => dashboardStore.gatheringResults || [])
 
   const winrateData = computed(() =>
-    dashboardStore.gatheringResults.map(result => ({
+    gatheringResults.value.map(result => ({
       playerName: result.player.name,
       winrate: result.rounds > 0 ? Number(((result.wins / result.rounds) * 100).toFixed(2)) : 0
     }))

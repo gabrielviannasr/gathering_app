@@ -78,8 +78,10 @@
 
   /* COMPUTED */
   const gatherings = computed(() => gatheringStore.gatherings?.content ?? [])
+  const years = computed(() => gatheringStore.years || [])
+
   const yearOptions = computed(() =>
-    gatheringStore.years.map(year => ({
+    years.value.map(year => ({
       label: String(year),
       value: year
     }))
