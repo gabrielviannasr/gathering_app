@@ -78,7 +78,7 @@
 
   /* COMPUTED */
   const gatherings = computed(() => gatheringStore.gatherings?.content ?? [])
-  const years = computed(() => gatheringStore.years || [])
+  const years = computed(() => gatheringStore.years ?? [])
 
   const yearOptions = computed(() =>
     years.value.map(year => ({

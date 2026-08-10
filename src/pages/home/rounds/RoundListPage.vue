@@ -150,7 +150,7 @@
 
   /* COMPUTED */
   const event = computed(() => eventStore.event)
-  const rounds = computed(() => roundStore.rounds?.content || [])
+  const rounds = computed(() => roundStore.rounds?.content ?? [])
 
   const dialog = ref({
     show: false,

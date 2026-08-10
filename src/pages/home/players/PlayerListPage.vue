@@ -64,7 +64,7 @@
   const playerStore = usePlayerStore()
 
   /* COMPUTED */
-  const players = computed(() => playerStore.players?.content || [])
+  const players = computed(() => playerStore.players?.content ?? [])
 
   /* FILTERS */
   const filters = ref({ name: '' })

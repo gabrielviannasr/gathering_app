@@ -104,7 +104,7 @@
   /* COMPUTED */
   const gathering = computed(() => gatheringStore.gatheringSelected)
   const gatheringSummary = computed(() => dashboardStore.gatheringSummary)
-  const players = computed(() => playerStore.players)
+  const players = computed(() => playerStore.players ?? [])
   const transactions = computed(() => transactionStore.transactions.content ?? [])
   const types = computed(() => transactionTypeStore.types)
 

@@ -150,7 +150,7 @@
   const gatheringStore = useGatheringStore()
 
   /* COMPUTED */
-  const formats = computed(() => formatStore.formats || [])
+  const formats = computed(() => formatStore.formats ?? [])
   const gathering = computed(() => gatheringStore.gatheringSelected)
 
   const formatOptions = computed(() =>

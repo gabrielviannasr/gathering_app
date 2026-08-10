@@ -63,7 +63,7 @@
   /* COMPUTED */
   const gathering = computed(() => gatheringStore.gatheringSelected)
   const wallet = computed(() => dashboardStore.wallet)
-  const transactions = computed(() => transactionStore.transactions.content || [])
+  const transactions = computed(() => transactionStore.transactions.content ?? [])
 
   /* PAGINATION */
   const page = ref(1)

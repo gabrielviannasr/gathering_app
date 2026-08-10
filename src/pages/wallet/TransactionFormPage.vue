@@ -178,7 +178,7 @@
   const gathering = computed(() => gatheringStore.gatheringSelected)
   const transaction = computed(() => transactionStore.transaction ?? {})
   const wallet = computed(() => dashboardStore.wallet)
-  const types = computed(() => typeStore.types || [])
+  const types = computed(() => typeStore.types ?? [])
 
   const descriptionOptions = [
     { label: 'Pix', value: 'Pix' },

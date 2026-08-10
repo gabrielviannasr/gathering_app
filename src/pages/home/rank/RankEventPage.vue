@@ -87,7 +87,7 @@
 
   /* COMPUTED */
   const event = computed(() => eventStore.event)
-  const results = computed(() => resultStore.results || [])
+  const results = computed(() => resultStore.results ?? [])
 
   /* FILTERS */
   const filters = ref({ name: '' })

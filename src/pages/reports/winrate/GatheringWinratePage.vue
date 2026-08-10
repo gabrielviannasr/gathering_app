@@ -59,7 +59,7 @@
 
   /* COMPUTED */
   const gatheringSummary = computed(() => dashboardStore.gatheringSummary)
-  const gatheringResults = computed(() => dashboardStore.gatheringResults || [])
+  const gatheringResults = computed(() => dashboardStore.gatheringResults ?? [])
 
   const winrateData = computed(() =>
     gatheringResults.value.map(result => ({

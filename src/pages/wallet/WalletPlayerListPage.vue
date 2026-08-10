@@ -61,7 +61,7 @@
   /* COMPUTED */
   const gathering = computed(() => gatheringStore.gatheringSelected || null)
   const gatheringSummary = computed(() => dashboardStore.gatheringSummary)
-  const wallets = computed(() => dashboardStore.wallets || [])
+  const wallets = computed(() => dashboardStore.wallets ?? [])
 
   /* FILTERS */
   const filters = ref({ name: '' })
