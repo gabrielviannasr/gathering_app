@@ -11,11 +11,14 @@
           <div class="col-12">
             <GlobalSelect
               clearable
+              v-model="filters.idFormat"
               label="Formato"
-              :options="formatOptions"
-              v-model="filters.format"
-              emit-value
+              placeholder="Selecione o formato"
+              :options="formats"
+              option-label="name"
+              option-value="id"
               map-options
+              emit-value
             />
           </div>
 
@@ -86,17 +89,9 @@
   const formats = computed(() => formatStore.formats ?? [])
   const gathering = computed(() => gatheringStore.gatheringSelected)
 
-  const formatOptions = computed(() => [
-    // { label: 'Todos', value: null },
-    ...formats.value.map(format => ({
-      label: format.name,
-      value: format.id
-    }))
-  ])
-
   /* FILTERS */
   const filters = ref({
-    format: null
+    idFormat: null
     // month: null
   })
 

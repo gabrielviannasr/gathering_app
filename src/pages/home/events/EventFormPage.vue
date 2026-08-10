@@ -9,12 +9,15 @@
         <div class="q-col-gutter-md">
           <!-- Formato -->
           <GlobalSelect
-            label="Formato"
-            :options="formatOptions"
+            clearable
             v-model="form.idFormat"
+            label="Formato"
             placeholder="Selecione o formato"
-            emit-value
+            :options="formats"
+            option-label="name"
+            option-value="id"
             map-options
+            emit-value
           />
 
           <!-- ConfraFee -->
@@ -152,13 +155,6 @@
   /* COMPUTED */
   const formats = computed(() => formatStore.formats ?? [])
   const gathering = computed(() => gatheringStore.gatheringSelected)
-
-  const formatOptions = computed(() =>
-    formats.value.map(format => ({
-      label: format.name,
-      value: format.id
-    }))
-  )
 
   /* FORM */
   const form = ref({

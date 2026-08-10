@@ -19,14 +19,16 @@
         <!-- FORMATO DA RODADA -->
         <div class="q-mt-md">
           <GlobalSelect
-            label="Formato da Rodada"
-            :options="formatOptions"
+            clearable
             v-model="form.idFormat"
-            emit-value
+            label="Formato"
+            placeholder="Selecione o formato"
+            :options="formats"
+            option-label="name"
+            option-value="id"
             map-options
-            placeholder="Selecione um formato"
+            emit-value
           >
-            <!-- Ícone opcional -->
             <template #prepend>
               <q-icon name="style" />
             </template>
@@ -258,13 +260,6 @@
     players.value.filter(
       player => !(form.value?.players ?? []).some(roundPlayer => roundPlayer.id === player.id)
     )
-  )
-
-  const formatOptions = computed(() =>
-    formats.value.map(format => ({
-      label: format.name,
-      value: format.id
-    }))
   )
 
   /* FILTERS */
