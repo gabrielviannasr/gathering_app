@@ -1,5 +1,9 @@
 <template>
   <q-page class="page-bg" v-if="event">
+    <EventCashClosingImage ref="cashClosingRef" :event="event" />
+
+    <q-btn label="Testar" @click="testImage" />
+
     <!-- CARD DO EVENTO -->
     <div class="q-pa-md">
       <EventCard :event="event" @click="openEvent(event)" />
@@ -52,6 +56,7 @@
 
 <script setup>
   /* COMPONENTS */
+  import EventCashClosingImage from 'src/components/share/EventCashClosingImage.vue'
   import EventCard from 'src/components/events/EventCard.vue'
   import EventFeeCard from 'src/components/events/EventFeeCard.vue'
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
@@ -74,6 +79,9 @@
   const { goToEventEdit } = useEventNavigator()
   const { goToRankEventPlayer } = useRankNavigator()
 
+  /* UTILITIES */
+  import { generateCashClosingImage } from 'src/utils'
+
   /* ROUTES */
   const route = useRoute()
   const router = useRouter()
@@ -88,6 +96,8 @@
   /* COMPUTED */
   const event = computed(() => eventStore.event)
   const results = computed(() => resultStore.results ?? [])
+
+  const cashClosingRef = ref(null)
 
   /* FILTERS */
   const filters = ref({ name: '' })
@@ -126,5 +136,11 @@
 
   function openEvent(event) {
     goToEventEdit(event.id)
+  }
+
+  function testImage() {
+    console.log(cashClosingRef.value)
+    console.log(cashClosingRef.value?.$el)
+    generateCashClosingImage(cashClosingRef)
   }
 </script>
