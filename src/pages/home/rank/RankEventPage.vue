@@ -1,9 +1,5 @@
 <template>
   <q-page class="page-bg" v-if="event">
-    <EventCashClosingImage ref="cashClosingRef" :event="event" />
-
-    <q-btn label="Testar" @click="testImage" />
-
     <!-- CARD DO EVENTO -->
     <div class="q-pa-md">
       <EventCard :event="event" @click="openEvent(event)" />
@@ -17,6 +13,26 @@
     <!-- CARD DOS POTES -->
     <div class="q-pa-md">
       <PotSummaryCard :pots="event" />
+    </div>
+
+    <!-- left: -10000px não esconde o elemento do DOM, só o posiciona muito para a esquerda. -->
+    <div style="position: absolute; left: -10000px; top: 0; width: 100%">
+      <EventCashClosingImage ref="cashClosingRef" :event="event" />
+    </div>
+
+    <!-- BOTÕES DE AÇÃO -->
+    <div class="row q-col-gutter-sm q-pa-md">
+      <div class="col">
+        <q-btn
+          push
+          no-caps
+          rounded
+          label="Compartilhar fechamento"
+          icon="share"
+          class="add-btn full-width"
+          @click="shareCashClosing"
+        />
+      </div>
     </div>
 
     <!-- CARD DE FILTRO -->
@@ -80,7 +96,7 @@
   const { goToRankEventPlayer } = useRankNavigator()
 
   /* UTILITIES */
-  import { generateCashClosingImage } from 'src/utils'
+  import { dataUrlToFile, generateCashClosingImage, shareImage } from 'src/utils'
 
   /* ROUTES */
   const route = useRoute()
@@ -138,12 +154,11 @@
     goToEventEdit(event.id)
   }
 
-  async function testImage() {
-    //   console.log(cashClosingRef.value)
-    //   console.log(cashClosingRef.value?.$el)
+  async function shareCashClosing() {
     const dataUrl = await generateCashClosingImage(cashClosingRef)
 
-    const newWindow = window.open()
-    newWindow.document.write(`<img src="${dataUrl}" />`)
+    const file = dataUrlToFile(dataUrl, `fechamento-${event.value.id}.png`)
+
+    await shareImage(file, 'Fechamento do evento')
   }
 </script>
