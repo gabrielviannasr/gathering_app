@@ -23,16 +23,13 @@
             v-model="form.idFormat"
             label="Formato"
             placeholder="Selecione o formato"
+            icon="style"
             :options="formats"
             option-label="name"
             option-value="id"
             map-options
             emit-value
-          >
-            <template #prepend>
-              <q-icon name="style" />
-            </template>
-          </GlobalSelect>
+          />
         </div>
 
         <!-- VENCEDOR -->
