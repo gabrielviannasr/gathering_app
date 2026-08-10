@@ -138,9 +138,12 @@
     goToEventEdit(event.id)
   }
 
-  function testImage() {
-    console.log(cashClosingRef.value)
-    console.log(cashClosingRef.value?.$el)
-    generateCashClosingImage(cashClosingRef)
+  async function testImage() {
+    //   console.log(cashClosingRef.value)
+    //   console.log(cashClosingRef.value?.$el)
+    const dataUrl = await generateCashClosingImage(cashClosingRef)
+
+    const newWindow = window.open()
+    newWindow.document.write(`<img src="${dataUrl}" />`)
   }
 </script>
