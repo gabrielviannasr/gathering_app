@@ -7,6 +7,7 @@ export const useRoundStore = defineStore('round', () => {
 
   const round = ref(null)
   const rounds = ref([])
+  const nextRound = ref(null)
 
   async function getRound(idEvent, roundNumber) {
     const res = await api.get(`${path(idEvent)}/${roundNumber}`)
@@ -26,6 +27,12 @@ export const useRoundStore = defineStore('round', () => {
     return rounds.value
   }
 
+  async function getNextRound(idEvent) {
+    const res = await api.get(`${path(idEvent)}/next`)
+    nextRound.value = res.data
+    return nextRound.value
+  }
+
   async function createRound(idEvent, data) {
     const res = await api.post(path(idEvent), data)
     return res.data
@@ -39,10 +46,12 @@ export const useRoundStore = defineStore('round', () => {
   return {
     round,
     rounds,
+    nextRound,
 
     getRound,
     getRounds,
     getRoundsPage,
+    getNextRound,
 
     createRound,
     updateRound

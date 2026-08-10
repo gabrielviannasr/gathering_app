@@ -249,6 +249,7 @@
   /* COMPUTED */
   const event = computed(() => eventStore.event)
   const formats = computed(() => formatStore.formats ?? [])
+  const nextRound = computed(() => roundStore.nextRound)
   const players = computed(() => playerStore.players ?? [])
   const round = computed(() => roundStore.round)
 
@@ -269,7 +270,7 @@
   /* FORM */
   const form = ref({
     idEvent: event.value.id,
-    round: 1,
+    round: null,
     idFormat: null,
     idPlayerWinner: null,
     playerWinner: null,
@@ -293,9 +294,11 @@
     await playerStore.getPlayers()
 
     if (isNewRound) {
+      await roundStore.getNextRound(idEvent)
+
       form.value = {
         idEvent: event.value.id,
-        round: (event.value.rounds ?? 0) + 1,
+        round: nextRound.value ?? 1,
         idFormat: event.value.idFormat ?? null,
         idPlayerWinner: null,
         canceled: false,
