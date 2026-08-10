@@ -111,20 +111,22 @@
           </template>
         </GlobalInput>
 
-        <div v-if="filters.name.length > 0" class="q-mt-md q-gutter-sm">
-          <q-card
-            v-for="player in availablePlayers"
-            :key="player.id"
-            class="list-card q-pa-sm row items-center no-wrap"
-          >
-            <div class="col">
-              {{ player.name }}
-            </div>
+        <div class="q-mt-md q-gutter-sm">
+          <q-scroll-area style="height: 220px">
+            <q-card
+              v-for="player in availablePlayers"
+              :key="player.id"
+              class="list-card q-pa-sm row items-center no-wrap"
+            >
+              <div class="col">
+                {{ player.name }}
+              </div>
 
-            <q-btn dense rounded unelevated no-caps color="primary" @click="addPlayer(player)">
-              Adicionar
-            </q-btn>
-          </q-card>
+              <q-btn dense rounded unelevated no-caps color="primary" @click="addPlayer(player)">
+                Adicionar
+              </q-btn>
+            </q-card>
+          </q-scroll-area>
 
           <div v-if="availablePlayers.length === 0" class="text-grey">
             Nenhum jogador encontrado.
@@ -288,6 +290,8 @@
 
     await formatStore.getFormats()
 
+    await playerStore.getPlayers()
+
     if (isNewRound) {
       form.value = {
         idEvent: event.value.id,
@@ -313,13 +317,8 @@
   watch(
     () => filters.value.name,
     async value => {
-      if (!value?.trim()) {
-        playerStore.players = []
-        return
-      }
-
       await playerStore.getPlayers({
-        name: value.trim()
+        name: value?.trim() ?? ''
       })
     }
   )
