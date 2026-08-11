@@ -21,7 +21,7 @@
     </div>
 
     <div style="position: absolute; left: -10000px; top: 0; width: 100%">
-      <EventRankImage ref="rankRef" :event="event" :gathering="gathering" :results="results" />
+      <RankImage ref="rankRef" :event="event" :gathering="gathering" :results="results" />
     </div>
 
     <!-- BOTÕES DE AÇÃO -->
@@ -94,13 +94,13 @@
 <script setup>
   /* COMPONENTS */
   import EventCashClosingImage from 'src/components/share/EventCashClosingImage.vue'
-  import EventRankImage from 'src/components/share/EventRankImage.vue'
   import EventCard from 'src/components/events/EventCard.vue'
   import EventFeeCard from 'src/components/events/EventFeeCard.vue'
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
   import PotSummaryCard from 'src/components/pots/PotSummaryCard.vue'
   import RankCard from 'src/components/ranks/RankCard.vue'
   import RankHeaderCard from 'src/components/ranks/RankHeaderCard.vue'
+  import RankImage from 'src/components/share/RankImage.vue'
 
   /* VUE */
   import { computed, onMounted, ref } from 'vue'
@@ -194,6 +194,6 @@
 
     const file = dataUrlToFile(dataUrl, `evento-${event.value.id}-rank.png`)
 
-    await shareImage(file, 'Rank do evento')
+    await shareImage(file, 'Rank do Evento')
   }
 </script>

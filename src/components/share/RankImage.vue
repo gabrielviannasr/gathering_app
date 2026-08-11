@@ -6,12 +6,13 @@
     </div>
 
     <!-- CARD DO EVENTO -->
-    <div class="q-px-md q-pb-md">
+    <div v-if="event" class="q-px-md q-pb-md">
       <EventCard :event="event" :showArrow="false" />
     </div>
 
+    <!-- CARD DO RANK HEADER -->
     <div class="q-px-md">
-      <RankHeaderCard title="Rank do Evento" />
+      <RankHeaderCard :title="title" />
     </div>
 
     <!-- LISTA -->
@@ -35,8 +36,7 @@
 
   defineProps({
     event: {
-      type: Object,
-      required: true
+      type: Object
     },
     gathering: {
       type: Object,
@@ -45,6 +45,10 @@
     results: {
       type: Array,
       required: true
+    },
+    title: {
+      type: String,
+      default: 'Rank'
     }
   })
 </script>

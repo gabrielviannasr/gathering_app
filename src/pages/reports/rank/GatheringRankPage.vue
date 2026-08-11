@@ -26,6 +26,25 @@
         <GatheringSummaryCard :gatheringSummary="gatheringSummary" />
       </div>
 
+      <div style="position: absolute; left: -10000px; top: 0; width: 100%">
+        <RankImage ref="rankRef" :gathering="gathering" :results="results" title="Rank da Confra" />
+      </div>
+
+      <!-- BOTÕES DE AÇÃO -->
+      <div class="row q-col-gutter-sm q-pa-md">
+        <div class="col-12">
+          <q-btn
+            push
+            no-caps
+            rounded
+            label="Compartilhar Rank"
+            icon="share"
+            class="add-btn full-width"
+            @click="shareRank"
+          />
+        </div>
+      </div>
+
       <!-- CARD DE FILTRO -->
       <div class="q-pa-md">
         <q-card class="q-pa-md form-card">
@@ -43,6 +62,11 @@
             </div>
           </div>
         </q-card>
+      </div>
+
+      <!-- CARD DE RANK HEADER -->
+      <div class="q-pa-md">
+        <RankHeaderCard title="Rank da Confra" />
       </div>
 
       <!-- LISTA -->
@@ -68,6 +92,8 @@
   import GatheringSummaryCard from 'src/components/gatherings/GatheringSummaryCard.vue'
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
   import RankCard from 'src/components/ranks/RankCard.vue'
+  import RankHeaderCard from 'src/components/ranks/RankHeaderCard.vue'
+  import RankImage from 'src/components/share/RankImage.vue'
 
   /* VUE */
   import { computed, onMounted, ref } from 'vue'
@@ -75,9 +101,13 @@
 
   /* STORES */
   import { useDashboardStore } from 'src/stores/dashboard'
+  import { useGatheringStore } from 'src/stores/gathering'
 
   /* COMPOSABLES */
   import { useRankNavigator } from 'src/composables/navigation'
+
+  /* UTILITIES */
+  import { dataUrlToFile, generateImage, shareImage } from 'src/utils'
 
   /* COMPOSABLES */
   const { goToRankGatheringPlayer } = useRankNavigator()
@@ -91,10 +121,14 @@
 
   /* STORES */
   const dashboardStore = useDashboardStore()
+  const gatheringStore = useGatheringStore()
 
   /* COMPUTED */
+  const gathering = computed(() => gatheringStore.gatheringSelected)
   const gatheringSummary = computed(() => dashboardStore.gatheringSummary)
   const results = computed(() => dashboardStore.gatheringResults ?? [])
+
+  const rankRef = ref(null)
 
   /* FILTERS */
   const filters = ref({ name: '' })
@@ -128,5 +162,13 @@
 
   function openResult(result) {
     goToRankGatheringPlayer(idGathering, result.idPlayer)
+  }
+
+  async function shareRank() {
+    const dataUrl = await generateImage(rankRef)
+
+    const file = dataUrlToFile(dataUrl, `confra-${gathering.value.id}-rank.png`)
+
+    await shareImage(file, 'Rank da Confra')
   }
 </script>
