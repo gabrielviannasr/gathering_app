@@ -70,6 +70,11 @@
       </q-card>
     </div>
 
+    <!-- CARD DE RANK HEADER -->
+    <div class="q-pa-md">
+      <RankHeaderCard title="Rank do Evento" />
+    </div>
+
     <!-- LISTA -->
     <div class="q-pa-md q-gutter-md">
       <RankCard
@@ -95,6 +100,7 @@
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
   import PotSummaryCard from 'src/components/pots/PotSummaryCard.vue'
   import RankCard from 'src/components/ranks/RankCard.vue'
+  import RankHeaderCard from 'src/components/ranks/RankHeaderCard.vue'
 
   /* VUE */
   import { computed, onMounted, ref } from 'vue'
@@ -109,12 +115,12 @@
   import { useEventNavigator } from 'src/composables/navigation'
   import { useRankNavigator } from 'src/composables/navigation'
 
+  /* UTILITIES */
+  import { dataUrlToFile, generateImage, shareImage } from 'src/utils'
+
   /* COMPOSABLES */
   const { goToEventEdit } = useEventNavigator()
   const { goToRankEventPlayer } = useRankNavigator()
-
-  /* UTILITIES */
-  import { dataUrlToFile, generateImage, shareImage } from 'src/utils'
 
   /* ROUTES */
   const route = useRoute()
