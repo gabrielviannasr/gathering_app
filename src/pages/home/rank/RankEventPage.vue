@@ -17,7 +17,7 @@
 
     <!-- left: -10000px não esconde o elemento do DOM, só o posiciona muito para a esquerda. -->
     <div style="position: absolute; left: -10000px; top: 0; width: 100%">
-      <EventCashClosingImage ref="cashClosingRef" :event="event" :gathering="gathering" />
+      <EventImage ref="eventRef" :event="event" :gathering="gathering" />
     </div>
 
     <div style="position: absolute; left: -10000px; top: 0; width: 100%">
@@ -31,10 +31,10 @@
           push
           no-caps
           rounded
-          label="Compartilhar Caixa"
+          label="Compartilhar Evento"
           icon="share"
           class="add-btn full-width"
-          @click="shareCashClosing"
+          @click="shareEvent"
         />
       </div>
 
@@ -93,9 +93,9 @@
 
 <script setup>
   /* COMPONENTS */
-  import EventCashClosingImage from 'src/components/share/EventCashClosingImage.vue'
   import EventCard from 'src/components/events/EventCard.vue'
   import EventFeeCard from 'src/components/events/EventFeeCard.vue'
+  import EventImage from 'src/components/share/EventImage.vue'
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
   import PotSummaryCard from 'src/components/pots/PotSummaryCard.vue'
   import RankCard from 'src/components/ranks/RankCard.vue'
@@ -139,7 +139,7 @@
   const gathering = computed(() => gatheringStore.gatheringSelected)
   const results = computed(() => resultStore.results ?? [])
 
-  const cashClosingRef = ref(null)
+  const eventRef = ref(null)
   const rankRef = ref(null)
 
   /* FILTERS */
@@ -181,8 +181,8 @@
     goToEventEdit(event.id)
   }
 
-  async function shareCashClosing() {
-    const dataUrl = await generateImage(cashClosingRef)
+  async function shareEvent() {
+    const dataUrl = await generateImage(eventRef)
 
     const file = dataUrlToFile(dataUrl, `evento-${event.value.id}.png`)
 
