@@ -6,7 +6,7 @@
       <!-- Jogador -->
       <div class="row item-row">
         <div class="col-6 label">Jogador</div>
-        <div class="col-6 value text-bold">{{ data.player?.name }}</div>
+        <div class="col-6 value text-bold">{{ result.player?.name }}</div>
       </div>
 
       <!-- Rank -->
@@ -15,15 +15,15 @@
 
         <div class="col-6 value text-bold row items-center justify-end">
           <q-icon
-            v-if="data.rank <= 3"
+            v-if="result.rank <= 3"
             name="emoji_events"
             size="32px"
             class="q-mr-sm"
-            :style="`color: ${rankMedalColor(data.rank)}`"
+            :style="`color: ${rankMedalColor(result.rank)}`"
           />
 
           <div class="round-number-circle">
-            {{ data.rank }}
+            {{ result.rank }}
           </div>
         </div>
       </div>
@@ -32,7 +32,7 @@
       <div class="row item-row items-center justify-between">
         <div class="col-6 label">Vitórias</div>
         <div class="round-number-circle-gray">
-          {{ data.wins }}
+          {{ result.wins }}
         </div>
       </div>
 
@@ -40,47 +40,47 @@
       <div class="row item-row items-center justify-between">
         <div class="col-6 label">Rodadas</div>
         <div class="round-number-circle-gray">
-          {{ data.rounds }}
+          {{ result.rounds }}
         </div>
       </div>
 
       <!-- Eventos (só confra usa) -->
-      <div v-if="data.events !== undefined" class="row item-row items-center justify-between">
+      <div v-if="result.events !== undefined" class="row item-row items-center justify-between">
         <div class="col-6 label">Eventos</div>
         <div class="round-number-circle-gray">
-          {{ data.events }}
+          {{ result.events }}
         </div>
       </div>
 
       <!-- Positivo -->
       <div class="row item-row">
         <div class="col-6 label">Positivo</div>
-        <div class="col-6 value text-positive">{{ formatCurrency(data.positive) }}</div>
+        <div class="col-6 value text-positive">{{ formatCurrency(result.positive) }}</div>
       </div>
 
       <!-- Negativo -->
       <div class="row item-row">
         <div class="col-6 label">Negativo</div>
-        <div class="col-6 value text-negative">{{ formatCurrency(data.negative) }}</div>
+        <div class="col-6 value text-negative">{{ formatCurrency(result.negative) }}</div>
       </div>
 
       <!-- Saldo Rankeado -->
       <div class="row item-row">
         <div class="col-6 label">Saldo Rankeado</div>
-        <div class="col-6 value">{{ formatCurrency(data.rankBalance) }}</div>
+        <div class="col-6 value">{{ formatCurrency(result.rankBalance) }}</div>
       </div>
 
       <!-- Pote dos derrotados -->
       <div class="row item-row">
         <div class="col-6 label">Pote dos Derrotados</div>
-        <div class="col-6 value">{{ formatCurrency(data.loserPot ?? 0) }}</div>
+        <div class="col-6 value">{{ formatCurrency(result.loserPot ?? 0) }}</div>
       </div>
 
       <!-- Saldo Final -->
       <div class="row item-row final-row">
         <div class="col-6 final-label">Saldo Final</div>
         <div class="col-6 final-value">
-          {{ formatCurrency(data.finalBalance ?? data.rankBalance) }}
+          {{ formatCurrency(result.finalBalance ?? result.rankBalance) }}
         </div>
       </div>
     </div>
@@ -91,15 +91,15 @@
   import { formatCurrency } from 'src/utils/number'
 
   defineProps({
-    data: { type: Object, required: true }
+    result: { type: Object, required: true }
   })
 
   function rankMedalColor(position) {
     return (
       {
-        1: '#FFD700',
-        2: '#C0C0C0',
-        3: '#CD7F32'
+        1: '#FFD700', // Ouro
+        2: '#C0C0C0', // Prata
+        3: '#CD7F32' // Bronze
       }[position] || '#000000'
     )
   }

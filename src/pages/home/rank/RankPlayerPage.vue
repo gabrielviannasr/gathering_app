@@ -1,26 +1,60 @@
 <template>
-  <q-page v-if="result || gatheringResult" class="page-bg">
+  <q-page v-if="result" class="page-bg">
     <!-- HEADER DINÂMICO -->
     <div class="q-pa-md">
-      <EventCard :showArrow="false" :event="event" v-if="isEvent" />
+      <EventCard :showArrow="false" :event="event" v-if="isEvent && event" />
 
       <GatheringSummaryCard v-else :gatheringSummary="gatheringSummary" />
     </div>
 
+    <!-- RANK HEADER -->
+    <div class="q-pa-md">
+      <RankHeaderCard
+        :title="isEvent ? 'Rank do Jogador no Evento' : 'Rank do Jogador na Confra'"
+      />
+    </div>
+
+    <div style="position: absolute; left: -10000px; top: 0; width: 100%">
+      <PlayerRankImage
+        ref="rankRef"
+        :event="event"
+        :isEvent="isEvent"
+        :gathering="gathering"
+        :result="result"
+        :title="isEvent ? 'Rank do Jogador no Evento' : 'Rank do Jogador na Confra'"
+      />
+    </div>
+
+    <!-- BOTÕES DE AÇÃO -->
+    <div class="row q-col-gutter-sm q-pa-md">
+      <div class="col-12">
+        <q-btn
+          push
+          no-caps
+          rounded
+          label="Compartilhar Rank"
+          icon="share"
+          class="add-btn full-width"
+          @click="shareRank"
+        />
+      </div>
+    </div>
+
     <!-- RANK DETAIL -->
     <div class="q-pa-md">
-      <RankDetailCard :data="isEvent ? result : gatheringResult" />
+      <RankDetailCard :result="result" />
     </div>
   </q-page>
 </template>
 
 <script setup>
   /* VUE */
-  import { computed, onMounted } from 'vue'
+  import { computed, onMounted, ref } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
 
   /* STORES */
   import { useEventStore } from 'src/stores/event'
+  import { useGatheringStore } from 'src/stores/gathering'
   import { useResultStore } from 'src/stores/result'
   import { useDashboardStore } from 'src/stores/dashboard'
 
@@ -30,7 +64,12 @@
   /* COMPONENTS */
   import EventCard from 'src/components/events/EventCard.vue'
   import GatheringSummaryCard from 'src/components/gatherings/GatheringSummaryCard.vue'
+  import PlayerRankImage from 'src/components/share/PlayerRankImage.vue'
   import RankDetailCard from 'src/components/ranks/RankDetailCard.vue'
+  import RankHeaderCard from 'src/components/ranks/RankHeaderCard.vue'
+
+  /* UTILITIES */
+  import { dataUrlToFile, generateImage, shareImage } from 'src/utils'
 
   /* ROUTES */
   const route = useRoute()
@@ -42,19 +81,25 @@
   const idPlayer = Number(route.params.idPlayer)
 
   /* STORES */
-  const eventStore = useEventStore()
-  const resultStore = useResultStore()
   const dashboardStore = useDashboardStore()
+  const eventStore = useEventStore()
+  const gatheringStore = useGatheringStore()
+  const resultStore = useResultStore()
 
   /* COMPUTED */
-  const event = computed(() => eventStore.event)
-  const gatheringResult = computed(() => dashboardStore.gatheringResult)
-  const gatheringSummary = computed(() => dashboardStore.gatheringSummary)
-  const result = computed(() => resultStore.result)
-
   const isEvent = computed(() => {
     return route.name === ROUTES.RANK_EVENTO_JOGADOR
   })
+  const event = computed(() => eventStore.event)
+  const gathering = computed(() => gatheringStore.gatheringSelected)
+  // const gatheringResult = computed(() => dashboardStore.gatheringResult)
+  const gatheringSummary = computed(() => dashboardStore.gatheringSummary)
+  // const result = computed(() => resultStore.result)
+  const result = computed(() => {
+    return isEvent.value ? resultStore.result : dashboardStore.gatheringResult
+  })
+
+  const rankRef = ref(null)
 
   /* LIFECYCLE */
   onMounted(async () => {
@@ -83,5 +128,19 @@
       }
       await dashboardStore.getGatheringResult(idGathering, idPlayer)
     }
+  }
+
+  async function shareRank() {
+    const dataUrl = await generateImage(rankRef)
+
+    const filename = isEvent.value
+      ? `evento-${event.value.id}-rank.png`
+      : `confra-${gathering.value.id}-rank.png`
+
+    const title = isEvent.value ? 'Rank do Evento' : 'Rank da Confra'
+
+    const file = dataUrlToFile(dataUrl, filename)
+
+    await shareImage(file, title)
   }
 </script>
