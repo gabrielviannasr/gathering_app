@@ -17,11 +17,11 @@
 
     <!-- left: -10000px não esconde o elemento do DOM, só o posiciona muito para a esquerda. -->
     <div style="position: absolute; left: -10000px; top: 0; width: 100%">
-      <EventCashClosingImage ref="cashClosingRef" :event="event" />
+      <EventCashClosingImage ref="cashClosingRef" :event="event" :gathering="gathering" />
     </div>
 
     <div style="position: absolute; left: -10000px; top: 0; width: 100%">
-      <EventRankImage ref="rankRef" :event="event" :results="results" />
+      <EventRankImage ref="rankRef" :event="event" :gathering="gathering" :results="results" />
     </div>
 
     <!-- BOTÕES DE AÇÃO -->
@@ -102,6 +102,7 @@
 
   /* STORES */
   import { useEventStore } from 'src/stores/event'
+  import { useGatheringStore } from 'src/stores/gathering'
   import { useResultStore } from 'src/stores/result'
 
   /* COMPOSABLES */
@@ -124,10 +125,12 @@
 
   /* STORES */
   const eventStore = useEventStore()
+  const gatheringStore = useGatheringStore()
   const resultStore = useResultStore()
 
   /* COMPUTED */
   const event = computed(() => eventStore.event)
+  const gathering = computed(() => gatheringStore.gatheringSelected)
   const results = computed(() => resultStore.results ?? [])
 
   const cashClosingRef = ref(null)

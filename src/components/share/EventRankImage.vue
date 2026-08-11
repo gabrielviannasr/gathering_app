@@ -1,7 +1,12 @@
 <template>
   <div class="page-bg">
-    <!-- CARD DO EVENTO -->
+    <!-- CARD DA CONFRA -->
     <div class="q-pa-md">
+      <GatheringCard :gathering="gathering" :showArrow="false" />
+    </div>
+
+    <!-- CARD DO EVENTO -->
+    <div class="q-px-md q-pb-md">
       <EventCard :event="event" :showArrow="false" />
     </div>
 
@@ -20,10 +25,15 @@
 
 <script setup>
   import EventCard from 'src/components/events/EventCard.vue'
+  import GatheringCard from 'src/components/gatherings/GatheringCard.vue'
   import RankCard from 'src/components/ranks/RankCard.vue'
 
   defineProps({
     event: {
+      type: Object,
+      required: true
+    },
+    gathering: {
       type: Object,
       required: true
     },
