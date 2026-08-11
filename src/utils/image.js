@@ -1,7 +1,7 @@
 import { toPng } from 'html-to-image'
 
-export async function generateCashClosingImage(cashClosingRef) {
-  const element = cashClosingRef.value.$el
+export async function generateImage(componentRef) {
+  const element = componentRef.value.$el
 
   return await toPng(element)
 }

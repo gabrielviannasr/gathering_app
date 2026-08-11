@@ -20,17 +20,33 @@
       <EventCashClosingImage ref="cashClosingRef" :event="event" />
     </div>
 
+    <div style="position: absolute; left: -10000px; top: 0; width: 100%">
+      <EventRankImage ref="rankRef" :event="event" :results="results" />
+    </div>
+
     <!-- BOTÕES DE AÇÃO -->
     <div class="row q-col-gutter-sm q-pa-md">
-      <div class="col">
+      <div class="col-6">
         <q-btn
           push
           no-caps
           rounded
-          label="Compartilhar fechamento"
+          label="Compartilhar Caixa"
           icon="share"
           class="add-btn full-width"
           @click="shareCashClosing"
+        />
+      </div>
+
+      <div class="col-6">
+        <q-btn
+          push
+          no-caps
+          rounded
+          label="Compartilhar Rank"
+          icon="share"
+          class="add-btn full-width"
+          @click="shareRank"
         />
       </div>
     </div>
@@ -73,6 +89,7 @@
 <script setup>
   /* COMPONENTS */
   import EventCashClosingImage from 'src/components/share/EventCashClosingImage.vue'
+  import EventRankImage from 'src/components/share/EventRankImage.vue'
   import EventCard from 'src/components/events/EventCard.vue'
   import EventFeeCard from 'src/components/events/EventFeeCard.vue'
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
@@ -96,7 +113,7 @@
   const { goToRankEventPlayer } = useRankNavigator()
 
   /* UTILITIES */
-  import { dataUrlToFile, generateCashClosingImage, shareImage } from 'src/utils'
+  import { dataUrlToFile, generateImage, shareImage } from 'src/utils'
 
   /* ROUTES */
   const route = useRoute()
@@ -114,6 +131,7 @@
   const results = computed(() => resultStore.results ?? [])
 
   const cashClosingRef = ref(null)
+  const rankRef = ref(null)
 
   /* FILTERS */
   const filters = ref({ name: '' })
@@ -155,10 +173,18 @@
   }
 
   async function shareCashClosing() {
-    const dataUrl = await generateCashClosingImage(cashClosingRef)
+    const dataUrl = await generateImage(cashClosingRef)
 
-    const file = dataUrlToFile(dataUrl, `fechamento-${event.value.id}.png`)
+    const file = dataUrlToFile(dataUrl, `evento-${event.value.id}.png`)
 
-    await shareImage(file, 'Fechamento do evento')
+    await shareImage(file, 'Evento')
+  }
+
+  async function shareRank() {
+    const dataUrl = await generateImage(rankRef)
+
+    const file = dataUrlToFile(dataUrl, `evento-${event.value.id}-rank.png`)
+
+    await shareImage(file, 'Rank do evento')
   }
 </script>
