@@ -6,7 +6,7 @@
     </div>
 
     <!-- CARD DO EVENTO -->
-    <div v-if="isEvent && event" class="q-px-md q-pb-md">
+    <div v-if="event" class="q-px-md q-pb-md">
       <EventCard :event="event" :showArrow="false" />
     </div>
 
@@ -31,10 +31,6 @@
   defineProps({
     event: {
       type: Object
-    },
-    isEvent: {
-      type: Boolean,
-      default: false
     },
     gathering: {
       type: Object,

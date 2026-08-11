@@ -18,7 +18,6 @@
       <PlayerRankImage
         ref="rankRef"
         :event="event"
-        :isEvent="isEvent"
         :gathering="gathering"
         :result="result"
         :title="isEvent ? 'Rank do Jogador no Evento' : 'Rank do Jogador na Confra'"
