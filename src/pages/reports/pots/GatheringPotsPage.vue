@@ -59,6 +59,9 @@
           class="list-card"
           @click="openEvent(event)"
         />
+
+        <!-- PAGINAÇÃO -->
+        <q-pagination v-model="page" :max="maxPages" max-pages="5" />
       </div>
     </template>
   </q-page>
@@ -66,7 +69,7 @@
 
 <script setup>
   /* VUE */
-  import { computed, onMounted, ref } from 'vue'
+  import { computed, onMounted, ref, watch } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
 
   /* STORES */
@@ -109,10 +112,17 @@
 
   const gatheringRef = ref(null)
 
+  /* PAGINATION */
+  const page = ref(1)
+  const perPage = 10
+  const maxPages = computed(() => eventStore.events?.totalPages || 1)
+
   /* LIFECYCLE */
   onMounted(async () => {
     await load()
   })
+
+  watch(page, load)
 
   /* FUNCTIONS */
   async function load() {
@@ -122,7 +132,11 @@
       return
     }
 
-    await eventStore.getEvents({ idGathering })
+    await eventStore.getEvents({
+      idGathering,
+      page: page.value - 1,
+      size: perPage
+    })
   }
 
   function openEvent(event) {
