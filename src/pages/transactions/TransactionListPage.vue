@@ -2,7 +2,7 @@
   <q-page class="page-bg">
     <!-- CARD DA CONFRA -->
     <div class="q-pa-md" v-if="gatheringSummary">
-      <GatheringSummaryCard :gatheringSummary="gatheringSummary" />
+      <GatheringCard :gathering="gatheringSummary" :showArrow="false" />
     </div>
 
     <!-- FILTROS -->
@@ -86,7 +86,7 @@
   import { useWalletNavigator } from 'src/composables/navigation'
 
   /* COMPONENTS */
-  import GatheringSummaryCard from 'src/components/gatherings/GatheringSummaryCard.vue'
+  import GatheringCard from 'src/components/gatherings/GatheringCard.vue'
   import GlobalSelect from 'src/components/ui/GlobalSelect.vue'
   import TransactionCard from 'src/components/transactions/TransactionCard.vue'
 
