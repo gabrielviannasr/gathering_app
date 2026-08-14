@@ -1,10 +1,10 @@
 <template>
-  <q-page v-if="result" class="page-bg">
+  <q-page v-if="gatheringSummary && result" class="page-bg">
     <!-- HEADER DINÂMICO -->
     <div class="q-pa-md">
       <EventCard :showArrow="false" :event="event" v-if="isEvent && event" />
 
-      <GatheringSummaryCard v-else :gatheringSummary="gatheringSummary" />
+      <GatheringCard v-else :gathering="gatheringSummary" />
     </div>
 
     <!-- RANK HEADER -->
@@ -18,7 +18,7 @@
       <PlayerRankImage
         ref="rankRef"
         :event="event"
-        :gathering="gathering"
+        :gathering="gatheringSummary"
         :result="result"
         :title="isEvent ? 'Rank do Jogador no Evento' : 'Rank do Jogador na Confra'"
       />
@@ -62,7 +62,7 @@
 
   /* COMPONENTS */
   import EventCard from 'src/components/events/EventCard.vue'
-  import GatheringSummaryCard from 'src/components/gatherings/GatheringSummaryCard.vue'
+  import GatheringCard from 'src/components/gatherings/GatheringCard.vue'
   import PlayerRankImage from 'src/components/share/PlayerRankImage.vue'
   import RankDetailCard from 'src/components/ranks/RankDetailCard.vue'
   import RankHeaderCard from 'src/components/ranks/RankHeaderCard.vue'
@@ -92,6 +92,7 @@
   const event = computed(() => eventStore.event)
   const gathering = computed(() => gatheringStore.gatheringSelected)
   // const gatheringResult = computed(() => dashboardStore.gatheringResult)
+  // const gatheringSelected = computed(() => gatheringStore.gatheringSelected)
   const gatheringSummary = computed(() => dashboardStore.gatheringSummary)
   // const result = computed(() => resultStore.result)
   const result = computed(() => {
@@ -102,6 +103,14 @@
 
   /* LIFECYCLE */
   onMounted(async () => {
+    await dashboardStore.getGatheringSummary(idGathering)
+
+    if (!gatheringSummary.value) {
+      console.warn('GATHERING SUMMARY NOT FOUND:', idGathering)
+      router.back()
+      return
+    }
+
     await load()
   })
 
@@ -118,13 +127,6 @@
 
       await resultStore.getResult(idEvent, idPlayer)
     } else {
-      await dashboardStore.getGatheringSummary(idGathering)
-
-      if (!gatheringSummary.value) {
-        console.warn('GATHERING SUMMARY NOT FOUND:', idGathering)
-        router.back()
-        return
-      }
       await dashboardStore.getGatheringResult(idGathering, idPlayer)
     }
   }

@@ -5,7 +5,7 @@ import { LocalStorage } from 'quasar'
 
 export const useGatheringStore = defineStore('gathering', () => {
   const path = '/gathering'
-  const gatheringSelected = ref({ id: null, name: null, year: null })
+  const gatheringSelected = ref(null)
   const gathering = ref(null)
   const gatherings = ref([])
   const years = ref([])

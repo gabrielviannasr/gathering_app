@@ -1,5 +1,5 @@
 <template>
-  <q-page class="page-bg" v-if="event">
+  <q-page class="page-bg" v-if="gatheringSummary && event">
     <!-- CARD DO EVENTO -->
     <div class="q-pa-md">
       <EventCard :event="event" @click="openEvent(event)" />
@@ -17,11 +17,17 @@
 
     <!-- left: -10000px não esconde o elemento do DOM, só o posiciona muito para a esquerda. -->
     <div style="position: absolute; left: -10000px; top: 0; width: 100%">
-      <EventImage ref="eventRef" :event="event" :gathering="gathering" />
+      <EventImage ref="eventRef" :event="event" :gathering="gatheringSummary" />
     </div>
 
     <div style="position: absolute; left: -10000px; top: 0; width: 100%">
-      <RankImage ref="rankRef" :event="event" :gathering="gathering" :results="results" />
+      <RankImage
+        ref="rankRef"
+        :event="event"
+        :gathering="gatheringSummary"
+        :results="results"
+        title="Rank do Evento"
+      />
     </div>
 
     <!-- BOTÕES DE AÇÃO -->
@@ -108,6 +114,7 @@
 
   /* STORES */
   import { useEventStore } from 'src/stores/event'
+  import { useDashboardStore } from 'src/stores/dashboard'
   import { useGatheringStore } from 'src/stores/gathering'
   import { useResultStore } from 'src/stores/result'
 
@@ -130,13 +137,18 @@
   const idEvent = Number(route.params.idEvent)
 
   /* STORES */
+  const dashboardStore = useDashboardStore()
   const eventStore = useEventStore()
   const gatheringStore = useGatheringStore()
   const resultStore = useResultStore()
 
   /* COMPUTED */
   const event = computed(() => eventStore.event)
+
+  // eslint-disable-next-line no-unused-vars
   const gathering = computed(() => gatheringStore.gatheringSelected)
+  const gatheringSelected = computed(() => gatheringStore.gatheringSelected)
+  const gatheringSummary = computed(() => dashboardStore.gatheringSummary)
   const results = computed(() => resultStore.results ?? [])
 
   const eventRef = ref(null)
@@ -157,6 +169,14 @@
 
   /* LIFECYCLE */
   onMounted(async () => {
+    await dashboardStore.getGatheringSummary(gatheringSelected.value.id)
+
+    if (!gatheringSummary.value) {
+      console.warn('GATHERING SUMMARY NOT FOUND:', gatheringSelected.value.id)
+      router.back()
+      return
+    }
+
     await eventStore.getEvent(idEvent)
 
     if (!event.value) {
