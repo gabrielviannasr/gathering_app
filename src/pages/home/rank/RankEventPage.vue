@@ -144,9 +144,6 @@
 
   /* COMPUTED */
   const event = computed(() => eventStore.event)
-
-  // eslint-disable-next-line no-unused-vars
-  const gathering = computed(() => gatheringStore.gatheringSelected)
   const gatheringSelected = computed(() => gatheringStore.gatheringSelected)
   const gatheringSummary = computed(() => dashboardStore.gatheringSummary)
   const results = computed(() => resultStore.results ?? [])

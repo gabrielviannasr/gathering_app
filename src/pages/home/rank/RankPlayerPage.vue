@@ -92,7 +92,7 @@
   const event = computed(() => eventStore.event)
   const gathering = computed(() => gatheringStore.gatheringSelected)
   // const gatheringResult = computed(() => dashboardStore.gatheringResult)
-  // const gatheringSelected = computed(() => gatheringStore.gatheringSelected)
+  const gatheringSelected = computed(() => gatheringStore.gatheringSelected)
   const gatheringSummary = computed(() => dashboardStore.gatheringSummary)
   // const result = computed(() => resultStore.result)
   const result = computed(() => {
@@ -103,10 +103,10 @@
 
   /* LIFECYCLE */
   onMounted(async () => {
-    await dashboardStore.getGatheringSummary(idGathering)
+    await dashboardStore.getGatheringSummary(gatheringSelected.value.id)
 
     if (!gatheringSummary.value) {
-      console.warn('GATHERING SUMMARY NOT FOUND:', idGathering)
+      console.warn('GATHERING SUMMARY NOT FOUND:', gatheringSelected.value.id)
       router.back()
       return
     }
