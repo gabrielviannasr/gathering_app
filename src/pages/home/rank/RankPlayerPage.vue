@@ -4,7 +4,7 @@
     <div class="q-pa-md">
       <EventCard :showArrow="false" :event="event" v-if="isEvent && event" />
 
-      <GatheringCard v-else :gathering="gatheringSummary" />
+      <GatheringCard v-else :gathering="gatheringSummary" :showArrow="false" />
     </div>
 
     <!-- RANK HEADER -->
