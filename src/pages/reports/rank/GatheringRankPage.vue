@@ -23,11 +23,16 @@
     <template v-else>
       <!-- CARD DA CONFRA -->
       <div class="q-pa-md">
-        <GatheringSummaryCard :gatheringSummary="gatheringSummary" />
+        <GatheringCard :gathering="gatheringSummary" :showArrow="false" />
       </div>
 
       <div style="position: absolute; left: -10000px; top: 0; width: 100%">
-        <RankImage ref="rankRef" :gathering="gathering" :results="results" title="Rank da Confra" />
+        <RankImage
+          ref="rankRef"
+          :gathering="gatheringSummary"
+          :results="results"
+          title="Rank da Confra"
+        />
       </div>
 
       <!-- BOTÕES DE AÇÃO -->
@@ -89,7 +94,7 @@
 <script setup>
   /* COMPONENTS */
   import EmptyStateCard from 'src/components/ui/EmptyStateCard.vue'
-  import GatheringSummaryCard from 'src/components/gatherings/GatheringSummaryCard.vue'
+  import GatheringCard from 'src/components/gatherings/GatheringCard.vue'
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
   import RankCard from 'src/components/ranks/RankCard.vue'
   import RankHeaderCard from 'src/components/ranks/RankHeaderCard.vue'

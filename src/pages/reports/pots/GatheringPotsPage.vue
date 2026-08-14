@@ -23,7 +23,7 @@
     <template v-else>
       <!-- CARD DA CONFRA -->
       <div class="q-pa-md">
-        <GatheringSummaryCard :gatheringSummary="gatheringSummary" />
+        <GatheringCard :gathering="gatheringSummary" :showArrow="false" />
       </div>
 
       <!-- CARD DOS POTES -->
@@ -32,7 +32,7 @@
       </div>
 
       <div style="position: absolute; left: -10000px; top: 0; width: 100%">
-        <GatheringImage ref="gatheringRef" :gathering="gathering" :pots="gatheringSummary" />
+        <GatheringImage ref="gatheringRef" :gathering="gatheringSummary" :pots="gatheringSummary" />
       </div>
 
       <!-- BOTÕES DE AÇÃO -->
@@ -83,8 +83,8 @@
   /* COMPONENTS */
   import EmptyStateCard from 'src/components/ui/EmptyStateCard.vue'
   import EventCard from 'src/components/events/EventCard.vue'
+  import GatheringCard from 'src/components/gatherings/GatheringCard.vue'
   import GatheringImage from 'src/components/share/GatheringImage.vue'
-  import GatheringSummaryCard from 'src/components/gatherings/GatheringSummaryCard.vue'
   import PotSummaryCard from 'src/components/pots/PotSummaryCard.vue'
 
   /* UTILITIES */

@@ -8,9 +8,23 @@
 
       <!-- Conteúdo -->
       <div class="col">
+        <!-- Nome -->
         <div class="text-subtitle2 text-bold">{{ gathering.name }}</div>
 
+        <!-- Ano -->
         <div class="text-caption text-grey">{{ gathering.year }}</div>
+
+        <!-- Eventos, jogadores e rodadas -->
+        <div
+          v-if="gathering.events != null && gathering.players != null && gathering.rounds != null"
+          class="text-caption q-mt-xs"
+        >
+          {{ pluralize(gathering.events, 'evento') }}
+          •
+          {{ pluralize(gathering.players, 'jogador', 'jogadores') }}
+          •
+          {{ pluralize(gathering.rounds, 'rodada') }}
+        </div>
       </div>
 
       <slot name="actions">
@@ -22,6 +36,8 @@
 </template>
 
 <script setup>
+  import { pluralize } from 'src/utils'
+
   defineProps({
     gathering: { type: Object, required: true },
     showArrow: { type: Boolean, default: true }

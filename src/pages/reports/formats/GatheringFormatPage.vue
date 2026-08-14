@@ -23,7 +23,7 @@
     <template v-else>
       <!-- CARD DA CONFRA -->
       <div class="q-pa-md">
-        <GatheringSummaryCard :gatheringSummary="gatheringSummary" />
+        <GatheringCard :gathering="gatheringSummary" :showArrow="false" />
       </div>
 
       <!-- CARD DO GRÁFICO -->
@@ -45,7 +45,7 @@
   /* COMPONENTS */
   import EmptyStateCard from 'src/components/ui/EmptyStateCard.vue'
   import FormatChartCard from 'src/components/formats/FormatChartCard.vue'
-  import GatheringSummaryCard from 'src/components/gatherings/GatheringSummaryCard.vue'
+  import GatheringCard from 'src/components/gatherings/GatheringCard.vue'
 
   /* ROUTES */
   const route = useRoute()
