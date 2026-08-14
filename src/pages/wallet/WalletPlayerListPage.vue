@@ -2,7 +2,7 @@
   <q-page class="page-bg">
     <!-- CARD DA CONFRA -->
     <div class="q-pa-md" v-if="gatheringSummary">
-      <GatheringSummaryCard :gatheringSummary="gatheringSummary" />
+      <GatheringCard :gathering="gatheringSummary" :showArrow="false" />
     </div>
 
     <!-- ===== FILTROS ===== -->
@@ -37,12 +37,13 @@
 
 <script setup>
   /* COMPONENTS */
-  import GatheringSummaryCard from 'src/components/gatherings/GatheringSummaryCard.vue'
+  import GatheringCard from 'src/components/gatherings/GatheringCard.vue'
   import GlobalInput from 'src/components/ui/GlobalInput.vue'
   import WalletCard from 'src/components/wallet/WalletCard.vue'
 
   /* VUE */
   import { computed, onMounted, ref } from 'vue'
+  import { useRouter } from 'vue-router'
 
   /* STORES */
   import { useGatheringStore } from 'src/stores/gathering'
@@ -54,12 +55,15 @@
   /* COMPOSABLES */
   const { goToWallet } = useWalletNavigator()
 
+  /* ROUTES */
+  const router = useRouter()
+
   /* STORES */
   const gatheringStore = useGatheringStore()
   const dashboardStore = useDashboardStore()
 
   /* COMPUTED */
-  const gathering = computed(() => gatheringStore.gatheringSelected || null)
+  const gatheringSelected = computed(() => gatheringStore.gatheringSelected)
   const gatheringSummary = computed(() => dashboardStore.gatheringSummary)
   const wallets = computed(() => dashboardStore.wallets ?? [])
 
@@ -78,12 +82,19 @@
 
   /* ---------------- LOAD ---------------- */
   onMounted(async () => {
+    await dashboardStore.getGatheringSummary(gatheringSelected.value.id)
+
+    if (!gatheringSummary.value) {
+      console.warn('GATHERING SUMMARY NOT FOUND:', gatheringSelected.value.id)
+      router.back()
+      return
+    }
+
     await load()
   })
 
   async function load() {
-    await dashboardStore.getGatheringSummary(gathering.value.id)
-    await dashboardStore.getWallets(gathering.value.id)
+    await dashboardStore.getWallets(gatheringSelected.value.id)
   }
 
   function openWallet(wallet) {
